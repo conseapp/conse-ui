@@ -1,0 +1,94 @@
+@import "../components/fonts";
+
+@include DefineFont('Regular');
+
+.page {
+  background: #FFFFFF;
+  font-family: 'IranSans', sans-serif;
+  padding-bottom: 55px;
+
+  .header {
+    background: url("/event-detail-header.png") top center;
+    background-size: cover;
+    height: 120px;
+    width: 100%;
+    position: relative;
+    border-radius: 10px;
+    margin: 10px 0;
+    overflow: hidden;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    color: #FFFFFF;
+
+    &:before {
+      content: '';
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(5px);
+      position: absolute;
+      z-index: -1;
+    }
+
+    .info {
+      h2 {
+        font-size: 20px;
+      }
+
+      span {
+        font-size: 16px
+      }
+    }
+
+    .players {
+      font-size: 13px;
+      border-radius: 50px;
+      border: 1px solid #FFFFFF;
+      padding: 5px 10px;
+    }
+  }
+
+  .content {
+    margin-top: 30px;
+
+    table {
+      width: 100%;
+
+      tbody {
+        tr {
+
+          td {
+            border: 1px solid #CCCCCC;
+
+            button {
+              background: transparent;
+              border: none;
+              color: #E80000;
+              font-size: 25px;
+            }
+
+            &:nth-child(1) {
+              width: 30px;
+              text-align: center;
+              border-left: none;
+            }
+
+            &:nth-child(2) {
+              border-right: none;
+              border-left: none;
+              padding-right: 10px;
+            }
+
+            &:nth-child(3) {
+              border-right: none;
+              width: 50px;
+              text-align: center;
+            }
+          }
+        }
+      }
+    }
+  }
+}

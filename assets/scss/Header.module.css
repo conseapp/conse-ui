@@ -1,0 +1,44 @@
+@font-face {
+  font-family: "IranSans";
+  font-style: normal;
+  font-weight: 300;
+  src: url("/fonts/IranSans/Regular/IranSansRegular.eot");
+  src: url("/fonts/IranSans/Regular/IranSansRegular.eot?#iefix") format("embedded-opentype"), url("/fonts/IranSans/Regular/IranSansRegular.ttf") format("truetype"), url("/fonts/IranSans/Regular/IranSansRegular.woff") format("woff"), url("/fonts/IranSans/Regular/IranSansRegular.woff2") format("woff2");
+}
+.section {
+  background: #ffffff;
+  font-family: "IranSans", sans-serif;
+}
+.section .logo {
+  display: flex;
+  padding: 10px 25px;
+  justify-content: flex-end;
+  border-bottom: 1px solid #CCCCCC;
+}
+.section .profile {
+  background: #ffffff;
+  padding: 16px 25px;
+  border-bottom: 1px solid #CCCCCC;
+  display: flex;
+  align-items: center;
+}
+.section .profile .avatar {
+  margin-left: 10px;
+}
+.section .profile .name {
+  font-size: 14px;
+}
+.section .profile .score {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  line-height: 1;
+}
+.section .profile .score svg {
+  fill: #FFC400;
+  width: 20px;
+  height: 20px;
+  margin-left: 5px;
+}
+
+/*# sourceMappingURL=Header.module.css.map */

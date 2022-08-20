@@ -1,0 +1,87 @@
+@font-face {
+  font-family: "IranSans";
+  font-style: normal;
+  font-weight: 300;
+  src: url("/fonts/IranSans/Regular/IranSansRegular.eot");
+  src: url("/fonts/IranSans/Regular/IranSansRegular.eot?#iefix") format("embedded-opentype"), url("/fonts/IranSans/Regular/IranSansRegular.ttf") format("truetype"), url("/fonts/IranSans/Regular/IranSansRegular.woff") format("woff"), url("/fonts/IranSans/Regular/IranSansRegular.woff2") format("woff2");
+}
+.page {
+  background: #FFFFFF;
+  font-family: "IranSans", sans-serif;
+  padding-bottom: 55px;
+}
+.page form {
+  padding: 20px;
+}
+.page form .row {
+  margin-bottom: 20px;
+}
+.page form .uploadImage {
+  width: 100%;
+}
+.page form .uploadImage label {
+  display: flex;
+  background: #E9E9E9;
+  border-radius: 5px;
+  min-height: 150px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  cursor: pointer;
+  overflow: hidden;
+}
+.page form .uploadImage svg {
+  width: 50px;
+  height: 50px;
+  margin-bottom: 10px;
+}
+.page form .uploadImage span {
+  font-size: 18px;
+}
+.page form .uploadImage img {
+  max-width: 100%;
+  height: auto;
+}
+.page form .uploadImage input {
+  display: none;
+}
+.page form .scenario, .page form .location, .page form .detail, .page form .description {
+  display: flex;
+  flex-direction: column;
+}
+.page form .scenario label, .page form .location label, .page form .detail label, .page form .description label {
+  margin-bottom: 10px;
+}
+.page form .scenario input, .page form .scenario textarea, .page form .location input, .page form .location textarea, .page form .detail input, .page form .detail textarea, .page form .description input, .page form .description textarea {
+  background: #E9E9E9;
+  border: none;
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+.page form .detail {
+  flex-direction: row;
+  margin: 0 -10px;
+}
+.page form .detail .col {
+  display: flex;
+  flex-direction: column;
+  margin: 0 10px;
+  width: 100%;
+}
+.page form .detail .col input {
+  width: 100%;
+}
+.page form button {
+  background: #0055FF;
+  width: 100%;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+/*# sourceMappingURL=Add.module.css.map */

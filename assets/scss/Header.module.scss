@@ -1,0 +1,48 @@
+@import "components/fonts";
+
+@include DefineFont('Regular');
+
+.section {
+  background: #ffffff;
+  font-family: 'IranSans', sans-serif;
+
+  .logo {
+    display: flex;
+    padding: 10px 25px;
+    justify-content: flex-end;
+    border-bottom: 1px solid #CCCCCC;
+  }
+
+  .profile {
+    background: #ffffff;
+    padding: 16px 25px;
+    border-bottom: 1px solid #CCCCCC;
+    display: flex;
+    align-items: center;
+
+    .avatar{
+      margin-left: 10px;
+    }
+
+    .name {
+      font-size: 14px;
+    }
+
+    .score {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      line-height: 1;
+
+      svg {
+        fill: #FFC400;
+        width: 20px;
+        height: 20px;
+        margin-left: 5px;
+      }
+    }
+  }
+}
+
+
+

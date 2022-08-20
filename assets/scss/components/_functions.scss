@@ -1,0 +1,17 @@
+@mixin SupportBrowsers($key, $value...) {
+  -webkit-#{$key}: $value;
+  -moz-#{$key}: $value;
+  -o-#{$key}: $value;
+  #{$key}: $value;
+}
+
+@mixin LinearGradient($deg, $value...) {
+  background-image: -webkit-linear-gradient($deg, $value);
+  background-image: -moz-linear-gradient($deg, $value);
+  background-image: -o-linear-gradient($deg, $value);
+  background-image: linear-gradient($deg, $value);
+}
+
+@mixin Transition($duration: 200ms, $property: all, $timing-function: ease-in-out, $delay: 0ms) {
+  @include SupportBrowsers(transition, $property $duration $timing-function $delay);
+}

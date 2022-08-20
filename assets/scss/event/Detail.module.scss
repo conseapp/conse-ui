@@ -1,0 +1,91 @@
+@import "../components/fonts";
+
+@include DefineFont('Regular');
+
+.page {
+  background: #FFFFFF;
+  font-family: 'IranSans', sans-serif;
+  padding-bottom: 55px;
+
+  .cover {
+    width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+  }
+
+  .header {
+    .title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      h2 {
+        font-weight: bold;
+      }
+
+      .meta {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+
+    margin-bottom: 30px;
+  }
+
+  .body {
+    display: flex;
+    margin-bottom: 30px;
+
+    .info {
+      width: 50%;
+
+      ul {
+        padding: 0;
+        margin-bottom: 0;
+        list-style: none;
+
+        li {
+          margin-bottom: 10px;
+
+          svg {
+            margin-left: 10px
+          }
+        }
+      }
+    }
+
+    .description {
+      width: 50%;
+      text-align: justify;
+
+      strong {
+        display: block;
+      }
+    }
+  }
+
+  .footer {
+    display: flex;
+    flex-direction: column;
+
+    a, button {
+      background: #F0F0F0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 40px;
+      text-decoration: none;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      color: #333333;
+      font-size: 14px;
+      border: none;
+    }
+
+    button {
+      background: #0055FF;
+      color: #FFFFFF;
+    }
+  }
+}

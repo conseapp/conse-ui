@@ -1,0 +1,256 @@
+@import "components/fonts";
+
+@include DefineFont('Regular');
+@include DefineFont('Bold');
+
+.Overlay {
+  font-family: "IranSans", sans-serif;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+
+  .eventModal {
+    padding: 0;
+    background: #FFFFFF;
+    border-radius: 10px;
+    width: 100%;
+
+    .header {
+      img {
+        width: 100%;
+        height: auto
+      }
+    }
+
+    .body {
+      padding: 20px;
+
+      .title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+
+        h3 {
+          font-size: 17px;
+          font-weight: bold;
+        }
+
+        .meta {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+
+          span {
+            font-size: 12px;
+          }
+        }
+      }
+
+      .content {
+        display: flex;
+
+        .meta {
+          min-width: 50%;
+
+          ul {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 0;
+
+            li {
+              font-size: 13px;
+              display: flex;
+              align-items: center;
+              margin-bottom: 10px;
+
+              svg {
+                width: 20px;
+                height: 20px;
+                margin-left: 10px;
+              }
+            }
+          }
+        }
+
+        .description {
+          font-size: 13px;
+          text-align: justify;
+
+          strong {
+            display: block;
+            margin-bottom: 8px;
+          }
+        }
+      }
+    }
+
+    .footer {
+      border-top: 1px solid #CCC;
+      display: flex;
+      flex-direction: column;
+      padding: 24px;
+
+      button {
+        width: 100%;
+        border-radius: 10px;
+        background: #0055FF;
+        border: none;
+        color: #FFFFFF;
+        padding: 10px;
+
+        &:not(:last-child) {
+          margin-bottom: 10px
+        }
+
+        &.decline {
+          background: #F8F8F8;
+          color: #333333;
+        }
+      }
+    }
+  }
+
+  .confirmEventModal {
+    background: #0055FF;
+    text-align: center;
+    padding: 32px;
+    border-radius: 10px;
+    color: #FFFFFF;
+    width: 100%;
+
+    .header {
+      display: flex;
+      flex-direction: column;
+
+      .title {
+        h3 {
+          font-weight: bold;
+          font-size: 18px;
+          margin-bottom: 10px;
+        }
+
+        .meta {
+          display: flex;
+          flex-direction: column;
+
+          span {
+            font-size: 15px;
+          }
+        }
+      }
+    }
+
+    .body {
+      height: 500px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      .message {
+        font-size: 22px;
+        font-weight: bold;
+      }
+
+      .warning {
+        color: #FFF700;
+        font-weight: bold;
+        font-size: 13px;
+
+        svg {
+          fill: #FFF700;
+          margin-left: 10px;
+        }
+      }
+    }
+
+    .footer {
+      display: flex;
+      flex-direction: column;
+
+      button {
+        width: 100%;
+        border-radius: 10px;
+        background: #F8F8F8;
+        border: none;
+        padding: 10px;
+        color: #0055FF;
+
+        &:not(:last-child) {
+          margin-bottom: 10px
+        }
+
+        &.decline {
+          background: #0055FF;
+          color: #FFFFFF;
+        }
+      }
+    }
+  }
+
+  .submittedEventModal {
+    padding: 0;
+    background: #FFFFFF;
+    border-radius: 10px;
+    width: 100%;
+
+    .header {
+      img {
+        width: 100%;
+        height: auto
+      }
+    }
+
+    .body {
+      height: 300px;
+      background: url("/hooray.png") no-repeat center center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      p {
+        background: #FFFFFF;
+        color: #0055FF;
+        font-size: 18px;
+        padding: 20px;
+
+        svg {
+          margin-left: 10px;
+        }
+      }
+    }
+
+    .footer {
+      border-top: 1px solid #CCCCCC;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+
+      h3 {
+        font-size: 20px;
+        font-weight: bold;
+      }
+
+      .address {
+        font-size: 15px;
+        margin: 8px 0;
+        opacity: .7;
+      }
+
+      time {
+        font-size: 15px;
+        opacity: .7;
+      }
+    }
+  }
+}

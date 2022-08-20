@@ -1,0 +1,23 @@
+$sizes: (
+        "UltraLight": 100,
+        "Regular": 300,
+        "Medium": normal,
+        "Light": 700,
+        "Bold": 900,
+        "Black": bold,
+);
+
+@mixin DefineFont($name) {
+  $size: map-get($sizes, $name);
+
+  @font-face {
+    font-family: "IranSans";
+    font-style: normal;
+    font-weight: $size;
+    src: url('/fonts/IranSans/#{$name}/IranSans#{$name}.eot');
+    src: url('/fonts/IranSans/#{$name}/IranSans#{$name}.eot?#iefix') format("embedded-opentype"),
+    url('/fonts/IranSans/#{$name}/IranSans#{$name}.ttf') format("truetype"),
+    url('/fonts/IranSans/#{$name}/IranSans#{$name}.woff') format("woff"),
+    url('/fonts/IranSans/#{$name}/IranSans#{$name}.woff2') format("woff2")
+  }
+}

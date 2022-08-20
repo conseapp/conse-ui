@@ -1,0 +1,8 @@
+@import "components/fonts";
+
+@include DefineFont('Regular');
+
+.index {
+  font-family: 'IranSans', sans-serif;
+  background: #eee;
+}

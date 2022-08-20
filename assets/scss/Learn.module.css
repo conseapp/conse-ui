@@ -1,0 +1,54 @@
+@font-face {
+  font-family: "IranSans";
+  font-style: normal;
+  font-weight: 300;
+  src: url("/fonts/IranSans/Regular/IranSansRegular.eot");
+  src: url("/fonts/IranSans/Regular/IranSansRegular.eot?#iefix") format("embedded-opentype"), url("/fonts/IranSans/Regular/IranSansRegular.ttf") format("truetype"), url("/fonts/IranSans/Regular/IranSansRegular.woff") format("woff"), url("/fonts/IranSans/Regular/IranSansRegular.woff2") format("woff2");
+}
+.page {
+  background: #FFFFFF;
+  font-family: "IranSans", sans-serif;
+  padding-bottom: 55px;
+}
+.page .search {
+  width: 100%;
+  padding: 10px 20px;
+  display: flex;
+}
+.page .search label {
+  border: 1px solid #CCCCCC;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 5px 15px 5px 5px;
+  border-radius: 50px;
+}
+.page .search label svg {
+  width: 30px;
+  height: 30px;
+  margin-left: 10px;
+}
+.page .search label input {
+  width: 100%;
+  font-size: 14px;
+  height: 100%;
+  border: none;
+}
+.page .search label input:focus {
+  outline: none;
+}
+.page .row {
+  margin-bottom: 30px;
+}
+.page .row .title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.page .row .content img {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+
+/*# sourceMappingURL=Learn.module.css.map */

@@ -1,0 +1,221 @@
+@font-face {
+  font-family: "IranSans";
+  font-style: normal;
+  font-weight: 300;
+  src: url("/fonts/IranSans/Regular/IranSansRegular.eot");
+  src: url("/fonts/IranSans/Regular/IranSansRegular.eot?#iefix") format("embedded-opentype"), url("/fonts/IranSans/Regular/IranSansRegular.ttf") format("truetype"), url("/fonts/IranSans/Regular/IranSansRegular.woff") format("woff"), url("/fonts/IranSans/Regular/IranSansRegular.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IranSans";
+  font-style: normal;
+  font-weight: 900;
+  src: url("/fonts/IranSans/Bold/IranSansBold.eot");
+  src: url("/fonts/IranSans/Bold/IranSansBold.eot?#iefix") format("embedded-opentype"), url("/fonts/IranSans/Bold/IranSansBold.ttf") format("truetype"), url("/fonts/IranSans/Bold/IranSansBold.woff") format("woff"), url("/fonts/IranSans/Bold/IranSansBold.woff2") format("woff2");
+}
+.Overlay {
+  font-family: "IranSans", sans-serif;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+.Overlay .eventModal {
+  padding: 0;
+  background: #FFFFFF;
+  border-radius: 10px;
+  width: 100%;
+}
+.Overlay .eventModal .header img {
+  width: 100%;
+  height: auto;
+}
+.Overlay .eventModal .body {
+  padding: 20px;
+}
+.Overlay .eventModal .body .title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+.Overlay .eventModal .body .title h3 {
+  font-size: 17px;
+  font-weight: bold;
+}
+.Overlay .eventModal .body .title .meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.Overlay .eventModal .body .title .meta span {
+  font-size: 12px;
+}
+.Overlay .eventModal .body .content {
+  display: flex;
+}
+.Overlay .eventModal .body .content .meta {
+  min-width: 50%;
+}
+.Overlay .eventModal .body .content .meta ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 0;
+}
+.Overlay .eventModal .body .content .meta ul li {
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.Overlay .eventModal .body .content .meta ul li svg {
+  width: 20px;
+  height: 20px;
+  margin-left: 10px;
+}
+.Overlay .eventModal .body .content .description {
+  font-size: 13px;
+  text-align: justify;
+}
+.Overlay .eventModal .body .content .description strong {
+  display: block;
+  margin-bottom: 8px;
+}
+.Overlay .eventModal .footer {
+  border-top: 1px solid #CCC;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+}
+.Overlay .eventModal .footer button {
+  width: 100%;
+  border-radius: 10px;
+  background: #0055FF;
+  border: none;
+  color: #FFFFFF;
+  padding: 10px;
+}
+.Overlay .eventModal .footer button:not(:last-child) {
+  margin-bottom: 10px;
+}
+.Overlay .eventModal .footer button.decline {
+  background: #F8F8F8;
+  color: #333333;
+}
+.Overlay .confirmEventModal {
+  background: #0055FF;
+  text-align: center;
+  padding: 32px;
+  border-radius: 10px;
+  color: #FFFFFF;
+  width: 100%;
+}
+.Overlay .confirmEventModal .header {
+  display: flex;
+  flex-direction: column;
+}
+.Overlay .confirmEventModal .header .title h3 {
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+.Overlay .confirmEventModal .header .title .meta {
+  display: flex;
+  flex-direction: column;
+}
+.Overlay .confirmEventModal .header .title .meta span {
+  font-size: 15px;
+}
+.Overlay .confirmEventModal .body {
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.Overlay .confirmEventModal .body .message {
+  font-size: 22px;
+  font-weight: bold;
+}
+.Overlay .confirmEventModal .body .warning {
+  color: #FFF700;
+  font-weight: bold;
+  font-size: 13px;
+}
+.Overlay .confirmEventModal .body .warning svg {
+  fill: #FFF700;
+  margin-left: 10px;
+}
+.Overlay .confirmEventModal .footer {
+  display: flex;
+  flex-direction: column;
+}
+.Overlay .confirmEventModal .footer button {
+  width: 100%;
+  border-radius: 10px;
+  background: #F8F8F8;
+  border: none;
+  padding: 10px;
+  color: #0055FF;
+}
+.Overlay .confirmEventModal .footer button:not(:last-child) {
+  margin-bottom: 10px;
+}
+.Overlay .confirmEventModal .footer button.decline {
+  background: #0055FF;
+  color: #FFFFFF;
+}
+.Overlay .submittedEventModal {
+  padding: 0;
+  background: #FFFFFF;
+  border-radius: 10px;
+  width: 100%;
+}
+.Overlay .submittedEventModal .header img {
+  width: 100%;
+  height: auto;
+}
+.Overlay .submittedEventModal .body {
+  height: 300px;
+  background: url("/hooray.png") no-repeat center center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.Overlay .submittedEventModal .body p {
+  background: #FFFFFF;
+  color: #0055FF;
+  font-size: 18px;
+  padding: 20px;
+}
+.Overlay .submittedEventModal .body p svg {
+  margin-left: 10px;
+}
+.Overlay .submittedEventModal .footer {
+  border-top: 1px solid #CCCCCC;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+.Overlay .submittedEventModal .footer h3 {
+  font-size: 20px;
+  font-weight: bold;
+}
+.Overlay .submittedEventModal .footer .address {
+  font-size: 15px;
+  margin: 8px 0;
+  opacity: 0.7;
+}
+.Overlay .submittedEventModal .footer time {
+  font-size: 15px;
+  opacity: 0.7;
+}
+
+/*# sourceMappingURL=Modal.module.css.map */
