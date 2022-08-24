@@ -1,39 +1,26 @@
-import React, { useEffect, useState, CSSProperties } from "react";
-import Nav from "../components/nav";
-import Header from "../components/header";
+import React, { useEffect, useState } from "react"
+import Nav from "../components/nav"
+import Header from "../components/header"
 import styles from '../assets/scss/Home.module.css'
-import modal from '../assets/scss/Modal.module.css'
-import Link from "next/link";
-import {
-    MdGames,
-    MdLocationOn,
-    MdOutlineKeyboardArrowLeft,
-    MdLocationPin,
-    MdOutlineWarningAmber,
-    MdCheckCircleOutline,
-} from "react-icons/md";
-import { RiUser3Fill } from "react-icons/ri";
-import { IoTicket } from "react-icons/io5"
+import Link from "next/link"
+import { MdLocationOn, MdOutlineKeyboardArrowLeft } from "react-icons/md"
 
 // Swiper
-import { Swiper, SwiperSlide } from "swiper/react";
-import 'swiper/css';
-import "swiper/css/free-mode";
-import { FreeMode } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react"
+import 'swiper/css'
+import "swiper/css/free-mode"
+import { FreeMode } from "swiper"
 
 // React modal
-import Modal from 'react-modal';
-import checkToken from "../utils/checkToken";
-import { useRouter } from "next/router";
+import checkToken from "../utils/checkToken"
+import { useRouter } from "next/router"
 
 const Home = ( { events } ) => {
-    const router = useRouter();
+    const router = useRouter()
 
     useEffect( () => {
         Promise.resolve( checkToken() )
-               .then( result => {
-                   if ( result !== true ) router.push( '/auth/login' )
-               } )
+               .then( result => { if ( result !== true ) router.push( '/auth/login' ) } )
     }, [ router ] )
 
     const [ MyLastEvent, SetMyLastEvent ]           = useState( {} )
@@ -89,42 +76,11 @@ const Home = ( { events } ) => {
     }, [] )
 
     // Set last events
-    useEffect( () => {
-        SetLastEvents( events )
-    }, [events] )
-
-    // Event Modal
-    const [ EventModalIsOpen, SetEventModalIsOpen ] = useState( false );
-    const OpenEventModal                            = () => SetEventModalIsOpen( true );
-    const CloseEventModal                           = () => SetEventModalIsOpen( false );
-    const AfterOpenEventModal                       = () => {
-        console.log( 'Modal Opened!' )
-    }
-
-    // Confirm Event
-    const [ ConfirmEventModalIsOpen, SetConfirmEventModalIsOpen ] = useState( false );
-    const OpenConfirmEventModal                                   = () => {
-        CloseEventModal()
-        SetConfirmEventModalIsOpen( true )
-    };
-    const CloseConfirmEventModal                                  = () => SetConfirmEventModalIsOpen( false );
-    const AfterOpenConfirmEventModal                              = () => {
-        console.log( 'Modal Opened!' )
-    }
-
-    // Submitted Event
-    const [ SubmittedEventModalIsOpen, SetSubmittedEventModalIsOpen ] = useState( false );
-    const OpenSubmittedEventModal                                     = () => {
-        CloseConfirmEventModal()
-        SetSubmittedEventModalIsOpen( true )
-    };
-    const CloseSubmittedEventModal                                    = () => SetSubmittedEventModalIsOpen( false );
-    const AfterOpenSubmittedEventModal                                = () => {
-        console.log( 'Modal Opened!' )
-    }
+    useEffect( () => SetLastEvents( events ), [ events ] )
 
     return (
         <div className={ styles.page }>
+
             <Header />
 
             <div className={ styles.myLastEvents }>
@@ -208,24 +164,20 @@ const Home = ( { events } ) => {
                         <Swiper spaceBetween={ 12 } slidesPerView={ 2 } freeMode={ true } modules={ [ FreeMode ] }>
                             { LastEvents.map( event => {
                                 return ( <SwiperSlide key={ event._id.$oid }>
-                                    <button type={ "button" } onClick={ OpenEventModal } data-id={ event._id.$oid }>
-                                        <div className={ styles.sliderItem }>
-                                            <div className={ styles.background } style={ { backgroundImage: `url(/events-slide-1.png)` } }>
-                                                <div className={ styles.sliderItemContent }>
-                                                    <MdLocationOn />
-                                                    <div className={ styles.meta }>
-                                                        <h3>کافه لند</h3>
-                                                        {/*<ul>*/ }
-                                                        {/*    <li>{ event.start }</li>*/ }
-                                                        {/*    <li>سناریو: { event.scenario }</li>*/ }
-                                                        {/*    <li>ظرفیت: { event.capacity }</li>*/ }
-                                                        {/*    <li>گرداننده: { event.god }</li>*/ }
-                                                        {/*</ul>*/ }
+                                    <Link href={ `event/${ event._id.$oid }/` }>
+                                        <a>
+                                            <div className={ styles.sliderItem }>
+                                                <div className={ styles.background } style={ { backgroundImage: `url(/events-slide-${ Math.floor( Math.random() * 4 + 1 ) }.png)` } }>
+                                                    <div className={ styles.sliderItemContent }>
+                                                        <MdLocationOn />
+                                                        <div className={ styles.meta }>
+                                                            <h3>{ event.title }</h3>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </button>
+                                        </a>
+                                    </Link>
                                 </SwiperSlide> )
                             } ) }
                         </Swiper>
@@ -272,112 +224,15 @@ const Home = ( { events } ) => {
                 </div>
             </div>
 
-            {/* Modals */ }
-            <Modal isOpen={ EventModalIsOpen } onAfterOpen={ AfterOpenEventModal } onRequestClose={ CloseEventModal } overlayClassName={ modal.Overlay } className={ modal.eventModal }>
-                <div className={ modal.header }>
-                    <img src={ '/modal-header.png' } alt={ 'Modal Header' } />
-                </div>
-                <div className={ modal.body }>
-                    <div className={ modal.title }>
-                        <h3>ایونت گروه هوادار</h3>
-                        <div className={ modal.meta }>
-                            <span>18/2/1400 - ساعت 18</span>
-                            <span>ظرفیت 50/10</span>
-                        </div>
-                    </div>
-                    <div className={ modal.content }>
-                        {/*<div className={ modal.meta }>*/ }
-                        {/*    <ul>*/ }
-                        {/*        <li>*/ }
-                        {/*            <MdGames />*/ }
-                        {/*            سناریو: بازی حرفه ای*/ }
-                        {/*        </li>*/ }
-                        {/*        <li>*/ }
-                        {/*            <RiUser3Fill />*/ }
-                        {/*            گرداننده: علی عباسی*/ }
-                        {/*        </li>*/ }
-                        {/*        <li>*/ }
-                        {/*            <IoTicket />*/ }
-                        {/*            ورودی: 15000 تومان*/ }
-                        {/*        </li>*/ }
-                        {/*        <li>*/ }
-                        {/*            <MdLocationPin style={ { color: "#B80000" } } />*/ }
-                        {/*            لوکیشن: کافه لند*/ }
-                        {/*        </li>*/ }
-                        {/*    </ul>*/ }
-                        {/*</div>*/ }
-                        <div className={ modal.description }>
-                            <strong>توضیحات:</strong>
-                            لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از
-                            صنعت چاپ، و با استفاده از طراحان گرافیک است،
-                            چاپگرها و متون بلکه روزنامه و مجله در ستون و
-                            سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی
-                            مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای
-                            کاربردی می باشد، کتابهای زیادی در شصت و سه درصد
-                            گذشته حال و آینده، شناخت فراوان جامعه و متخصصان
-                            را می طلبد، تا با نرم افزارها شناخت بیشتری را برای
-                            طراحان رایانه ای علی الخصوص طراحان خلاقی، و
-                            فرهنگ پیشرو در زبان فارسی ایجاد کرد، در این صورت
-                            می توان امید داشت که تمام و دشواری موجود در ارائه
-                        </div>
-                    </div>
-                </div>
-                <div className={ modal.footer }>
-                    <button type={ "button" } onClick={ OpenConfirmEventModal }>ثبت نام</button>
-                    <button type={ "button" } onClick={ CloseEventModal } className={ modal.decline }>لغو</button>
-                </div>
-            </Modal>
-
-            <Modal isOpen={ ConfirmEventModalIsOpen } onAfterOpen={ AfterOpenConfirmEventModal } onRequestClose={ CloseConfirmEventModal } overlayClassName={ modal.Overlay } className={ modal.confirmEventModal }>
-                <div className={ modal.header }>
-                    <div className={ modal.title }>
-                        <h3>ایونت گروه هوادار</h3>
-                        <div className={ modal.meta }>
-                            <span>18/2/1400 - ساعت 18</span>
-                            <span>ظرفیت 50/10</span>
-                        </div>
-                    </div>
-                </div>
-                <div className={ modal.body }>
-                    <div className={ modal.message }>
-                        آیا از ثبت نام خود مطمئن هستید؟
-                    </div>
-                    <div className={ modal.warning }>
-                        <MdOutlineWarningAmber />
-                        درصورت کنسلی 10 امتیاز از شما کسر خواهد شد
-                    </div>
-                </div>
-                <div className={ modal.footer }>
-                    <button type={ "button" } onClick={ OpenSubmittedEventModal }>بله</button>
-                    <button type={ "button" } onClick={ CloseConfirmEventModal } className={ modal.decline }>خیر</button>
-                </div>
-            </Modal>
-
-            <Modal isOpen={ SubmittedEventModalIsOpen } onAfterOpen={ AfterOpenSubmittedEventModal } onRequestClose={ CloseSubmittedEventModal } overlayClassName={ modal.Overlay } className={ modal.submittedEventModal }>
-                <div className={ modal.header }>
-                    <img src={ '/modal-header.png' } alt={ 'Modal Header' } />
-                </div>
-                <div className={ modal.body }>
-                    <p>
-                        <MdCheckCircleOutline />
-                        ایونت با موفقیت به پروفایل شما اضافه شد
-                    </p>
-                </div>
-                <div className={ modal.footer }>
-                    <h3>منتظرتون هستیم</h3>
-                    <span className={ modal.address }> کافه لند، تهران، ولیعصر، بزرگمهر پاساژ بزرگمهر</span>
-                    <time>18/2/1400 - ساعت 18</time>
-                </div>
-            </Modal>
-
             <Nav />
+
         </div>
     )
 }
 
 
 export async function getStaticProps() {
-    const availableEvents = await fetch( `${ process.env.EVENT_URL }/event/get/availables` )
+    const availableEvents = await fetch( `${ process.env.EVENT_URL }/event/get/all/in-going` )
     const { data }        = await availableEvents.json()
 
     return {

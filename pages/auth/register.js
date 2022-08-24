@@ -5,12 +5,11 @@ import React from "react";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from "next/router";
-import { setCookie } from "cookies-next";
 
 const Login = () => {
     const router = useRouter()
 
-    const loginHandle = async e => {
+    const registerHandle = async e => {
         e.preventDefault()
 
         let form     = document.querySelector( "form" ),
@@ -20,6 +19,8 @@ const Login = () => {
         const raw = JSON.stringify( {
             "username": username.value,
             "pwd":      password.value,
+            "phone":    "09123456789",
+            "status":   0,
         } )
 
         const config = {
@@ -28,15 +29,14 @@ const Login = () => {
             body:    raw,
         }
 
-        fetch( `${ process.env.AUTH_URL }/auth/login`, config )
+        fetch( `${ process.env.AUTH_URL }/auth/signup`, config )
             .then( response => response.json() )
             .then( data => {
                 if ( data.status !== 200 ) {
                     toast.error( 'خطایی پیش آمده لطفا دوباره امتحان کنید' )
                 } else {
-                    toast.success( 'با موفقیت وارد شدید' )
-                    setCookie( 'access_token', data.data.access_token )
-                    setTimeout( () => router.push( '/' ), 2000 )
+                    toast.success( 'ثبت نام شما با موفقیت انجام شد وارد شوید' )
+                    setTimeout( () => router.push( '/auth/login' ), 2000 )
                 }
             } )
     }
@@ -50,7 +50,7 @@ const Login = () => {
                 </div>
 
                 <div className={ styles.form }>
-                    <form method={ "POST" } onSubmit={ loginHandle }>
+                    <form method={ "POST" } onSubmit={ registerHandle }>
                         <h3>ثبت نام</h3>
                         <div className={ styles.row }>
                             <label htmlFor={ "username" }>نام کاربری</label>

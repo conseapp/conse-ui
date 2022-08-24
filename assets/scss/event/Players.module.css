@@ -17,7 +17,7 @@
   width: 100%;
   position: relative;
   border-radius: 10px;
-  margin: 10px 0;
+  margin: 10px 0 30px;
   overflow: hidden;
   z-index: 1;
   display: flex;
@@ -47,33 +47,60 @@
   padding: 5px 10px;
 }
 .page .content {
-  margin-top: 30px;
+  margin-bottom: 30px;
+}
+.page .content .revealRoleButton {
+  background: #0a58ca;
+  color: #FFFFFF;
+  border: none;
+  width: 100%;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  padding: 12px;
 }
 .page .content table {
   width: 100%;
+  display: flex;
+}
+.page .content table tbody {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.page .content table tbody tr {
+  margin-bottom: 4px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-radius: 8px;
+  padding: 10px;
+  color: #333333;
 }
 .page .content table tbody tr td {
-  border: 1px solid #CCCCCC;
+  white-space: nowrap;
+}
+.page .content table tbody tr td:not(:last-child) {
+  margin-left: 8px;
+  text-transform: capitalize;
+  font-weight: bold;
+}
+.page .content table tbody tr td span {
+  font-weight: normal;
+  opacity: 0.7;
 }
 .page .content table tbody tr td button {
-  background: transparent;
+  background: #FFFFFF;
   border: none;
-  color: #E80000;
+  color: #333333;
+  border-radius: 8px;
   font-size: 25px;
 }
-.page .content table tbody tr td:nth-child(1) {
-  width: 30px;
-  text-align: center;
-  border-left: none;
-}
 .page .content table tbody tr td:nth-child(2) {
-  border-right: none;
-  border-left: none;
   padding-right: 10px;
+  width: 100%;
 }
 .page .content table tbody tr td:nth-child(3) {
   border-right: none;
-  width: 50px;
   text-align: center;
 }
 

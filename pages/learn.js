@@ -10,65 +10,15 @@ import "swiper/css/free-mode";
 import { FreeMode } from "swiper";
 import { useEffect, useState } from "react";
 
-const Learn = () => {
-    const [ groups, setGroups ] = useState( [] )
+const Learn = ( { sides } ) => {
+    document.querySelectorAll( '[data-side-id]' ).forEach( side => {
+        console.log( side )
+    } )
 
-    useEffect( () => {
-        setGroups( [
-            {
-                id:     1,
-                name:   'شهروند ها',
-                values: [
-                    {
-                        id:    1,
-                        name:  'شهردار',
-                        image: '/citizen.png',
-                    },
-                    {
-                        id:    2,
-                        name:  'کلانتر',
-                        image: '/citizen.png',
-                    },
-                    {
-                        id:    3,
-                        name:  'قاضی',
-                        image: '/citizen.png',
-                    },
-                    {
-                        id:    4,
-                        name:  'دست کج',
-                        image: '/citizen.png',
-                    },
-                ],
-            },
-            {
-                id:     2,
-                name:   'مافیا',
-                values: [
-                    {
-                        id:    1,
-                        name:  'رئیس مافیا',
-                        image: '/mafia.png',
-                    },
-                    {
-                        id:    2,
-                        name:  'محافظ',
-                        image: '/mafia.png',
-                    },
-                    {
-                        id:    3,
-                        name:  'معشوقه',
-                        image: '/mafia.png',
-                    },
-                    {
-                        id:    4,
-                        name:  'روانکاو',
-                        image: '/mafia.png',
-                    },
-                ],
-            },
-        ] )
-    }, [] )
+    const LoadRoles = () => {
+        let id = this.getAttribute( 'data-id' )
+        alert( 'salam' )
+    }
 
     return (
         <div className={ styles.page }>
@@ -84,27 +34,38 @@ const Learn = () => {
 
             <div className="container">
 
-                { groups.map( group => {
+                { sides.map( side => {
                     return (
-                        //eslint-disable-next-line react/jsx-key
-                        <div className={ `${ styles.row }` } key={ group.id }>
-                            <div className={ styles.title }>{ group.name }</div>
-                            <div className={ styles.content }>
-                                <Swiper spaceBetween={ 12 } slidesPerView={ 2 } freeMode={ true } modules={ [ FreeMode ] }>
-                                    { group.values.map( slide => {
-                                        return (
-                                            //eslint-disable-next-line react/jsx-key
-                                            <SwiperSlide>
-                                                {/* eslint-disable-next-line @next/next/no-img-element */ }
-                                                <img src={ slide.image } alt={ slide.name } />
-                                            </SwiperSlide>
-                                        )
-                                    } ) }
-                                </Swiper>
+                        <div className={ styles.row } key={ side._id.$oid }>
+                            <div className={ styles.title }>{ side.name }</div>
+                            <div className={ styles.content } data-side-id={ side._id.$oid }>
+                                { role }
                             </div>
                         </div>
                     )
                 } ) }
+
+                {/*{ groups.map( group => {*/ }
+                {/*    return (*/ }
+                {/*        //eslint-disable-next-line react/jsx-key*/ }
+                {/*        <div className={ `${ styles.row }` } key={ group.id }>*/ }
+                {/*            <div className={ styles.title }>{ group.name }</div>*/ }
+                {/*            <div className={ styles.content }>*/ }
+                {/*                <Swiper spaceBetween={ 12 } slidesPerView={ 2 } freeMode={ true } modules={ [ FreeMode ] }>*/ }
+                {/*                    { group.values.map( slide => {*/ }
+                {/*                        return (*/ }
+                {/*                            //eslint-disable-next-line react/jsx-key*/ }
+                {/*                            <SwiperSlide>*/ }
+                {/*                                /!* eslint-disable-next-line @next/next/no-img-element */ }
+                {/*                                <img src={ slide.image } alt={ slide.name } />*/ }
+                {/*                            </SwiperSlide>*/ }
+                {/*                        )*/ }
+                {/*                    } ) }*/ }
+                {/*                </Swiper>*/ }
+                {/*            </div>*/ }
+                {/*        </div>*/ }
+                {/*    )*/ }
+                {/*} ) }*/ }
 
             </div>
 
@@ -112,6 +73,18 @@ const Learn = () => {
 
         </div>
     )
+}
+
+export async function getStaticProps() {
+    const getAllSides = await fetch( `${ process.env.GAME_URL }/game/side/get/availables` )
+    const sides       = await getAllSides.json()
+
+    return {
+        revalidate: 10,
+        props:      {
+            sides: sides.data.sides,
+        },
+    }
 }
 
 export default Learn

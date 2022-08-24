@@ -3,26 +3,26 @@ import styles from '../assets/scss/Header.module.css'
 import Image from "next/image";
 import { MdStar } from "react-icons/md";
 import { getCookie } from "cookies-next";
+import Link from "next/link";
 
 const Header = props => {
     const [ name, setName ]   = useState( '' )
     const [ score, setScore ] = useState( 0 )
 
-
     let username = getCookie( 'username' ) // Get username
 
-    useEffect( () => {
-        setName( username )
-    }, [] )
+    useEffect( () => setName( username ), [ username ] )
 
-    useEffect( () => {
-        setScore( 300 )
-    }, [] )
+    useEffect( () => setScore( 300 ), [] )
 
     return (
         <header className={ styles.section }>
             <div className={ styles.logo }>
-                <Image src={ '/logo.png' } alt={ "Conse" } width={ 66 } height={ 32 } />
+                <Link href={ "/home" }>
+                    <a>
+                        <Image src={ '/logo.png' } alt={ "Conse" } width={ 66 } height={ 32 } />
+                    </a>
+                </Link>
             </div>
             { props.showProfile && (
                 <div className={ styles.profile }>

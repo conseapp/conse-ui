@@ -2,7 +2,6 @@ import styles from '../../assets/scss/event/Add.module.css'
 import Header from "../../components/header";
 import Nav from "../../components/nav";
 import { GoPlus } from "react-icons/go";
-import GetUserToken from "../../utils/loginUserHandle";
 
 const AddEvent = () => {
 

@@ -157,7 +157,7 @@
   color: #0055FF;
   text-decoration: none;
 }
-.page .lastEvents .content button {
+.page .lastEvents .content a {
   display: flex;
   width: 100%;
   padding: 0;
@@ -165,7 +165,7 @@
   background: transparent;
   text-align: right;
 }
-.page .lastEvents .content button .sliderItem {
+.page .lastEvents .content a .sliderItem {
   width: 100%;
   height: 250px;
   border-radius: 10px;
@@ -173,7 +173,7 @@
   overflow: hidden;
   display: flex;
 }
-.page .lastEvents .content button .sliderItem .background {
+.page .lastEvents .content a .sliderItem .background {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -184,7 +184,7 @@
   align-items: flex-end;
   justify-content: center;
 }
-.page .lastEvents .content button .sliderItem .background:before {
+.page .lastEvents .content a .sliderItem .background:before {
   content: "";
   background: rgba(0, 0, 0, 0.6);
   position: absolute;
@@ -192,33 +192,33 @@
   height: 100%;
   z-index: -1;
 }
-.page .lastEvents .content button .sliderItem .sliderItemContent {
+.page .lastEvents .content a .sliderItem .sliderItemContent {
   display: flex;
   width: 100%;
   padding: 25px;
 }
-.page .lastEvents .content button .sliderItem .sliderItemContent svg {
+.page .lastEvents .content a .sliderItem .sliderItemContent svg {
   color: #B80000;
   width: 25px;
   height: 30px;
 }
-.page .lastEvents .content button .sliderItem .sliderItemContent .meta {
+.page .lastEvents .content a .sliderItem .sliderItemContent .meta {
   color: #BCBCBC;
   width: 100%;
 }
-.page .lastEvents .content button .sliderItem .sliderItemContent .meta h3 {
+.page .lastEvents .content a .sliderItem .sliderItemContent .meta h3 {
   margin-bottom: 0;
   font-size: 23px;
 }
-.page .lastEvents .content button .sliderItem .sliderItemContent .meta ul {
+.page .lastEvents .content a .sliderItem .sliderItemContent .meta ul {
   padding: 0;
   list-style: none;
   margin-bottom: 0;
 }
-.page .lastEvents .content button .sliderItem .sliderItemContent .meta ul li {
+.page .lastEvents .content a .sliderItem .sliderItemContent .meta ul li {
   font-size: 14px;
 }
-.page .lastEvents .content button .sliderItem .sliderItemContent a {
+.page .lastEvents .content a .sliderItem .sliderItemContent a {
   border: 1px solid #FFF;
   height: 35px;
   width: 90px;
