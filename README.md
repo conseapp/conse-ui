@@ -1,12 +1,12 @@
 
 
-# Dev Run on VPS
+# Development on VPS
 
 ```console
-sudo pm2 start npm --name "conse-ui" -- run dev -- -p 8000
+sudo pm2 start npm --name "conse-ui" -- run dev
 ```
 
-# Production Run on VPS
+# Production on VPS
 ```console
-sudo pm2 start npm --name "conse-ui" -- start -- -p 8000
+sudo pm2 start npm --name "conse-ui" -- start
 ```
