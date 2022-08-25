@@ -16,7 +16,7 @@ const Header = props => {
 
     useEffect( () => setName( username ), [ username ] )
 
-    useEffect( () => setScore( 300 ), [] )
+    useEffect( () => setScore( 0 ), [] )
 
     const logout = () => {
         deleteCookie( '_id' )

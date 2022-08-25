@@ -10,14 +10,14 @@ class Nav extends React.Component {
             <nav className={styles.nav}>
                 <ul>
                     <li>
-                        <Link href={'/dashboard'}>
+                        <Link href={'#'}>
                             <a>
-                                <Image src={'/avatar-small.png'} alt={"User"} width={30} height={30}/>
+                                <Image src={'/avatar-medium.png'} alt={"User"} width={30} height={30}/>
                             </a>
                         </Link>
                     </li>
                     <li>
-                        <Link href={'/event/explore'}>
+                        <Link href={'#'}>
                             <a>
                                 <MdOutlineExplore/>
                             </a>
@@ -31,19 +31,19 @@ class Nav extends React.Component {
                         </Link>
                     </li>
                     <li>
-                        <Link href={'/event/add'}>
+                        <Link href={'#'}>
                             <a>
                                 <MdOutlineAddBox/>
                             </a>
                         </Link>
                     </li>
-                    <li>
+                    {/* <li>
                         <Link href={'#'}>
                             <a>
                                 <MdOutlineMenu/>
                             </a>
                         </Link>
-                    </li>
+                    </li> */}
                 </ul>
             </nav>
         )

@@ -83,7 +83,7 @@ const Home = ( { events } ) => {
 
             <Header />
 
-            <div className={ styles.myLastEvents }>
+            {/* <div className={ styles.myLastEvents }>
                 <div className={ styles.title }>
                     <h2>آخرین ایونت من</h2>
                     <Link href={ '/lastEvents' }>
@@ -128,9 +128,9 @@ const Home = ( { events } ) => {
                         </ul>
                     </div>
                 </div>
-            </div>
+            </div> */}
 
-            <div className="container">
+            {/* <div className="container">
                 <div className={ styles.weekTopRole }>
                     <img src={ WeekTopRole.image } alt={ 'Week Top Role' } width={ 194 } height={ 230 } />
                     <div className={ styles.content }>
@@ -147,18 +147,18 @@ const Home = ( { events } ) => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
 
             <div className={ styles.lastEvents }>
                 <div className="container">
                     <div className={ styles.title }>
                         <span>ایونت ها</span>
-                        <Link href={ '/event/explore' }>
-                            <a>
-                                بیشتر
-                                <MdOutlineKeyboardArrowLeft />
-                            </a>
-                        </Link>
+                            {/* <Link href={ '/event/explore' }>
+                                <a>
+                                    بیشتر
+                                    <MdOutlineKeyboardArrowLeft />
+                                </a>
+                            </Link> */}
                     </div>
                     <div className={ styles.content }>
                         <Swiper spaceBetween={ 12 } slidesPerView={ 2 } freeMode={ true } modules={ [ FreeMode ] }>
@@ -189,7 +189,7 @@ const Home = ( { events } ) => {
                 <div className="container">
                     <Swiper spaceBetween={ 12 } slidesPerView={ 1 } freeMode={ true } modules={ [ FreeMode ] }>
                         <SwiperSlide>
-                            <div className={ styles.sliderItem }>
+                            {/* <div className={ styles.sliderItem }>
                                 <div className={ styles.background }
                                      style={ { backgroundImage: 'url(/news-slide-1.png)' } }>
                                     <div className={ styles.sliderItemContent }>
@@ -202,7 +202,7 @@ const Home = ( { events } ) => {
                                         </Link>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
                         </SwiperSlide>
                         <SwiperSlide>
                             <div className={ styles.sliderItem }>

@@ -5,6 +5,7 @@ import React from "react";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from "next/router";
+import Link from "next/link";
 import { setCookie } from "cookies-next";
 
 const Login = () => {
@@ -46,7 +47,7 @@ const Login = () => {
             <div className={ styles.card }>
                 <div className={ styles.title }>
                     <Image src={ "/logo.png" } alt={ "Conse" } width={ 112 } height={ 55 } />
-                    <h2>From irCO</h2>
+                    <h2>From IA</h2>
                 </div>
 
                 <div className={ styles.form }>
@@ -61,6 +62,13 @@ const Login = () => {
                             <input type="password" id={ "pwd" } name={ "pwd" } />
                         </div>
                         <button type={ "submit" }>ورود به حساب کاربری</button>
+                        <div style={{ marginTop: 20 }}>
+                            <Link href={"/auth/register"}>
+                                <a >
+                                    ثبت نام کنید
+                                </a>
+                            </Link>
+                        </div>
                     </form>
                 </div>
 

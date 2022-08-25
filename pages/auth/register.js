@@ -46,7 +46,7 @@ const Login = () => {
             <div className={ styles.card }>
                 <div className={ styles.title }>
                     <Image src={ "/logo.png" } alt={ "Conse" } width={ 112 } height={ 55 } />
-                    <h2>From irCO</h2>
+                    <h2>From IA</h2>
                 </div>
 
                 <div className={ styles.form }>
