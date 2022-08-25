@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import styles from '../assets/scss/Header.module.css'
 import Image from "next/image";
-import { MdStar } from "react-icons/md";
-import { getCookie } from "cookies-next";
+import { MdLogout, MdStar } from "react-icons/md";
+import { deleteCookie, getCookie, hasCookie } from "cookies-next";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const Header = props => {
+    const router = useRouter()
+
     const [ name, setName ]   = useState( '' )
     const [ score, setScore ] = useState( 0 )
 
@@ -14,6 +17,14 @@ const Header = props => {
     useEffect( () => setName( username ), [ username ] )
 
     useEffect( () => setScore( 300 ), [] )
+
+    const logout = () => {
+        deleteCookie( '_id' )
+        deleteCookie( 'access_token' )
+        deleteCookie( 'username' )
+
+        setTimeout( () => router.push( '/auth/login' ), 2000 )
+    }
 
     return (
         <header className={ styles.section }>
@@ -37,6 +48,10 @@ const Header = props => {
                             { score } امتیاز
                         </div>
                     </div>
+                    <button type={ "button" } onClick={ logout } className={ styles.logoutButton }>
+                        <MdLogout />
+                        خروج
+                    </button>
                 </div>
             ) }
         </header>

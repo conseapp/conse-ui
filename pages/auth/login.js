@@ -51,7 +51,7 @@ const Login = () => {
 
                 <div className={ styles.form }>
                     <form method={ "POST" } onSubmit={ loginHandle }>
-                        <h3>ثبت نام</h3>
+                        <h3>ورود</h3>
                         <div className={ styles.row }>
                             <label htmlFor={ "username" }>نام کاربری</label>
                             <input type="text" id={ "username" } name={ "username" } />

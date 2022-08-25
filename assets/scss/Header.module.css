@@ -25,19 +25,33 @@
 .section .profile .avatar {
   margin-left: 10px;
 }
-.section .profile .name {
+.section .profile .info {
+  width: 100%;
+}
+.section .profile .info .name {
   font-size: 14px;
 }
-.section .profile .score {
+.section .profile .info .score {
   display: flex;
   align-items: center;
   font-size: 14px;
   line-height: 1;
 }
-.section .profile .score svg {
+.section .profile .info .score svg {
   fill: #FFC400;
   width: 20px;
   height: 20px;
+  margin-left: 5px;
+}
+.section .profile .logoutButton {
+  border: 1px solid #fe5052;
+  color: #fe5052;
+  background: transparent;
+  border-radius: 50px;
+  padding: 5px 10px;
+  white-space: nowrap;
+}
+.section .profile .logoutButton svg {
   margin-left: 5px;
 }
 
