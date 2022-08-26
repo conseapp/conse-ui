@@ -3,11 +3,10 @@ import Header from "../../../components/header";
 import Nav from "../../../components/nav";
 import { MdOutlineChangeCircle } from "react-icons/md";
 import { getCookie } from "cookies-next";
-import getRole from "../../../utils/getRoles";
 import { useRouter } from "next/router";
 import Head from "next/head";
 
-const EventPlayers = ( { players } ) => {
+const EventPlayers = ( { players, roles } ) => {
     const router = useRouter();
     const query  = router.query;
 
@@ -30,7 +29,6 @@ const EventPlayers = ( { players } ) => {
 
     const RevealRoles = () => {
         let token = getCookie( 'access_token' )
-
 
         fetch( `${ process.env.EVENT_URL }/event/reveal/roles`, {
             method:  'POST',
@@ -84,7 +82,13 @@ const EventPlayers = ( { players } ) => {
                                         <strong>{ player.username }</strong>
                                     </td>
                                     <td>
-                                        <span>{ player.role_id !== null ? getRole( player.role_id.$oid ) : '' }</span>
+                                        <span>
+                                            { roles.map( role => {
+                                                if ( role._id.$oid === player.role_id.$oid ) {
+                                                    return role.name
+                                                }
+                                            } ) }
+                                        </span>
                                     </td>
                                     <td>
                                         <button type={ "button" }>
@@ -107,7 +111,7 @@ const EventPlayers = ( { players } ) => {
 export async function getServerSideProps( context ) {
     const token = getCookie( 'access_token' )
 
-    const event    = await fetch( `${ process.env.EVENT_URL }/event/get/single`, {
+    const singleEvent     = await fetch( `${ process.env.EVENT_URL }/event/get/single`, {
         method:  'POST',
         headers: {
             'Content-Type':  'application/json',
@@ -115,11 +119,15 @@ export async function getServerSideProps( context ) {
         },
         body:    JSON.stringify( { "_id": context.params.id } ),
     } )
-    const { data } = await event.json()
+    const singleEventData = await singleEvent.json()
+
+    const allRoles     = await fetch( `${ process.env.GAME_URL }/game/role/get/availables` )
+    const allRolesData = await allRoles.json()
 
     return {
         props: {
-            players: data.players,
+            players: singleEventData.data.players,
+            roles:   allRolesData.data.roles,
         },
     }
 }
