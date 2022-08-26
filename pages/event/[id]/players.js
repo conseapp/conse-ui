@@ -83,11 +83,14 @@ const EventPlayers = ( { players, roles } ) => {
                                     </td>
                                     <td>
                                         <span>
-                                            { roles.map( role => {
-                                                if ( role._id.$oid === player.role_id.$oid ) {
-                                                    return role.name
-                                                }
-                                            } ) }
+                                            {
+                                                player.role_id &&
+                                                roles.map( role => {
+                                                    if ( role._id.$oid === player.role_id.$oid ) {
+                                                        return role.name
+                                                    }
+                                                } )
+                                            }
                                         </span>
                                     </td>
                                     <td>

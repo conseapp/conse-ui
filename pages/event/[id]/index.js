@@ -10,13 +10,14 @@ import Link from "next/link";
 import checkToken from "../../../utils/checkToken";
 import { useRouter } from "next/router";
 import { getCookie } from "cookies-next";
-import getRole from "../../../utils/getRoles";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
-const EventDetail = ( { data } ) => {
+const EventDetail = ( { data, roles } ) => {
     const router = useRouter()
     const query  = router.query;
+
+    console.log( roles )
 
     const [ date, setDate ] = useState( '' )
 
@@ -77,7 +78,18 @@ const EventDetail = ( { data } ) => {
                 let id          = getCookie( '_id' )
                 let currentUser = response.data.players.filter( player => player._id.$oid === id )
 
-                let content = currentUser[0].role_id !== null ? `نقش شما ${ getRole( currentUser[0].role_id.$oid ) } میباشد` : `نقش ها توسط گرداننده پخش نشدند، لطفا تا شروع بازی صبور باشید`
+                let content = ''
+
+                if ( currentUser[0].role_id !== null ) {
+                    roles.map( role => {
+                        if ( role._id.$oid === currentUser[0].role_id.$oid ) {
+                            content = `نقش شما ${ role.name } میباشد`
+                        }
+                    } )
+                } else {
+                    content = `نقش ها توسط گرداننده پخش نشدند، لطفا تا شروع بازی صبور باشید`
+                }
+
                 toast.info( content, {
                     position:        "bottom-center",
                     autoClose:       5000,
@@ -179,15 +191,19 @@ const EventDetail = ( { data } ) => {
 }
 
 export async function getServerSideProps( context ) {
-    const res      = await fetch( `${ process.env.EVENT_URL }/event/get/single`, {
+    const EventDetail     = await fetch( `${ process.env.EVENT_URL }/event/get/single`, {
         method: 'POST',
         body:   JSON.stringify( { "_id": context.query.id } ),
     } )
-    const { data } = await res.json()
+    const EventDetailData = await EventDetail.json()
+
+    const allRoles     = await fetch( `${ process.env.GAME_URL }/game/role/get/availables` )
+    const allRolesData = await allRoles.json()
 
     return {
         props: {
-            data: data,
+            data:  EventDetailData.data,
+            roles: allRolesData.data.roles,
         },
     }
 }
