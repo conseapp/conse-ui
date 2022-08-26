@@ -14,6 +14,7 @@ import { FreeMode } from "swiper"
 // React modal
 import checkToken from "../utils/checkToken"
 import { useRouter } from "next/router"
+import Head from "next/head";
 
 const Home = ( { events } ) => {
     const router = useRouter()
@@ -80,6 +81,10 @@ const Home = ( { events } ) => {
 
     return (
         <div className={ styles.page }>
+
+            <Head>
+                <title>خانه</title>
+            </Head>
 
             <Header />
 

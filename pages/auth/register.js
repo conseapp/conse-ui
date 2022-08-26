@@ -5,6 +5,8 @@ import React from "react";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from "next/router";
+import Head from "next/head";
+import Link from "next/link";
 
 const Login = () => {
     const router = useRouter()
@@ -43,6 +45,11 @@ const Login = () => {
 
     return (
         <div className={ styles.page }>
+
+            <Head>
+                <title>ثبت نام در سایت</title>
+            </Head>
+
             <div className={ styles.card }>
                 <div className={ styles.title }>
                     <Image src={ "/logo.png" } alt={ "Conse" } width={ 112 } height={ 55 } />
@@ -51,7 +58,7 @@ const Login = () => {
 
                 <div className={ styles.form }>
                     <form method={ "POST" } onSubmit={ registerHandle }>
-                        <h3>ثبت نام</h3>
+                        <h3 style={ { marginBottom: 20 } }>ثبت نام</h3>
                         <div className={ styles.row }>
                             <label htmlFor={ "username" }>نام کاربری</label>
                             <input type="text" id={ "username" } name={ "username" } />
@@ -60,7 +67,15 @@ const Login = () => {
                             <label htmlFor={ "pwd" }>کلمه عبور</label>
                             <input type="password" id={ "pwd" } name={ "pwd" } />
                         </div>
-                        <button type={ "submit" }>ورود به حساب کاربری</button>
+                        <button type={ "submit" }>ثبت نام</button>
+                        <div style={ { marginTop: 20 } }>
+                            حساب کاربری دارید ؟
+                            <Link href={ "/auth/login" }>
+                                <a>
+                                    وارد شوید
+                                </a>
+                            </Link>
+                        </div>
                     </form>
                 </div>
 

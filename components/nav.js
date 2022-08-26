@@ -1,49 +1,49 @@
 import React from "react";
 import styles from '../assets/scss/Nav.module.css'
 import Link from "next/link";
-import {MdOutlineAddBox, MdOutlineExplore, MdOutlineHome, MdOutlineMenu} from "react-icons/md";
+import { MdOutlineAddBox, MdOutlineExplore, MdOutlineHome } from "react-icons/md";
 import Image from "next/image";
 
 class Nav extends React.Component {
     render() {
         return (
-            <nav className={styles.nav}>
+            <nav className={ styles.nav }>
                 <ul>
                     <li>
-                        <Link href={'#'}>
+                        <Link href={ '#' }>
                             <a>
-                                <Image src={'/avatar-medium.png'} alt={"User"} width={30} height={30}/>
+                                <Image src={ '/avatar-medium.png' } alt={ "User" } width={ 30 } height={ 30 } style={ { borderRadius: '50%' } } />
                             </a>
                         </Link>
                     </li>
                     <li>
-                        <Link href={'#'}>
+                        <Link href={ '#' }>
                             <a>
-                                <MdOutlineExplore/>
+                                <MdOutlineExplore />
                             </a>
                         </Link>
                     </li>
                     <li>
-                        <Link href={'/home'}>
+                        <Link href={ '/home' }>
                             <a>
-                                <MdOutlineHome/>
+                                <MdOutlineHome />
                             </a>
                         </Link>
                     </li>
                     <li>
-                        <Link href={'#'}>
+                        <Link href={ '#' }>
                             <a>
-                                <MdOutlineAddBox/>
+                                <MdOutlineAddBox />
                             </a>
                         </Link>
                     </li>
                     {/* <li>
-                        <Link href={'#'}>
-                            <a>
-                                <MdOutlineMenu/>
-                            </a>
-                        </Link>
-                    </li> */}
+                     <Link href={'#'}>
+                     <a>
+                     <MdOutlineMenu/>
+                     </a>
+                     </Link>
+                     </li> */ }
                 </ul>
             </nav>
         )

@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { setCookie } from "cookies-next";
+import Head from "next/head";
 
 const Login = () => {
     const router = useRouter()
@@ -44,6 +45,11 @@ const Login = () => {
 
     return (
         <div className={ styles.page }>
+
+            <Head>
+                <title>ورود به حساب کاربری</title>
+            </Head>
+
             <div className={ styles.card }>
                 <div className={ styles.title }>
                     <Image src={ "/logo.png" } alt={ "Conse" } width={ 112 } height={ 55 } />
@@ -52,7 +58,7 @@ const Login = () => {
 
                 <div className={ styles.form }>
                     <form method={ "POST" } onSubmit={ loginHandle }>
-                        <h3>ورود</h3>
+                        <h3 style={ { marginBottom: 20 } }>ورود</h3>
                         <div className={ styles.row }>
                             <label htmlFor={ "username" }>نام کاربری</label>
                             <input type="text" id={ "username" } name={ "username" } />
@@ -62,9 +68,9 @@ const Login = () => {
                             <input type="password" id={ "pwd" } name={ "pwd" } />
                         </div>
                         <button type={ "submit" }>ورود به حساب کاربری</button>
-                        <div style={{ marginTop: 20 }}>
-                            <Link href={"/auth/register"}>
-                                <a >
+                        <div style={ { marginTop: 20 } }>
+                            <Link href={ "/auth/register" }>
+                                <a>
                                     ثبت نام کنید
                                 </a>
                             </Link>

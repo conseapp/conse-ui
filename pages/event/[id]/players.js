@@ -5,6 +5,7 @@ import { MdOutlineChangeCircle } from "react-icons/md";
 import { getCookie } from "cookies-next";
 import getRole from "../../../utils/getRoles";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 const EventPlayers = ( { players } ) => {
     const router = useRouter();
@@ -52,6 +53,10 @@ const EventPlayers = ( { players } ) => {
 
     return (
         <div className={ styles.page }>
+
+            <Head>
+                <title>لیست بازیکنان ایونت</title>
+            </Head>
 
             <Header showProfile={ false } />
 

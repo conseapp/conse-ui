@@ -51,9 +51,18 @@ const EventDetail = ( { data } ) => {
         };
 
         fetch( `${ process.env.EVENT_URL }/event/reserve/mock`, requestOptions )
-            .then( response => response.text() )
-            .then( result => console.log( result ) )
-            .catch( error => console.log( 'error', error ) );
+            .then( response => response.json() )
+            .then( result => {
+                console.log( result )
+                if ( result.status === 200 ) {
+                    toast.success( 'شما با موفقیت ایونت را رزرو کردید' )
+                    router.reload( window.location.pathname )
+                }
+            } )
+            .catch( error => {
+                console.log( 'error', error )
+                toast.error( 'متاسفانه خطایی پیش آمده، لطفا دوباره امتحان کنید' )
+            } );
     }
 
     //eslint-disable-next-line react-hooks/exhaustive-deps
@@ -67,18 +76,17 @@ const EventDetail = ( { data } ) => {
             .then( response => {
                 let id          = getCookie( '_id' )
                 let currentUser = response.data.players.filter( player => player._id.$oid === id )
-                let role        = currentUser[0].role_id.$oid
-                if ( role ) {
-                    toast.info( `نقش شما ${ getRole( role ) } میباشد`, {
-                        position:        "bottom-center",
-                        autoClose:       5000,
-                        hideProgressBar: false,
-                        closeOnClick:    true,
-                        pauseOnHover:    true,
-                        draggable:       true,
-                        progress:        undefined,
-                    } );
-                }
+
+                let content = currentUser[0].role_id !== null ? `نقش شما ${ getRole( currentUser[0].role_id.$oid ) } میباشد` : `نقش ها توسط گرداننده پخش نشدند، لطفا تا شروع بازی صبور باشید`
+                toast.info( content, {
+                    position:        "bottom-center",
+                    autoClose:       5000,
+                    hideProgressBar: false,
+                    closeOnClick:    true,
+                    pauseOnHover:    true,
+                    draggable:       true,
+                    progress:        undefined,
+                } )
             } )
     }
 
@@ -98,7 +106,7 @@ const EventDetail = ( { data } ) => {
             }
         }
         setFooter( out )
-    }, [data.players] )
+    }, [ data.players ] )
 
     return (
         <div className={ styles.page }>
@@ -158,11 +166,12 @@ const EventDetail = ( { data } ) => {
                       </>
                     }
                     { footer === 'guest' && <button type={ "button" } onClick={ ReserveToEvent }>رزرو نقش</button> }
-                    { footer === 'player' && <button type={ "button" } onClick={ RevealPlayerRole }>مشاهده نقش من</button> }
+                    { footer === 'player' && <button type={ "button" } onClick={ RevealPlayerRole }>مشاهده نقش
+                                                                                                    من</button> }
                 </div>
             </div>
 
-            <ToastContainer position="bottom-center" autoClose={ 5000 } hideProgressBar newestOnTop={ false } closeOnClick rtl pauseOnFocusLoss draggable pauseOnHover />
+            <ToastContainer position="bottom-center" autoClose={ 5000 } hideProgressBar newestOnTop={ false } closeOnClick={ false } rtl pauseOnFocusLoss draggable pauseOnHover />
 
             <Nav />
         </div>

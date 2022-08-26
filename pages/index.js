@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import checkToken from "../utils/checkToken";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 /**
  * Home page
@@ -19,6 +20,8 @@ const Home = () => {
                    }
                } )
     }, [ router ] )
+
+    return <Head><title>لطفا منتظر بمانید، در حال بررسی اطلاعات</title></Head>
 }
 
 export default Home

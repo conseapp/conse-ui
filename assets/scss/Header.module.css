@@ -25,6 +25,9 @@
 .section .profile .avatar {
   margin-left: 10px;
 }
+.section .profile .avatar img {
+  border-radius: 50%;
+}
 .section .profile .info {
   width: 100%;
 }

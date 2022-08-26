@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import styles from '../assets/scss/Header.module.css'
 import Image from "next/image";
 import { MdLogout, MdStar } from "react-icons/md";
-import { deleteCookie, getCookie, hasCookie } from "cookies-next";
+import { deleteCookie, getCookie } from "cookies-next";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const Header = props => {
     const router = useRouter()
@@ -23,11 +25,14 @@ const Header = props => {
         deleteCookie( 'access_token' )
         deleteCookie( 'username' )
 
+        toast.warning( 'شما در حال خروج از حساب کاربری خود هستید' )
+
         setTimeout( () => router.push( '/auth/login' ), 2000 )
     }
 
     return (
         <header className={ styles.section }>
+
             <div className={ styles.logo }>
                 <Link href={ "/home" }>
                     <a>
@@ -35,6 +40,7 @@ const Header = props => {
                     </a>
                 </Link>
             </div>
+
             { props.showProfile && (
                 <div className={ styles.profile }>
                     <div className={ styles.avatar }>
@@ -54,6 +60,9 @@ const Header = props => {
                     </button>
                 </div>
             ) }
+
+            <ToastContainer position="bottom-center" autoClose={ 5000 } hideProgressBar newestOnTop={ false } closeOnClick rtl pauseOnFocusLoss draggable pauseOnHover />
+
         </header>
     )
 }
