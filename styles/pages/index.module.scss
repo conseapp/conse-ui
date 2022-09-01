@@ -1,0 +1,46 @@
+@import "/styles/functions";
+
+.page {
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    margin: -8px;
+
+    li {
+      width: 50%;
+      display: flex;
+      padding: 8px;
+
+      a {
+        width: 100%;
+        height: 230px;
+        background-size: cover;
+        border-radius: 8px;
+        position: relative;
+        overflow: hidden;
+
+        &:before {
+          content: '';
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          background: rgb(0, 0, 0);
+          background: -webkit-linear-gradient(0deg, rgba(0, 0, 0, .9) 0%, rgba(0, 0, 0, 0) 100%);
+          background: -moz-linear-gradient(0deg, rgba(0, 0, 0, .9) 0%, rgba(0, 0, 0, 0) 100%);
+          background: linear-gradient(0deg, rgba(0, 0, 0, .9) 0%, rgba(0, 0, 0, 0) 100%);
+        }
+
+        h3 {
+          position: absolute;
+          color: var(--text-icon-color);
+          bottom: 12px;
+          right: 12px;
+          padding-left: 24px;
+          max-height: 60px;
+          overflow: hidden;
+        }
+      }
+    }
+  }
+}

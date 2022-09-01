@@ -1,28 +1,39 @@
-import { useEffect } from 'react'
-import checkToken from "../utils/checkToken";
-import { useRouter } from "next/router";
-import Head from "next/head";
-import { setCookie } from "cookies-next";
+import styles from '/styles/pages/index.module.scss'
+import Link from "next/link";
 
-/**
- * Home page
- * @constructor
- */
-const Home = () => {
-    const router = useRouter()
+const Index = props => {
+    console.log( props )
 
-    useEffect( () => {
-        Promise.resolve( checkToken() )
-               .then( result => {
-                   if ( result === true ) {
-                       router.push( '/home' )
-                   } else {
-                       router.push( '/auth/login' )
-                   }
-               } )
-    }, [ router ] )
-
-    return <Head><title>لطفا منتظر بمانید، در حال بررسی اطلاعات</title></Head>
+    return (
+        <div className={ styles.page }>
+            <ul>
+                {
+                    props.events.map( event => {
+                        return (
+                            <li key={ event._id.$oid }>
+                                <Link href={ `/event/${ event._id.$oid }` }>
+                                    <a className={ styles.item } style={ { backgroundImage: 'url("/events-slide-1.png")' } }>
+                                        <h3>{ event.title }</h3>
+                                    </a>
+                                </Link>
+                            </li>
+                        )
+                    } )
+                }
+            </ul>
+        </div>
+    )
 }
 
-export default Home
+export async function getServerSideProps() {
+    let response = await fetch( `${ process.env.EVENT_URL }/event/get/all` )
+    let { data } = await response.json()
+
+    return {
+        props: {
+            events: data.events
+        }
+    }
+}
+
+export default Index

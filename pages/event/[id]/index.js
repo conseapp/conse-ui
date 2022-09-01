@@ -1,211 +1,183 @@
-import styles from '../../../assets/scss/event/Detail.module.css'
-import Header from "../../../components/header";
-import Nav from "../../../components/nav";
+import styles from '/styles/pages/event/index.module.scss'
 import Head from "next/head";
-import { MdGames, MdLocationPin } from "react-icons/md";
-import { RiUser3Fill } from "react-icons/ri";
-import { IoTicket } from "react-icons/io5";
-import React, { useEffect, useState } from "react";
-import Link from "next/link";
-import checkToken from "../../../utils/checkToken";
+import * as cookie from "cookie";
 import { useRouter } from "next/router";
-import { getCookie } from "cookies-next";
+import Link from "next/link";
+import React, { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
-const EventDetail = ( { data, roles } ) => {
-    const router = useRouter()
-    const query  = router.query;
+const SingleEvent = props => {
+    const Router = useRouter()
 
-    console.log( roles )
+    const { event, user, roles } = props
+    const { query }              = Router
 
-    const [ date, setDate ] = useState( '' )
+    console.log( user.access_token )
 
+    const [ IsUserRegistered, SetUserRegistered ] = useState( false )
     useEffect( () => {
-        let date  = new Date( data.expire_at * 1000 )
-        let year  = date.getFullYear(),
-            month = date.getMonth() + 1,
-            day   = date.getDate()
-        setDate( `${ year }/${ month }/${ day }` )
-    }, [ data.expire_at ] )
+        let players = event.players.filter( player => player._id.$oid === user._id.$oid )
+        SetUserRegistered( players.length !== 0 )
+    }, [ event.players, user._id.$oid ] )
 
-    useEffect( () => {
-        Promise.resolve( checkToken() )
-               .then( result => { if ( result !== true ) router.push( '/auth/login' ) } )
-    }, [ router ] )
+    const LockEvent = async e => {
+        const { access_token } = user
 
-    //eslint-disable-next-line react-hooks/exhaustive-deps
-    const ReserveToEvent = () => {
-        let token   = getCookie( 'access_token' )
-        let headers = new Headers();
-        headers.append( "Authorization", `Bearer ${ token }` );
-        headers.append( "Content-Type", "application/json" );
-
-        let requestOptions = {
+        const options = {
             method:   'POST',
-            headers:  headers,
+            headers:  {
+                "Authorization": `Bearer ${ access_token }`,
+                "Content-Type":  "application/json"
+            },
+            body:     JSON.stringify( {
+                "_id": query.id
+            } ),
+            redirect: 'follow'
+        }
+
+        const response = await fetch( `${ process.env.EVENT_URL }/event/set-lock`, options )
+        const { data } = await response.json()
+
+        if ( data.is_locked === true ) {
+            e.target.remove()
+        }
+    }
+
+    const ShowPlayerRole = async e => {
+        const event    = await fetch( `${ process.env.EVENT_URL }/event/get/single`, {
+            method:  'POST',
+            headers: { "Content-Type": "application/json" },
+            body:    JSON.stringify( {
+                "_id": query.id
+            } )
+        } )
+        const { data } = await event.json()
+
+        const { players } = data
+        const { role_id } = players.filter( player => player._id.$oid === user._id.$oid )[0]
+
+        console.log( roles )
+    }
+
+    const ReserveEvent = async e => {
+        const options = {
+            method:   'POST',
+            headers:  {
+                "Content-Type":  "application/json",
+                "Authorization": `Bearer ${ user.access_token }`
+            },
             body:     JSON.stringify( {
                 "event_id":     query.id,
-                "requested_at": Math.floor( Date.now() / 1000 ),
+                "requested_at": Math.floor( Date.now() / 1000 )
             } ),
-            redirect: 'follow',
-        };
-
-        fetch( `${ process.env.EVENT_URL }/event/reserve/mock`, requestOptions )
-            .then( response => response.json() )
-            .then( result => {
-                console.log( result )
-                if ( result.status === 200 ) {
-                    toast.success( 'شما با موفقیت ایونت را رزرو کردید' )
-                    router.reload( window.location.pathname )
-                }
-            } )
-            .catch( error => {
-                console.log( 'error', error )
-                toast.error( 'متاسفانه خطایی پیش آمده، لطفا دوباره امتحان کنید' )
-            } );
-    }
-
-    //eslint-disable-next-line react-hooks/exhaustive-deps
-    const RevealPlayerRole = () => {
-
-        fetch( `${ process.env.EVENT_URL }/event/get/single`, {
-            method: 'POST',
-            body:   JSON.stringify( { "_id": query.id } ),
-        } )
-            .then( result => result.json() )
-            .then( response => {
-                let id          = getCookie( '_id' )
-                let currentUser = response.data.players.filter( player => player._id.$oid === id )
-
-                let content = ''
-
-                if ( currentUser[0].role_id !== null ) {
-                    roles.map( role => {
-                        if ( role._id.$oid === currentUser[0].role_id.$oid ) {
-                            content = `نقش شما ${ role.name } میباشد`
-                        }
-                    } )
-                } else {
-                    content = `نقش ها توسط گرداننده پخش نشدند، لطفا تا شروع بازی صبور باشید`
-                }
-
-                toast.info( content, {
-                    position:        "bottom-center",
-                    autoClose:       5000,
-                    hideProgressBar: false,
-                    closeOnClick:    true,
-                    pauseOnHover:    true,
-                    draggable:       true,
-                    progress:        undefined,
-                } )
-            } )
-    }
-
-    const [ footer, setFooter ] = useState( '' )
-
-    useEffect( () => {
-        let out = () => {
-            let username = getCookie( 'username' )
-            if ( username === 'blueash' ) {
-                return 'god'
-            } else {
-                if ( data.players.filter( player => player.username === username ).length === 0 ) {
-                    return 'guest'
-                } else {
-                    return 'player'
-                }
-            }
+            redirect: 'follow'
         }
-        setFooter( out )
-    }, [ data.players ] )
+
+        const response   = await fetch( `${ process.env.EVENT_URL }/event/reserve/mock`, options )
+        const { status } = await response.json()
+
+        if ( status === 200 ) {
+            toast.success( 'شما با موفقیت در ایونت ثبت نام کردید' )
+            setTimeout( () => Router.reload(), 2000 )
+        } else {
+            toast.error( 'خطایی در هنگام رزرو ایونت وجود دارد' )
+        }
+    }
 
     return (
         <div className={ styles.page }>
+
             <Head>
-                <title>{ data.title }</title>
+                <title>{ event.title }</title>
             </Head>
 
-            <Header />
+            <div className={ styles.header } style={ { backgroundImage: "url('/event-detail-header.png')" } }>
+                <h2>{ event.title }</h2>
+                <span className={ styles.maxPlayers }>
+                    ظرفیت { event.max_players - event.players.length } نفر
+                </span>
+            </div>
 
-            <img src={ '/event-detail-header.png' } className={ styles.cover } />
+            <div className={ styles.content }>
 
-            <div className="container">
-                <div className={ styles.header }>
-                    <div className={ styles.title }>
-                        <h2>{ data.title }</h2>
-                        <div className={ `${ styles.meta }` }>
-                            <span>ظرفیت { data.players.length }/{ data.max_players }</span>
-                            <time>{ date }</time>
-                        </div>
-                    </div>
-                </div>
-
-                <div className={ styles.body }>
-                    <div className={ `${ styles.info } d-none` }>
-                        <ul>
-                            <li>
-                                <MdGames />
-                                سناریو: بازی حرفه ای
-                            </li>
-                            <li>
-                                <RiUser3Fill />
-                                گرداننده: علی عباسی
-                            </li>
-                            <li>
-                                <IoTicket />
-                                ورودی: 15000 تومان
-                            </li>
-                            <li>
-                                <MdLocationPin style={ { color: "#B80000" } } />
-                                لوکیشن: کافه لند
-                            </li>
-                        </ul>
-                    </div>
-                    <div className={ styles.description }>
-                        <strong>توضیحات:</strong>
-                        { data.content }
-                    </div>
+                <div className={ "page-title" }><h2>توضیحات</h2></div>
+                <div className={ styles.description }>
+                    { event.content }
                 </div>
 
                 <div className={ styles.footer }>
-                    { footer === 'god' &&
-                      <>
-                          <Link href={ `${ data._id.$oid }/players` }>
-                              <a>لیست نفرات ثبت نامی</a>
-                          </Link>
-                          <button type={ "button" }>شروع بازی</button>
-                      </>
+                    {
+                        event.group_info.god_id === user._id.$oid ?
+                            <>
+                                <Link href={ `${ query.id }/players` }>
+                                    <a>
+                                        مشاهده لیست بازیکنان
+                                    </a>
+                                </Link>
+                                {
+                                    event.is_locked === false &&
+                                    <button type={ "button" } onClick={ LockEvent }>
+                                        بستن رزرو ایونت
+                                    </button>
+                                }
+                            </> :
+                            <>
+                                {
+                                    IsUserRegistered ?
+                                        <>
+                                            <button type={ "button" } onClick={ ShowPlayerRole }>
+                                                نمایش نقش
+                                            </button>
+                                        </> :
+                                        <>
+                                            <button type={ "button" } onClick={ ReserveEvent }>
+                                                رزرو ایونت
+                                            </button>
+                                        </>
+                                }
+                            </>
                     }
-                    { footer === 'guest' && <button type={ "button" } onClick={ ReserveToEvent }>رزرو نقش</button> }
-                    { footer === 'player' && <button type={ "button" } onClick={ RevealPlayerRole }>مشاهده نقش
-                                                                                                    من</button> }
                 </div>
+
             </div>
 
             <ToastContainer position="bottom-center" autoClose={ 5000 } hideProgressBar newestOnTop={ false } closeOnClick={ false } rtl pauseOnFocusLoss draggable pauseOnHover />
 
-            <Nav />
         </div>
     )
 }
 
 export async function getServerSideProps( context ) {
-    const EventDetail     = await fetch( `${ process.env.EVENT_URL }/event/get/single`, {
-        method: 'POST',
-        body:   JSON.stringify( { "_id": context.query.id } ),
-    } )
-    const EventDetailData = await EventDetail.json()
+    const token = cookie.parse( context.req.headers.cookie )
+    const user  = JSON.parse( atob( token.access_token ) )
 
-    const allRoles     = await fetch( `${ process.env.GAME_URL }/game/role/get/availables` )
-    const allRolesData = await allRoles.json()
+    const event      = await fetch( `${ process.env.EVENT_URL }/event/get/single`, {
+        method:   'POST',
+        headers:  { "Content-Type": "application/json" },
+        body:     JSON.stringify( {
+            "_id": context.query.id
+        } ),
+        redirect: 'follow'
+    } )
+    const event_data = await event.json()
+
+    const roles      = await fetch( `${ process.env.GAME_URL }/game/role/get/availables`, {
+        method:  'GET',
+        headers: {
+            "Content-Type":  "application/json",
+            "Authorization": `Bearer ${ user.access_token }`
+        }
+    } )
+    const roles_data = await roles.json()
 
     return {
         props: {
-            data:  EventDetailData.data,
-            roles: allRolesData.data.roles,
-        },
+            event: event_data.data,
+            roles: roles_data,
+            user:  user
+        }
     }
 }
 
-export default EventDetail
+export default SingleEvent

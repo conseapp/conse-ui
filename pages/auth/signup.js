@@ -8,7 +8,7 @@ import { hasCookie, setCookie } from "cookies-next";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
-const Login = () => {
+const Register = () => {
     const Router = useRouter()
 
     useEffect( () => {
@@ -21,39 +21,72 @@ const Login = () => {
         e.preventDefault()
 
         // Form inputs
-        let form     = e.target,
-            username = form.querySelector( '#username' ),
-            password = form.querySelector( '#password' ),
-            button   = form.querySelector( 'button' )
+        let form             = e.target,
+            username         = form.querySelector( '#username' ),
+            password         = form.querySelector( '#password' ),
+            password_confirm = form.querySelector( '#password_confirm' ),
+            button           = form.querySelector( 'button' )
+
+        // Check password and confirm password fields
+        if ( password.value !== password_confirm.value ) {
+            toast.error( 'کلمه عبور و تکرار آن با یکدیگر برابر نیستند' )
+            return
+        }
 
         // Disable all fields and button
         username.setAttribute( 'disabled', 'disabled' )
         password.setAttribute( 'disabled', 'disabled' )
+        password_confirm.setAttribute( 'disabled', 'disabled' )
         button.setAttribute( 'disabled', 'disabled' )
 
         // Send username & password to API
-        let response         = await fetch( `${ process.env.AUTH_URL }/auth/login`, {
+        let register   = await fetch( `${ process.env.AUTH_URL }/auth/signup`, {
             method:  'post',
             headers: { 'Content-Type': 'application/json' },
             body:    JSON.stringify( {
                 "username": username.value,
-                "pwd":      password.value
+                "pwd":      password.value,
+                "phone":    "09120000000",
+                "status":   2
             } )
         } )
-        let { data, status } = await response.json()
+        let { status } = await register.json()
 
+        // Check if request doesn't have any error
         if ( status === 200 ) {
-            toast.success( 'شما با موفقیت وارد شدید' )
+            fetch( `${ process.env.AUTH_URL }/auth/login`, {
+                method:  'post',
+                headers: { 'Content-Type': 'application/json' },
+                body:    JSON.stringify( {
+                    "username": username.value,
+                    "pwd":      password.value
+                } )
+            } )
+                .then( response => response.json() )
+                .then( ( { data, status } ) => {
+                    if ( status === 200 ) {
+                        toast.success( 'ثبت نام شما با موفقیت انجام شد' )
 
-            let encode = btoa( JSON.stringify( data ) )
-            setCookie( 'access_token', encode )
+                        let encode = btoa( JSON.stringify( data ) )
+                        setCookie( 'access_token', encode )
 
-            setTimeout( () => Router.push( '/' ), 2000 )
+                        setTimeout( () => Router.push( '/' ), 2000 )
+                    } else {
+                        toast.error( 'خطایی در هنگام بررسی اطلاعات پیش آمده لطفا دوباره امتحان کنید' )
+
+                        username.removeAttribute( 'disabled' )
+                        password.removeAttribute( 'disabled' )
+                        password_confirm.removeAttribute( 'disabled' )
+                        button.removeAttribute( 'disabled' )
+                    }
+                } )
+                .catch( error => console.error( error ) )
         } else {
             toast.error( 'خطایی در هنگام بررسی اطلاعات پیش آمده لطفا دوباره امتحان کنید' )
 
             username.removeAttribute( 'disabled' )
             password.removeAttribute( 'disabled' )
+            password_confirm.removeAttribute( 'disabled' )
             button.removeAttribute( 'disabled' )
         }
     }
@@ -62,7 +95,7 @@ const Login = () => {
         <div className={ styles.page }>
 
             <Head>
-                <title>ورود به حساب کاربری</title>
+                <title>ثبت نام در کنسه</title>
             </Head>
 
             <div className={ styles.card }>
@@ -75,7 +108,7 @@ const Login = () => {
                 <div className={ styles.form }>
                     <form onSubmit={ LoginHandle }>
 
-                        <h3>ورود به حساب کاربری</h3>
+                        <h3>ثبت نام در کنسه</h3>
 
                         <div className={ styles.row }>
                             <label htmlFor={ "username" }>نام کاربری</label>
@@ -88,15 +121,19 @@ const Login = () => {
                         </div>
 
                         <div className={ styles.row }>
-                            <button type={ "submit" }>ورود به حساب کاربری</button>
+                            <label htmlFor={ "password_confirm" }>تایید کلمه عبور</label>
+                            <input type="password" id={ "password_confirm" } name={ "password_confirm" } />
+                        </div>
+
+                        <div className={ styles.row }>
+                            <button type={ "submit" }>ثبت نام</button>
                         </div>
 
                         <div className={ styles.row }>
                             <div className={ styles.footer }>
-                                حساب کاربری ندارید ؟
-                                <Link href={ "/auth/signup" }>
+                                <Link href={ "/auth/login" }>
                                     <a>
-                                        ثبت نام کنید
+                                        ورود به حساب کاربری
                                     </a>
                                 </Link>
                             </div>
@@ -113,4 +150,4 @@ const Login = () => {
     )
 }
 
-export default Login
+export default Register

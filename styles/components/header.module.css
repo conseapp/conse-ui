@@ -1,0 +1,25 @@
+.component {
+  background: #ffffff;
+  font-family: "IranSans", sans-serif;
+  border-bottom: 1px solid #CCCCCC;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+}
+.component .toggleMenu {
+  background: transparent;
+  color: #333333;
+  padding: 0;
+  display: flex;
+  font-size: 32px;
+}
+.component .logo {
+  display: flex;
+  justify-content: flex-end;
+}
+.component .logo a {
+  display: flex;
+}
+
+/*# sourceMappingURL=header.module.css.map */

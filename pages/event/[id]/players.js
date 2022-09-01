@@ -1,138 +1,133 @@
-import styles from '../../../assets/scss/event/Players.module.css'
-import Header from "../../../components/header";
-import Nav from "../../../components/nav";
-import { MdOutlineChangeCircle } from "react-icons/md";
-import { getCookie } from "cookies-next";
-import { useRouter } from "next/router";
+import styles from '/styles/pages/event/players.module.scss'
 import Head from "next/head";
+import * as cookie from "cookie";
+import { MdSettings } from "react-icons/md";
+import { useState } from "react";
+import { useRouter } from "next/router";
+import CreateSideColor from "../../../utils/createSideColor";
 
-const EventPlayers = ( { players, roles } ) => {
-    const router = useRouter();
-    const query  = router.query;
+const Players = props => {
+    const Router                 = useRouter()
+    const { query }              = Router
+    const { event, user, roles } = props
 
-    const playerColor = ( sideID ) => {
-        switch ( sideID ) {
-            case '62ff5f1a94474205d5992116': // Citizen
-                return { backgroundColor: '#4af6c9' }
-                break
-            case '62ff86360bd1f9c22ec75cbb': // Mafia
-                return {
-                    backgroundColor: '#Fe5052',
-                    color:           '#FFFFFF',
-                }
-                break
-            case '63051ac7d82b8e70c9ceb3fc': // independent
-                return { backgroundColor: '#FED152' }
-                break
-        }
+    const [ Players, SetPlayers ] = useState( event.players )
+
+    const ToggleConductorMenu = async e => {
+        let menu = document.querySelector( `.${ styles.conductorMenu }` )
+        menu.classList.toggle( styles.open )
     }
 
-    const RevealRoles = () => {
-        let token = getCookie( 'access_token' )
-
-        fetch( `${ process.env.EVENT_URL }/event/reveal/roles`, {
-            method:  'POST',
-            headers: {
-                "Authorization": `Bearer ${ token }`,
-                "Content-Type":  "application/json",
+    const RevealRoles = async e => {
+        const options          = {
+            method:   'POST',
+            headers:  {
+                "Authorization": `Bearer ${ user.access_token }`,
+                "Content-Type":  "application/json"
             },
-            body:    JSON.stringify( {
-                "_id": query.id,
+            body:     JSON.stringify( {
+                "_id": query.id
             } ),
-        } )
-            .then( response => response.json() )
-            .then( result => {
-                if ( result.status === 200 ) {
-                    router.reload( window.location.pathname )
-                }
-            } )
-            .catch( error => console.log( 'error', error ) );
+            redirect: 'follow'
+        };
+        const response         = await fetch( `${ process.env.EVENT_URL }/event/reveal/roles`, options )
+        const { data, status } = await response.json()
+
+        if ( status === 200 ) {
+            SetPlayers( data.players )
+        }
     }
 
     return (
         <div className={ styles.page }>
 
             <Head>
-                <title>لیست بازیکنان ایونت</title>
+                <title>بازیکنان { event.title }</title>
             </Head>
 
-            <Header showProfile={ false } />
+            <div className={ styles.content }>
 
-            <div className="container">
-                <div className={ styles.header }>
-                    <div className={ styles.info }>
-                        <h2>سناریو: بازی حرفه ای</h2>
-                        <span>22 شهریور - کافه لند</span>
-                    </div>
-                    <span className={ styles.players }>{ players.length } بازیکن</span>
-                </div>
+                <header className={ styles.header } style={ { backgroundImage: "url(/event-detail-header.png)" } }>
+                    <h2>{ event.title }</h2>
+                    <span>بازیکنان : { event.players.length } نفر</span>
+                </header>
 
-                <div className={ styles.content }>
-
-                    <button type={ "button" } onClick={ RevealRoles } className={ styles.revealRoleButton }>
-                        پخش کردن دوباره نقش ها
-                    </button>
-
-                    <table>
-                        <tbody>
-                        { players.map( player => {
-                            return (
-                                <tr key={ player._id.$oid } style={ player.side_id !== null ? playerColor( player.side_id.$oid ) : { background: '#dfdfdf' } }>
-                                    <td>
+                <div className={ styles.players }>
+                    <ul>
+                        {
+                            Players.map( player => {
+                                return (
+                                    <li key={ player._id.$oid } style={ CreateSideColor( player.side_id.$oid ) }>
                                         <strong>{ player.username }</strong>
-                                    </td>
-                                    <td>
                                         <span>
                                             {
                                                 player.role_id &&
-                                                roles.map( role => {
+                                                roles.roles.map( role => {
                                                     if ( role._id.$oid === player.role_id.$oid ) {
                                                         return role.name
                                                     }
                                                 } )
                                             }
                                         </span>
-                                    </td>
-                                    <td>
-                                        <button type={ "button" }>
-                                            <MdOutlineChangeCircle />
-                                        </button>
-                                    </td>
-                                </tr> )
-                        } ) }
-                        </tbody>
-                    </table>
+                                    </li>
+                                )
+                            } )
+                        }
+                    </ul>
                 </div>
+
             </div>
 
-            <Nav />
+            <div className={ styles.conductorMenu }>
+                <button type={ "button" } onClick={ ToggleConductorMenu }>
+                    <MdSettings />
+                </button>
+                <header>پنل گرداننده</header>
+                <ul>
+                    <li>
+                        <button type={ "button" } onClick={ RevealRoles }>پخش کردن نقش ها</button>
+                    </li>
+                    <li>
+                        <button type={ "button" }>بستن رزرو</button>
+                    </li>
+                </ul>
+            </div>
 
         </div>
     )
 }
 
 export async function getServerSideProps( context ) {
-    const token = getCookie( 'access_token' )
+    const token = cookie.parse( context.req.headers.cookie )
+    const user  = JSON.parse( atob( token.access_token ) )
 
-    const singleEvent     = await fetch( `${ process.env.EVENT_URL }/event/get/single`, {
-        method:  'POST',
-        headers: {
-            'Content-Type':  'application/json',
-            'Authorization': `Bearer ${ token }`,
-        },
-        body:    JSON.stringify( { "_id": context.params.id } ),
+    const event      = await fetch( `${ process.env.EVENT_URL }/event/get/single`, {
+        method:   'POST',
+        headers:  { "Content-Type": "application/json" },
+        body:     JSON.stringify( {
+            "_id": context.query.id
+        } ),
+        redirect: 'follow'
     } )
-    const singleEventData = await singleEvent.json()
+    const event_data = await event.json()
 
-    const allRoles     = await fetch( `${ process.env.GAME_URL }/game/role/get/availables` )
-    const allRolesData = await allRoles.json()
+    const roles      = await fetch( `${ process.env.EVENT_URL }/game/role/get/availables`, {
+        method:   'GET',
+        headers:  {
+            "Content-Type":  "application/json",
+            "Authorization": `Bearer ${ user.access_token }`
+        },
+        redirect: 'follow'
+    } )
+    const roles_data = await roles.json()
 
     return {
         props: {
-            players: singleEventData.data.players,
-            roles:   allRolesData.data.roles,
-        },
+            event: event_data.data,
+            roles: roles_data.data,
+            user:  user
+        }
     }
 }
 
-export default EventPlayers
+export default Players

@@ -1,7 +1,7 @@
 import React from "react";
 import styles from '../assets/scss/Nav.module.css'
 import Link from "next/link";
-import { MdOutlineAddBox, MdOutlineExplore, MdOutlineHome } from "react-icons/md";
+import { MdOutlineAddBox, MdOutlineHome } from "react-icons/md";
 import Image from "next/image";
 
 class Nav extends React.Component {
@@ -17,14 +17,7 @@ class Nav extends React.Component {
                         </Link>
                     </li>
                     <li>
-                        <Link href={ '#' }>
-                            <a>
-                                <MdOutlineExplore />
-                            </a>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link href={ '/home' }>
+                        <Link href={ '/' }>
                             <a>
                                 <MdOutlineHome />
                             </a>
@@ -37,13 +30,6 @@ class Nav extends React.Component {
                             </a>
                         </Link>
                     </li>
-                    {/* <li>
-                     <Link href={'#'}>
-                     <a>
-                     <MdOutlineMenu/>
-                     </a>
-                     </Link>
-                     </li> */ }
                 </ul>
             </nav>
         )
