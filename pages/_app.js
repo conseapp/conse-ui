@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { getCookie, hasCookie } from "cookies-next";
 import Header from "../components/header";
-import Sidebar from "../components/sidebar";
 import Nav from "../components/nav";
 
 function Conse( { Component, pageProps } ) {

@@ -11,7 +11,7 @@ const Nav = props => {
         <nav className={ styles.component }>
             <ul>
                 <li>
-                    <Link href={ '/profile' }>
+                    <Link href={ '#' }>
                         <a>
                             <Image src={ '/avatar-medium.png' } alt={ "User" } width={ 30 } height={ 30 } style={ { borderRadius: '50%' } } />
                         </a>
