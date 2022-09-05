@@ -92,9 +92,9 @@ const Players = props => {
                     <li>
                         <button type={ "button" } onClick={ RevealRoles }>پخش کردن نقش ها</button>
                     </li>
-                    <li>
-                        <button type={ "button" }>بستن رزرو</button>
-                    </li>
+                    {/*<li>*/}
+                    {/*    <button type={ "button" }>بستن رزرو</button>*/}
+                    {/*</li>*/}
                 </ul>
             </div>
 
