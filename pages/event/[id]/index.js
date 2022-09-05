@@ -13,7 +13,7 @@ const SingleEvent = props => {
     const { event, user, roles } = props
     const { query }              = Router
 
-    console.log( user.access_token )
+    console.log( props )
 
     const [ IsUserRegistered, SetUserRegistered ] = useState( false )
     useEffect( () => {
@@ -54,10 +54,15 @@ const SingleEvent = props => {
         } )
         const { data } = await event.json()
 
-        const { players } = data
-        const { role_id } = players.filter( player => player._id.$oid === user._id.$oid )[0]
+        const { players }   = data
+        const { role_name } = players.filter( player => player.username === user.username )[0]
 
-        console.log( roles )
+        if ( role_name !== null ) {
+            toast.info( `نقش شما ${ role_name } میباشد` )
+        } else {
+            toast.info( 'نقش ها توسط گرداننده پخش نشده' )
+        }
+
     }
 
     const ReserveEvent = async e => {
@@ -108,7 +113,7 @@ const SingleEvent = props => {
 
                 <div className={ styles.footer }>
                     {
-                        event.group_info.god_id === user._id.$oid ?
+                        event.group_info.owner === user.username ?
                             <>
                                 <Link href={ `${ query.id }/players` }>
                                     <a>

@@ -1,0 +1,34 @@
+.page {
+  margin: -24px;
+
+  .navigation {
+    ul {
+      display: flex;
+      list-style: none;
+      width: 100%;
+      justify-content: space-between;
+
+      li {
+        width: 100%;
+        text-align: center;
+        padding: 12px 0;
+        border-bottom: 1px solid #e5e5e5;
+        cursor: pointer;
+
+        &.active {
+          border-bottom: 4px solid var(--primary-color);
+        }
+      }
+    }
+  }
+
+  .tabs {
+    > div {
+      display: none;
+
+      &.active {
+        display: block;
+      }
+    }
+  }
+}

@@ -10,8 +10,10 @@ import Link from "next/link";
 import createEvent from "../../../utils/createEvent";
 
 const Create = props => {
-    const Router   = useRouter()
-    const { user } = props
+    const Router           = useRouter()
+    const { user, groups } = props
+
+    console.log( user )
 
     /**
      * Config Group options
@@ -83,7 +85,7 @@ const Create = props => {
             "downvotes":              0,
             "voters":                 [],
             "phases":                 [],
-            "max_players":            DeckOptions.length,
+            "max_players":            20,
             "players":                []
         }
 
@@ -107,7 +109,7 @@ const Create = props => {
 
             <div className="page-title">
                 <h2>افزودن ایونت</h2>
-                <Link href={ '/conductor/deck' }>
+                <Link href={ '/conductor/event' }>
                     <a>
                         بازگشت
                     </a>
@@ -149,18 +151,22 @@ const Create = props => {
 }
 
 export async function getServerSideProps( context ) {
-    const token            = cookie.parse( context.req.headers.cookie )
-    const { access_token } = JSON.parse( atob( token.access_token ) )
+    const token = cookie.parse( context.req.headers.cookie )
+    const user  = JSON.parse( atob( token.access_token ) )
 
     const options = {
         method:   'GET',
-        headers:  {
-            "Authorization": `Bearer ${ access_token }`
-        },
+        headers:  { "Authorization": `Bearer ${ user.access_token }` },
         redirect: 'follow'
     };
 
-    const AvailableGroups = await fetch( `${ process.env.GAME_URL }/game/get/group/all`, options )
+    const AvailableGroups = await fetch( `${ process.env.GAME_URL }/game/god/get/group/all`, {
+        ...options,
+        method: 'POST',
+        body:   JSON.stringify( {
+            "_id": "63161da95961da6b42c4004b"
+        } )
+    } )
     const Groups          = await AvailableGroups.json()
 
     const AvailableDecks = await fetch( `${ process.env.GAME_URL }/game/deck/get/availables`, options )
@@ -169,7 +175,8 @@ export async function getServerSideProps( context ) {
     return {
         props: {
             groups: Groups.data.groups,
-            decks:  Decks.data.decks
+            decks:  Decks.data.decks,
+            user:   user
         }
     }
 }

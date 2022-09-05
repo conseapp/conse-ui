@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { getCookie, hasCookie } from "cookies-next";
 import Header from "../components/header";
 import Sidebar from "../components/sidebar";
+import Nav from "../components/nav";
 
 function Conse( { Component, pageProps } ) {
     const Router = useRouter()
@@ -41,13 +42,15 @@ function Conse( { Component, pageProps } ) {
                     // Other Pages
                     <div className={ "app" }>
 
-                        <Sidebar user={ User } />
+                        {/*<Sidebar user={ User } />*/}
 
                         <Header user={ User } />
 
                         <div className="container">
                             <Component { ...pageProps } />
                         </div>
+
+                        <Nav user={ User } />
 
                     </div>
             }

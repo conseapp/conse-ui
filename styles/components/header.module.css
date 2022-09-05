@@ -1,11 +1,10 @@
 .component {
   background: #ffffff;
   font-family: "IranSans", sans-serif;
-  border-bottom: 1px solid #CCCCCC;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  padding: 16px 24px;
 }
 .component .toggleMenu {
   background: transparent;
@@ -16,10 +15,52 @@
 }
 .component .logo {
   display: flex;
-  justify-content: flex-end;
+  padding: 16px 24px;
+  border-bottom: 1px solid #e5e5e5;
+  width: 100%;
+  justify-content: center;
 }
 .component .logo a {
   display: flex;
+}
+.component .profile {
+  padding: 16px 24px;
+  border-bottom: 1px solid #e5e5e5;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+.component .profile img {
+  border-radius: 50px;
+  margin-left: 16px;
+}
+.component .profile .info {
+  width: 100%;
+}
+.component .profile .info h4 {
+  font-size: 16px;
+}
+.component .profile .info .score {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+.component .profile .info .score svg {
+  margin-left: 8px;
+  color: orange;
+  font-size: 20px;
+}
+.component a.logout {
+  display: flex;
+  white-space: nowrap;
+  background: var(--danger-light-color);
+  color: #FE5052;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 4px;
+}
+.component a.logout svg {
+  margin-left: 4px;
 }
 
 /*# sourceMappingURL=header.module.css.map */

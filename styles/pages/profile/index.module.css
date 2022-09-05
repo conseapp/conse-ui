@@ -1,0 +1,27 @@
+.page {
+  margin: -24px;
+}
+.page .navigation ul {
+  display: flex;
+  list-style: none;
+  width: 100%;
+  justify-content: space-between;
+}
+.page .navigation ul li {
+  width: 100%;
+  text-align: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #e5e5e5;
+  cursor: pointer;
+}
+.page .navigation ul li.active {
+  border-bottom: 4px solid var(--primary-color);
+}
+.page .tabs > div {
+  display: none;
+}
+.page .tabs > div.active {
+  display: block;
+}
+
+/*# sourceMappingURL=index.module.css.map */

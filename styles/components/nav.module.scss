@@ -1,0 +1,23 @@
+.component {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  border-top: 1px solid #e5e5e5;
+  background: #FFFFFF;
+  padding: 20px;
+
+  ul {
+    display: flex;
+    justify-content: space-around;
+    list-style: none;
+
+    li {
+      a {
+        font-size: 32px;
+        display: flex;
+        color: var(--text-color);
+      }
+    }
+  }
+}

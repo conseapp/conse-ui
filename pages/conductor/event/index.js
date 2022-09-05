@@ -1,8 +1,12 @@
 import styles from "/styles/pages/conductor/event/index.module.scss";
 import Link from "next/link";
 import { MdAdd, MdEdit } from "react-icons/md";
+import * as cookie from "cookie";
 
 const Decks = props => {
+
+    console.log( props )
+
     return (
         <div className={ styles.page }>
 
@@ -47,6 +51,9 @@ const Decks = props => {
 }
 
 export async function getServerSideProps( context ) {
+    const token            = cookie.parse( context.req.headers.cookie )
+    const user = JSON.parse( atob( token.access_token ) )
+
     const options = {
         method:   'GET',
         redirect: 'follow'
@@ -57,7 +64,8 @@ export async function getServerSideProps( context ) {
 
     return {
         props: {
-            events: Decks.data.events
+            events: Decks.data.events,
+            user:   user
         }
     }
 }

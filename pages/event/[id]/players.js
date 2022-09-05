@@ -11,6 +11,8 @@ const Players = props => {
     const { query }              = Router
     const { event, user, roles } = props
 
+    console.log( props )
+
     const [ Players, SetPlayers ] = useState( event.players )
 
     const ToggleConductorMenu = async e => {
@@ -57,18 +59,21 @@ const Players = props => {
                         {
                             Players.map( player => {
                                 return (
-                                    <li key={ player._id.$oid } style={ CreateSideColor( player.side_id.$oid ) }>
+                                    <li key={ player._id.$oid }
+                                        style={ player.side_id !== null ? CreateSideColor( player.side_id.$oid ) : {} }>
                                         <strong>{ player.username }</strong>
-                                        <span>
-                                            {
-                                                player.role_id &&
-                                                roles.roles.map( role => {
-                                                    if ( role._id.$oid === player.role_id.$oid ) {
-                                                        return role.name
-                                                    }
-                                                } )
-                                            }
-                                        </span>
+                                        {
+                                            player.role_id &&
+                                            <span>
+                                                {
+                                                    roles.roles.map( role => {
+                                                        if ( role._id.$oid === player.role_id.$oid ) {
+                                                            return role.name
+                                                        }
+                                                    } )
+                                                }
+                                            </span>
+                                        }
                                     </li>
                                 )
                             } )

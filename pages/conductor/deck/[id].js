@@ -3,19 +3,22 @@ import Head from "next/head";
 import Select from "react-select";
 import React, { useEffect, useState } from "react";
 import * as cookie from "cookie";
+import CreateDeck from "../../../utils/createDeck";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from "next/router";
 import Link from "next/link";
 import CreateSideColor from "../../../utils/createSideColor";
-import CreateDeck from "../../../utils/createDeck";
 
 const Create = props => {
     const Router = useRouter()
 
-    const { sides, roles, user } = props
+    const { sides, roles, user, deck } = props
+
+    console.log( deck )
 
     const [ Options, SetOptions ]             = useState( [] )
+    const [ Values, SetValues ]               = useState( [] )
     const [ SelectedRoles, SetSelectedRoles ] = useState( [] )
 
     const SelectStyles = {
@@ -58,7 +61,6 @@ const Create = props => {
     useEffect( () => {
         let groups = []
         sides.forEach( side => {
-
             let options = []
             roles.filter( role => {
                 if ( role.side_id.$oid === side._id.$oid ) {
@@ -76,8 +78,28 @@ const Create = props => {
 
     }, [ props.sides, roles, sides ] )
 
+    // Insert select box value
+    //useEffect( () => {
+    //    let { id }  = Router.query
+    //    let options = []
+    //
+    //    decks.filter( deck => {
+    //        if ( deck._id.$oid === id ) {
+    //            let { roles } = deck
+    //            roles.forEach( role => {
+    //                options.push( {
+    //                    label: role.name,
+    //                    value: JSON.stringify( role )
+    //                } )
+    //            } )
+    //        }
+    //    } )
+    //
+    //    SetValues( options )
+    //}, [ Router.query, decks ] )
+
     // Active submit button if name value isn't empty
-    const CheckDeckName = ( e ) => {
+    const CheckDeckName = e => {
         let value = e.target.value
 
         if ( value !== '' ) {
@@ -88,10 +110,10 @@ const Create = props => {
     }
 
     // Select roles from fields
-    const SelectRoles = ( options ) => SetSelectedRoles( options )
+    const SelectRoles = value => SetSelectedRoles( value )
 
     // Insert and update deck
-    const InsertDeck = async e => {
+    const UpdateDeck = async e => {
         e.preventDefault()
 
         let form             = e.target,
@@ -129,6 +151,7 @@ const Create = props => {
         } )
 
         let { status } = await CreateDeck( title.value, roles, access_token )
+
         if ( status ) {
             button.removeAttribute( 'disabled' )
 
@@ -147,11 +170,11 @@ const Create = props => {
         <div className={ styles.page }>
 
             <Head>
-                <title>افزودن دک بازی</title>
+                <title>ویرایش دک بازی</title>
             </Head>
 
             <div className="page-title">
-                <h2>افزودن دک بازی</h2>
+                <h2>ویرایش دک بازی</h2>
                 <Link href={ '/conductor/deck' }>
                     <a>
                         بازگشت
@@ -159,16 +182,22 @@ const Create = props => {
                 </Link>
             </div>
 
-            <form onSubmit={ InsertDeck } className={ "submit-form" }>
+            <form onSubmit={ UpdateDeck } className={ "submit-form" }>
 
                 <div className="row">
                     <label htmlFor="title">نام دک</label>
-                    <input type="text" id={ "title" } onChange={ CheckDeckName } />
+                    <input type="text" id={ "title" } onChange={ CheckDeckName } value={ deck.deck_name } />
                 </div>
 
                 <div className="row">
                     <label htmlFor="roles">انتخاب نقش ها</label>
-                    <Select placeholder={ 'انتخاب کنید' } styles={ SelectStyles } options={ Options } id={ "roles" } isRtl={ true } isMulti={ true } onChange={ SelectRoles } />
+                    <Select placeholder={ 'انتخاب کنید' }
+                            styles={ SelectStyles }
+                            options={ Options }
+                            id={ "roles" }
+                            isRtl={ true }
+                            isMulti={ true }
+                            onChange={ SelectRoles } />
                 </div>
 
                 <div className="row">
@@ -187,11 +216,11 @@ export async function getServerSideProps( context ) {
     const token = cookie.parse( context.req.headers.cookie )
     const user  = JSON.parse( atob( token.access_token ) )
 
+    const { id } = context.params
+
     const options = {
         method:   'GET',
-        headers:  {
-            "Authorization": `Bearer ${ user.access_token }`
-        },
+        headers:  { "Authorization": `Bearer ${ user.access_token }` },
         redirect: 'follow'
     };
 
@@ -201,10 +230,16 @@ export async function getServerSideProps( context ) {
     const AvailableRoles = await fetch( `${ process.env.GAME_URL }/game/role/get/availables`, options )
     const Roles          = await AvailableRoles.json()
 
+    const AvailableDecks = await fetch( `${ process.env.GAME_URL }/game/deck/get/availables`, options )
+    const Decks          = await AvailableDecks.json()
+
+    let deck = Decks.data.decks.filter( deck => deck._id.$oid === id )
+
     return {
         props: {
             sides: Sides.data.sides,
             roles: Roles.data.roles,
+            deck:  deck[0],
             user:  user
         }
     }

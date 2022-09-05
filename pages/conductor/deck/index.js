@@ -30,7 +30,7 @@ const Decks = props => {
                                 <td>{ index + 1 }</td>
                                 <td>{ deck.deck_name }</td>
                                 <td>
-                                    <Link href={ `#` }>
+                                    <Link href={ '#' }>
                                         <a>
                                             <MdEdit />
                                         </a>
