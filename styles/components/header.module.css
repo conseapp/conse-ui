@@ -50,7 +50,7 @@
   color: orange;
   font-size: 20px;
 }
-.component a.logout {
+.component button.logout {
   display: flex;
   white-space: nowrap;
   background: var(--danger-light-color);
@@ -59,7 +59,7 @@
   padding: 6px 12px;
   border-radius: 4px;
 }
-.component a.logout svg {
+.component button.logout svg {
   margin-left: 4px;
 }
 

@@ -3,12 +3,21 @@ import sidebar from "/styles/components/sidebar.module.scss";
 import Link from "next/link";
 import Image from "next/future/image";
 import { MdLogout, MdStar } from "react-icons/md";
+import { deleteCookie } from "cookies-next";
+import { useRouter } from "next/router";
 
 const Header = ( props ) => {
+    const Router = useRouter()
+
     const { user } = props
 
     const ToggleSidebar = () => {
         document.querySelector( `.${ sidebar.component }` ).classList.add( sidebar.show )
+    }
+
+    const Logout = () => {
+        deleteCookie( 'access_token' )
+        Router.push( '/' )
     }
 
     return (
@@ -37,12 +46,10 @@ const Header = ( props ) => {
                     </div>
                 </div>
 
-                <Link href={ "/auth/logout" }>
-                    <a className={ styles.logout }>
-                        <MdLogout />
-                        خروج از حساب
-                    </a>
-                </Link>
+                <button className={ styles.logout } onClick={ Logout }>
+                    <MdLogout />
+                    خروج از حساب
+                </button>
 
             </div>
 
