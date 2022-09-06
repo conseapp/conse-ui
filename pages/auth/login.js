@@ -9,14 +9,29 @@ import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
+    /**
+     * User next.js router.
+     * @version 1.0
+     */
     const Router = useRouter()
 
+    /**
+     * Redirect to home page if access token is present.
+     * @version 1.0
+     */
     useEffect( () => {
         if ( hasCookie( 'access_token' ) ) {
             Router.push( '/' )
         }
     }, [ Router ] )
 
+    /**
+     * Function to check user information during login.
+     * @version 1.0
+     * @param e
+     * @returns {Promise<void>}
+     * @constructor
+     */
     const LoginHandle = async e => {
         e.preventDefault()
 
@@ -42,12 +57,10 @@ const Login = () => {
         } )
         let { data, status } = await response.json()
 
+        // Check if request doesn't have any error
         if ( status === 200 ) {
             toast.success( 'شما با موفقیت وارد شدید' )
-
-            let encode = btoa( JSON.stringify( data ) )
-            setCookie( 'access_token', encode )
-
+            setCookie( 'access_token', btoa( JSON.stringify( data ) ) )
             setTimeout( () => Router.push( '/' ), 2000 )
         } else {
             toast.error( 'خطایی در هنگام بررسی اطلاعات پیش آمده لطفا دوباره امتحان کنید' )

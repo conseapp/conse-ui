@@ -11,13 +11,35 @@ import CreateSideColor from "../../../utils/createSideColor";
 import CreateDeck from "../../../utils/createDeck";
 
 const Create = props => {
+    /**
+     * User next.js router.
+     * @version 1.0
+     */
     const Router = useRouter()
 
+    /**
+     * Get all props of this page.
+     * @version 1.0
+     */
     const { sides, roles, user } = props
 
-    const [ Options, SetOptions ]             = useState( [] )
+    /**
+     * Create drop down menu options.
+     * @version 1.0
+     */
+    const [ Options, SetOptions ] = useState( [] )
+
+    /**
+     * Selected roles.
+     * @version 1.0
+     */
     const [ SelectedRoles, SetSelectedRoles ] = useState( [] )
 
+    /**
+     * Change the style of the dropdown list.
+     * @version 1.0
+     * @type {{control: (function(*, *): *&{border: string, backgroundColor: string, borderRadius: string}), multiValue: (function(*, *): *&{border: string, paddingRight: string}), option: (function(*, *): *&{cursor: string, "&:hover": {}})}}
+     */
     const SelectStyles = {
         option:     ( provided, state ) => {
             let { side_id } = JSON.parse( state.value )
@@ -40,21 +62,21 @@ const Create = props => {
             return {
                 ...provided,
                 backgroundColor: '#E5E5E5',
+                border:          'none',
                 borderRadius:    '8px'
             }
         },
-        multiValue: ( provided, state ) => {
-            //console.log( state )
-            let { side_id } = JSON.parse( state.data.value )
-            return {
-                ...provided,
-                border:  '1px solid #CCC',
-                padding: '4px'
-            }
-        }
+        multiValue: ( provided, state ) => ( {
+            ...provided,
+            paddingRight: '4px',
+            border:       '1px solid #CCC'
+        } )
     }
 
-    // Insert select box value
+    /**
+     * Set options of select box.
+     * @version 1.0
+     */
     useEffect( () => {
         let groups = []
         sides.forEach( side => {
@@ -76,30 +98,53 @@ const Create = props => {
 
     }, [ props.sides, roles, sides ] )
 
-    // Active submit button if name value isn't empty
+    /**
+     * Enable the registration button if the name field is not empty.
+     * @version 1.0
+     * @param e
+     * @constructor
+     */
     const CheckDeckName = ( e ) => {
-        let value = e.target.value
+        let value        = e.target.value,
+            submitButton = document.querySelector( 'button[type="submit"]' )
 
         if ( value !== '' ) {
-            document.querySelector( 'button[type="submit"]' ).removeAttribute( 'disabled' )
+            submitButton.removeAttribute( 'disabled' )
         } else {
-            document.querySelector( 'button[type="submit"]' ).setAttribute( 'disabled', 'disabled' )
+            submitButton.setAttribute( 'disabled', 'disabled' )
         }
     }
 
-    // Select roles from fields
+    /**
+     * Registering the selected roles in the corresponding variable.
+     * @version 1.0
+     * @param options
+     * @constructor
+     */
     const SelectRoles = ( options ) => SetSelectedRoles( options )
 
-    // Insert and update deck
+    /**
+     * Submit deck
+     * @version 1.0
+     * @param e
+     * @returns {Promise<void>}
+     * @constructor
+     */
     const InsertDeck = async e => {
         e.preventDefault()
 
-        let form             = e.target,
-            title            = form.querySelector( '#title' ),
-            roles            = [],
-            button           = form.querySelector( 'button' ),
-            { access_token } = user
+        // Variables
+        let form   = e.target,
+            title  = form.querySelector( '#title' ),
+            button = form.querySelector( 'button' )
 
+        // Roles
+        let roles = []
+
+        // Access token
+        let { access_token } = user
+
+        // Disable submit button
         button.setAttribute( 'disabled', 'disabled' )
 
         SelectedRoles.forEach( role => {
@@ -183,28 +228,35 @@ const Create = props => {
     )
 }
 
+/**
+ *
+ * @link https://nextjs.org/docs/basic-features/data-fetching/get-server-side-props
+ * @param context
+ * @returns {Promise<{props: {roles: *, sides: *, user: any}}>}
+ */
 export async function getServerSideProps( context ) {
     const token = cookie.parse( context.req.headers.cookie )
     const user  = JSON.parse( atob( token.access_token ) )
 
+    // Set request options
     const options = {
         method:   'GET',
-        headers:  {
-            "Authorization": `Bearer ${ user.access_token }`
-        },
+        headers:  { "Authorization": `Bearer ${ user.access_token }` },
         redirect: 'follow'
-    };
+    }
 
-    const AvailableSides = await fetch( `${ process.env.GAME_URL }/game/side/get/availables`, options )
-    const Sides          = await AvailableSides.json()
+    // Get available sides
+    let sides = await fetch( `${ process.env.GAME_URL }/game/side/get/availables`, options )
+    sides     = await sides.json()
 
-    const AvailableRoles = await fetch( `${ process.env.GAME_URL }/game/role/get/availables`, options )
-    const Roles          = await AvailableRoles.json()
+    // Get available roles
+    let roles = await fetch( `${ process.env.GAME_URL }/game/role/get/availables`, options )
+    roles     = await roles.json()
 
     return {
         props: {
-            sides: Sides.data.sides,
-            roles: Roles.data.roles,
+            sides: sides.data.sides,
+            roles: roles.data.roles,
             user:  user
         }
     }

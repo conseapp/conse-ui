@@ -1,5 +1,3 @@
-import { getCookie } from "cookies-next";
-
 const CreateEvent = async ( body, token ) => {
     const headers = {
         'Authorization': `Bearer ${ token }`,

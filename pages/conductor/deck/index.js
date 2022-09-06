@@ -4,6 +4,12 @@ import { MdAdd, MdEdit } from "react-icons/md";
 import * as cookie from "cookie";
 
 const Decks = props => {
+    /**
+     * Get all props of this page.
+     * @version 1.0
+     */
+    const { decks } = props
+
     return (
         <div className={ styles.page }>
 
@@ -23,23 +29,21 @@ const Decks = props => {
                 </tr>
                 </thead>
                 <tbody>
-                {
-                    props.decks.map( ( deck, index ) => {
-                        return (
-                            <tr key={ deck._id.$oid }>
-                                <td>{ index + 1 }</td>
-                                <td>{ deck.deck_name }</td>
-                                <td>
-                                    <Link href={ '#' }>
-                                        <a>
-                                            <MdEdit />
-                                        </a>
-                                    </Link>
-                                </td>
-                            </tr>
-                        )
-                    } )
-                }
+                { decks.map( ( deck, index ) => {
+                    return (
+                        <tr key={ deck._id.$oid }>
+                            <td>{ index + 1 }</td>
+                            <td>{ deck.deck_name }</td>
+                            <td>
+                                <Link href={ '#' }>
+                                    <a>
+                                        <MdEdit />
+                                    </a>
+                                </Link>
+                            </td>
+                        </tr>
+                    )
+                } ) }
                 </tbody>
             </table>
 
@@ -47,24 +51,30 @@ const Decks = props => {
     )
 }
 
+/**
+ *
+ * @link https://nextjs.org/docs/basic-features/data-fetching/get-server-side-props
+ * @param context
+ * @returns {Promise<{props: {roles: *, sides: *, user: any}}>}
+ */
 export async function getServerSideProps( context ) {
-    const token            = cookie.parse( context.req.headers.cookie )
-    const { access_token } = JSON.parse( atob( token.access_token ) )
+    const token = cookie.parse( context.req.headers.cookie )
+    const user  = JSON.parse( atob( token.access_token ) )
 
+    // Set request options
     const options = {
         method:   'GET',
-        headers:  {
-            "Authorization": `Bearer ${ access_token }`
-        },
+        headers:  { "Authorization": `Bearer ${ user.access_token }` },
         redirect: 'follow'
-    };
+    }
 
-    const AvailableDecks = await fetch( `${ process.env.GAME_URL }/game/deck/get/availables`, options )
-    const Decks          = await AvailableDecks.json()
+    // Get available decks
+    let decks = await fetch( `${ process.env.GAME_URL }/game/deck/get/availables`, options )
+    decks     = await decks.json()
 
     return {
         props: {
-            decks: Decks.data.decks
+            decks: decks.data.decks
         }
     }
 }

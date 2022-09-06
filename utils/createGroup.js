@@ -1,5 +1,3 @@
-import { getCookie } from "cookies-next";
-
 const CreateGroup = async ( name, owner, token ) => {
     const headers = {
         'Authorization': `Bearer ${ token }`,

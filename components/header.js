@@ -1,5 +1,4 @@
 import styles from "/styles/components/header.module.scss";
-import sidebar from "/styles/components/sidebar.module.scss";
 import Link from "next/link";
 import Image from "next/future/image";
 import { MdLogout, MdStar } from "react-icons/md";
@@ -7,14 +6,24 @@ import { deleteCookie } from "cookies-next";
 import { useRouter } from "next/router";
 
 const Header = ( props ) => {
+    /**
+     * User next.js router.
+     * @version 1.0
+     */
     const Router = useRouter()
 
+    /**
+     * Get all component props
+     * @version 1.0
+     */
     const { user } = props
 
-    const ToggleSidebar = () => {
-        document.querySelector( `.${ sidebar.component }` ).classList.add( sidebar.show )
-    }
-
+    /**
+     * The function to log the user out of the user account.
+     * This function deletes the relevant cookies.
+     * @version 1.0
+     * @constructor
+     */
     const Logout = () => {
         deleteCookie( 'access_token' )
         Router.push( '/' )
@@ -22,10 +31,6 @@ const Header = ( props ) => {
 
     return (
         <header className={ styles.component }>
-
-            {/*<button type={ "button" } onClick={ ToggleSidebar } className={ styles.toggleMenu }>*/ }
-            {/*    <MdMenu />*/ }
-            {/*</button>*/ }
 
             <div className={ styles.logo }>
                 <Link href={ "/" }>

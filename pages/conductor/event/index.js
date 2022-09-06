@@ -1,11 +1,13 @@
 import styles from "/styles/pages/conductor/event/index.module.scss";
 import Link from "next/link";
 import { MdAdd, MdEdit } from "react-icons/md";
-import * as cookie from "cookie";
 
 const Decks = props => {
-
-    console.log( props )
+    /**
+     * Get all props of this page.
+     * @version 1.0
+     */
+    const { events } = props
 
     return (
         <div className={ styles.page }>
@@ -17,7 +19,7 @@ const Decks = props => {
                 </a>
             </Link>
 
-            <table className={ styles.tableOfContent }>
+            <table>
                 <thead>
                 <tr>
                     <th>#</th>
@@ -26,23 +28,21 @@ const Decks = props => {
                 </tr>
                 </thead>
                 <tbody>
-                {
-                    props.events.map( ( deck, index ) => {
-                        return (
-                            <tr key={ deck._id.$oid }>
-                                <td>{ index + 1 }</td>
-                                <td>{ deck.title }</td>
-                                <td>
-                                    <Link href={ `#` }>
-                                        <a>
-                                            <MdEdit />
-                                        </a>
-                                    </Link>
-                                </td>
-                            </tr>
-                        )
-                    } )
-                }
+                { events.map( ( deck, index ) => {
+                    return (
+                        <tr key={ deck._id.$oid }>
+                            <td>{ index + 1 }</td>
+                            <td>{ deck.title }</td>
+                            <td>
+                                <Link href={ `#` }>
+                                    <a>
+                                        <MdEdit />
+                                    </a>
+                                </Link>
+                            </td>
+                        </tr>
+                    )
+                } ) }
                 </tbody>
             </table>
 
@@ -50,22 +50,17 @@ const Decks = props => {
     )
 }
 
-export async function getServerSideProps( context ) {
-    const token            = cookie.parse( context.req.headers.cookie )
-    const user = JSON.parse( atob( token.access_token ) )
-
-    const options = {
-        method:   'GET',
-        redirect: 'follow'
-    };
-
-    const AvailableDecks = await fetch( `${ process.env.EVENT_URL }/event/get/all`, options )
-    const Decks          = await AvailableDecks.json()
+/**
+ * @link https://nextjs.org/docs/basic-features/data-fetching/get-server-side-props
+ * @returns {Promise<{props: {roles: *, sides: *, user: any}}>}
+ */
+export async function getServerSideProps() {
+    let decks = await fetch( `${ process.env.EVENT_URL }/event/get/all` )
+    decks     = await decks.json()
 
     return {
         props: {
-            events: Decks.data.events,
-            user:   user
+            events: decks.data.events
         }
     }
 }

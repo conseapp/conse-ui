@@ -21,8 +21,6 @@ const Index = props => {
      */
     const { user, groups, ingoing, expired } = props
 
-    console.log( expired )
-
     /**
      * Changing the state of panels when clicking on navigation items.
      * @version 1.0
@@ -65,7 +63,7 @@ const Index = props => {
     useEffect( () => {
         let group = groups.filter( g => g.owner === user.username )
         if ( group.length > 0 ) {
-            SetGroupName( group[0].name )
+            SetGroupName( group.at( -1 ).name )
         }
     }, [ groups, user.username ] )
 
@@ -128,10 +126,7 @@ const Index = props => {
 
                     <li data-target={ "#history" }>تاریخچه</li>
 
-                    {
-                        user.access_level !== 2 &&
-                        <li data-target={ "#group" }>گروه من</li>
-                    }
+                    { user.access_level !== 2 && <li data-target={ "#group" }>گروه من</li> }
                 </ul>
             </div>
 
@@ -140,7 +135,7 @@ const Index = props => {
                 <div id={ "reserves" } className={ `${ styles.active } ${ styles.reserves }` }>
                     { ingoing.length > 0 ?
                         <ul>
-                            { ingoing.map( event => {
+                            { ingoing.filter( event => event.players ).map( event => {
                                 return (
                                     <li key={ event._id.$oid }>
                                         <Link href={ `/event/${ event._id.$oid }` }>
@@ -185,49 +180,47 @@ const Index = props => {
                 </div>
 
                 <div id={ "group" } className={ styles.group }>
-                    {
-                        user.access_level !== 2 && CanCreateGroup === true ?
-                            <>
-                                <div className={ "page-title" }>
-                                    <h2>ثبت گروه</h2>
+                    { user.access_level !== 2 && CanCreateGroup === true ?
+                        <>
+                            <div className={ "page-title" }>
+                                <h2>ثبت گروه</h2>
+                            </div>
+
+                            <div className={ "alert alert-warning" }>
+                                <MdWarning />
+                                <span>توجه داشته باشید، در صورت ثبت گروه دیگر قادر به تغییر نام آن نمیباشید، لذا برای تغییر آن باید درخواست خود را ثبت کنید تا پس از بررسی تغییر نام گروه برای شما انجام شود، پس با دقت نام گروه خود را انتخاب کنید</span>
+                            </div>
+
+                            <form onSubmit={ SubmitGroup } className={ "submit-form" }>
+                                <div className="row">
+                                    <label htmlFor="name">نام گروه</label>
+                                    <input type="text" id={ "name" } />
                                 </div>
 
-                                <div className={ "alert alert-warning" }>
-                                    <MdWarning />
-                                    <span>توجه داشته باشید، در صورت ثبت گروه دیگر قادر به تغییر نام آن نمیباشید، لذا برای تغییر آن باید درخواست خود را ثبت کنید تا پس از بررسی تغییر نام گروه برای شما انجام شود، پس با دقت نام گروه خود را انتخاب کنید</span>
+                                <div className="row">
+                                    <button type={ "submit" }>ثبت گروه</button>
                                 </div>
+                            </form>
 
-                                <form onSubmit={ SubmitGroup } className={ "submit-form" }>
-                                    <div className="row">
-                                        <label htmlFor="name">نام گروه</label>
-                                        <input type="text" id={ "name" } />
-                                    </div>
+                            <ToastContainer position="bottom-center" autoClose={ 3000 } hideProgressBar newestOnTop={ false } closeOnClick rtl pauseOnFocusLoss draggable pauseOnHover />
 
-                                    <div className="row">
-                                        <button type={ "submit" }>ثبت گروه</button>
-                                    </div>
-                                </form>
+                        </> : <>
+                            <div className={ "page-title" }>
+                                <h2>گروه شما</h2>
+                            </div>
 
-                                <ToastContainer position="bottom-center" autoClose={ 3000 } hideProgressBar newestOnTop={ false } closeOnClick rtl pauseOnFocusLoss draggable pauseOnHover />
+                            <div className={ "alert alert-info" }>
+                                <MdInfo />
+                                <span>شما نام گروه خود را انتخاب کردید برای تغییر به پشتیبانی درخواست دهید</span>
+                            </div>
 
-                            </> : <>
-                                <div className={ "page-title" }>
-                                    <h2>گروه شما</h2>
+                            <form onSubmit={ SubmitGroup } className={ "submit-form" }>
+                                <div className="row">
+                                    <label htmlFor="name_temp">نام گروه</label>
+                                    <input type="text" id={ "name_temp" } disabled={ true } value={ GroupName } />
                                 </div>
-
-                                <div className={ "alert alert-info" }>
-                                    <MdInfo />
-                                    <span>شما نام گروه خود را انتخاب کردید برای تغییر به پشتیبانی درخواست دهید</span>
-                                </div>
-
-                                <form onSubmit={ SubmitGroup } className={ "submit-form" }>
-                                    <div className="row">
-                                        <label htmlFor="name_temp">نام گروه</label>
-                                        <input type="text" id={ "name_temp" } disabled={ true } value={ GroupName } />
-                                    </div>
-                                </form>
-                            </>
-                    }
+                            </form>
+                        </> }
                 </div>
 
             </div>

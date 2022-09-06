@@ -1,5 +1,6 @@
 let CreateSideColor = id => {
     let out = {}
+
     switch ( id ) {
         // Citizen
         case "630a35978c198e0d655c8adf":

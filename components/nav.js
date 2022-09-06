@@ -5,6 +5,10 @@ import { MdOutlineAddBox, MdOutlineExplore, MdOutlineHome } from "react-icons/md
 import Image from "next/future/image";
 
 const Nav = props => {
+    /**
+     * Get all component props
+     * @version 1.0
+     */
     const { user } = props
 
     return (

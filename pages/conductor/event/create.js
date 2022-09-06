@@ -10,82 +10,93 @@ import Link from "next/link";
 import createEvent from "../../../utils/createEvent";
 
 const Create = props => {
-    const Router           = useRouter()
-    const { user, groups } = props
-
-    console.log( user )
-
     /**
-     * Config Group options
+     * User next.js router.
+     * @version 1.0
      */
-    const [ GroupOptions, SetGroupOptions ] = useState( [] )
-    const [ GroupValue, SetGroupValue ]     = useState( '' )
-    useEffect( () => {
-        let options = [];
-
-        props.groups.map( group => {
-            let value = {
-                "name":       group.name,
-                "owner":      group.owner,
-                "god_id":     "630a36a78c198e0d655c8ae2",
-                "_id":        group._id.$oid,
-                "created_at": 1660903680,
-                "updated_at": 1660904003
-            }
-
-            options.push( {
-                label: group.name,
-                value: JSON.stringify( value )
-            } )
-        } )
-
-        SetGroupOptions( options )
-
-    }, [ props.groups ] )
+    const Router = useRouter()
 
     /**
-     * Config Group options
+     * Get all props of this page.
+     * @version 1.0
+     */
+    const { user, groups, decks } = props
+
+    /**
+     * Change the style of the dropdown list.
+     * @version 1.0
+     * @type {{control: (function(*, *): *&{border: string, backgroundColor: string, borderRadius: string}), multiValue: (function(*, *): *&{border: string, paddingRight: string}), option: (function(*, *): *&{cursor: string, "&:hover": {}})}}
+     */
+    const SelectStyles = {
+        control:    ( provided ) => ( {
+            ...provided,
+            backgroundColor: '#E5E5E5',
+            border:          'none',
+            borderRadius:    '8px'
+        } ),
+        multiValue: ( provided ) => ( {
+            ...provided,
+            paddingRight: '4px',
+            border:       '1px solid #CCC'
+        } )
+    }
+
+    /**
+     * Config decks options
      */
     const [ DeckOptions, SetDeckOptions ] = useState( [] )
     const [ DeckValue, SetDeckValue ]     = useState( '' )
     useEffect( () => {
         let options = [];
 
-        props.decks.map( option => {
+        decks.map( option => {
             options.push( {
                 label: option.deck_name,
-                value: option._id.$oid
+                value: JSON.stringify( option )
             } )
         } )
 
         SetDeckOptions( options )
+    }, [ decks ] )
 
-    }, [ props.decks ] )
-
-    // Insert and update deck
+    /**
+     * Submit Event
+     * @param e
+     * @returns {Promise<void>}
+     * @constructor
+     */
     const SubmitEvent = async e => {
         e.preventDefault()
 
-        let form             = e.target,
-            title            = form.querySelector( '#title' ),
-            content          = form.querySelector( '#content' ),
-            button           = form.querySelector( 'button[type="submit"]' ),
-            { access_token } = user
+        // Form Element
+        let form    = e.target,
+            title   = form.querySelector( '#title' ),
+            content = form.querySelector( '#content' ),
+            button  = form.querySelector( 'button[type="submit"]' )
 
+        // Access token
+        let { access_token } = user
+
+        // Disable submit button
         button.setAttribute( 'disabled', 'disabled' )
+
+        let deck = JSON.parse( DeckValue )
+
+        let group_info = groups.at( -1 )
+        group_info._id = group_info._id.$oid
 
         let body = {
             "title":                  title.value,
             "content":                content.value,
-            "deck_id":                DeckValue,
-            "entry_price":            "0",
-            "group_info":             JSON.parse( GroupValue ),
+            "deck_id":                deck._id.$oid,
+            "entry_price":            '0',
+            "group_info":             group_info,
             "creator_wallet_address": "0x0000000000000000000000000000000000000000",
             "upvotes":                0,
             "downvotes":              0,
             "voters":                 [],
             "phases":                 [],
-            "max_players":            20,
+            "max_players":            deck.roles.length,
             "players":                []
         }
 
@@ -129,13 +140,10 @@ const Create = props => {
                 </div>
 
                 <div className="row">
-                    <label htmlFor="group">انتخاب گروه</label>
-                    <Select options={ GroupOptions } id={ "group" } isRtl={ true } onChange={ e => {SetGroupValue( e.value )} } />
-                </div>
-
-                <div className="row">
                     <label htmlFor="deck">انتخاب دک بازی</label>
-                    <Select options={ DeckOptions } id={ "deck" } isRtl={ true } onChange={ e => {SetDeckValue( e.value )} } />
+                    <Select placeholder={ 'انتخاب کنید' } styles={ SelectStyles } options={ DeckOptions } id={ "deck" } isRtl={ true } onChange={ e => {
+                        SetDeckValue( e.value )
+                    } } />
                 </div>
 
                 <div className="row">
@@ -150,32 +158,38 @@ const Create = props => {
     )
 }
 
+/**
+ * @link https://nextjs.org/docs/basic-features/data-fetching/get-server-side-props
+ * @param context
+ * @returns {Promise<{props: {roles: *, sides: *, user: any}}>}
+ */
 export async function getServerSideProps( context ) {
     const token = cookie.parse( context.req.headers.cookie )
     const user  = JSON.parse( atob( token.access_token ) )
 
+    // Set request options
     const options = {
         method:   'GET',
         headers:  { "Authorization": `Bearer ${ user.access_token }` },
         redirect: 'follow'
     };
 
-    const AvailableGroups = await fetch( `${ process.env.GAME_URL }/game/god/get/group/all`, {
+    // Get available groups
+    let groups = await fetch( `${ process.env.GAME_URL }/game/god/get/group/all`, {
         ...options,
         method: 'POST',
-        body:   JSON.stringify( {
-            "_id": "63161da95961da6b42c4004b"
-        } )
+        body:   JSON.stringify( { "_id": user._id.$oid } )
     } )
-    const Groups          = await AvailableGroups.json()
+    groups     = await groups.json()
 
-    const AvailableDecks = await fetch( `${ process.env.GAME_URL }/game/deck/get/availables`, options )
-    const Decks          = await AvailableDecks.json()
+    // Get available decks
+    let decks = await fetch( `${ process.env.GAME_URL }/game/deck/get/availables`, options )
+    decks     = await decks.json()
 
     return {
         props: {
-            groups: Groups.data.groups,
-            decks:  Decks.data.decks,
+            groups: groups.data.groups,
+            decks:  decks.data.decks,
             user:   user
         }
     }

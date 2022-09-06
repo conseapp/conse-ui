@@ -9,15 +9,30 @@ import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 const Register = () => {
+    /**
+     * User next.js router.
+     * @version 1.0
+     */
     const Router = useRouter()
 
+    /**
+     * Redirect to home page if access token is present.
+     * @version 1.0
+     */
     useEffect( () => {
         if ( hasCookie( 'access_token' ) ) {
             Router.push( '/' )
         }
     }, [ Router ] )
 
-    const LoginHandle = async e => {
+    /**
+     * Function to check user information during signup.
+     * @version 1.0
+     * @param e
+     * @returns {Promise<void>}
+     * @constructor
+     */
+    const RegisterHandle = async e => {
         e.preventDefault()
 
         // Form inputs
@@ -106,7 +121,7 @@ const Register = () => {
                 </div>
 
                 <div className={ styles.form }>
-                    <form onSubmit={ LoginHandle }>
+                    <form onSubmit={ RegisterHandle }>
 
                         <h3>ثبت نام در کنسه</h3>
 
