@@ -30,6 +30,9 @@
 
   --danger-color: #FE5052;
   --danger-light-color: #FE505225;
+
+  --info-color: #03A9F4;
+  --info-light-color: #03A9F425;
 }
 
 * {
@@ -50,7 +53,7 @@ a {
   color: var(--primary-color);
 }
 
-input, button,textarea {
+input, button, textarea {
   font-family: "IranSans", sans-serif;
 }
 
@@ -138,5 +141,37 @@ input.input-number {
       margin-bottom: 8px;
       font-size: 17px;
     }
+  }
+}
+
+.alert {
+  border: 1px solid #CCCCCC;
+  background: #e5e5e5;
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+
+  svg {
+    font-size: 24px;
+    flex: 1 0 auto;
+    margin-left: 12px;
+  }
+
+  span {
+    width: 100%;
+  }
+
+  &-warning {
+    color: var(--danger-color);
+    border-color: var(--danger-color);
+    background: var(--danger-light-color);
+  }
+
+  &-info {
+    color: var(--info-color);
+    border-color: var(--info-color);
+    background: var(--info-light-color);
   }
 }

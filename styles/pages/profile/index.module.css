@@ -23,5 +23,58 @@
 .page .tabs > div.active {
   display: block;
 }
+.page .tabs > div.reserves, .page .tabs > div.history {
+  padding: 8px;
+}
+.page .tabs > div.reserves ul, .page .tabs > div.history ul {
+  display: flex;
+  list-style: none;
+  flex-wrap: wrap;
+  margin: -4px;
+}
+.page .tabs > div.reserves ul li, .page .tabs > div.history ul li {
+  width: 33.33%;
+  display: flex;
+  padding: 4px;
+}
+.page .tabs > div.reserves ul li a, .page .tabs > div.history ul li a {
+  width: 100%;
+  height: 150px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  color: var(--text-icon-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-transition: all 200ms ease-in-out 0ms;
+  -moz-transition: all 200ms ease-in-out 0ms;
+  -o-transition: all 200ms ease-in-out 0ms;
+  transition: all 200ms ease-in-out 0ms;
+}
+.page .tabs > div.reserves ul li a:before, .page .tabs > div.history ul li a:before {
+  content: "";
+  background: rgba(0, 0, 0, 0.6);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  -webkit-transition: all 200ms ease-in-out 0ms;
+  -moz-transition: all 200ms ease-in-out 0ms;
+  -o-transition: all 200ms ease-in-out 0ms;
+  transition: all 200ms ease-in-out 0ms;
+}
+.page .tabs > div.reserves ul li a:hover, .page .tabs > div.history ul li a:hover {
+  color: transparent;
+}
+.page .tabs > div.reserves ul li a:hover:before, .page .tabs > div.history ul li a:hover:before {
+  background: rgba(0, 0, 0, 0);
+}
+.page .tabs > div.group {
+  padding: 24px;
+}
 
 /*# sourceMappingURL=index.module.css.map */

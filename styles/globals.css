@@ -19,6 +19,8 @@
   --text-color: #333333;
   --danger-color: #FE5052;
   --danger-light-color: #FE505225;
+  --info-color: #03A9F4;
+  --info-light-color: #03A9F425;
 }
 
 * {
@@ -134,6 +136,34 @@ input.input-number {
 .submit-form .row label {
   margin-bottom: 8px;
   font-size: 17px;
+}
+
+.alert {
+  border: 1px solid #CCCCCC;
+  background: #e5e5e5;
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+}
+.alert svg {
+  font-size: 24px;
+  flex: 1 0 auto;
+  margin-left: 12px;
+}
+.alert span {
+  width: 100%;
+}
+.alert-warning {
+  color: var(--danger-color);
+  border-color: var(--danger-color);
+  background: var(--danger-light-color);
+}
+.alert-info {
+  color: var(--info-color);
+  border-color: var(--info-color);
+  background: var(--info-light-color);
 }
 
 /*# sourceMappingURL=globals.css.map */

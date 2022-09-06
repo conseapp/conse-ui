@@ -1,3 +1,5 @@
+@import "../../functions";
+
 .page {
   margin: -24px;
 
@@ -28,6 +30,61 @@
 
       &.active {
         display: block;
+      }
+
+      &.reserves, &.history {
+        padding: 8px;
+
+        ul {
+          display: flex;
+          list-style: none;
+          flex-wrap: wrap;
+          margin: -4px;
+
+          li {
+            width: 33.33%;
+            display: flex;
+            padding: 4px;
+
+            a {
+              width: 100%;
+              height: 150px;
+              background-size: cover;
+              background-position: center;
+              border-radius: 4px;
+              position: relative;
+              overflow: hidden;
+              z-index: 1;
+              color: var(--text-icon-color);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              @include Transition(200ms);
+
+              &:before {
+                content: '';
+                background: rgba(0, 0, 0, .6);
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                z-index: -1;
+                @include Transition(200ms)
+              }
+
+              &:hover {
+                color: transparent;
+
+                &:before {
+                  background: rgba(0, 0, 0, 0);
+                }
+              }
+            }
+          }
+        }
+      }
+
+      &.group {
+        padding: 24px;
       }
     }
   }
