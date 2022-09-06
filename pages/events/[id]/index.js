@@ -6,6 +6,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { AiFillDislike, AiFillLike } from "react-icons/ai";
 
 const SingleEvent = props => {
     const Router = useRouter()
@@ -90,6 +91,37 @@ const SingleEvent = props => {
         }
     }
 
+    const VoteOnEvent = async is_upvote => {
+        let id = Router.query.id
+
+        let options = {
+            method:   'POST',
+            headers:  {
+                'Authorization': `Bearer ${ user.access_token }`,
+                'Content-Type':  'application/json'
+            },
+            body:     JSON.stringify( {
+                "_id":   id,
+                "voter": {
+                    "nft_owner_wallet_address": "",
+                    "is_upvote":                is_upvote,
+                    "score":                    0
+                }
+            } ),
+            redirect: 'follow'
+        };
+
+        let response   = await fetch( `${ process.env.EVENT_URL }/event/cast-vote`, options )
+        let { status } = await response.json()
+
+        if ( status === 200 ) {
+            toast.success( 'رای شما با موفقیت ثبت شد' )
+        } else {
+            toast.error( 'خطایی در هنگام ثبت رای بوجود آمده' )
+        }
+
+    }
+
     return (
         <div className={ styles.page }>
 
@@ -102,6 +134,18 @@ const SingleEvent = props => {
                 <span className={ styles.maxPlayers }>
                     ظرفیت { event.max_players - event.players.length } نفر
                 </span>
+
+                {
+                    IsUserRegistered &&
+                    <div className={ styles.vote }>
+                        <button type={ "button" } onClick={ () => {VoteOnEvent( true )} } className={ styles.upvote }>
+                            <AiFillLike />
+                        </button>
+                        <button type={ "button" } onClick={ () => {VoteOnEvent( false )} } className={ styles.downvote }>
+                            <AiFillDislike />
+                        </button>
+                    </div>
+                }
             </div>
 
             <div className={ styles.content }>

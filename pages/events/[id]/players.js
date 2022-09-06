@@ -5,6 +5,7 @@ import { MdSettings } from "react-icons/md";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import CreateSideColor from "../../../utils/createSideColor";
+import { BiDislike, BiLike } from "react-icons/bi";
 
 const Players = props => {
     const Router                 = useRouter()
@@ -92,9 +93,9 @@ const Players = props => {
                     <li>
                         <button type={ "button" } onClick={ RevealRoles }>پخش کردن نقش ها</button>
                     </li>
-                    {/*<li>*/}
-                    {/*    <button type={ "button" }>بستن رزرو</button>*/}
-                    {/*</li>*/}
+                    {/*<li>*/ }
+                    {/*    <button type={ "button" }>بستن رزرو</button>*/ }
+                    {/*</li>*/ }
                 </ul>
             </div>
 

@@ -1,7 +1,7 @@
 import styles from '/styles/pages/explore.module.scss'
 import Link from "next/link";
 
-const Explore = props => {
+const Index = props => {
     /**
      * Get all props of this page.
      * @version 1.0
@@ -14,7 +14,7 @@ const Explore = props => {
                 { events.reverse().map( event => {
                     return (
                         <li key={ event._id.$oid }>
-                            <Link href={ `/event/${ event._id.$oid }` }>
+                            <Link href={ `/events/${ event._id.$oid }` }>
                                 <a className={ styles.item } style={ { backgroundImage: 'url("/events-slide-1.png")' } }>
                                     <h3>{ event.title }</h3>
                                 </a>
@@ -32,7 +32,7 @@ const Explore = props => {
  * @returns {Promise<{props: {roles: *, sides: *, user: any}}>}
  */
 export async function getServerSideProps() {
-    let events = await fetch( `${ process.env.EVENT_URL }/event/get/all` )
+    let events = await fetch( `${ process.env.EVENT_URL }/event/get/all/in-going` )
     events     = await events.json()
 
     return {
@@ -42,4 +42,4 @@ export async function getServerSideProps() {
     }
 }
 
-export default Explore
+export default Index

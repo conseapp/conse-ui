@@ -138,7 +138,7 @@ const Index = props => {
                             { ingoing.filter( event => event.players ).map( event => {
                                 return (
                                     <li key={ event._id.$oid }>
-                                        <Link href={ `/event/${ event._id.$oid }` }>
+                                        <Link href={ `/events/${ event._id.$oid }` }>
                                             <a style={ { backgroundImage: 'url(/events-slide-2.png)' } }>
                                                 <h3>
                                                     { event.title }
@@ -157,26 +157,28 @@ const Index = props => {
                 </div>
 
                 <div id={ "history" } className={ styles.history }>
-                    { expired.length > 0 ?
-                        <ul>
-                            { expired.map( event => {
-                                return (
-                                    <li key={ event._id.$oid }>
-                                        <Link href={ `/event/${ event._id.$oid }` }>
-                                            <a style={ { backgroundImage: 'url(/events-slide-2.png)' } }>
-                                                <h3>
-                                                    { event.title }
-                                                </h3>
-                                            </a>
-                                        </Link>
-                                    </li>
-                                )
-                            } ) }
-                        </ul> :
-                        <div className={ "alert" }>
-                            <MdInfo />
-                            <span>تاریخچه ای وجود ندارد</span>
-                        </div> }
+                    {
+                        expired.length > 0 ?
+                            <ul>
+                                { expired.map( event => {
+                                    return (
+                                        <li key={ event._id.$oid }>
+                                            <Link href={ `/events/${ event._id.$oid }` }>
+                                                <a style={ { backgroundImage: 'url(/events-slide-2.png)' } }>
+                                                    <h3>
+                                                        { event.title }
+                                                    </h3>
+                                                </a>
+                                            </Link>
+                                        </li>
+                                    )
+                                } ) }
+                            </ul> :
+                            <div className={ "alert" }>
+                                <MdInfo />
+                                <span>تاریخچه ای وجود ندارد</span>
+                            </div>
+                    }
                 </div>
 
                 <div id={ "group" } className={ styles.group }>

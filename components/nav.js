@@ -22,7 +22,7 @@ const Nav = props => {
                     </Link>
                 </li>
                 <li>
-                    <Link href={ '/explore' }>
+                    <Link href={ '/events' }>
                         <a>
                             <MdOutlineExplore />
                         </a>

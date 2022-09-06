@@ -26,7 +26,7 @@ const Index = props => {
                     { events.map( event => {
                         return (
                             <SwiperSlide key={ event._id.$oid }>
-                                <Link href={ `/event/${ event._id.$oid }` }>
+                                <Link href={ `/events/${ event._id.$oid }` }>
                                     <a className={ styles.item } style={ { backgroundImage: 'url("/events-slide-1.png")' } }>
                                         <h3>{ event.title }</h3>
                                     </a>
@@ -46,7 +46,7 @@ const Index = props => {
  * @returns {Promise<{props: {roles: *, sides: *, user: any}}>}
  */
 export async function getServerSideProps() {
-    let response = await fetch( `${ process.env.EVENT_URL }/event/get/all` )
+    let response = await fetch( `${ process.env.EVENT_URL }/event/get/all/in-going` )
     let { data } = await response.json()
 
     return {
