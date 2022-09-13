@@ -42,6 +42,7 @@
 }
 .page .content .players ul li {
   display: flex;
+  align-items: center;
   width: 100%;
   background: #E5E5E5;
   padding: 16px;
@@ -50,17 +51,29 @@
 .page .content .players ul li:not(:last-child) {
   margin-bottom: 16px;
 }
-.page .content .players ul li strong {
+.page .content .players ul li .info {
+  width: 100%;
+}
+.page .content .players ul li .info strong {
   margin-left: 8px;
 }
-.page .content .players ul li span {
+.page .content .players ul li .info span {
   opacity: 0.8;
 }
-.page .content .players ul li span:before {
+.page .content .players ul li .info span:before {
   content: "( ";
 }
-.page .content .players ul li span:after {
+.page .content .players ul li .info span:after {
   content: " )";
+}
+.page .content .players ul li button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-color);
+  background: #FFFFFF;
+  font-size: 20px;
+  padding: 12px;
 }
 .page .conductorMenu {
   position: fixed;
@@ -122,6 +135,28 @@
 .page .conductorMenu ul li button:hover {
   background: var(--primary-color);
   color: var(--text-icon-color);
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+.modalHeader button {
+  background: var(--danger-light-color);
+  color: var(--danger-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+}
+
+.modalBody .row:not(:last-child) {
+  margin-bottom: 24px;
 }
 
 /*# sourceMappingURL=players.module.css.map */

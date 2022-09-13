@@ -45,7 +45,7 @@ let CreateSideColor = id => {
         // Unknown
         case "630a389a696bb14037bdec1b":
             out = {
-                background: '#1d1a21',
+                background: '#1e1e1e',
                 color:      '#FFFFFF'
             }
             break

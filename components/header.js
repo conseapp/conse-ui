@@ -1,22 +1,23 @@
 import styles from "/styles/components/header.module.scss";
 import Link from "next/link";
 import Image from "next/future/image";
-import { MdLogout, MdStar } from "react-icons/md";
 import { deleteCookie } from "cookies-next";
 import { useRouter } from "next/router";
+import { MdLogout, MdStar } from "react-icons/md";
 
-const Header = ( props ) => {
+const Header = props => {
     /**
-     * User next.js router.
+     * Use next.js router
      * @version 1.0
      */
-    const Router = useRouter()
+    const router = useRouter()
 
     /**
-     * Get all component props
+     * Get props of this page
      * @version 1.0
+     * @var user
      */
-    const { user } = props
+    const { user, profile } = props
 
     /**
      * The function to log the user out of the user account.
@@ -25,8 +26,8 @@ const Header = ( props ) => {
      * @constructor
      */
     const Logout = () => {
-        deleteCookie( 'access_token' )
-        Router.push( '/' )
+        deleteCookie( 'token' )
+        router.push( '/login' )
     }
 
     return (
@@ -40,26 +41,42 @@ const Header = ( props ) => {
                 </Link>
             </div>
 
-            <div className={ styles.profile }>
-                <Image src={ '/avatar.png' } alt={ user.username } width={ 40 } height={ 40 } />
+            {
+                profile === true &&
+                <div className={ styles.profile }>
+                    {
+                        Object.keys( user ).length === 0 ?
 
-                <div className={ styles.info }>
-                    <h4>{ user.username }</h4>
-                    <div className={ styles.score }>
-                        <MdStar />
-                        امتیاز: 1405
-                    </div>
+                            <Link href={ '/login' }>
+                                <a className={ styles.loginButton }>ورود به حساب کاربری</a>
+                            </Link> :
+
+                            <>
+                                <Image src={ '/avatar.png' } alt={ user.username } width={ 40 } height={ 40 } />
+
+                                <div className={ styles.info }>
+                                    <h4>{ user.username }</h4>
+                                    <div className={ styles.score }>
+                                        <MdStar />
+                                        امتیاز: 0
+                                    </div>
+                                </div>
+
+                                <button className={ styles.logout } onClick={ Logout }>
+                                    <MdLogout />
+                                    خروج از حساب
+                                </button>
+                            </>
+                    }
                 </div>
-
-                <button className={ styles.logout } onClick={ Logout }>
-                    <MdLogout />
-                    خروج از حساب
-                </button>
-
-            </div>
+            }
 
         </header>
     )
+}
+
+Header.defaultProps = {
+    profile: true
 }
 
 export default Header

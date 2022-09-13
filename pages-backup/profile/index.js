@@ -135,7 +135,7 @@ const Index = props => {
                 <div id={ "reserves" } className={ `${ styles.active } ${ styles.reserves }` }>
                     { ingoing.length > 0 ?
                         <ul>
-                            { ingoing.filter( event => event.players ).map( event => {
+                            { ingoing.map( event => {
                                 return (
                                     <li key={ event._id.$oid }>
                                         <Link href={ `/events/${ event._id.$oid }` }>
@@ -231,6 +231,11 @@ const Index = props => {
     )
 }
 
+/**
+ * @link https://nextjs.org/docs/basic-features/data-fetching/get-server-side-props
+ * @param context
+ * @returns {Promise<{props: {expired, ingoing, groups: *, user: any}}>}
+ */
 export async function getServerSideProps( context ) {
     const token = cookie.parse( context.req.headers.cookie )
     const user  = JSON.parse( atob( token.access_token ) )
@@ -239,32 +244,21 @@ export async function getServerSideProps( context ) {
     let groups = await fetch( `${ process.env.GAME_URL }/game/get/group/all` )
     groups     = await groups.json()
 
-    // Get all player ingoing events
-    let ingoing = await fetch( `${ process.env.EVENT_URL }/event/get/all/player/in-going`, {
-        method:   "POST",
-        headers:  {
+    // Set server request options
+    let RequestOptions = {
+        method:  "POST",
+        headers: {
             "Authorization": `Bearer ${ user.access_token }`,
             "Content-Type":  "application/json"
-        },
-        body:     JSON.stringify( {
-            "_id": user._id.$oid
-        } ),
-        redirect: 'follow'
-    } )
+        }
+    }
+
+    // Get all player ingoing events
+    let ingoing = await fetch( `${ process.env.EVENT_URL }/event/get/all/player/in-going`, RequestOptions )
     ingoing     = await ingoing.json()
 
     // Get all player ingoing events
-    let expired = await fetch( `${ process.env.EVENT_URL }/event/get/all/player/done`, {
-        method:   "POST",
-        headers:  {
-            "Authorization": `Bearer ${ user.access_token }`,
-            "Content-Type":  "application/json"
-        },
-        body:     JSON.stringify( {
-            "_id": user._id.$oid
-        } ),
-        redirect: 'follow'
-    } )
+    let expired = await fetch( `${ process.env.EVENT_URL }/event/get/all/player/done`, RequestOptions )
     expired     = await expired.json()
 
     return {

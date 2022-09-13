@@ -2,13 +2,16 @@ import styles from "/styles/pages/conductor/deck/create.module.scss";
 import Head from "next/head";
 import Select from "react-select";
 import React, { useEffect, useState } from "react";
-import * as cookie from "cookie";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from "next/router";
 import Link from "next/link";
 import CreateSideColor from "../../../utils/createSideColor";
 import CreateDeck from "../../../utils/createDeck";
+import checkToken from "../../../utils/checkToken";
+import Header from "../../../components/header";
+import Nav from "../../../components/nav";
+import { getCookie } from "cookies-next";
 
 const Create = props => {
     /**
@@ -21,7 +24,7 @@ const Create = props => {
      * Get all props of this page.
      * @version 1.0
      */
-    const { sides, roles, user } = props
+    const { user, sides, roles } = props
 
     /**
      * Create drop down menu options.
@@ -142,7 +145,7 @@ const Create = props => {
         let roles = []
 
         // Access token
-        let { access_token } = user
+        let token = getCookie( 'token' )
 
         // Disable submit button
         button.setAttribute( 'disabled', 'disabled' )
@@ -173,7 +176,8 @@ const Create = props => {
             } )
         } )
 
-        let { status } = await CreateDeck( title.value, roles, access_token )
+        let { status } = await CreateDeck( title.value, roles, token )
+
         if ( status ) {
             button.removeAttribute( 'disabled' )
 
@@ -195,32 +199,40 @@ const Create = props => {
                 <title>افزودن دک بازی</title>
             </Head>
 
-            <div className="page-title">
-                <h2>افزودن دک بازی</h2>
-                <Link href={ '/conductor/deck' }>
-                    <a>
-                        بازگشت
-                    </a>
-                </Link>
+            <Header user={ user } />
+
+            <Nav user={ user } />
+
+            <div className="container">
+
+                <div className="page-title">
+                    <h2>افزودن دک بازی</h2>
+                    <Link href={ '/conductor/deck' }>
+                        <a>
+                            بازگشت
+                        </a>
+                    </Link>
+                </div>
+
+                <form onSubmit={ InsertDeck } className={ "submit-form" }>
+
+                    <div className="row">
+                        <label htmlFor="title">نام دک</label>
+                        <input type="text" id={ "title" } onChange={ CheckDeckName } />
+                    </div>
+
+                    <div className="row">
+                        <label htmlFor="roles">انتخاب نقش ها</label>
+                        <Select placeholder={ 'انتخاب کنید' } styles={ SelectStyles } options={ Options } id={ "roles" } isRtl={ true } isMulti={ true } onChange={ SelectRoles } />
+                    </div>
+
+                    <div className="row">
+                        <button type={ "submit" } disabled={ true }>ثبت دک</button>
+                    </div>
+
+                </form>
+
             </div>
-
-            <form onSubmit={ InsertDeck } className={ "submit-form" }>
-
-                <div className="row">
-                    <label htmlFor="title">نام دک</label>
-                    <input type="text" id={ "title" } onChange={ CheckDeckName } />
-                </div>
-
-                <div className="row">
-                    <label htmlFor="roles">انتخاب نقش ها</label>
-                    <Select placeholder={ 'انتخاب کنید' } styles={ SelectStyles } options={ Options } id={ "roles" } isRtl={ true } isMulti={ true } onChange={ SelectRoles } />
-                </div>
-
-                <div className="row">
-                    <button type={ "submit" } disabled={ true }>ثبت دک</button>
-                </div>
-
-            </form>
 
             <ToastContainer position="bottom-center" autoClose={ 3000 } hideProgressBar newestOnTop={ false } closeOnClick rtl pauseOnFocusLoss draggable pauseOnHover />
 
@@ -228,36 +240,29 @@ const Create = props => {
     )
 }
 
-/**
- *
- * @link https://nextjs.org/docs/basic-features/data-fetching/get-server-side-props
- * @param context
- * @returns {Promise<{props: {roles: *, sides: *, user: any}}>}
- */
 export async function getServerSideProps( context ) {
-    const token = cookie.parse( context.req.headers.cookie )
-    const user  = JSON.parse( atob( token.access_token ) )
-
-    // Set request options
-    const options = {
-        method:   'GET',
-        headers:  { "Authorization": `Bearer ${ user.access_token }` },
-        redirect: 'follow'
-    }
+    // Check user
+    let user = ( typeof context.req.cookies['token'] !== 'undefined' ) ? await checkToken( context.req.cookies['token'] ) : {}
 
     // Get available sides
-    let sides = await fetch( `${ process.env.GAME_URL }/game/side/get/availables`, options )
+    let sides = await fetch( `${ process.env.GAME_URL }/game/side/get/availables`, {
+        method:  'GET',
+        headers: { "Authorization": `Bearer ${ context.req.cookies['token'] }` }
+    } )
     sides     = await sides.json()
 
     // Get available roles
-    let roles = await fetch( `${ process.env.GAME_URL }/game/role/get/availables`, options )
+    let roles = await fetch( `${ process.env.GAME_URL }/game/role/get/availables`, {
+        method:  'GET',
+        headers: { "Authorization": `Bearer ${ context.req.cookies['token'] }` }
+    } )
     roles     = await roles.json()
 
     return {
         props: {
+            user:  user,
             sides: sides.data.sides,
-            roles: roles.data.roles,
-            user:  user
+            roles: roles.data.roles
         }
     }
 }

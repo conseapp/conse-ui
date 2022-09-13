@@ -2,12 +2,15 @@ import styles from "/styles/pages/conductor/event/create.module.scss";
 import Head from "next/head";
 import Select from "react-select";
 import React, { useEffect, useState } from "react";
-import * as cookie from "cookie";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from "next/router";
 import Link from "next/link";
 import createEvent from "../../../utils/createEvent";
+import { getCookie } from "cookies-next";
+import checkToken from "../../../utils/checkToken";
+import Nav from "../../../components/nav";
+import Header from "../../../components/header";
 
 const Create = props => {
     /**
@@ -75,7 +78,7 @@ const Create = props => {
             button  = form.querySelector( 'button[type="submit"]' )
 
         // Access token
-        let { access_token } = user
+        let token = getCookie( 'token' )
 
         // Disable submit button
         button.setAttribute( 'disabled', 'disabled' )
@@ -100,7 +103,7 @@ const Create = props => {
             "players":                []
         }
 
-        let { status } = await createEvent( body, access_token )
+        let { status } = await createEvent( body, token )
 
         if ( status === 201 || status === 302 ) {
             toast.success( 'ایونت با موفقیت ایجاد شد' )
@@ -118,39 +121,47 @@ const Create = props => {
                 <title>افزودن ایونت</title>
             </Head>
 
-            <div className="page-title">
-                <h2>افزودن ایونت</h2>
-                <Link href={ '/conductor/event' }>
-                    <a>
-                        بازگشت
-                    </a>
-                </Link>
+            <Header user={ user } />
+
+            <Nav user={ user } />
+
+            <div className="container">
+
+                <div className="page-title">
+                    <h2>افزودن ایونت</h2>
+                    <Link href={ '/conductor/event' }>
+                        <a>
+                            بازگشت
+                        </a>
+                    </Link>
+                </div>
+
+                <form onSubmit={ SubmitEvent } className={ "submit-form" }>
+
+                    <div className="row">
+                        <label htmlFor="title">نام ایونت</label>
+                        <input type="text" id={ "title" } />
+                    </div>
+
+                    <div className="row">
+                        <label htmlFor="content">توضیحات</label>
+                        <textarea id={ "content" } rows={ 8 }></textarea>
+                    </div>
+
+                    <div className="row">
+                        <label htmlFor="deck">انتخاب دک بازی</label>
+                        <Select placeholder={ 'انتخاب کنید' } styles={ SelectStyles } options={ DeckOptions } id={ "deck" } isRtl={ true } onChange={ e => {
+                            SetDeckValue( e.value )
+                        } } />
+                    </div>
+
+                    <div className="row">
+                        <button type={ "submit" }>ثبت ایونت</button>
+                    </div>
+
+                </form>
+
             </div>
-
-            <form onSubmit={ SubmitEvent } className={ "submit-form" }>
-
-                <div className="row">
-                    <label htmlFor="title">نام ایونت</label>
-                    <input type="text" id={ "title" } />
-                </div>
-
-                <div className="row">
-                    <label htmlFor="content">توضیحات</label>
-                    <textarea id={ "content" } rows={ 8 }></textarea>
-                </div>
-
-                <div className="row">
-                    <label htmlFor="deck">انتخاب دک بازی</label>
-                    <Select placeholder={ 'انتخاب کنید' } styles={ SelectStyles } options={ DeckOptions } id={ "deck" } isRtl={ true } onChange={ e => {
-                        SetDeckValue( e.value )
-                    } } />
-                </div>
-
-                <div className="row">
-                    <button type={ "submit" }>ثبت دک</button>
-                </div>
-
-            </form>
 
             <ToastContainer position="bottom-center" autoClose={ 3000 } hideProgressBar newestOnTop={ false } closeOnClick rtl pauseOnFocusLoss draggable pauseOnHover />
 
@@ -164,26 +175,22 @@ const Create = props => {
  * @returns {Promise<{props: {roles: *, sides: *, user: any}}>}
  */
 export async function getServerSideProps( context ) {
-    const token = cookie.parse( context.req.headers.cookie )
-    const user  = JSON.parse( atob( token.access_token ) )
-
-    // Set request options
-    const options = {
-        method:   'GET',
-        headers:  { "Authorization": `Bearer ${ user.access_token }` },
-        redirect: 'follow'
-    };
+    // Check user
+    let user = ( typeof context.req.cookies['token'] !== 'undefined' ) ? await checkToken( context.req.cookies['token'] ) : {}
 
     // Get available groups
     let groups = await fetch( `${ process.env.GAME_URL }/game/god/get/group/all`, {
-        ...options,
-        method: 'POST',
-        body:   JSON.stringify( { "_id": user._id.$oid } )
+        method:  'POST',
+        headers: { "Authorization": `Bearer ${ context.req.cookies['token'] }` },
+        body:    JSON.stringify( { "_id": user._id.$oid } )
     } )
     groups     = await groups.json()
 
     // Get available decks
-    let decks = await fetch( `${ process.env.GAME_URL }/game/deck/get/availables`, options )
+    let decks = await fetch( `${ process.env.GAME_URL }/game/deck/get/availables`, {
+        method:  'GET',
+        headers: { "Authorization": `Bearer ${ context.req.cookies['token'] }` }
+    } )
     decks     = await decks.json()
 
     return {

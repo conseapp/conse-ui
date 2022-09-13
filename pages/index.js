@@ -1,4 +1,8 @@
 import styles from '/styles/pages/index.module.scss'
+import Head from "next/head";
+import Header from "/components/header";
+import checkToken from "../utils/checkToken";
+import Nav from "../components/nav";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode } from "swiper";
@@ -10,48 +14,59 @@ const Index = props => {
      * Get all props of this page.
      * @version 1.0
      */
-    const { events } = props
+    const { user, events } = props
 
     return (
         <div className={ styles.page }>
 
-            <div className={ styles.lastEvents }>
-                <div className={ "page-title" }>
-                    <h3>آخرین ایونت ها</h3>
-                    <Link href={ "/explore" }>
-                        <a>بیشتر</a>
-                    </Link>
+            <Head>
+                <title>کنسه</title>
+            </Head>
+
+            <Header user={ user } />
+
+            <div className="container">
+                <div className={ styles.lastEvents }>
+                    <div className={ "page-title" }>
+                        <h3>آخرین ایونت ها</h3>
+                        <Link href={ "/events" }>
+                            <a>بیشتر</a>
+                        </Link>
+                    </div>
+                    <Swiper spaceBetween={ 12 } slidesPerView={ 2 } freeMode={ true } modules={ [ FreeMode ] } className={ styles.swiper }>
+                        { events.map( event => {
+                            return (
+                                <SwiperSlide key={ event._id.$oid }>
+                                    <Link href={ `/events/${ event._id.$oid }` }>
+                                        <a className={ styles.item } style={ { backgroundImage: 'url("/events-slide-1.png")' } }>
+                                            <h3>{ event.title }</h3>
+                                        </a>
+                                    </Link>
+                                </SwiperSlide>
+                            )
+                        } ) }
+                    </Swiper>
                 </div>
-                <Swiper spaceBetween={ 12 } slidesPerView={ 2 } freeMode={ true } modules={ [ FreeMode ] } className={ styles.swiper }>
-                    { events.map( event => {
-                        return (
-                            <SwiperSlide key={ event._id.$oid }>
-                                <Link href={ `/events/${ event._id.$oid }` }>
-                                    <a className={ styles.item } style={ { backgroundImage: 'url("/events-slide-1.png")' } }>
-                                        <h3>{ event.title }</h3>
-                                    </a>
-                                </Link>
-                            </SwiperSlide>
-                        )
-                    } ) }
-                </Swiper>
             </div>
+
+            <Nav user={ user } />
 
         </div>
     )
 }
 
-/**
- * @link https://nextjs.org/docs/basic-features/data-fetching/get-server-side-props
- * @returns {Promise<{props: {roles: *, sides: *, user: any}}>}
- */
-export async function getServerSideProps() {
-    let response = await fetch( `${ process.env.EVENT_URL }/event/get/all/in-going` )
-    let { data } = await response.json()
+export async function getServerSideProps( context ) {
+    // Check user
+    let user = ( typeof context.req.cookies['token'] !== 'undefined' ) ? await checkToken( context.req.cookies['token'] ) : {}
+
+    // Get events
+    let events = await fetch( `${ process.env.EVENT_URL }/event/get/all/in-going` )
+    events     = await events.json()
 
     return {
         props: {
-            events: data.events.reverse()
+            user:   user,
+            events: events.data.reverse()
         }
     }
 }

@@ -1,14 +1,14 @@
-.page ul {
+.page ul.list {
   display: flex;
   flex-direction: column;
   list-style: none;
   padding: 0;
 }
-.page ul li {
+.page ul.list li {
   width: 100%;
   display: flex;
 }
-.page ul li a {
+.page ul.list li a {
   display: flex;
   width: 100%;
   background: var(--primary-light-color);
@@ -20,7 +20,7 @@
   margin-bottom: 12px;
   align-items: center;
 }
-.page ul li a svg {
+.page ul.list li a svg {
   font-size: 24px;
   margin-left: 12px;
 }

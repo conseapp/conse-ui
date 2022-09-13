@@ -1,4 +1,4 @@
-/** @type {import('next').NextConfig} */
+/** @type {{reactStrictMode: boolean, swcMinify: boolean, experimental: {images: {allowFutureImage: boolean}}, env: {AUTH_URL: string, EVENT_URL: string, GAME_URL: string}}} */
 const nextConfig = {
     reactStrictMode: true,
     swcMinify:       true,

@@ -21,6 +21,8 @@
   --success-light-color: #4af6c925;
   --danger-color: #FE5052;
   --danger-light-color: #FE505225;
+  --warning-color: #FFC107;
+  --warning-light-color: #FFC10725;
   --info-color: #03A9F4;
   --info-light-color: #03A9F425;
 }
@@ -38,16 +40,20 @@ html, body {
   font-weight: normal;
 }
 
+body {
+  padding-bottom: 73px;
+}
+
 a {
   text-decoration: none;
   color: var(--primary-color);
 }
 
-input, button, textarea {
+input, button, textarea, select {
   font-family: "IranSans", sans-serif;
 }
 
-input, textarea {
+input, textarea, select {
   background: #E5E5E5;
   border-radius: 10px;
   border: none;
@@ -138,34 +144,6 @@ input.input-number {
 .submit-form .row label {
   margin-bottom: 8px;
   font-size: 17px;
-}
-
-.alert {
-  border: 1px solid #CCCCCC;
-  background: #e5e5e5;
-  display: flex;
-  align-items: center;
-  padding: 12px;
-  border-radius: 8px;
-  margin-bottom: 24px;
-}
-.alert svg {
-  font-size: 24px;
-  flex: 1 0 auto;
-  margin-left: 12px;
-}
-.alert span {
-  width: 100%;
-}
-.alert-warning {
-  color: var(--danger-color);
-  border-color: var(--danger-color);
-  background: var(--danger-light-color);
-}
-.alert-info {
-  color: var(--info-color);
-  border-color: var(--info-color);
-  background: var(--info-light-color);
 }
 
 /*# sourceMappingURL=globals.css.map */

@@ -30,6 +30,16 @@
   display: flex;
   align-items: center;
 }
+.component .profile .loginButton {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  background: var(--primary-color);
+  color: var(--text-icon-color);
+  border-radius: 8px;
+}
 .component .profile img {
   border-radius: 50px;
   margin-left: 16px;

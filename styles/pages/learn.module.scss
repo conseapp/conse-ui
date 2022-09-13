@@ -1,0 +1,44 @@
+.page {
+  .swiper {
+    button {
+      background: #FFFFFF;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 150px;
+      padding: 20px;
+      position: relative;
+
+      &:before {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: 4;
+      }
+
+      h3 {
+        margin-bottom: 20px;
+      }
+
+      span {
+        height: 46px;
+        font-size: 14px;
+        overflow: hidden;
+        margin-bottom: 20px;
+      }
+
+      b {
+        display: flex;
+        align-items: center;
+        opacity: .5;
+        font-weight: normal;
+
+        svg {
+          margin-right: 8px
+        }
+      }
+    }
+  }
+}

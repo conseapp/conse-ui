@@ -1,0 +1,70 @@
+.page .card {
+  background: var(--primary-color);
+  padding: 20px;
+  border-radius: 8px;
+  position: relative;
+  margin-bottom: 12px;
+}
+.page .card > button {
+  position: absolute;
+  left: 16px;
+  top: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  background: var(--text-icon-color);
+  color: var(--primary-color);
+  padding: 0;
+  width: 40px;
+  height: 40px;
+}
+.page .card .info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-icon-color);
+  height: 200px;
+}
+.page .card .info img {
+  border-radius: 100px;
+  border: 4px solid #E5E5E5;
+  padding: 4px;
+  margin-bottom: 10px;
+}
+.page .card .info span {
+  padding: 0 12px;
+  border-radius: 4px;
+}
+.page .card .boxes {
+  display: flex;
+}
+.page .card .boxes .status {
+  padding: 20px;
+  background: #FFFFFF;
+  width: 100%;
+  border-radius: 8px;
+  display: flex;
+}
+.page .card .boxes .status > div {
+  width: 100%;
+}
+.page .card .boxes .status > div p {
+  font-weight: bold;
+}
+.page .deck table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.page .deck table tbody tr {
+  border: 1px solid #E5E5E5;
+}
+.page .deck table tbody tr td {
+  padding: 12px;
+}
+.page .deck table tbody tr td:first-child {
+  width: 100%;
+}
+
+/*# sourceMappingURL=player.module.css.map */
