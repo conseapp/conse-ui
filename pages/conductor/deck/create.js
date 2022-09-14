@@ -7,43 +7,43 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from "next/router";
 import Link from "next/link";
 import CreateSideColor from "../../../utils/createSideColor";
-import CreateDeck from "../../../utils/createDeck";
 import checkToken from "../../../utils/checkToken";
 import Header from "../../../components/header";
 import Nav from "../../../components/nav";
 import { getCookie } from "cookies-next";
+import CreateDeck from "../../../utils/createDeck";
 
 const Create = props => {
     /**
      * User next.js router.
      * @version 1.0
      */
-    const Router = useRouter()
+    const router = useRouter()
 
     /**
      * Get all props of this page.
      * @version 1.0
      */
-    const { user, sides, roles } = props
+    const { user, sides, roles, cards } = props
 
     /**
      * Create drop down menu options.
      * @version 1.0
      */
-    const [ Options, SetOptions ] = useState( [] )
+    const [ roleOptions, setRoleOptions ] = useState( [] )
 
     /**
      * Selected roles.
      * @version 1.0
      */
-    const [ SelectedRoles, SetSelectedRoles ] = useState( [] )
+    const [ selectedRoles, setSelectedRoles ] = useState( [] )
 
     /**
      * Change the style of the dropdown list.
      * @version 1.0
      * @type {{control: (function(*, *): *&{border: string, backgroundColor: string, borderRadius: string}), multiValue: (function(*, *): *&{border: string, paddingRight: string}), option: (function(*, *): *&{cursor: string, "&:hover": {}})}}
      */
-    const SelectStyles = {
+    const roleSelectStyles = {
         option:     ( provided, state ) => {
             let { side_id } = JSON.parse( state.value )
             let color       = {}
@@ -97,9 +97,74 @@ const Create = props => {
             groups.push( { label: side.name, options: options } )
         } )
 
-        SetOptions( groups )
+        setRoleOptions( groups )
 
     }, [ props.sides, roles, sides ] )
+
+    /**
+     * Registering the selected roles in the corresponding variable.
+     * @version 1.0
+     * @param options
+     * @constructor
+     */
+    const selectRoles = options => setSelectedRoles( options )
+
+    /**
+     * Create drop down menu options.
+     * @version 1.0
+     */
+    const [ cardOptions, setCardOptions ] = useState( [] )
+
+    /**
+     * Selected roles.
+     * @version 1.0
+     */
+    const [ selectedCards, setSelectedCards ] = useState( [] )
+
+    /**
+     * Change the style of the dropdown list.
+     * @version 1.0
+     * @type {{control: (function(*, *): *&{border: string, backgroundColor: string, borderRadius: string}), multiValue: (function(*, *): *&{border: string, paddingRight: string}), option: (function(*, *): *&{cursor: string, "&:hover": {}})}}
+     */
+    const cardSelectStyles = {
+        option:     ( provided, state ) => {
+            return {
+                ...provided,
+                cursor: 'pointer'
+            }
+        },
+        control:    ( provided, state ) => {
+            return {
+                ...provided,
+                backgroundColor: '#E5E5E5',
+                border:          'none',
+                borderRadius:    '8px'
+            }
+        },
+        multiValue: ( provided, state ) => ( {
+            ...provided,
+            paddingRight: '4px',
+            border:       '1px solid #CCC'
+        } )
+    }
+
+    /**
+     * Set options of select box.
+     * @version 1.0
+     */
+    useEffect( () => {
+        let options = []
+
+        cards.filter( card => {
+            options.push( {
+                label: card.name,
+                value: JSON.stringify( card )
+            } )
+        } )
+
+        setCardOptions( options )
+
+    }, [ cards ] )
 
     /**
      * Enable the registration button if the name field is not empty.
@@ -124,7 +189,7 @@ const Create = props => {
      * @param options
      * @constructor
      */
-    const SelectRoles = ( options ) => SetSelectedRoles( options )
+    const selectCards = options => setSelectedCards( options )
 
     /**
      * Submit deck
@@ -133,7 +198,7 @@ const Create = props => {
      * @returns {Promise<void>}
      * @constructor
      */
-    const InsertDeck = async e => {
+    const insertDeck = async e => {
         e.preventDefault()
 
         // Variables
@@ -144,13 +209,16 @@ const Create = props => {
         // Roles
         let roles = []
 
+        // Cards
+        let cards = []
+
         // Access token
         let token = getCookie( 'token' )
 
         // Disable submit button
         button.setAttribute( 'disabled', 'disabled' )
 
-        SelectedRoles.forEach( role => {
+        selectedRoles.forEach( role => {
             let {
                     _id,
                     name,
@@ -176,7 +244,29 @@ const Create = props => {
             } )
         } )
 
-        let { status } = await CreateDeck( title.value, roles, token )
+        selectedCards.forEach( card => {
+            let {
+                    _id,
+                    name,
+                    rate,
+                    desc,
+                    is_disabled,
+                    created_at,
+                    updated_at
+                } = JSON.parse( card.value )
+
+            cards.push( {
+                "_id":         _id.$oid,
+                "name":        name,
+                "rate":        rate,
+                "desc":        desc,
+                "is_disabled": is_disabled,
+                "created_at":  created_at,
+                "updated_at":  updated_at
+            } )
+        } )
+
+        let { status } = await CreateDeck( title.value, roles, cards, token )
 
         if ( status ) {
             button.removeAttribute( 'disabled' )
@@ -184,7 +274,7 @@ const Create = props => {
             if ( status === 201 || status === 302 ) {
                 toast.success( 'دک با موفقیت ایجاد شد' )
 
-                setTimeout( () => Router.push( '/conductor/deck/' ), 2000 )
+                setTimeout( () => router.push( '/conductor/deck/' ), 2000 )
             } else {
                 toast.error( 'خطایی در هنگام ایجاد دک بوجود آمده' )
                 button.removeAttribute( 'disabled' )
@@ -214,7 +304,7 @@ const Create = props => {
                     </Link>
                 </div>
 
-                <form onSubmit={ InsertDeck } className={ "submit-form" }>
+                <form onSubmit={ insertDeck } className={ "submit-form" }>
 
                     <div className="row">
                         <label htmlFor="title">نام دک</label>
@@ -223,7 +313,12 @@ const Create = props => {
 
                     <div className="row">
                         <label htmlFor="roles">انتخاب نقش ها</label>
-                        <Select placeholder={ 'انتخاب کنید' } styles={ SelectStyles } options={ Options } id={ "roles" } isRtl={ true } isMulti={ true } onChange={ SelectRoles } />
+                        <Select placeholder={ 'انتخاب کنید' } styles={ roleSelectStyles } options={ roleOptions } id={ "roles" } isRtl={ true } isMulti={ true } onChange={ selectRoles } />
+                    </div>
+
+                    <div className="row">
+                        <label htmlFor="roles">انتخاب کارت های حرکت آخر</label>
+                        <Select placeholder={ 'انتخاب کنید' } styles={ cardSelectStyles } options={ cardOptions } id={ "cards" } isRtl={ true } isMulti={ true } onChange={ selectCards } />
                     </div>
 
                     <div className="row">
@@ -258,11 +353,19 @@ export async function getServerSideProps( context ) {
     } )
     roles     = await roles.json()
 
+    // Get available last move cards
+    let cards = await fetch( `${ process.env.GAME_URL }/game/last-move/get/availables`, {
+        method:  'GET',
+        headers: { "Authorization": `Bearer ${ context.req.cookies['token'] }` }
+    } )
+    cards     = await cards.json()
+
     return {
         props: {
             user:  user,
             sides: sides.data.sides,
-            roles: roles.data.roles
+            roles: roles.data.roles,
+            cards: cards.data
         }
     }
 }

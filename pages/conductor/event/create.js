@@ -6,11 +6,12 @@ import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from "next/router";
 import Link from "next/link";
-import createEvent from "../../../utils/createEvent";
 import { getCookie } from "cookies-next";
 import checkToken from "../../../utils/checkToken";
 import Nav from "../../../components/nav";
 import Header from "../../../components/header";
+import { DatePicker } from "jalali-react-datepicker";
+import createEvent from "../../../utils/createEvent";
 
 const Create = props => {
     /**
@@ -24,6 +25,11 @@ const Create = props => {
      * @version 1.0
      */
     const { user, groups, decks } = props
+
+    /**
+     * Submit start_at
+     */
+    const [ startDate, setStartDate ] = useState( new Date() )
 
     /**
      * Change the style of the dropdown list.
@@ -100,7 +106,8 @@ const Create = props => {
             "voters":                 [],
             "phases":                 [],
             "max_players":            deck.roles.length,
-            "players":                []
+            "players":                [],
+            "started_at":             startDate
         }
 
         let { status } = await createEvent( body, token )
@@ -152,6 +159,14 @@ const Create = props => {
                         <label htmlFor="deck">انتخاب دک بازی</label>
                         <Select placeholder={ 'انتخاب کنید' } styles={ SelectStyles } options={ DeckOptions } id={ "deck" } isRtl={ true } onChange={ e => {
                             SetDeckValue( e.value )
+                        } } />
+                    </div>
+
+                    <div className="row">
+                        <label htmlFor="started_at">زمان شروع بازی</label>
+                        <DatePicker timePicker={ false } onClickSubmitButton={ ( { value } ) => {
+                            let date = new Date( value._d ).getTime()
+                            setStartDate( date / 1000 )
                         } } />
                     </div>
 

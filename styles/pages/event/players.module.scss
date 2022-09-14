@@ -148,13 +148,8 @@
 
         button {
           width: 100%;
-          background: #E5E5E5;
-          color: var(--text-color);
-
-          &:hover {
-            background: var(--primary-color);
-            color: var(--text-icon-color)
-          }
+          background: var(--primary-color);
+          color: var(--text-icon-color)
         }
       }
     }

@@ -24,7 +24,17 @@ const SingleEvent = props => {
      */
     const { user, token, single, ingoing } = props
 
-    console.log( props )
+    const [ TodayIsEventDay, SetTodayIsEventDay ] = useState( false )
+
+    useEffect( () => {
+        let event   = new Date( single.started_at * 1000 )
+        let current = new Date()
+
+        let e_date = `${ event.getFullYear() }/${ event.getMonth() }/${ event.getDay() }`,
+            c_date = `${ current.getFullYear() }/${ current.getMonth() }/${ current.getDay() }`
+
+        SetTodayIsEventDay( e_date === c_date )
+    }, [ single.started_at ] )
 
     /**
      * Checking if the current user is a moderator or a player.
@@ -189,11 +199,13 @@ const SingleEvent = props => {
                             <>
                                 {
                                     IsUserRegistered ?
-                                        <Link href={ `${ query.id }/info/${ user._id.$oid }` }>
-                                            <a>
-                                                مشاهده جزئیات بازی
-                                            </a>
-                                        </Link> :
+                                        TodayIsEventDay ?
+                                            <Link href={ `${ query.id }/info/${ user._id.$oid }` }>
+                                                <a>
+                                                    مشاهده جزئیات بازی
+                                                </a>
+                                            </Link> :
+                                            <></> :
                                         <button type={ "button" } onClick={ ReserveEvent }>رزرو ایونت</button>
 
                                 }
@@ -237,4 +249,5 @@ export async function getServerSideProps( context ) {
         }
     }
 }
+
 export default SingleEvent

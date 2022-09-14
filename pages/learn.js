@@ -13,9 +13,9 @@ import Swal from "sweetalert2";
 import CreateSideColor from "../utils/createSideColor";
 
 const Learn = props => {
-    const { user, sides, roles } = props
+    const { user, sides, roles, cards } = props
 
-    const openModal = async e => {
+    const openRoleModal = async e => {
         let id = e.target.getAttribute( 'data-id' )
 
         roles.map( role => {
@@ -24,6 +24,23 @@ const Learn = props => {
                     ...CreateSideColor( role.side_id.$oid ),
                     title:              <h3>{ role.name }</h3>,
                     html:               <div dangerouslySetInnerHTML={ { __html: role.desc } }></div>,
+                    confirmButtonColor: 'var(--primary-color)',
+                    confirmButtonText:  'متوجه شدم'
+                } )
+            }
+        } )
+    }
+
+    const openCardModal = async e => {
+        let id = e.target.getAttribute( 'data-id' )
+
+        cards.map( card => {
+            if ( card._id.$oid === id ) {
+                withReactContent( Swal ).fire( {
+                    background:         '#F6F6F6',
+                    color:              '#333',
+                    title:              <h3 style={ { color: 'var(--danger-color)' } }>{ card.name }</h3>,
+                    html:               <div dangerouslySetInnerHTML={ { __html: card.desc } }></div>,
                     confirmButtonColor: 'var(--primary-color)',
                     confirmButtonText:  'متوجه شدم'
                 } )
@@ -53,7 +70,7 @@ const Learn = props => {
                                         if ( role.side_id.$oid === side._id.$oid ) {
                                             return (
                                                 <SwiperSlide key={ role._id.$oid }>
-                                                    <button type={ "button" } style={ CreateSideColor( role.side_id.$oid ) } onClick={ openModal } data-id={ role._id.$oid }>
+                                                    <button type={ "button" } style={ CreateSideColor( role.side_id.$oid ) } onClick={ openRoleModal } data-id={ role._id.$oid }>
                                                         <h3>{ role.name }</h3>
                                                         <span dangerouslySetInnerHTML={ { __html: role.desc } } />
                                                         <b>
@@ -70,6 +87,29 @@ const Learn = props => {
                         )
                     } )
                 }
+
+                <div className="row" style={ { marginBottom: '40px' } }>
+                    <div className="page-title">
+                        <h3>کارت های حرکت آخر</h3>
+                    </div>
+
+                    <Swiper spaceBetween={ 16 } slidesPerView={ 2 } freeMode={ true } modules={ [ FreeMode ] } className={ styles.swiper }>
+                        { cards.map( card => {
+                            return (
+                                <SwiperSlide key={ card._id.$oid }>
+                                    <button type={ "button" } className={ styles.lastMoveCard } onClick={ openCardModal } data-id={ card._id.$oid }>
+                                        <h3>{ card.name }</h3>
+                                        <span dangerouslySetInnerHTML={ { __html: card.desc } } />
+                                        <b>
+                                            بیشتر
+                                            <CgChevronLeft />
+                                        </b>
+                                    </button>
+                                </SwiperSlide>
+                            )
+                        } ) }
+                    </Swiper>
+                </div>
 
             </div>
 
@@ -99,11 +139,21 @@ export async function getServerSideProps( context ) {
     } )
     roles     = await roles.json()
 
+    // Get last move cards
+    let cards = await fetch( `${ process.env.GAME_URL }/game/last-move/get/availables`, {
+        method:  'GET',
+        headers: {
+            "Authorization": `Bearer ${ context.req.cookies['token'] }`
+        }
+    } )
+    cards     = await cards.json()
+
     return {
         props: {
             user:  user,
             sides: sides.data.sides,
-            roles: roles.data.roles
+            roles: roles.data.roles,
+            cards: cards.data
         }
     }
 }

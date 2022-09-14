@@ -1,7 +1,7 @@
 import styles from '/styles/pages/event/players.module.scss'
 import Head from "next/head";
 import { MdClose, MdRefresh, MdSettings } from "react-icons/md";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import CreateSideColor from "../../../utils/createSideColor";
 import Modal from 'react-modal';
@@ -11,6 +11,8 @@ import checkToken from "../../../utils/checkToken";
 import Header from "../../../components/header";
 import Nav from "../../../components/nav";
 import statuses from "../../../utils/allPossibleStatus";
+import withReactContent from "sweetalert2-react-content";
+import Swal from "sweetalert2";
 
 const Players = props => {
     const Router                              = useRouter()
@@ -37,6 +39,18 @@ const Players = props => {
         }
     }
 
+    const [ TodayIsEventDay, SetTodayIsEventDay ] = useState( false )
+
+    useEffect( () => {
+        let current_event = new Date( event.started_at * 1000 )
+        let current_day   = new Date()
+
+        let e_date = `${ current_event.getFullYear() }/${ current_event.getMonth() }/${ current_event.getDay() }`,
+            c_date = `${ current_day.getFullYear() }/${ current_day.getMonth() }/${ current_day.getDay() }`
+
+        SetTodayIsEventDay( e_date === c_date )
+    }, [ event.started_at ] )
+
     /**
      * Modal Config
      */
@@ -45,7 +59,6 @@ const Players = props => {
     const OpenModal                       = user => {
         SetModalUser( user )
         SetModalIsOpen( true )
-        console.log( ModalUser )
     }
     const CloseModal                      = () => SetModalIsOpen( false )
     const ModalStyles                     = {
@@ -104,6 +117,75 @@ const Players = props => {
         const response = await request.json()
     }
 
+    const [ AvailableCards, SetAvailableCards ] = useState( deck.last_move_cards )
+
+    const ShowLastMoveCard = async e => {
+        let cards    = AvailableCards
+        let newCards = []
+
+        let random = Math.floor( Math.random() * cards.length )
+        let card   = cards[random]
+
+        delete cards[random]
+
+        cards.filter( c => {
+            if ( typeof c !== 'undefined' ) {
+                newCards.push( c )
+            }
+        } )
+
+        SetAvailableCards( newCards )
+
+        if ( typeof card !== 'undefined' ) {
+            await withReactContent( Swal ).fire( {
+                background:         '#F6F6F6',
+                color:              '#333',
+                title:              <h3 style={ { color: 'var(--danger-color)' } }>{ card.name }</h3>,
+                html:               <div dangerouslySetInnerHTML={ { __html: card.desc } }></div>,
+                confirmButtonColor: 'var(--primary-color)',
+                confirmButtonText:  'متوجه شدم'
+            } )
+        } else {
+            toast.warning( 'کارت حرکت آخر دیگری وجود ندارد! در صورت نیاز صفحه را رفرش کنید' )
+        }
+    }
+
+    const LockEvent = async e => {
+        let button = e.target
+
+        await withReactContent( Swal ).fire( {
+            background:         '#F6F6F6',
+            color:              '#333',
+            title:              <h3 style={ { color: 'var(--danger-color)' } }>آیا مطمئن هستید ؟</h3>,
+            html:               'پس از بستن ایونت نمیتوانید تغییری در آن ایجاد کنید و یا دوباره آن را باز کنید',
+            confirmButtonColor: 'var(--danger-color)',
+            confirmButtonText:  'بله میخوام ببندم',
+            showCancelButton:   true,
+            cancelButtonColor:  'var(--text-color)',
+            cancelButtonText:   'خیر، میخوام تغییرات ایجاد کنم'
+        } ).then( async e => {
+            if ( e.isConfirmed ) {
+                let request  = await fetch( `${ process.env.EVENT_URL }/event/set-lock`, {
+                    method:  'POST',
+                    headers: {
+                        "Authorization": `Bearer ${ token }`
+                    },
+                    body:    JSON.stringify( {
+                        "_id": query.id
+                    } )
+                } )
+                let response = await request.json()
+
+                if ( response.data.is_locked ) {
+                    toast.success( 'ایونت با موفقیت بسته شد' )
+                    button.remove()
+                } else {
+                    toast.warning( 'خطایی در هنگام بستن ایونت پیش آمده' )
+                }
+            }
+        } )
+    }
+
     const UpdateEvent = async e => {
         e.preventDefault()
 
@@ -139,6 +221,7 @@ const Players = props => {
             "voters":                 event.voters,
             "phases":                 event.phases,
             "max_players":            event.max_players,
+            "started_at":             event.started_at,
             "players":                allPlayers
         }
 
@@ -186,7 +269,7 @@ const Players = props => {
                                                 <strong>{ player.username }</strong>
                                                 { player.role_id &&
                                                   <span>
-                                                      { deck.map( role => {
+                                                      { deck.roles.map( role => {
                                                           if ( role._id === player.role_id.$oid ) {
                                                               return role.name
                                                           }
@@ -205,20 +288,29 @@ const Players = props => {
 
                 </div>
 
-                <div className={ styles.conductorMenu }>
-                    <button type={ "button" } onClick={ ToggleConductorMenu }>
-                        <MdSettings />
-                    </button>
-                    <header>پنل گرداننده</header>
-                    <ul>
-                        <li>
-                            <button type={ "button" } onClick={ RevealRoles }>پخش کردن نقش ها</button>
-                        </li>
-                        {/*<li>*/ }
-                        {/*    <button type={ "button" }>بستن رزرو</button>*/ }
-                        {/*</li>*/ }
-                    </ul>
-                </div>
+                {
+                    TodayIsEventDay &&
+                    <div className={ styles.conductorMenu }>
+                        <button type={ "button" } onClick={ ToggleConductorMenu }>
+                            <MdSettings />
+                        </button>
+                        <header>پنل گرداننده</header>
+                        <ul>
+                            <li>
+                                <button type={ "button" } onClick={ RevealRoles }>پخش کردن نقش ها</button>
+                            </li>
+                            <li>
+                                <button type={ "button" } onClick={ ShowLastMoveCard }>نمایش کارت حرکت آخر</button>
+                            </li>
+                            {
+                                !event.is_locked &&
+                                <li>
+                                    <button type={ "button" } onClick={ LockEvent }>بستن ایونت</button>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                }
 
             </div>
 
@@ -272,7 +364,7 @@ const Players = props => {
                     <div className={ styles.row }>
                         <label htmlFor={ "role" }>تغییر نقش پلیر</label>
                         <select id={ "role" } onChange={ ChangePlayerRole }>
-                            { deck.map( role => {
+                            { deck.roles.map( role => {
                                 let isSelected = false
                                 if ( Object.keys( ModalUser ).length !== 0 ) {
                                     if ( ModalUser.role_id !== null ) {
@@ -318,12 +410,6 @@ export async function getServerSideProps( context ) {
     } )
     event     = await event.json()
 
-    let roles = await fetch( `${ process.env.EVENT_URL }/game/role/get/availables`, {
-        method:  'GET',
-        headers: { "Authorization": `Bearer ${ context.req.cookies['token'] }` }
-    } )
-    roles     = await roles.json()
-
     let sides = await fetch( `${ process.env.EVENT_URL }/game/side/get/availables`, {
         method:  'GET',
         headers: { "Authorization": `Bearer ${ context.req.cookies['token'] }` }
@@ -345,9 +431,8 @@ export async function getServerSideProps( context ) {
             user:  user,
             token: context.req.cookies['token'],
             event: event.data,
-            roles: roles.data.roles,
             sides: sides.data.sides,
-            deck:  deck.data.roles
+            deck:  deck.data
         }
     }
 }

@@ -60,7 +60,6 @@ const Info = props => {
 
         deck.map( role => {
             if ( role._id === id ) {
-                console.log( role )
                 withReactContent( Swal ).fire( {
                     ...CreateSideColor( role.side_id ),
                     title:              <h3>{ role.name }</h3>,

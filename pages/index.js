@@ -8,6 +8,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode } from "swiper";
 import 'swiper/css';
 import 'swiper/css/free-mode';
+import { MdChevronLeft } from "react-icons/md";
 
 const Index = props => {
     /**
@@ -30,7 +31,10 @@ const Index = props => {
                     <div className={ "page-title" }>
                         <h3>آخرین ایونت ها</h3>
                         <Link href={ "/events" }>
-                            <a>بیشتر</a>
+                            <a>
+                                بیشتر
+                                <MdChevronLeft />
+                            </a>
                         </Link>
                     </div>
                     <Swiper spaceBetween={ 12 } slidesPerView={ 2 } freeMode={ true } modules={ [ FreeMode ] } className={ styles.swiper }>

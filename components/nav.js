@@ -17,7 +17,7 @@ const Nav = props => {
                 <li>
                     <Link href={ Object.keys( user ).length === 0 ? '/login' : '/profile' }>
                         <a>
-                            <Image src={ '/avatar-medium.png' } alt={ "User" } width={ 30 } height={ 30 } style={ { borderRadius: '50%' } } />
+                            <Image src={ '/avatar.png' } alt={ "User" } width={ 30 } height={ 30 } style={ { borderRadius: '50%' } } />
                         </a>
                     </Link>
                 </li>

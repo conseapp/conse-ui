@@ -1,14 +1,15 @@
-const CreateDeck = async ( deck_name, roles, token ) => {
+const CreateDeck = async ( deck_name, roles, cards, token ) => {
     const headers = {
         'Authorization': `Bearer ${ token }`,
         'Content-Type':  'application/json'
     }
 
     const body = JSON.stringify( {
-        "deck_name":   deck_name,
-        "roles":       roles,
-        "is_disabled": false,
-        "created_at":  Math.floor( Date.now() / 1000 )
+        "deck_name":       deck_name,
+        "roles":           roles,
+        "last_move_cards": cards,
+        "is_disabled":     false,
+        "created_at":      Math.floor( Date.now() / 1000 )
     } )
 
     const options = {

@@ -60,8 +60,6 @@ const Register = () => {
             toast.error( 'کلمه عبور و تکرار آن با یکدیگر برابر نیستند' )
         }
 
-        console.log( username.value.match( /^[a-zA-Z]|[\u0600-\u06FF\s]+$/ ) )
-
         if ( username.value.match( /^[a-zA-Z]|[\u0600-\u06FF\s]+$/ ) === null ) {
             errors++
             toast.error( 'برای نام کاربری تنها حروف مجاز است' )

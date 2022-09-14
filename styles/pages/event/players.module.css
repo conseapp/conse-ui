@@ -129,10 +129,6 @@
 }
 .page .conductorMenu ul li button {
   width: 100%;
-  background: #E5E5E5;
-  color: var(--text-color);
-}
-.page .conductorMenu ul li button:hover {
   background: var(--primary-color);
   color: var(--text-icon-color);
 }

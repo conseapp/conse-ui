@@ -113,6 +113,11 @@ input.input-number {
   -moz-transform: translateY(-50%);
   -o-transform: translateY(-50%);
   transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+}
+.page-title a svg {
+  margin-right: 8px;
 }
 .page-title:before, .page-title:after {
   content: "";

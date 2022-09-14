@@ -7,6 +7,9 @@
   min-height: 150px;
   padding: 20px;
   position: relative;
+  color: var(--text-color);
+  border: 1px solid #E5E5E5;
+  width: 100%;
 }
 .page .swiper button:before {
   content: "";
@@ -32,6 +35,9 @@
 }
 .page .swiper button b svg {
   margin-right: 8px;
+}
+.page .swiper button.lastMoveCard h3 {
+  color: var(--danger-color);
 }
 
 /*# sourceMappingURL=learn.module.css.map */
