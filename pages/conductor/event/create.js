@@ -164,7 +164,7 @@ const Create = props => {
 
                     <div className="row">
                         <label htmlFor="started_at">زمان شروع بازی</label>
-                        <DatePicker timePicker={ false } onClickSubmitButton={ ( { value } ) => {
+                        <DatePicker onClickSubmitButton={ ( { value } ) => {
                             let date = new Date( value._d ).getTime()
                             setStartDate( date / 1000 )
                         } } />

@@ -39,6 +39,12 @@ const Index = props => {
                     </div>
                     <Swiper spaceBetween={ 12 } slidesPerView={ 2 } freeMode={ true } modules={ [ FreeMode ] } className={ styles.swiper }>
                         { events.map( event => {
+                            let href = `/events/${ event._id.$oid }`
+
+                            if ( Object.keys( user ).length === 0 ) {
+                                href = '/login?redirect=' + href
+                            }
+
                             return (
                                 <SwiperSlide key={ event._id.$oid }>
                                     <Link href={ `/events/${ event._id.$oid }` }>

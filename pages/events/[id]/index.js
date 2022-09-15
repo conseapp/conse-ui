@@ -42,21 +42,18 @@ const SingleEvent = props => {
      */
     const [ IsUserRegistered, SetUserRegistered ] = useState( false )
     useEffect( () => {
-
-        // Check for current user access level
-        if ( single.group_info.owner === user._id.$oid ) {
-
-            SetUserRegistered( false )
-
-        } else {
-
-            // Checking whether the current event exists in the user's event list or not
-            let list = ingoing.filter( event => event._id.$oid === single._id.$oid )
-            SetUserRegistered( list.length !== 0 )
-
+        if ( token !== null ) {
+            // Check for current user access level
+            if ( single.group_info.owner === user._id.$oid ) {
+                SetUserRegistered( false )
+            } else {
+                // Checking whether the current event exists in the user's event list or not
+                let list = ingoing.filter( event => event._id.$oid === single._id.$oid )
+                SetUserRegistered( list.length !== 0 )
+            }
         }
 
-    }, [ ingoing, single, single.group_info.owner, user._id.$oid ] )
+    }, [ ingoing, single, single.group_info.owner, token ] )
 
     /**
      * Function to vote an event.
@@ -67,24 +64,26 @@ const SingleEvent = props => {
      * @constructor
      */
     const VoteOnEvent = async is_upvote => {
-        let request  = await fetch( `${ process.env.EVENT_URL }/event/cast-vote`, {
-            method:  'POST',
-            headers: { 'Authorization': `Bearer ${ token }` },
-            body:    JSON.stringify( {
-                "_id":   query.id,
-                "voter": {
-                    "nft_owner_wallet_address": "",
-                    "is_upvote":                is_upvote,
-                    "score":                    0
-                }
+        if ( token !== null ) {
+            let request  = await fetch( `${ process.env.EVENT_URL }/event/cast-vote`, {
+                method:  'POST',
+                headers: { 'Authorization': `Bearer ${ token }` },
+                body:    JSON.stringify( {
+                    "_id":   query.id,
+                    "voter": {
+                        "nft_owner_wallet_address": "",
+                        "is_upvote":                is_upvote,
+                        "score":                    0
+                    }
+                } )
             } )
-        } )
-        let response = await request.json()
+            let response = await request.json()
 
-        if ( response.status === 200 ) {
-            toast.success( 'رای شما با موفقیت ثبت شد' )
-        } else {
-            toast.error( 'خطایی در هنگام ثبت رای بوجود آمده' )
+            if ( response.status === 200 ) {
+                toast.success( 'رای شما با موفقیت ثبت شد' )
+            } else {
+                toast.error( 'خطایی در هنگام ثبت رای بوجود آمده' )
+            }
         }
     }
 
@@ -97,42 +96,44 @@ const SingleEvent = props => {
      * @constructor
      */
     const LockEvent = async e => {
-        let request  = await fetch( `${ process.env.EVENT_URL }/event/set-lock`, {
-            method:  'POST',
-            headers: { "Authorization": `Bearer ${ token }` },
-            body:    JSON.stringify( { "_id": query.id } )
-        } )
-        let response = await request.json()
+        if ( token !== null ) {
+            let request  = await fetch( `${ process.env.EVENT_URL }/event/set-lock`, {
+                method:  'POST',
+                headers: { "Authorization": `Bearer ${ token }` },
+                body:    JSON.stringify( { "_id": query.id } )
+            } )
+            let response = await request.json()
 
-        if ( response.data.is_locked === true ) {
-            e.target.remove()
+            if ( response.data.is_locked === true ) {
+                e.target.remove()
+            }
         }
     }
 
     /**
      * Reserve and event
      *
-     * @version 1.0
-     * @param e
      * @returns {Promise<void>}
      * @constructor
      */
-    const ReserveEvent = async e => {
-        const request  = await fetch( `${ process.env.EVENT_URL }/event/reserve/mock`, {
-            method:  'POST',
-            headers: { "Authorization": `Bearer ${ token }` },
-            body:    JSON.stringify( {
-                "event_id":     query.id,
-                "requested_at": Math.floor( Date.now() / 1000 )
+    const ReserveEvent = async () => {
+        if ( token !== null ) {
+            const request  = await fetch( `${ process.env.EVENT_URL }/event/reserve/mock`, {
+                method:  'POST',
+                headers: { "Authorization": `Bearer ${ token }` },
+                body:    JSON.stringify( {
+                    "event_id":     query.id,
+                    "requested_at": Math.floor( Date.now() / 1000 )
+                } )
             } )
-        } )
-        const response = await request.json()
+            const response = await request.json()
 
-        if ( response.status === 200 ) {
-            toast.success( 'شما با موفقیت در ایونت ثبت نام کردید' )
-            setTimeout( () => Router.reload(), 2000 )
-        } else {
-            toast.error( 'خطایی در هنگام رزرو ایونت وجود دارد' )
+            if ( response.status === 200 ) {
+                toast.success( 'شما با موفقیت در ایونت ثبت نام کردید' )
+                setTimeout( () => Router.reload(), 2000 )
+            } else {
+                toast.error( 'خطایی در هنگام رزرو ایونت وجود دارد' )
+            }
         }
     }
 
@@ -182,34 +183,40 @@ const SingleEvent = props => {
 
                 <div className={ styles.footer }>
                     {
-                        single.group_info.owner === user.username ?
-                            <>
-                                <Link href={ `${ query.id }/players` }>
-                                    <a>
-                                        مشاهده لیست بازیکنان
-                                    </a>
-                                </Link>
-                                {
-                                    single.is_locked === false &&
-                                    <button type={ "button" } onClick={ LockEvent }>
-                                        بستن رزرو ایونت
-                                    </button>
-                                }
-                            </> :
-                            <>
-                                {
-                                    IsUserRegistered ?
-                                        TodayIsEventDay ?
-                                            <Link href={ `${ query.id }/info/${ user._id.$oid }` }>
-                                                <a>
-                                                    مشاهده جزئیات بازی
-                                                </a>
-                                            </Link> :
-                                            <></> :
-                                        <button type={ "button" } onClick={ ReserveEvent }>رزرو ایونت</button>
+                        token === null ?
+                            <Link href={ `/login?redirect=/events/${ single._id.$oid }` }>
+                                <a>
+                                    برای رزرو ایونت لطفا وارد شوید
+                                </a>
+                            </Link> :
+                            single.group_info.owner === user.username ?
+                                <>
+                                    <Link href={ `${ query.id }/players` }>
+                                        <a>
+                                            مشاهده لیست بازیکنان
+                                        </a>
+                                    </Link>
+                                    {
+                                        single.is_locked === false &&
+                                        <button type={ "button" } onClick={ LockEvent }>
+                                            بستن رزرو ایونت
+                                        </button>
+                                    }
+                                </> :
+                                <>
+                                    {
+                                        IsUserRegistered ?
+                                            TodayIsEventDay ?
+                                                <Link href={ `${ query.id }/info/${ user._id.$oid }` }>
+                                                    <a>
+                                                        مشاهده جزئیات بازی
+                                                    </a>
+                                                </Link> :
+                                                <></> :
+                                            <button type={ "button" } onClick={ ReserveEvent }>رزرو ایونت</button>
 
-                                }
-                            </>
+                                    }
+                                </>
                     }
                 </div>
 
@@ -222,32 +229,37 @@ const SingleEvent = props => {
 }
 
 export async function getServerSideProps( context ) {
-    // Check user
-    let user = ( typeof context.req.cookies['token'] !== 'undefined' ) ? await checkToken( context.req.cookies['token'] ) : {}
+    // Props
+    let props = {
+        user:    {},
+        token:   null,
+        single:  {},
+        ingoing: {}
+    }
 
     // Get single event details
-    let single = await fetch( `${ process.env.EVENT_URL }/event/get/single`, {
-        method:  'POST',
-        headers: { "Authorization": `Bearer ${ context.req.cookies['token'] }` },
-        body:    JSON.stringify( { "_id": context.query.id } )
+    let single   = await fetch( `${ process.env.EVENT_URL }/event/get/single`, {
+        method: 'POST',
+        body:   JSON.stringify( { "_id": context.query.id } )
     } )
-    single     = await single.json()
+    single       = await single.json()
+    props.single = single.data
 
-    // Get all in-going events for current user
-    let ingoing = await fetch( `${ process.env.EVENT_URL }/event/get/all/player/in-going`, {
-        method:  'POST',
-        headers: { "Authorization": `Bearer ${ context.req.cookies['token'] }` }
-    } )
-    ingoing     = await ingoing.json()
+    if ( typeof context.req.cookies['token'] !== 'undefined' ) {
+        props.user  = await checkToken( context.req.cookies['token'] )
+        props.token = context.req.cookies['token']
 
-    return {
-        props: {
-            user:    user,
-            token:   context.req.cookies['token'],
-            single:  single.data,
-            ingoing: ingoing.data
-        }
+        // Get all in-going events for current user
+        let ingoing = await fetch( `${ process.env.EVENT_URL }/event/get/all/player/in-going`, {
+            method:  'POST',
+            headers: { "Authorization": `Bearer ${ context.req.cookies['token'] }` }
+        } )
+        ingoing     = await ingoing.json()
+
+        props.ingoing = ingoing.data
     }
+
+    return { props: props }
 }
 
 export default SingleEvent

@@ -1,15 +1,25 @@
 import styles from "/styles/pages/auth/login.module.scss";
 import Head from "next/head";
 import Image from "next/future/image";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from "next/router";
 import loginUser from "/utils/loginUser";
 import { hasCookie, setCookie } from "cookies-next";
+import header from "../components/header";
 
 const Login = () => {
+    const [ redirect, setRedirectUrl ] = useState( '/' )
+
+    useEffect( () => {
+        if ( typeof window !== 'undefined' ) {
+            let params = new URLSearchParams( window.location.search )
+            setRedirectUrl( ( params.get( 'redirect' ) !== null ) ? params.get( 'redirect' ) : '/' )
+        }
+    }, [] )
+
     /**
      * Use next.js router.
      *
@@ -22,8 +32,8 @@ const Login = () => {
      * @version 1.0
      */
     useEffect( () => {
-        if ( hasCookie( 'token' ) ) router.push( '/' ).then()
-    }, [ router ] )
+        if ( hasCookie( 'token' ) ) router.push( redirect ).then()
+    }, [ redirect, router ] )
 
     /**
      * Function to check user information during login.
@@ -71,7 +81,7 @@ const Login = () => {
                 setCookie( 'token', response.data.access_token )
 
                 // Redirect to home page
-                setTimeout( () => router.push( '/' ), 2000 )
+                setTimeout( () => router.push( redirect ), 2000 )
             } else {
                 // Show message
                 toast.error( 'خطایی در هنگام ورود به حساب پیش آمده' )
