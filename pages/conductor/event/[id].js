@@ -24,7 +24,7 @@ const Create = props => {
      * Get all props of this page.
      * @version 1.0
      */
-    const { user, groups, decks } = props
+    const { user, groups, decks, event } = props
 
     /**
      * Submit start_at
@@ -94,6 +94,8 @@ const Create = props => {
         let group_info = groups.at( -1 )
         group_info._id = group_info._id.$oid
 
+        console.log(startDate)
+        
         let body = {
             "title":                  title.value,
             "content":                content.value,
@@ -110,7 +112,9 @@ const Create = props => {
             "started_at":             startDate
         }
 
-        let { status } = await createEvent( body, token )
+        let { status, message } = await createEvent( body, token )
+
+        console.log( message )
 
         if ( status === 201 || status === 302 ) {
             toast.success( 'ایونت با موفقیت ایجاد شد' )
@@ -120,6 +124,7 @@ const Create = props => {
             button.removeAttribute( 'disabled' )
         }
     }
+
 
     return (
         <div className={ styles.page }>
@@ -135,7 +140,7 @@ const Create = props => {
             <div className="container">
 
                 <div className="page-title">
-                    <h2>افزودن ایونت</h2>
+                    <h2>ویرایش ایونت</h2>
                     <Link href={ '/conductor/event' }>
                         <a>
                             بازگشت
@@ -147,12 +152,12 @@ const Create = props => {
 
                     <div className="row">
                         <label htmlFor="title">نام ایونت</label>
-                        <input type="text" id={ "title" } />
+                        <input type="text" id={ "title" } value={ event.title } readOnly={ true } />
                     </div>
 
                     <div className="row">
                         <label htmlFor="content">توضیحات</label>
-                        <textarea id={ "content" } rows={ 8 }></textarea>
+                        <textarea id={ "content" } rows={ 8 } defaultValue={ event.content }></textarea>
                     </div>
 
                     <div className="row">
@@ -164,14 +169,14 @@ const Create = props => {
 
                     <div className="row">
                         <label htmlFor="started_at">زمان شروع بازی</label>
-                        <DatePicker onClickSubmitButton={ ( { value } ) => {
-                            let date = new Date( value._d ).getTime()
+                        <DatePicker onClickSubmitButton={ () => {
+                            let date = new Date( event.started_at * 1000 ).getTime()
                             setStartDate( Math.floor( date / 1000 ) )
                         } } />
                     </div>
 
                     <div className="row">
-                        <button type={ "submit" }>ثبت ایونت</button>
+                        <button type={ "submit" }>ویرایش ایونت</button>
                     </div>
 
                 </form>
@@ -194,6 +199,13 @@ export async function getServerSideProps( context ) {
     let user = ( typeof context.req.cookies['token'] !== 'undefined' ) ? await checkToken( context.req.cookies['token'] ) : {}
 
     // Get available groups
+    let event = await fetch( `${ process.env.GAME_URL }/event/get/single/${ context.query.id }/god`, {
+        method:  'POST',
+        headers: { "Authorization": `Bearer ${ context.req.cookies['token'] }` }
+    } )
+    event     = await event.json()
+
+    // Get available groups
     let groups = await fetch( `${ process.env.GAME_URL }/game/god/get/group/all`, {
         method:  'POST',
         headers: { "Authorization": `Bearer ${ context.req.cookies['token'] }` },
@@ -210,6 +222,7 @@ export async function getServerSideProps( context ) {
 
     return {
         props: {
+            event:  event.data,
             groups: groups.data.groups,
             decks:  decks.data.decks,
             user:   user

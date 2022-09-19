@@ -88,7 +88,7 @@ const Learn = props => {
                     } )
                 }
 
-                <div className="row" style={ { marginBottom: '40px' } }>
+                <div className="row" style={ { marginBottom: '40px', display: 'none' } }>
                     <div className="page-title">
                         <h3>کارت های حرکت آخر</h3>
                     </div>

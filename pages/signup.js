@@ -49,7 +49,7 @@ const Register = () => {
         let errors = 0
         if ( username.value === '' ) {
             errors++
-            toast.error( 'نام کاربری نمیتواند خالی باشد' )
+            toast.error( 'نام و نام خانوادگی نمیتواند خالی باشد' )
         }
         if ( password.value === '' ) {
             errors++
@@ -62,7 +62,7 @@ const Register = () => {
 
         if ( username.value.match( /^[a-zA-Z]|[\u0600-\u06FF\s]+$/ ) === null ) {
             errors++
-            toast.error( 'برای نام کاربری تنها حروف مجاز است' )
+            toast.error( 'برای نام و نام خانوادگی تنها حروف مجاز است' )
         }
 
         // Send request to server if there is no errors
@@ -134,7 +134,7 @@ const Register = () => {
                         <h3>ثبت نام در کنسه</h3>
 
                         <div className={ styles.row }>
-                            <label htmlFor={ "username" }>نام کاربری</label>
+                            <label htmlFor={ "username" }>نام و نام خانوادگی</label>
                             <input type="text" id={ "username" } name={ "username" } />
                         </div>
 

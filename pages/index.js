@@ -9,8 +9,12 @@ import { FreeMode } from "swiper";
 import 'swiper/css';
 import 'swiper/css/free-mode';
 import { MdChevronLeft } from "react-icons/md";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 const Index = props => {
+    const router = useRouter()
+
     /**
      * Get all props of this page.
      * @version 1.0
@@ -38,13 +42,7 @@ const Index = props => {
                         </Link>
                     </div>
                     <Swiper spaceBetween={ 12 } slidesPerView={ 2 } freeMode={ true } modules={ [ FreeMode ] } className={ styles.swiper }>
-                        { events.map( event => {
-                            let href = `/events/${ event._id.$oid }`
-
-                            if ( Object.keys( user ).length === 0 ) {
-                                href = '/login?redirect=' + href
-                            }
-
+                        { events.slice(Math.max(events.length - 5, 1)).reverse().map( event => {
                             return (
                                 <SwiperSlide key={ event._id.$oid }>
                                     <Link href={ `/events/${ event._id.$oid }` }>
@@ -76,7 +74,7 @@ export async function getServerSideProps( context ) {
     return {
         props: {
             user:   user,
-            events: events.data.reverse()
+            events: events.data
         }
     }
 }

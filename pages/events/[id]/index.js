@@ -191,16 +191,21 @@ const SingleEvent = props => {
                             </Link> :
                             single.group_info.owner === user.username ?
                                 <>
-                                    <Link href={ `${ query.id }/players` }>
-                                        <a>
-                                            مشاهده لیست بازیکنان
-                                        </a>
-                                    </Link>
                                     {
-                                        single.is_locked === false &&
-                                        <button type={ "button" } onClick={ LockEvent }>
-                                            بستن رزرو ایونت
-                                        </button>
+                                        TodayIsEventDay &&
+                                        <>
+                                            <Link href={ `${ query.id }/players` }>
+                                                <a>
+                                                    مشاهده لیست بازیکنان
+                                                </a>
+                                            </Link>
+                                            {
+                                                single.is_locked === false &&
+                                                <button type={ "button" } onClick={ LockEvent }>
+                                                    بستن رزرو ایونت
+                                                </button>
+                                            }
+                                        </>
                                     }
                                 </> :
                                 <>

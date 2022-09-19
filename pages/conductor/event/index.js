@@ -42,13 +42,13 @@ const Decks = props => {
                     </tr>
                     </thead>
                     <tbody>
-                    { events.map( ( deck, index ) => {
+                    { events.map( ( event, index ) => {
                         return (
-                            <tr key={ deck._id.$oid }>
+                            <tr key={ event._id.$oid }>
                                 <td>{ index + 1 }</td>
-                                <td>{ deck.title }</td>
+                                <td>{ event.title }</td>
                                 <td>
-                                    <Link href={ `#` }>
+                                    <Link href={ `/conductor/event/${ event._id.$oid }` }>
                                         <a>
                                             <MdEdit />
                                         </a>

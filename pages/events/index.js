@@ -19,7 +19,7 @@ const Index = props => {
     const Search = async e => {
         let val = e.target.value
 
-        if ( val.length > 3 ) {
+        if ( val.length > 0 ) {
             let request  = await fetch( `${ process.env.EVENT_URL }/event/explore/${ val }` )
             let response = await request.json()
 

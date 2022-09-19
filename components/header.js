@@ -27,7 +27,7 @@ const Header = props => {
      */
     const Logout = () => {
         deleteCookie( 'token' )
-        router.push( '/login', undefined, { shallow: true } )
+        router.reload()
     }
 
     return (
@@ -47,9 +47,7 @@ const Header = props => {
                     {
                         Object.keys( user ).length === 0 ?
 
-                            <Link href={ '/login' }>
-                                <a className={ styles.loginButton }>ورود به حساب کاربری</a>
-                            </Link> :
+                            <a href={ '/login' } className={ styles.loginButton }>ورود به حساب کاربری</a> :
 
                             <>
                                 <Image src={ '/avatar.png' } alt={ user.username } width={ 40 } height={ 40 } />

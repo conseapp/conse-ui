@@ -15,8 +15,8 @@ import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 
 const Players = props => {
-    const Router                              = useRouter()
-    const { query }                           = Router
+    const router                              = useRouter()
+    const { query }                           = router
     const { user, token, event, sides, deck } = props
 
     const [ Players, SetPlayers ] = useState( event.players )
@@ -238,6 +238,12 @@ const Players = props => {
         }
     }
 
+    const StartEvent = async e => {
+        let href = `/events/${ query.id }/night/0`
+
+        await router.push( href )
+    }
+
     return (
         <div className={ styles.page }>
 
@@ -308,6 +314,9 @@ const Players = props => {
                                     <button type={ "button" } onClick={ LockEvent }>بستن ایونت</button>
                                 </li>
                             }
+                            <li>
+                                <button type={ "button" } onClick={ StartEvent }>شروع بازی</button>
+                            </li>
                         </ul>
                     </div>
                 }

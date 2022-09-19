@@ -1,21 +1,32 @@
-const CreateDeck = async ( deck_name, roles, cards, token ) => {
+const CreateDeck = async ( deck_name, roles, cards, token, id = null ) => {
     const headers = {
         'Authorization': `Bearer ${ token }`,
         'Content-Type':  'application/json'
     }
 
-    const body = JSON.stringify( {
+    let body = {
         "deck_name":       deck_name,
         "roles":           roles,
         "last_move_cards": cards,
         "is_disabled":     false,
         "created_at":      Math.floor( Date.now() / 1000 )
-    } )
+    }
+
+    if ( id !== null ) {
+        body = {
+            "_id":             id,
+            "deck_name":       deck_name,
+            "roles":           roles,
+            "last_move_cards": cards,
+            "is_disabled":     false,
+            "created_at":      Math.floor( Date.now() / 1000 )
+        }
+    }
 
     const options = {
         method:   'POST',
         headers:  headers,
-        body:     body,
+        body:     JSON.stringify( body ),
         redirect: 'follow'
     }
 

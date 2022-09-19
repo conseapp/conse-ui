@@ -8,7 +8,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from "next/router";
 import loginUser from "/utils/loginUser";
 import { hasCookie, setCookie } from "cookies-next";
-import header from "../components/header";
 
 const Login = () => {
     const [ redirect, setRedirectUrl ] = useState( '/' )
@@ -16,7 +15,9 @@ const Login = () => {
     useEffect( () => {
         if ( typeof window !== 'undefined' ) {
             let params = new URLSearchParams( window.location.search )
-            setRedirectUrl( ( params.get( 'redirect' ) !== null ) ? params.get( 'redirect' ) : '/' )
+            if ( params.get( 'redirect' ) !== null ) {
+                setRedirectUrl( params.get( 'redirect' ) )
+            }
         }
     }, [] )
 
@@ -55,7 +56,7 @@ const Login = () => {
         let errors = 0
         if ( username.value === '' ) {
             errors++
-            toast.error( 'نام کاربری نمیتواند خالی باشد' )
+            toast.error( 'نام و نام خانوادگی نمیتواند خالی باشد' )
         }
         if ( password.value === '' ) {
             errors++
@@ -114,7 +115,7 @@ const Login = () => {
                         <h3>ورود به حساب کاربری</h3>
 
                         <div className={ styles.row }>
-                            <label htmlFor={ "username" }>نام کاربری</label>
+                            <label htmlFor={ "username" }>نام و نام خانوادگی</label>
                             <input type="text" id={ "username" } name={ "username" } />
                         </div>
 

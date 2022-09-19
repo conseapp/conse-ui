@@ -48,7 +48,7 @@ const Decks = props => {
                                 <td>{ index + 1 }</td>
                                 <td>{ deck.deck_name }</td>
                                 <td>
-                                    <Link href={ '#' }>
+                                    <Link href={ `/conductor/deck/${ deck._id.$oid }` }>
                                         <a>
                                             <MdEdit />
                                         </a>
