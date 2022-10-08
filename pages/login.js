@@ -10,16 +10,16 @@ import loginUser from "/utils/loginUser";
 import { hasCookie, setCookie } from "cookies-next";
 
 const Login = () => {
-    const [ redirect, setRedirectUrl ] = useState( '/' )
+    const [redirect, setRedirectUrl] = useState('/')
 
-    useEffect( () => {
-        if ( typeof window !== 'undefined' ) {
-            let params = new URLSearchParams( window.location.search )
-            if ( params.get( 'redirect' ) !== null ) {
-                setRedirectUrl( params.get( 'redirect' ) )
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            let params = new URLSearchParams(window.location.search)
+            if (params.get('redirect') !== null) {
+                setRedirectUrl(params.get('redirect'))
             }
         }
-    }, [] )
+    }, [])
 
     /**
      * Use next.js router.
@@ -32,9 +32,9 @@ const Login = () => {
      * Redirect to home page if access token is present.
      * @version 1.0
      */
-    useEffect( () => {
-        if ( hasCookie( 'token' ) ) router.push( redirect ).then()
-    }, [ redirect, router ] )
+    useEffect(() => {
+        if (hasCookie('token')) router.push(redirect).then()
+    }, [redirect, router])
 
     /**
      * Function to check user information during login.
@@ -48,90 +48,90 @@ const Login = () => {
         event.preventDefault()
 
         // Form
-        let username = document.getElementById( 'username' ),
-            password = document.getElementById( 'password' ),
-            button   = document.getElementById( 'submit' )
-
+        let username = document.getElementById('username'),
+            password = document.getElementById('password'),
+            button = document.getElementById('submit')
         // Errors
         let errors = 0
-        if ( username.value === '' ) {
+        if (username.value === '') {
             errors++
-            toast.error( 'نام و نام خانوادگی نمیتواند خالی باشد' )
+            toast.error('نام و نام خانوادگی نمیتواند خالی باشد')
         }
-        if ( password.value === '' ) {
+        if (password.value === '') {
             errors++
-            toast.error( 'کلمه عبور نمیتواند خالی باشد' )
+            toast.error('کلمه عبور نمیتواند خالی باشد')
         }
 
         // Send request to server if there is no errors
-        if ( errors === 0 ) {
+        if (errors === 0) {
 
             // Disable all fields
-            username.setAttribute( 'disabled', 'disabled' )
-            password.setAttribute( 'disabled', 'disabled' )
-            button.setAttribute( 'disabled', 'disabled' )
+            username.setAttribute('disabled', 'disabled')
+            password.setAttribute('disabled', 'disabled')
+            button.setAttribute('disabled', 'disabled')
 
             // Login user
-            let response = await loginUser( username.value, password.value )
-
-            if ( response.status === 200 ) {
+            let response = await loginUser(username.value.toLowerCase(), password.value)
+            console.log(response)
+            if (response.status === 200) {
                 // Show message
-                toast.success( 'شما با موفقیت وارد شدید' )
+                toast.success('شما با موفقیت وارد شدید')
 
                 // Set access token to cookie
-                setCookie( 'token', response.data.access_token )
-
+                localStorage.setItem("loginresp", JSON.stringify(response))
                 // Redirect to home page
-                setTimeout( () => router.push( redirect ), 2000 )
+                setTimeout(() => router.push(redirect), 2000)
             } else {
                 // Show message
-                toast.error( 'خطایی در هنگام ورود به حساب پیش آمده' )
-
+                if (response.status === 404)
+                    toast.error('اطلاعات وارد شده صححیح نمیباشد')
+                else
+                    toast.error('خطایی در هنگام ورود به حساب پیش آمده')
                 // Enable login button
-                username.removeAttribute( 'disabled' )
-                password.removeAttribute( 'disabled' )
-                button.removeAttribute( 'disabled' )
+                username.removeAttribute('disabled')
+                password.removeAttribute('disabled')
+                button.removeAttribute('disabled')
             }
         }
     }
 
     return (
-        <div className={ styles.page }>
+        <div className={styles.page}>
 
             <Head>
                 <title>ورود به حساب کاربری</title>
             </Head>
 
-            <div className={ styles.card }>
+            <div className={styles.card}>
 
-                <div className={ styles.title }>
-                    <Image src={ "/logo.png" } alt={ "Conse" } width={ 112 } height={ 55 } />
+                <div className={styles.title}>
+                    <Image src={"/logo.png"} alt={"Conse"} width={112} height={55} />
                     <h2>From IA</h2>
                 </div>
 
-                <div className={ styles.form }>
-                    <form onSubmit={ loginHandle }>
+                <div className={styles.form}>
+                    <form onSubmit={loginHandle}>
 
                         <h3>ورود به حساب کاربری</h3>
 
-                        <div className={ styles.row }>
-                            <label htmlFor={ "username" }>نام و نام خانوادگی</label>
-                            <input type="text" id={ "username" } name={ "username" } />
+                        <div className={styles.row}>
+                            <label htmlFor={"username"}>نام و نام خانوادگی</label>
+                            <input type="text" id={"username"} name={"username"} />
                         </div>
 
-                        <div className={ styles.row }>
-                            <label htmlFor={ "password" }>کلمه عبور</label>
-                            <input type="password" id={ "password" } name={ "password" } />
+                        <div className={styles.row}>
+                            <label htmlFor={"password"}>کلمه عبور</label>
+                            <input type="password" id={"password"} name={"password"} />
                         </div>
 
-                        <div className={ styles.row }>
-                            <button type={ "submit" } id={ "submit" }>ورود به حساب کاربری</button>
+                        <div className={styles.row}>
+                            <button type={"submit"} id={"submit"}>ورود به حساب کاربری</button>
                         </div>
 
-                        <div className={ styles.row }>
-                            <div className={ styles.footer }>
+                        <div className={styles.row}>
+                            <div className={styles.footer}>
                                 حساب کاربری ندارید ؟
-                                <Link href={ "/signup" }>
+                                <Link href={"/signup"}>
                                     <a>
                                         ثبت نام کنید
                                     </a>
@@ -144,7 +144,7 @@ const Login = () => {
 
             </div>
 
-            <ToastContainer position="bottom-center" autoClose={ 3000 } hideProgressBar newestOnTop={ false } closeOnClick rtl pauseOnFocusLoss draggable pauseOnHover />
+            <ToastContainer position="bottom-center" autoClose={3000} hideProgressBar newestOnTop={false} closeOnClick rtl pauseOnFocusLoss draggable pauseOnHover />
 
         </div>
     )
