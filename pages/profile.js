@@ -111,7 +111,7 @@ const Profile = props => {
 
         let response = await fetch(`${process.env.GAME_URL}/game/god/create/group`, {
             method: 'POST',
-            headers: { "Authorization": `Bearer ${globalUser.access_token}` },
+            headers: { "Authorization": `Bearer ${globalUser.accessToken}` },
             body: JSON.stringify({
                 "name": name.value,
                 "owner": username,

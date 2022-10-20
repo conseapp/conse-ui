@@ -18,10 +18,14 @@ const emptyUser = {
     last_name: '',
 }
 export const getuser = () => {
-    const response = localStorage.getItem("loginresp")
-    console.log("response", response)
-    const _response = JSON.parse(response)
-    console.log("_response", _response)
+    let response;
+    let _response;
+    if (typeof window !== 'undefined') {
+        response = localStorage.getItem("loginresp")
+        console.log("response", response)
+        _response = JSON.parse(response)
+        console.log("_response", _response)
+    }
     if (response != undefined || response != null && _response != undefined || _response != null) {
         try {
             return async dispatch => {
@@ -31,6 +35,7 @@ export const getuser = () => {
                     userDetails.isLoggedIn = true
                     userDetails.username = _response.data.username
                     userDetails.access_level = _response.data.access_level
+                    userDetails.accessToken = _response.data.access_token
                     userDetails.phone_number = _response.data.phone
                     dispatch({
                         type: GET_USER,

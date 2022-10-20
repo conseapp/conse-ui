@@ -25,6 +25,7 @@ function userReducer(state = initialState, action) {
                 access_level: action.payload.access_level,
                 phone_number: action.payload.phone_number,
                 isLoggedIn: action.payload.isLoggedIn,
+                accessToken: action.payload.accessToken,
                 globalUser:action.payload
             };
         case LOGOUT_USER:
