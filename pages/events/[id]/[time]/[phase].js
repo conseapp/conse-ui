@@ -11,7 +11,9 @@ const Phase = props => {
 
     const { time, phase } = router.query
 
-    const { user } = props
+    const { globalUser } = useSelector(state => state.userReducer)
+
+    // const { user } = props
 
     const PhaseCalculation = () => {
         let out = ''
@@ -68,9 +70,9 @@ const Phase = props => {
     return (
         <div className={ styles.page }>
 
-            <Header user={ user } profile={ false } />
+            <Header user={ globalUser } profile={ false } />
 
-            <Nav user={ user } />
+            <Nav user={ globalUser } />
 
             <div className="container">
 
@@ -98,14 +100,14 @@ const Phase = props => {
     )
 }
 
-export async function getServerSideProps( context ) {
-    let user = ( typeof context.req.cookies['token'] !== 'undefined' ) ? await checkToken( context.req.cookies['token'] ) : {}
+// export async function getServerSideProps( context ) {
+//     let user = ( typeof context.req.cookies['token'] !== 'undefined' ) ? await checkToken( context.req.cookies['token'] ) : {}
 
-    return {
-        props: {
-            user: user
-        }
-    }
-}
+//     return {
+//         props: {
+//             user: user
+//         }
+//     }
+// }
 
 export default Phase

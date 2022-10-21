@@ -9,8 +9,11 @@ import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import signupUser from "../utils/signupUser";
 import loginUser from "../utils/loginUser";
+import { useSelector } from "react-redux";
 
 const Register = () => {
+    const { globalUser } = useSelector(state => state.userReducer)
+
     /**
      * Use next.js router.
      *
@@ -24,7 +27,9 @@ const Register = () => {
      * @version 1.0
      */
     useEffect(() => {
-        if (hasCookie('token')) router.push('/').then()
+        // if (hasCookie('token')) router.push('/').then()
+        if (globalUser && globalUser.isLoggedIn)
+            router.push('/')
     }, [router])
 
     /**

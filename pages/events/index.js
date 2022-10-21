@@ -6,43 +6,44 @@ import Nav from "../../components/nav";
 import Header from "../../components/header";
 import { useState } from "react";
 import { MdSearch } from "react-icons/md";
+import { useSelector } from 'react-redux';
 
 const Index = props => {
     /**
      * Get all props of this page.
      * @version 1.0
      */
-    const { user, events } = props
-
-    const [ Events, SetEvents ] = useState( events )
+    const { events } = props
+    const { globalUser } = useSelector(state => state.userReducer)
+    const [Events, SetEvents] = useState(events)
 
     const Search = async e => {
         let val = e.target.value
 
-        if ( val.length > 0 ) {
-            let request  = await fetch( `${ process.env.EVENT_URL }/event/explore/${ val }` )
+        if (val.length > 0) {
+            let request = await fetch(`${process.env.EVENT_URL}/event/explore/${val}`)
             let response = await request.json()
 
-            SetEvents( response.data.reverse() )
+            SetEvents(response.data.reverse())
         } else {
-            SetEvents( events )
+            SetEvents(events)
         }
     }
 
     return (
-        <div className={ styles.page }>
+        <div className={styles.page}>
 
             <Head>
                 <title>ایونت ها</title>
             </Head>
 
-            <Header user={ user } profile={ false } />
+            <Header user={globalUser} profile={false} />
 
-            <Nav user={ user } />
+            <Nav user={globalUser} />
 
-            <div className={ styles.search }>
+            <div className={styles.search}>
                 <label>
-                    <input type={ "text" } onChange={ Search } placeholder={ "جست و جو کنید" } />
+                    <input type={"text"} onChange={Search} placeholder={"جست و جو کنید"} />
                     <MdSearch />
                 </label>
             </div>
@@ -50,23 +51,23 @@ const Index = props => {
             <div className="container">
                 {
                     Events.length > 0 ?
-                        <ul className={ styles.list }>
+                        <ul className={styles.list}>
                             {
-                                Events.map( event => {
+                                Events.map(event => {
                                     return (
-                                        <li key={ event._id.$oid }>
-                                            <Link href={ `/events/${ event._id.$oid }` }>
-                                                <a className={ styles.item } style={ { backgroundImage: 'url("/events-slide-1.png")' } }>
-                                                    <h3>{ event.title }</h3>
+                                        <li key={event._id.$oid}>
+                                            <Link href={`/events/${event._id.$oid}`}>
+                                                <a className={styles.item} style={{ backgroundImage: 'url("/events-slide-1.png")' }}>
+                                                    <h3>{event.title}</h3>
                                                 </a>
                                             </Link>
                                         </li>
                                     )
-                                } )
+                                })
                             }
                         </ul> :
-                        <div className={ styles.notFound }>
-                            <span className={ styles.icon }>
+                        <div className={styles.notFound}>
+                            <span className={styles.icon}>
                                 :(
                             </span>
                             <h2>متاسفانه نتیجه ای یافت نشد !!</h2>
@@ -80,17 +81,17 @@ const Index = props => {
     )
 }
 
-export async function getServerSideProps( context ) {
+export async function getServerSideProps(context) {
     // Check user
-    let user = ( typeof context.req.cookies['token'] !== 'undefined' ) ? await checkToken( context.req.cookies['token'] ) : {}
+    // let user = (typeof context.req.cookies['token'] !== 'undefined') ? await checkToken(context.req.cookies['token']) : {}
 
     // Get events
-    let events = await fetch( `${ process.env.EVENT_URL }/event/get/all/in-going` )
-    events     = await events.json()
+    let events = await fetch(`${process.env.EVENT_URL}/event/get/all/in-going`)
+    events = await events.json()
 
     return {
         props: {
-            user:   user,
+            // user: user,
             events: events.data.reverse()
         }
     }

@@ -6,27 +6,31 @@ import Head from "next/head";
 import checkToken from "../../utils/checkToken";
 import Header from "../../components/header";
 import Nav from "../../components/nav";
+import { useSelector } from 'react-redux';
 
 const Conductor = props => {
     /**
      * Get all props of this page.
      * @version 1.0
      */
-    const { user } = props
+    // const { user } = props
+    const { globalUser } = useSelector(state => state.userReducer)
+    let user = (globalUser && globalUser.accessToken) ? checkToken(globalUser.accessToken) : {}
+
 
     return (
-        <div className={ styles.page }>
+        <div className={styles.page}>
 
             <Head>
                 <title>کنسه</title>
             </Head>
 
-            <Header user={ user } />
+            <Header user={globalUser} />
 
             <div className="container">
-                <ul className={ styles.list }>
+                <ul className={styles.list}>
                     <li>
-                        <Link href={ '/conductor/deck' }>
+                        <Link href={'/conductor/deck'}>
                             <a>
                                 <GiCardRandom />
                                 دک های شما
@@ -34,7 +38,7 @@ const Conductor = props => {
                         </Link>
                     </li>
                     <li>
-                        <Link href={ '/conductor/event' }>
+                        <Link href={'/conductor/event'}>
                             <a>
                                 <MdEvent />
                                 ایونت های شما
@@ -44,21 +48,21 @@ const Conductor = props => {
                 </ul>
             </div>
 
-            <Nav user={ user } />
+            <Nav user={globalUser} />
 
         </div>
     )
 }
 
-export async function getServerSideProps( context ) {
-    // Check user
-    let user = ( typeof context.req.cookies['token'] !== 'undefined' ) ? await checkToken( context.req.cookies['token'] ) : {}
+// export async function getServerSideProps( context ) {
+//     // Check user
+//     let user = ( typeof context.req.cookies['token'] !== 'undefined' ) ? await checkToken( context.req.cookies['token'] ) : {}
 
-    return {
-        props: {
-            user: user
-        }
-    }
-}
+//     return {
+//         props: {
+//             user: user
+//         }
+//     }
+// }
 
 export default Conductor

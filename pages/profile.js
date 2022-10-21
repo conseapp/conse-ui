@@ -28,16 +28,51 @@ const Profile = props => {
     // }, []);
 
     const { globalUser } = useSelector(state => state.userReducer)
-    console.log(globalUser)
+    let user = (globalUser && globalUser.accessToken) ? checkToken(globalUser.accessToken) : {}
+    console.log(user)
+
+    const [ingoing, setIngoing] = useState(undefined)
+    const [expired, setExpired] = useState(undefined)
+    const [isLoggedIn, setIsLoggedIn] = useState(false)
+    const [loading, setLoading] = useState(true)
+
+    const loadInGoing = async () => {
+        let res = await fetch(`${process.env.EVENT_URL}/event/get/all/player/in-going`, {
+            method: "POST",
+            headers: { "Authorization": `Bearer ${globalUser.accessToken}` }
+        })
+        let data = await res.json()
+        setIngoing(data.data)
+
+    }
+    const loadExpired = async () => {
+        let res = await fetch(`${process.env.EVENT_URL}/event/get/all/player/done`, {
+            method: "POST",
+            headers: { "Authorization": `Bearer ${globalUser.accessToken}` }
+        })
+        let data = await res.json()
+        setExpired(data.data)
+
+    }
 
 
-
+    useEffect(() => {
+        if (globalUser && globalUser.isLoggedIn) {
+            loadExpired()
+            loadInGoing()
+        }
+    }, [globalUser])
+    useEffect(() => {
+        if (expired, ingoing)
+            setLoading(false)
+    }, [expired,ingoing])
     /**
      * Get props of this page
      * @version 1.0
      * @var user, groups
      */
-    const { groups, ingoing, expired } = props
+    // const { groups, ingoing, expired } = props
+    const { groups } = props
 
     /**
      * Changing the state of panels when clicking on navigation items.
@@ -147,113 +182,117 @@ const Profile = props => {
                             شما اجازه دسترسی به این صفحه را ندارید لطفا وارد حساب کاربری خود شوید
                         </Alert>
                     </div> :
-                    <div className="container" style={{ padding: 0 }}>
-                        <div className={styles.navigation}>
-                            <ul>
-                                <li className={styles.active} data-target={"#reserves"}>رزرو های من</li>
-
-                                <li data-target={"#history"}>تاریخچه</li>
-
-                                {globalUser.access_level !== 2 && <li data-target={"#group"}>گروه من</li>}
-                            </ul>
-                        </div>
-
-                        <div className={styles.tabs}>
-
-                            <div id={"reserves"} className={`${styles.active} ${styles.reserves}`}>
-                                {ingoing.length > 0 ?
+                    <>
+                        {loading ? <div>...</div> : <>
+                            <div className="container" style={{ padding: 0 }}>
+                                <div className={styles.navigation}>
                                     <ul>
-                                        {ingoing.map(event => {
-                                            return (
-                                                <li key={event._id.$oid}>
-                                                    <Link href={`/events/${event._id.$oid}`}>
-                                                        <a style={{ backgroundImage: 'url(/events-slide-2.png)' }}>
-                                                            <h3>
-                                                                {event.title}
-                                                            </h3>
-                                                        </a>
-                                                    </Link>
-                                                </li>
-                                            )
-                                        })}
-                                    </ul> :
-                                    <Alert>
-                                        بازی رزروی وجود ندارد
-                                    </Alert>
-                                }
+                                        <li className={styles.active} data-target={"#reserves"}>رزرو های من</li>
 
+                                        <li data-target={"#history"}>تاریخچه</li>
+
+                                        {globalUser.access_level !== 2 && <li data-target={"#group"}>گروه من</li>}
+                                    </ul>
+                                </div>
+
+                                <div className={styles.tabs}>
+
+                                    <div id={"reserves"} className={`${styles.active} ${styles.reserves}`}>
+                                        {ingoing.length > 0 ?
+                                            <ul>
+                                                {ingoing.map(event => {
+                                                    return (
+                                                        <li key={event._id.$oid}>
+                                                            <Link href={`/events/${event._id.$oid}`}>
+                                                                <a style={{ backgroundImage: 'url(/events-slide-2.png)' }}>
+                                                                    <h3>
+                                                                        {event.title}
+                                                                    </h3>
+                                                                </a>
+                                                            </Link>
+                                                        </li>
+                                                    )
+                                                })}
+                                            </ul> :
+                                            <Alert>
+                                                بازی رزروی وجود ندارد
+                                            </Alert>
+                                        }
+
+                                    </div>
+
+                                    <div id={"history"} className={styles.history}>
+                                        {
+                                            expired.length > 0 ?
+                                                <ul>
+                                                    {expired.map(event => {
+                                                        return (
+                                                            <li key={event._id.$oid}>
+                                                                <Link href={`/events/${event._id.$oid}`}>
+                                                                    <a style={{ backgroundImage: 'url(/events-slide-2.png)' }}>
+                                                                        <h3>
+                                                                            {event.title}
+                                                                        </h3>
+                                                                    </a>
+                                                                </Link>
+                                                            </li>
+                                                        )
+                                                    })}
+                                                </ul> :
+                                                <Alert>
+                                                    تاریخچه ای وجود ندارد
+                                                </Alert>
+                                        }
+                                    </div>
+
+                                    <div id={"group"} className={styles.group}>
+                                        {globalUser.access_level !== 2 && CanCreateGroup === true ?
+                                            <>
+                                                <div className={"page-title"}>
+                                                    <h2>ثبت گروه</h2>
+                                                </div>
+
+                                                <Alert type={'warning'}>
+                                                    توجه داشته باشید، در صورت ثبت گروه دیگر قادر به تغییر نام آن نمیباشید، لذا
+                                                    برای تغییر آن باید درخواست خود را ثبت کنید تا پس از بررسی تغییر نام گروه
+                                                    برای شما انجام شود، پس با دقت نام گروه خود را انتخاب کنید
+                                                </Alert>
+
+                                                <form onSubmit={SubmitGroup} className={"submit-form"}>
+                                                    <div className="row">
+                                                        <label htmlFor="name">نام گروه</label>
+                                                        <input type="text" id={"name"} />
+                                                    </div>
+
+                                                    <div className="row">
+                                                        <button type={"submit"}>ثبت گروه</button>
+                                                    </div>
+                                                </form>
+
+                                                <ToastContainer position="bottom-center" autoClose={3000} hideProgressBar newestOnTop={false} closeOnClick rtl pauseOnFocusLoss draggable pauseOnHover />
+
+                                            </> : <>
+                                                <div className={"page-title"}>
+                                                    <h2>گروه شما</h2>
+                                                </div>
+
+                                                <Alert type={"info"}>
+                                                    شما نام گروه خود را انتخاب کردید برای تغییر به پشتیبانی درخواست دهید
+                                                </Alert>
+
+                                                <form onSubmit={SubmitGroup} className={"submit-form"}>
+                                                    <div className="row">
+                                                        <label htmlFor="name_temp">نام گروه</label>
+                                                        <input type="text" id={"name_temp"} disabled={true} value={GroupName} />
+                                                    </div>
+                                                </form>
+                                            </>}
+                                    </div>
+
+                                </div>
                             </div>
-
-                            <div id={"history"} className={styles.history}>
-                                {
-                                    expired.length > 0 ?
-                                        <ul>
-                                            {expired.map(event => {
-                                                return (
-                                                    <li key={event._id.$oid}>
-                                                        <Link href={`/events/${event._id.$oid}`}>
-                                                            <a style={{ backgroundImage: 'url(/events-slide-2.png)' }}>
-                                                                <h3>
-                                                                    {event.title}
-                                                                </h3>
-                                                            </a>
-                                                        </Link>
-                                                    </li>
-                                                )
-                                            })}
-                                        </ul> :
-                                        <Alert>
-                                            تاریخچه ای وجود ندارد
-                                        </Alert>
-                                }
-                            </div>
-
-                            <div id={"group"} className={styles.group}>
-                                {globalUser.access_level !== 2 && CanCreateGroup === true ?
-                                    <>
-                                        <div className={"page-title"}>
-                                            <h2>ثبت گروه</h2>
-                                        </div>
-
-                                        <Alert type={'warning'}>
-                                            توجه داشته باشید، در صورت ثبت گروه دیگر قادر به تغییر نام آن نمیباشید، لذا
-                                            برای تغییر آن باید درخواست خود را ثبت کنید تا پس از بررسی تغییر نام گروه
-                                            برای شما انجام شود، پس با دقت نام گروه خود را انتخاب کنید
-                                        </Alert>
-
-                                        <form onSubmit={SubmitGroup} className={"submit-form"}>
-                                            <div className="row">
-                                                <label htmlFor="name">نام گروه</label>
-                                                <input type="text" id={"name"} />
-                                            </div>
-
-                                            <div className="row">
-                                                <button type={"submit"}>ثبت گروه</button>
-                                            </div>
-                                        </form>
-
-                                        <ToastContainer position="bottom-center" autoClose={3000} hideProgressBar newestOnTop={false} closeOnClick rtl pauseOnFocusLoss draggable pauseOnHover />
-
-                                    </> : <>
-                                        <div className={"page-title"}>
-                                            <h2>گروه شما</h2>
-                                        </div>
-
-                                        <Alert type={"info"}>
-                                            شما نام گروه خود را انتخاب کردید برای تغییر به پشتیبانی درخواست دهید
-                                        </Alert>
-
-                                        <form onSubmit={SubmitGroup} className={"submit-form"}>
-                                            <div className="row">
-                                                <label htmlFor="name_temp">نام گروه</label>
-                                                <input type="text" id={"name_temp"} disabled={true} value={GroupName} />
-                                            </div>
-                                        </form>
-                                    </>}
-                            </div>
-
-                        </div>
-                    </div>
+                        </>}
+                    </>
             }
 
         </div>
@@ -273,25 +312,25 @@ export async function getServerSideProps(context) {
     let groups = await fetch(`${process.env.GAME_URL}/game/get/group/all`)
     groups = await groups.json()
 
-    // Get all player ingoing events
-    let ingoing = await fetch(`${process.env.EVENT_URL}/event/get/all/player/in-going`, {
-        method: "POST",
-        headers: { "Authorization": `Bearer ${context.req.cookies['token']}` }
-    })
-    ingoing = await ingoing.json()
+    // // Get all player ingoing events
+    // let ingoing = await fetch(`${process.env.EVENT_URL}/event/get/all/player/in-going`, {
+    //     method: "POST",
+    //     headers: { "Authorization": `Bearer ${context.req.cookies['token']}` }
+    // })
+    // ingoing = await ingoing.json()
 
-    // Get all player ingoing events
-    let expired = await fetch(`${process.env.EVENT_URL}/event/get/all/player/done`, {
-        method: "POST",
-        headers: { "Authorization": `Bearer ${context.req.cookies['token']}` }
-    })
-    expired = await expired.json()
+    // // Get all player ingoing events
+    // let expired = await fetch(`${process.env.EVENT_URL}/event/get/all/player/done`, {
+    //     method: "POST",
+    //     headers: { "Authorization": `Bearer ${context.req.cookies['token']}` }
+    // })
+    // expired = await expired.json()
 
     return {
         props: {
             groups: groups.data.groups,
-            ingoing: ingoing.data,
-            expired: expired.data,
+            // ingoing: ingoing.data,
+            // expired: expired.data,
             // user: user
         }
     }

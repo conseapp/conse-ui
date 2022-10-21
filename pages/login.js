@@ -8,9 +8,19 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from "next/router";
 import loginUser from "/utils/loginUser";
 import { hasCookie, setCookie } from "cookies-next";
+import { useDispatch, useSelector } from "react-redux";
+import { getuser } from "../redux/actions";
 
 const Login = () => {
     const [redirect, setRedirectUrl] = useState('/')
+
+    const dispatch = useDispatch();
+    const fetchUser = () => dispatch(getuser());
+    React.useEffect(() => {
+        fetchUser();
+    }, []);
+
+    const { globalUser } = useSelector(state => state.userReducer)
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
@@ -33,7 +43,9 @@ const Login = () => {
      * @version 1.0
      */
     useEffect(() => {
-        if (hasCookie('token')) router.push(redirect).then()
+        // if (hasCookie('token')) router.push(redirect).then()
+        if (globalUser && globalUser.isLoggedIn)
+            router.push(redirect)
     }, [redirect, router])
 
     /**
