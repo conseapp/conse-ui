@@ -112,7 +112,7 @@ const SingleEvent = props => {
                     body: JSON.stringify({
                         "_id": query.id,
                         "voter": {
-                            "nft_owner_wallet_address": globalUser.user_id,
+                            "nft_owner_wallet_address": "",
                             "is_upvote": is_upvote,
                             "score": 0
                         }

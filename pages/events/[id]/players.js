@@ -396,9 +396,10 @@ const Players = props => {
                                         <button type={"button"} onClick={LockEvent}>بستن ایونت</button>
                                     </li>
                                 }
-                                <li>
+                                {/* comment start game for now to uncomment after phases done */}
+                                {/* <li>
                                     <button type={"button"} onClick={StartEvent}>شروع بازی</button>
-                                </li>
+                                </li> */}
                             </ul>
                         </div>
                     }

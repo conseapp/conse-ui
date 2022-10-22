@@ -12,6 +12,7 @@ const CreateEvent = async ( body, token ) => {
     }
 
     const response = await fetch( `${ process.env.EVENT_URL }/event/add`, options )
+    console.log(response)
     return await response.json()
 }
 

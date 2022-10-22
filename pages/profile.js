@@ -65,7 +65,7 @@ const Profile = props => {
     useEffect(() => {
         if (expired, ingoing)
             setLoading(false)
-    }, [expired,ingoing])
+    }, [expired, ingoing])
     /**
      * Get props of this page
      * @version 1.0
@@ -78,7 +78,9 @@ const Profile = props => {
      * Changing the state of panels when clicking on navigation items.
      * @version 1.0
      */
-    useEffect(() => {
+    // useEffect(() => {
+    const tabSelect = (e) => {
+        e.preventDefault()
         let TabItems = document.querySelectorAll(`.${styles.navigation} ul li`)
         let Tabs = document.querySelectorAll(`.${styles.tabs} > div`)
 
@@ -97,8 +99,8 @@ const Profile = props => {
             })
 
         })
-
-    }, [])
+    }
+    // }, [])
 
     /**
      * Checking whether the user has the ability to create a group or not.
@@ -189,9 +191,9 @@ const Profile = props => {
                                     <ul>
                                         <li className={styles.active} data-target={"#reserves"}>رزرو های من</li>
 
-                                        <li data-target={"#history"}>تاریخچه</li>
+                                        <li data-target={"#history"} onClick={tabSelect}>تاریخچه</li>
 
-                                        {globalUser.access_level !== 2 && <li data-target={"#group"}>گروه من</li>}
+                                        {globalUser.access_level !== 2 && <li data-target={"#group"} onClick={tabSelect}>گروه من</li>}
                                     </ul>
                                 </div>
 

@@ -26,28 +26,32 @@ const Conductor = props => {
             </Head>
 
             <Header user={globalUser} />
-
-            <div className="container">
-                <ul className={styles.list}>
-                    <li>
-                        <Link href={'/conductor/deck'}>
-                            <a>
-                                <GiCardRandom />
-                                دک های شما
-                            </a>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link href={'/conductor/event'}>
-                            <a>
-                                <MdEvent />
-                                ایونت های شما
-                            </a>
-                        </Link>
-                    </li>
-                </ul>
-            </div>
-
+            {globalUser.isLoggedIn ? <>
+                {globalUser.access_level == 0 || globalUser.access_level == 1 ?
+                    <div className="container">
+                        <ul className={styles.list}>
+                            <li>
+                                <Link href={'/conductor/deck'}>
+                                    <a>
+                                        <GiCardRandom />
+                                        دک های شما
+                                    </a>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href={'/conductor/event'}>
+                                    <a>
+                                        <MdEvent />
+                                        ایونت های شما
+                                    </a>
+                                </Link>
+                            </li>
+                        </ul>
+                    </div> :
+                    <div className="container">
+                        سطح دسترسی ندارید
+                    </div>}
+            </> : undefined}
             <Nav user={globalUser} />
 
         </div>

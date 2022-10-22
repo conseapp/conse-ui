@@ -54,46 +54,50 @@ const Decks = props => {
             <Header user={globalUser} />
 
             <Nav user={globalUser} />
-            {loading ? <div>loading...</div> : <>
-                <div className="container">
-                    {err ? <>{err}</> : <>
-                        <Link href={'deck/create'}>
-                            <a className={styles.addButton}>
-                                <MdAdd />
-                                ایجاد دک
-                            </a>
-                        </Link>
+            {globalUser.isLoggedIn && (globalUser.access_level == 0 || globalUser.access_level == 1) ? <>
+                {loading ? <div>loading...</div> : <>
+                    <div className="container">
+                        {err ? <>{err}</> : <>
+                            <Link href={'deck/create'}>
+                                <a className={styles.addButton}>
+                                    <MdAdd />
+                                    ایجاد دک
+                                </a>
+                            </Link>
 
-                        <table className={styles.tableOfContent}>
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>نام دک</th>
-                                    <th>عملیات</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {decks.map((deck, index) => {
-                                    return (
-                                        <tr key={deck._id.$oid}>
-                                            <td>{index + 1}</td>
-                                            <td>{deck.deck_name}</td>
-                                            <td>
-                                                <Link href={`/conductor/deck/${deck._id.$oid}`}>
-                                                    <a>
-                                                        <MdEdit />
-                                                    </a>
-                                                </Link>
-                                            </td>
-                                        </tr>
-                                    )
-                                })}
-                            </tbody>
-                        </table>
-                    </>}
+                            <table className={styles.tableOfContent}>
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>نام دک</th>
+                                        <th>عملیات</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {decks.map((deck, index) => {
+                                        return (
+                                            <tr key={deck._id.$oid}>
+                                                <td>{index + 1}</td>
+                                                <td>{deck.deck_name}</td>
+                                                <td>
+                                                    <Link href={`/conductor/deck/${deck._id.$oid}`}>
+                                                        <a>
+                                                            <MdEdit />
+                                                        </a>
+                                                    </Link>
+                                                </td>
+                                            </tr>
+                                        )
+                                    })}
+                                </tbody>
+                            </table>
+                        </>}
 
-                </div>
-            </>}
+                    </div>
+                </>}
+            </> : <div className="container">
+                سطح دسترسی ندارید
+            </div>}
         </div>
     )
 }

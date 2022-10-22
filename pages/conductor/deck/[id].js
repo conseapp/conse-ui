@@ -12,6 +12,7 @@ import Header from "../../../components/header";
 import Nav from "../../../components/nav";
 import { getCookie } from "cookies-next";
 import CreateDeck from "../../../utils/createDeck";
+import { useSelector } from "react-redux";
 
 const Edit = props => {
 
@@ -46,6 +47,7 @@ const Edit = props => {
             }
         })
         const data = await res.json()
+        console.log("-----", data)
         if (data.status == 200)
             setRoles(data.data.roles)
         console.log(data)
@@ -68,7 +70,7 @@ const Edit = props => {
         let res = await fetch(`${process.env.GAME_URL}/game/deck/get/single`, {
             method: 'POST',
             headers: { "Authorization": `Bearer ${globalUser.accessToken}` },
-            body: JSON.stringify({ _id: context.query.id })
+            body: JSON.stringify({ _id: query.id })
         })
         let data = await res.json()
         if (data.status == 200)
@@ -97,6 +99,7 @@ const Edit = props => {
      * @version 1.0
      */
     const router = useRouter()
+    const { query } = router
 
     /**
      * Get all props of this page.
@@ -114,38 +117,42 @@ const Edit = props => {
      * @version 1.0
      */
     useEffect(() => {
-        let groups = []
-        sides.forEach(side => {
+        if (roles && sides) {
 
-            let options = []
-            roles.filter(role => {
-                if (role.side_id.$oid === side._id.$oid) {
-                    options.push({
-                        label: role.name,
-                        value: JSON.stringify(role)
-                    })
-                }
+            let groups = []
+            sides.forEach(side => {
+
+                let options = []
+                roles.filter(role => {
+                    if (role.side_id.$oid === side._id.$oid) {
+                        options.push({
+                            label: role.name,
+                            value: JSON.stringify(role)
+                        })
+                    }
+                })
+
+                groups.push({ label: side.name, options: options })
             })
 
-            groups.push({ label: side.name, options: options })
-        })
-
-        setRoleOptions(groups)
-
-    }, [props.sides, roles, sides])
+            setRoleOptions(groups)
+        }
+    }, [roles, sides])
 
     const [defaultRoles, setDefaultRoles] = useState([])
     useEffect(() => {
-        let options = []
-        deck.roles.filter(role => {
-            options.push({
-                label: role.name,
-                value: JSON.stringify(role)
+        if (deck && roles && sides) {
+            let options = []
+            deck.roles.filter(role => {
+                options.push({
+                    label: role.name,
+                    value: JSON.stringify(role)
+                })
             })
-        })
 
-        setDefaultRoles(options)
-    }, [deck.roles, sides])
+            setDefaultRoles(options)
+        }
+    }, [deck, roles, sides])
     /**
      * Registering the selected roles in the corresponding variable.
      * @version 1.0
@@ -164,17 +171,17 @@ const Edit = props => {
      * @version 1.0
      */
     useEffect(() => {
-        let options = []
-
-        cards.filter(card => {
-            options.push({
-                label: card.name,
-                value: JSON.stringify(card)
+        if (cards) {
+            let options = []
+            cards.filter(card => {
+                options.push({
+                    label: card.name,
+                    value: JSON.stringify(card)
+                })
             })
-        })
 
-        setCardOptions(options)
-
+            setCardOptions(options)
+        }
     }, [cards])
 
     /**
@@ -183,18 +190,19 @@ const Edit = props => {
      */
     const [defaultCards, setDefaultCards] = useState([])
     useEffect(() => {
-        let options = []
+        if (deck) {
+            let options = []
 
-        deck.last_move_cards.filter(card => {
-            options.push({
-                label: card.name,
-                value: JSON.stringify(card)
+            deck.last_move_cards.filter(card => {
+                options.push({
+                    label: card.name,
+                    value: JSON.stringify(card)
+                })
             })
-        })
 
-        setDefaultCards(options)
-
-    }, [deck.last_move_cards])
+            setDefaultCards(options)
+        }
+    }, [deck])
     /**
      * Registering the selected roles in the corresponding variable.
      * @version 1.0
@@ -305,95 +313,97 @@ const Edit = props => {
             <Header user={globalUser} />
 
             <Nav user={globalUser} />
+            {globalUser.isLoggedIn && (globalUser.access_level == 0 || globalUser.access_level == 1) ? <>
+                {loading ? <><div>loading...</div></> : <>
+                    <div className="container">
 
-            {loading ? <><div>loading...</div></> : <>
-                <div className="container">
+                        <div className="page-title">
+                            <h2>افزودن دک بازی</h2>
+                            <Link href={'/conductor/deck'}>
+                                <a>
+                                    بازگشت
+                                </a>
+                            </Link>
+                        </div>
 
-                    <div className="page-title">
-                        <h2>افزودن دک بازی</h2>
-                        <Link href={'/conductor/deck'}>
-                            <a>
-                                بازگشت
-                            </a>
-                        </Link>
+                        <form onSubmit={insertDeck} className={"submit-form"}>
+
+                            <div className="row">
+                                <label htmlFor="title">نام دک</label>
+                                <input type="text" id={"title"} value={deck.deck_name} readOnly={true} />
+                            </div>
+
+                            <div className="row">
+                                <label htmlFor="roles">انتخاب نقش ها</label>
+                                <Select placeholder={'انتخاب کنید'} styles={{
+                                    option: (provided, state) => {
+                                        let { side_id } = JSON.parse(state.value)
+                                        let color = {}
+                                        if (side_id.$oid === '630a35978c198e0d655c8adf') color = { color: '#549088' }
+                                        if (side_id.$oid === '630a359e8c198e0d655c8ae0') color = { color: '#cb5240' }
+                                        if (side_id.$oid === '630a35a38c198e0d655c8ae1') color = { color: '#ffde43' }
+                                        if (side_id.$oid === '630a3773696bb14037bdec19') color = { color: '#333333' }
+                                        if (side_id.$oid === '630a383d696bb14037bdec1a') color = { color: '#83bb70' }
+                                        if (side_id.$oid === '630a389a696bb14037bdec1b') color = { color: '#1d1a21' }
+                                        if (side_id.$oid === '630a3926696bb14037bdec1d') color = { color: '#333333' }
+                                        return {
+                                            ...provided,
+                                            ...color,
+                                            "&:hover": { ...CreateSideColor(side_id.$oid) },
+                                            cursor: 'pointer'
+                                        }
+                                    },
+                                    control: (provided, state) => {
+                                        return {
+                                            ...provided,
+                                            backgroundColor: '#E5E5E5',
+                                            border: 'none',
+                                            borderRadius: '8px'
+                                        }
+                                    },
+                                    multiValue: (provided, state) => ({
+                                        ...provided,
+                                        paddingRight: '4px',
+                                        border: '1px solid #CCC'
+                                    })
+                                }} value={defaultRoles} defaultValue={defaultRoles} options={roleOptions} id={"roles"} isRtl={true} isMulti={true} onChange={changeRoles} />
+                            </div>
+
+                            <div className="row">
+                                <label htmlFor="roles">انتخاب کارت های حرکت آخر</label>
+                                <Select placeholder={'انتخاب کنید'} styles={{
+                                    option: (provided, state) => {
+                                        return {
+                                            ...provided,
+                                            cursor: 'pointer'
+                                        }
+                                    },
+                                    control: (provided, state) => {
+                                        return {
+                                            ...provided,
+                                            backgroundColor: '#E5E5E5',
+                                            border: 'none',
+                                            borderRadius: '8px'
+                                        }
+                                    },
+                                    multiValue: (provided, state) => ({
+                                        ...provided,
+                                        paddingRight: '4px',
+                                        border: '1px solid #CCC'
+                                    })
+                                }} value={defaultCards} defaultValue={defaultCards} options={cardOptions} id={"cards"} isRtl={true} isMulti={true} onChange={changeCards} />
+                            </div>
+
+                            <div className="row">
+                                <button type={"submit"}>ویرایش دک</button>
+                            </div>
+
+                        </form>
+
                     </div>
-
-                    <form onSubmit={insertDeck} className={"submit-form"}>
-
-                        <div className="row">
-                            <label htmlFor="title">نام دک</label>
-                            <input type="text" id={"title"} value={deck.deck_name} readOnly={true} />
-                        </div>
-
-                        <div className="row">
-                            <label htmlFor="roles">انتخاب نقش ها</label>
-                            <Select placeholder={'انتخاب کنید'} styles={{
-                                option: (provided, state) => {
-                                    let { side_id } = JSON.parse(state.value)
-                                    let color = {}
-                                    if (side_id.$oid === '630a35978c198e0d655c8adf') color = { color: '#549088' }
-                                    if (side_id.$oid === '630a359e8c198e0d655c8ae0') color = { color: '#cb5240' }
-                                    if (side_id.$oid === '630a35a38c198e0d655c8ae1') color = { color: '#ffde43' }
-                                    if (side_id.$oid === '630a3773696bb14037bdec19') color = { color: '#333333' }
-                                    if (side_id.$oid === '630a383d696bb14037bdec1a') color = { color: '#83bb70' }
-                                    if (side_id.$oid === '630a389a696bb14037bdec1b') color = { color: '#1d1a21' }
-                                    if (side_id.$oid === '630a3926696bb14037bdec1d') color = { color: '#333333' }
-                                    return {
-                                        ...provided,
-                                        ...color,
-                                        "&:hover": { ...CreateSideColor(side_id.$oid) },
-                                        cursor: 'pointer'
-                                    }
-                                },
-                                control: (provided, state) => {
-                                    return {
-                                        ...provided,
-                                        backgroundColor: '#E5E5E5',
-                                        border: 'none',
-                                        borderRadius: '8px'
-                                    }
-                                },
-                                multiValue: (provided, state) => ({
-                                    ...provided,
-                                    paddingRight: '4px',
-                                    border: '1px solid #CCC'
-                                })
-                            }} value={defaultRoles} defaultValue={defaultRoles} options={roleOptions} id={"roles"} isRtl={true} isMulti={true} onChange={changeRoles} />
-                        </div>
-
-                        <div className="row">
-                            <label htmlFor="roles">انتخاب کارت های حرکت آخر</label>
-                            <Select placeholder={'انتخاب کنید'} styles={{
-                                option: (provided, state) => {
-                                    return {
-                                        ...provided,
-                                        cursor: 'pointer'
-                                    }
-                                },
-                                control: (provided, state) => {
-                                    return {
-                                        ...provided,
-                                        backgroundColor: '#E5E5E5',
-                                        border: 'none',
-                                        borderRadius: '8px'
-                                    }
-                                },
-                                multiValue: (provided, state) => ({
-                                    ...provided,
-                                    paddingRight: '4px',
-                                    border: '1px solid #CCC'
-                                })
-                            }} value={defaultCards} defaultValue={defaultCards} options={cardOptions} id={"cards"} isRtl={true} isMulti={true} onChange={changeCards} />
-                        </div>
-
-                        <div className="row">
-                            <button type={"submit"}>ویرایش دک</button>
-                        </div>
-
-                    </form>
-
-                </div>
-            </>}
+                </>}</> : <div className="container">
+                سطح دسترسی ندارید
+            </div>}
             <ToastContainer position="bottom-center" autoClose={3000} hideProgressBar newestOnTop={false} closeOnClick rtl pauseOnFocusLoss draggable pauseOnHover />
 
         </div>
