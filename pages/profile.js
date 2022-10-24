@@ -33,8 +33,10 @@ const Profile = props => {
 
     const [ingoing, setIngoing] = useState(undefined)
     const [expired, setExpired] = useState(undefined)
+    const [groups, setGroups] = useState(undefined)
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     const [loading, setLoading] = useState(true)
+    const [CanCreateGroup, setCanCreateGroup] = useState(undefined)
 
     const loadInGoing = async () => {
         let res = await fetch(`${process.env.EVENT_URL}/event/get/all/player/in-going`, {
@@ -54,25 +56,40 @@ const Profile = props => {
         setExpired(data.data)
 
     }
+    const loadGroups = async () => {
+        let res = await fetch(`${process.env.GAME_URL}/game/god/get/group/all`, {
+            method: 'POST',
+            headers: { "Authorization": `Bearer ${globalUser.accessToken}` },
+            body: JSON.stringify({ "_id": globalUser.user_id })
+        })
+        let data = await res.json()
+        console.log(data)
+        if (data.status == 200)
+            setGroups(data.data.groups)
+
+    }
 
 
     useEffect(() => {
         if (globalUser && globalUser.isLoggedIn) {
             loadExpired()
             loadInGoing()
+            loadGroups()
+            canCreateGroupHandler()
         }
     }, [globalUser])
     useEffect(() => {
-        if (expired, ingoing)
+        if (expired && ingoing && groups)
             setLoading(false)
-    }, [expired, ingoing])
+    }, [expired, ingoing, groups])
     /**
      * Get props of this page
      * @version 1.0
      * @var user, groups
      */
     // const { groups, ingoing, expired } = props
-    const { groups } = props
+    const { groupss } = props
+    console.log('groupss,,,,,,,,,,,,',groupss)
 
     /**
      * Changing the state of panels when clicking on navigation items.
@@ -108,7 +125,18 @@ const Profile = props => {
      * @returns {boolean}
      * @constructor
      */
-    const CanCreateGroup = () => groups.filter(g => g.owner === globalUser.username).length <= 0
+    // const CanCreateGroup = () => { if (groups) groups.filter(g => g.owner === globalUser.username).length <= 0 }
+    const canCreateGroupHandler = () => {
+        if (groups) {
+            if (groups.length == 0) setCanCreateGroup(true)
+            for (let t = 0; t < groups.length; t++) {
+                if (groups[t].owner == globalUser.username)
+                    setCanCreateGroup(false)
+                else setCanCreateGroup(true)
+            }
+        }
+        console.log(CanCreateGroup)
+    }
 
     /**
      * Set group name
@@ -116,9 +144,11 @@ const Profile = props => {
      */
     const [GroupName, SetGroupName] = useState('')
     useEffect(() => {
-        let group = groups.filter(g => g.owner === globalUser.username)
-        if (group.length > 0) {
-            SetGroupName(group.at(-1).name)
+        if (groups) {
+            let group = groups.filter(g => g.owner === globalUser.username)
+            if (group.length > 0) {
+                SetGroupName(group.at(-1).name)
+            }
         }
     }, [groups, globalUser.username])
 
@@ -248,7 +278,7 @@ const Profile = props => {
                                     </div>
 
                                     <div id={"group"} className={styles.group}>
-                                        {globalUser.access_level !== 2 && CanCreateGroup === true ?
+                                        {globalUser.access_level !== 2 && CanCreateGroup == true ?
                                             <>
                                                 <div className={"page-title"}>
                                                     <h2>ثبت گروه</h2>
@@ -307,33 +337,33 @@ const Profile = props => {
  * @returns {Promise<{props: {expired, ingoing, groups: *, user: any}}>}
  */
 export async function getServerSideProps(context) {
-    // Check user
-    // let user = (typeof context.req.cookies['token'] !== 'undefined') ? await checkToken(context.req.cookies['token']) : {}
+    //     // Check user
+    //     // let user = (typeof context.req.cookies['token'] !== 'undefined') ? await checkToken(context.req.cookies['token']) : {}
 
-    // Get all groups
+    //     // Get all groups
     let groups = await fetch(`${process.env.GAME_URL}/game/get/group/all`)
     groups = await groups.json()
 
-    // // Get all player ingoing events
-    // let ingoing = await fetch(`${process.env.EVENT_URL}/event/get/all/player/in-going`, {
-    //     method: "POST",
-    //     headers: { "Authorization": `Bearer ${context.req.cookies['token']}` }
-    // })
-    // ingoing = await ingoing.json()
+    //     // // Get all player ingoing events
+    //     // let ingoing = await fetch(`${process.env.EVENT_URL}/event/get/all/player/in-going`, {
+    //     //     method: "POST",
+    //     //     headers: { "Authorization": `Bearer ${context.req.cookies['token']}` }
+    //     // })
+    //     // ingoing = await ingoing.json()
 
-    // // Get all player ingoing events
-    // let expired = await fetch(`${process.env.EVENT_URL}/event/get/all/player/done`, {
-    //     method: "POST",
-    //     headers: { "Authorization": `Bearer ${context.req.cookies['token']}` }
-    // })
-    // expired = await expired.json()
+    //     // // Get all player ingoing events
+    //     // let expired = await fetch(`${process.env.EVENT_URL}/event/get/all/player/done`, {
+    //     //     method: "POST",
+    //     //     headers: { "Authorization": `Bearer ${context.req.cookies['token']}` }
+    //     // })
+    //     // expired = await expired.json()
 
     return {
         props: {
-            groups: groups.data.groups,
-            // ingoing: ingoing.data,
-            // expired: expired.data,
-            // user: user
+            groupss: groups.data.groups,
+            //             // ingoing: ingoing.data,
+            //             // expired: expired.data,
+            //             // user: user
         }
     }
 }

@@ -120,6 +120,10 @@ const Create = props => {
     const SubmitEvent = async e => {
         e.preventDefault()
 
+        if (groups.length == 0) {
+            toast.error('برای ساخت ایونت باید گروه داشته باشید')
+            return
+        }
         // Form Element
         let form = e.target,
             title = form.querySelector('#title'),
@@ -144,7 +148,7 @@ const Create = props => {
             "content": content.value,
             "deck_id": deck._id.$oid,
             "entry_price": '0',
-            "group_info": group_info ? group_info : {},
+            "group_info": group_info,
             "creator_wallet_address": "0x0000000000000000000000000000000000000000",
             "upvotes": 0,
             "downvotes": 0,
