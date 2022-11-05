@@ -44,6 +44,7 @@ const Create = props => {
             headers: { "Authorization": `Bearer ${globalUser.accessToken}` }
         })
         let eventData = await event.json()
+        console.log(eventData)
         if (eventData.status == 200)
             setEvent(eventData.data)
         // Get available groups
@@ -53,9 +54,10 @@ const Create = props => {
             body: JSON.stringify({ "_id": globalUser.user_id })
         })
         let groupsData = await groups.json()
-        if (groupsData.status == 200)
+        if (groupsData.status == 200) {
             setGroups(groupsData.data.groups)
-
+            setStartDate(groupsData.data.groups[0].started_at)
+        }
         // Get available decks
         let decks = await fetch(`${process.env.GAME_URL}/game/deck/get/availables`, {
             method: 'GET',
@@ -81,7 +83,7 @@ const Create = props => {
     /**
      * Submit start_at
      */
-    const [startDate, setStartDate] = useState(new Date())
+    const [startDate, setStartDate] = useState(undefined)
 
     /**
      * Change the style of the dropdown list.
@@ -137,7 +139,8 @@ const Create = props => {
             button = form.querySelector('button[type="submit"]')
 
         // Access token
-        let token = getCookie('token')
+        // let token = getCookie('token')
+        let token = globalUser.accessToken
 
         // Disable submit button
         button.setAttribute('disabled', 'disabled')
@@ -145,8 +148,8 @@ const Create = props => {
         let deck = JSON.parse(DeckValue)
 
         let group_info = groups.at(-1)
-        group_info._id = group_info._id.$oid
-
+        if (group_info)
+            group_info._id = group_info._id.$oid
         console.log(startDate)
 
         let body = {

@@ -29,14 +29,14 @@ const Profile = props => {
 
     const { globalUser } = useSelector(state => state.userReducer)
     let user = (globalUser && globalUser.accessToken) ? checkToken(globalUser.accessToken) : {}
-    console.log(user)
+    console.log("dddddddddddd",user)
 
     const [ingoing, setIngoing] = useState(undefined)
     const [expired, setExpired] = useState(undefined)
     const [groups, setGroups] = useState(undefined)
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     const [loading, setLoading] = useState(true)
-    const [CanCreateGroup, setCanCreateGroup] = useState(undefined)
+    const [CanCreateGroup, setCanCreateGroup] = useState(false)
 
     const loadInGoing = async () => {
         let res = await fetch(`${process.env.EVENT_URL}/event/get/all/player/in-going`, {
@@ -44,7 +44,8 @@ const Profile = props => {
             headers: { "Authorization": `Bearer ${globalUser.accessToken}` }
         })
         let data = await res.json()
-        setIngoing(data.data)
+        if (data.status == 200)
+            setIngoing(data.data)
 
     }
     const loadExpired = async () => {
@@ -53,7 +54,8 @@ const Profile = props => {
             headers: { "Authorization": `Bearer ${globalUser.accessToken}` }
         })
         let data = await res.json()
-        setExpired(data.data)
+        if (data.status == 200)
+            setExpired(data.data)
 
     }
     const loadGroups = async () => {
@@ -63,7 +65,7 @@ const Profile = props => {
             body: JSON.stringify({ "_id": globalUser.user_id })
         })
         let data = await res.json()
-        console.log(data)
+        console.log('groups', data)
         if (data.status == 200)
             setGroups(data.data.groups)
 
@@ -89,7 +91,7 @@ const Profile = props => {
      */
     // const { groups, ingoing, expired } = props
     const { groupss } = props
-    console.log('groupss,,,,,,,,,,,,',groupss)
+    console.log('groupss,,,,,,,,,,,,', groupss)
 
     /**
      * Changing the state of panels when clicking on navigation items.
@@ -128,9 +130,11 @@ const Profile = props => {
     // const CanCreateGroup = () => { if (groups) groups.filter(g => g.owner === globalUser.username).length <= 0 }
     const canCreateGroupHandler = () => {
         if (groups) {
+            console.log(groups.length)
             if (groups.length == 0) setCanCreateGroup(true)
+            else setCanCreateGroup(false)
             for (let t = 0; t < groups.length; t++) {
-                if (groups[t].owner == globalUser.username)
+                if (groups[t].god_id == globalUser.user_id)
                     setCanCreateGroup(false)
                 else setCanCreateGroup(true)
             }
@@ -150,7 +154,7 @@ const Profile = props => {
                 SetGroupName(group.at(-1).name)
             }
         }
-    }, [groups, globalUser.username])
+    }, [groups, globalUser])
 
     /**
      * Submit group
@@ -165,7 +169,8 @@ const Profile = props => {
         let form = e.target,
             name = form.querySelector('#name'),
             submit = form.querySelector('button[type="submit"]'),
-            { _id, username } = user
+            // { _id, username } = globalUser
+            username = globalUser.username
 
         submit.setAttribute('disabled', 'disabled')
         name.setAttribute('disabled', 'disabled')
@@ -182,7 +187,7 @@ const Profile = props => {
             body: JSON.stringify({
                 "name": name.value,
                 "owner": username,
-                "god_id": _id.$oid
+                "god_id": globalUser.user_id
             })
         })
         let { status } = await response.json()
@@ -215,49 +220,27 @@ const Profile = props => {
                         </Alert>
                     </div> :
                     <>
-                        {loading ? <div>...</div> : <>
-                            <div className="container" style={{ padding: 0 }}>
-                                <div className={styles.navigation}>
-                                    <ul>
-                                        <li className={styles.active} data-target={"#reserves"}>رزرو های من</li>
+                        {loading ?
+                            <div>...</div>
+                            :
+                            <>
+                                <div className="container" style={{ padding: 0 }}>
+                                    <div className={styles.navigation}>
+                                        <ul>
+                                            <li className={styles.active} data-target={"#reserves"}>رزرو های من</li>
 
-                                        <li data-target={"#history"} onClick={tabSelect}>تاریخچه</li>
+                                            <li data-target={"#history"} onClick={tabSelect}>تاریخچه</li>
 
-                                        {globalUser.access_level !== 2 && <li data-target={"#group"} onClick={tabSelect}>گروه من</li>}
-                                    </ul>
-                                </div>
-
-                                <div className={styles.tabs}>
-
-                                    <div id={"reserves"} className={`${styles.active} ${styles.reserves}`}>
-                                        {ingoing.length > 0 ?
-                                            <ul>
-                                                {ingoing.map(event => {
-                                                    return (
-                                                        <li key={event._id.$oid}>
-                                                            <Link href={`/events/${event._id.$oid}`}>
-                                                                <a style={{ backgroundImage: 'url(/events-slide-2.png)' }}>
-                                                                    <h3>
-                                                                        {event.title}
-                                                                    </h3>
-                                                                </a>
-                                                            </Link>
-                                                        </li>
-                                                    )
-                                                })}
-                                            </ul> :
-                                            <Alert>
-                                                بازی رزروی وجود ندارد
-                                            </Alert>
-                                        }
-
+                                            {globalUser.access_level !== 2 && <li data-target={"#group"} onClick={tabSelect}>گروه من</li>}
+                                        </ul>
                                     </div>
 
-                                    <div id={"history"} className={styles.history}>
-                                        {
-                                            expired.length > 0 ?
+                                    <div className={styles.tabs}>
+
+                                        <div id={"reserves"} className={`${styles.active} ${styles.reserves}`}>
+                                            {ingoing.length > 0 ?
                                                 <ul>
-                                                    {expired.map(event => {
+                                                    {ingoing.map(event => {
                                                         return (
                                                             <li key={event._id.$oid}>
                                                                 <Link href={`/events/${event._id.$oid}`}>
@@ -272,58 +255,82 @@ const Profile = props => {
                                                     })}
                                                 </ul> :
                                                 <Alert>
-                                                    تاریخچه ای وجود ندارد
+                                                    بازی رزروی وجود ندارد
                                                 </Alert>
-                                        }
+                                            }
+
+                                        </div>
+
+                                        <div id={"history"} className={styles.history}>
+                                            {
+                                                expired.length > 0 ?
+                                                    <ul>
+                                                        {expired.map(event => {
+                                                            return (
+                                                                <li key={event._id.$oid}>
+                                                                    <Link href={`/events/${event._id.$oid}`}>
+                                                                        <a style={{ backgroundImage: 'url(/events-slide-2.png)' }}>
+                                                                            <h3>
+                                                                                {event.title}
+                                                                            </h3>
+                                                                        </a>
+                                                                    </Link>
+                                                                </li>
+                                                            )
+                                                        })}
+                                                    </ul> :
+                                                    <Alert>
+                                                        تاریخچه ای وجود ندارد
+                                                    </Alert>
+                                            }
+                                        </div>
+
+                                        <div id={"group"} className={styles.group}>
+                                            {CanCreateGroup ?
+                                                <>
+                                                    <div className={"page-title"}>
+                                                        <h2>ثبت گروه</h2>
+                                                    </div>
+
+                                                    <Alert type={'warning'}>
+                                                        توجه داشته باشید، در صورت ثبت گروه دیگر قادر به تغییر نام آن نمیباشید، لذا
+                                                        برای تغییر آن باید درخواست خود را ثبت کنید تا پس از بررسی تغییر نام گروه
+                                                        برای شما انجام شود، پس با دقت نام گروه خود را انتخاب کنید
+                                                    </Alert>
+
+                                                    <form onSubmit={SubmitGroup} className={"submit-form"}>
+                                                        <div className="row">
+                                                            <label htmlFor="name">نام گروه</label>
+                                                            <input type="text" id={"name"} />
+                                                        </div>
+
+                                                        <div className="row">
+                                                            <button type={"submit"}>ثبت گروه</button>
+                                                        </div>
+                                                    </form>
+
+                                                    <ToastContainer position="bottom-center" autoClose={3000} hideProgressBar newestOnTop={false} closeOnClick rtl pauseOnFocusLoss draggable pauseOnHover />
+
+                                                </> : <>
+                                                    <div className={"page-title"}>
+                                                        <h2>گروه شما</h2>
+                                                    </div>
+
+                                                    <Alert type={"info"}>
+                                                        شما نام گروه خود را انتخاب کردید برای تغییر به پشتیبانی درخواست دهید
+                                                    </Alert>
+
+                                                    <form onSubmit={SubmitGroup} className={"submit-form"}>
+                                                        <div className="row">
+                                                            <label htmlFor="name_temp">نام گروه</label>
+                                                            <input type="text" id={"name_temp"} disabled={true} value={GroupName} />
+                                                        </div>
+                                                    </form>
+                                                </>}
+                                        </div>
                                     </div>
-
-                                    <div id={"group"} className={styles.group}>
-                                        {globalUser.access_level !== 2 && CanCreateGroup == true ?
-                                            <>
-                                                <div className={"page-title"}>
-                                                    <h2>ثبت گروه</h2>
-                                                </div>
-
-                                                <Alert type={'warning'}>
-                                                    توجه داشته باشید، در صورت ثبت گروه دیگر قادر به تغییر نام آن نمیباشید، لذا
-                                                    برای تغییر آن باید درخواست خود را ثبت کنید تا پس از بررسی تغییر نام گروه
-                                                    برای شما انجام شود، پس با دقت نام گروه خود را انتخاب کنید
-                                                </Alert>
-
-                                                <form onSubmit={SubmitGroup} className={"submit-form"}>
-                                                    <div className="row">
-                                                        <label htmlFor="name">نام گروه</label>
-                                                        <input type="text" id={"name"} />
-                                                    </div>
-
-                                                    <div className="row">
-                                                        <button type={"submit"}>ثبت گروه</button>
-                                                    </div>
-                                                </form>
-
-                                                <ToastContainer position="bottom-center" autoClose={3000} hideProgressBar newestOnTop={false} closeOnClick rtl pauseOnFocusLoss draggable pauseOnHover />
-
-                                            </> : <>
-                                                <div className={"page-title"}>
-                                                    <h2>گروه شما</h2>
-                                                </div>
-
-                                                <Alert type={"info"}>
-                                                    شما نام گروه خود را انتخاب کردید برای تغییر به پشتیبانی درخواست دهید
-                                                </Alert>
-
-                                                <form onSubmit={SubmitGroup} className={"submit-form"}>
-                                                    <div className="row">
-                                                        <label htmlFor="name_temp">نام گروه</label>
-                                                        <input type="text" id={"name_temp"} disabled={true} value={GroupName} />
-                                                    </div>
-                                                </form>
-                                            </>}
-                                    </div>
-
                                 </div>
-                            </div>
-                        </>}
+                            </>}
                     </>
             }
 
