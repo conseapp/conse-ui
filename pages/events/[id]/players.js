@@ -14,6 +14,7 @@ import statuses from "../../../utils/allPossibleStatus";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 import { useSelector } from 'react-redux';
+import Circular from '../../../components/Circular';
 
 const Players = props => {
     const router = useRouter()
@@ -327,7 +328,7 @@ const Players = props => {
     return (
         <div className={styles.page}>
 
-            {loading ? <div className='container'>...</div> : <>
+            {loading ? <div className='container'><Circular /></div> : <>
 
                 <Head>
                     <title>بازیکنان {event.title}</title>

@@ -13,6 +13,7 @@ import Nav from "../../../components/nav";
 import { getCookie } from "cookies-next";
 import CreateDeck from "../../../utils/createDeck";
 import { useSelector } from "react-redux";
+import Circular from "../../../components/Circular";
 
 const Edit = props => {
 
@@ -314,7 +315,7 @@ const Edit = props => {
 
             <Nav user={globalUser} />
             {globalUser.isLoggedIn && (globalUser.access_level == 0 || globalUser.access_level == 1) ? <>
-                {loading ? <><div>loading...</div></> : <>
+                {loading ? <><div><Circular /></div></> : <>
                     <div className="container">
 
                         <div className="page-title">

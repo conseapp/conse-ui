@@ -13,6 +13,7 @@ import Nav from "../../../components/nav";
 import { getCookie } from "cookies-next";
 import CreateDeck from "../../../utils/createDeck";
 import { useSelector } from "react-redux";
+import Circular from "../../../components/Circular";
 
 const Create = props => {
     const { globalUser } = useSelector(state => state.userReducer)
@@ -364,7 +365,7 @@ const Create = props => {
                             </div>
                         </> :
                         <>
-                            {loading ? <div>loading...</div> : <>
+                            {loading ? <div><Circular /></div> : <>
                                 <div className="container">
 
                                     <div className="page-title">

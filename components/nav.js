@@ -5,6 +5,7 @@ import { MdOutlineAddBox, MdOutlineExplore, MdOutlineHome, MdOutlineInfo } from 
 import Image from "next/future/image";
 import { useDispatch, useSelector } from "react-redux";
 import { getuser } from "../redux/actions";
+import Circular from "./Circular";
 
 const Nav = props => {
 
@@ -34,7 +35,7 @@ const Nav = props => {
     }, [globalUser])
     return (
         <nav className={styles.component}>
-            {loading ? <></> :
+            {loading ? <><Circular /></> :
                 <ul className={styles.list}>
                     <li>
                         {globalUser && globalUser.isLoggedIn ?

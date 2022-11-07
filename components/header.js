@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { MdLogout, MdStar } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { getuser, logout } from "../redux/actions";
+import Circular from './Circular';
 
 const Header = props => {
     const [loading, setLoading] = React.useState(true)
@@ -58,7 +59,9 @@ const Header = props => {
     return (
         <header className={styles.component}>
             {loading ?
-                <></>
+                <>
+                <Circular />
+                </>
                 :
                 <>
 

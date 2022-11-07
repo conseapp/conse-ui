@@ -13,6 +13,7 @@ import Header from "../../../components/header";
 import { DatePicker } from "jalali-react-datepicker";
 import createEvent from "../../../utils/createEvent";
 import { useSelector } from "react-redux";
+import Circular from "../../../components/Circular";
 
 const Create = props => {
     /**
@@ -28,6 +29,7 @@ const Create = props => {
     const [event, setEvent] = useState(undefined)
     const [groups, setGroups] = useState(undefined)
     const [decks, setDecks] = useState(undefined)
+    const [deckName, setDeckName] = useState(undefined)
     useEffect(() => {
         if (globalUser.accessToken)
             loadPage()
@@ -44,7 +46,7 @@ const Create = props => {
             headers: { "Authorization": `Bearer ${globalUser.accessToken}` }
         })
         let eventData = await event.json()
-        console.log(eventData)
+        console.log("eventData", eventData)
         if (eventData.status == 200)
             setEvent(eventData.data)
         // Get available groups
@@ -56,7 +58,6 @@ const Create = props => {
         let groupsData = await groups.json()
         if (groupsData.status == 200) {
             setGroups(groupsData.data.groups)
-            setStartDate(groupsData.data.groups[0].started_at)
         }
         // Get available decks
         let decks = await fetch(`${process.env.GAME_URL}/game/deck/get/availables`, {
@@ -68,10 +69,23 @@ const Create = props => {
             setDecks(decksData.data.decks)
 
     }
+    //set deck info from the event
     useEffect(() => {
-        if (groups && event && decks)
-            setLoading(false)
+        if (groups && event && decks) {
+            // setStartDate(Math.floor(new Date(event.started_at * 1000).getTime()) / 1000)
+            setStartDate(event.started_at * 1000)
+            for (var t = 0; t < decks.length; t++) {
+                if (decks[t]._id.$oid == event.deck_id) {
+                    SetDeckValue(JSON.stringify(decks[t]))
+                    setDeckName(decks[t].deck_name)
+                }
+            }
+        }
     }, [groups, event, decks])
+    useEffect(() => {
+        if (deckName && startDate && DeckValue)
+            setLoading(false)
+    }, [deckName, startDate, DeckValue])
 
 
     /**
@@ -108,7 +122,7 @@ const Create = props => {
      * Config decks options
      */
     const [DeckOptions, SetDeckOptions] = useState([])
-    const [DeckValue, SetDeckValue] = useState('')
+    const [DeckValue, SetDeckValue] = useState(undefined)
     useEffect(() => {
         if (decks) {
             let options = [];
@@ -141,17 +155,14 @@ const Create = props => {
         // Access token
         // let token = getCookie('token')
         let token = globalUser.accessToken
-
         // Disable submit button
         button.setAttribute('disabled', 'disabled')
-
-        let deck = JSON.parse(DeckValue)
-
+        let deck;
+        if (DeckValue)
+            deck = JSON.parse(DeckValue)
         let group_info = groups.at(-1)
         if (group_info)
             group_info._id = group_info._id.$oid
-        console.log(startDate)
-
         let body = {
             "title": title.value,
             "content": content.value,
@@ -167,11 +178,7 @@ const Create = props => {
             "players": [],
             "started_at": startDate
         }
-
         let { status, message } = await createEvent(body, token)
-
-        console.log(message)
-
         if (status === 201 || status === 302) {
             toast.success('ایونت با موفقیت ایجاد شد')
             setTimeout(() => Router.push('/conductor/event/'), 2000)
@@ -193,7 +200,7 @@ const Create = props => {
 
             <Nav user={globalUser} />
             {globalUser.isLoggedIn && (globalUser.access_level == 0 || globalUser.access_level == 1) ? <>
-                {loading ? <><div>loading...</div></> : <>
+                {loading ? <><div><Circular /></div></> : <>
                     <div className="container">
 
                         <div className="page-title">
@@ -219,15 +226,15 @@ const Create = props => {
 
                             <div className="row">
                                 <label htmlFor="deck">انتخاب دک بازی</label>
-                                <Select placeholder={'انتخاب کنید'} styles={SelectStyles} options={DeckOptions} id={"deck"} isRtl={true} onChange={e => {
+                                <Select placeholder={deckName} styles={SelectStyles} options={DeckOptions} id={"deck"} isRtl={true} onChange={e => {
                                     SetDeckValue(e.value)
                                 }} />
                             </div>
 
                             <div className="row">
                                 <label htmlFor="started_at">زمان شروع بازی</label>
-                                <DatePicker onClickSubmitButton={() => {
-                                    let date = new Date(event.started_at * 1000).getTime()
+                                <DatePicker value={startDate} onClickSubmitButton={({ value }) => {
+                                    let date = new Date(value._d).getTime()
                                     setStartDate(Math.floor(date / 1000))
                                 }} />
                             </div>

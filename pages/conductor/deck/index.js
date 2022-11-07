@@ -8,6 +8,7 @@ import Nav from "../../../components/nav";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import { useEffect } from "react";
+import Circular from "../../../components/Circular";
 
 const Decks = props => {
     /**
@@ -55,7 +56,7 @@ const Decks = props => {
 
             <Nav user={globalUser} />
             {globalUser.isLoggedIn && (globalUser.access_level == 0 || globalUser.access_level == 1) ? <>
-                {loading ? <div>loading...</div> : <>
+                {loading ? <div><Circular /></div> : <>
                     <div className="container">
                         {err ? <>{err}</> : <>
                             <Link href={'deck/create'}>

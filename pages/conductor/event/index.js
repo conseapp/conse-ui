@@ -9,6 +9,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
+import Circular from "../../../components/Circular";
 
 const Decks = props => {
     /**
@@ -59,7 +60,7 @@ const Decks = props => {
 
             <Nav user={globalUser} />
             {globalUser.isLoggedIn && (globalUser.access_level == 0 || globalUser.access_level == 1) ? <>
-                {loading ? <><div>loading...</div></> : <>
+                {loading ? <><div><Circular /></div></> : <>
                     <div className="container">
 
                         <Link href={'event/create'}>

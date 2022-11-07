@@ -13,6 +13,7 @@ import Header from "../../../components/header";
 import { DatePicker } from "jalali-react-datepicker";
 import createEvent from "../../../utils/createEvent";
 import { useSelector } from "react-redux";
+import Circular from "../../../components/Circular";
 
 const Create = props => {
     const Router = useRouter()
@@ -184,7 +185,7 @@ const Create = props => {
             <Nav user={globalUser} />
 
             {globalUser.isLoggedIn && (globalUser.access_level == 0 || globalUser.access_level == 1) ? <>
-                {loading ? <><div>loading...</div></> : <>
+                {loading ? <><div><Circular /></div></> : <>
                     <div className="container">
 
                         <div className="page-title">

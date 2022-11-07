@@ -12,6 +12,7 @@ import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import Circular from "../../../../components/Circular";
 
 const Info = props => {
     const router = useRouter()
@@ -136,7 +137,7 @@ const Info = props => {
                 <>
                     {isPlayer && globalUser.access_level == 2 ?
                         <>
-                            {loading ? <>...</> : <>
+                            {loading ? <><Circular /></> : <>
                                 <div className="container">
 
                                     <div className={styles.card}>

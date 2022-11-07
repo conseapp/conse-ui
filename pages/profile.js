@@ -11,6 +11,7 @@ import Nav from "../components/nav";
 import Alert from "../components/alert";
 import { useDispatch, useSelector } from 'react-redux';
 import { getuser } from '../redux/actions';
+import Circular from '../components/Circular';
 
 /**
  * Profile Page
@@ -29,7 +30,7 @@ const Profile = props => {
 
     const { globalUser } = useSelector(state => state.userReducer)
     let user = (globalUser && globalUser.accessToken) ? checkToken(globalUser.accessToken) : {}
-    console.log("dddddddddddd",user)
+    console.log("dddddddddddd", user)
 
     const [ingoing, setIngoing] = useState(undefined)
     const [expired, setExpired] = useState(undefined)
@@ -221,7 +222,7 @@ const Profile = props => {
                     </div> :
                     <>
                         {loading ?
-                            <div>...</div>
+                            <div className='container'><Circular /></div>
                             :
                             <>
                                 <div className="container" style={{ padding: 0 }}>
