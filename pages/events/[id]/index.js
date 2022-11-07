@@ -11,6 +11,7 @@ import Header from "../../../components/header";
 import Nav from "../../../components/nav";
 import { useSelector } from 'react-redux';
 import { store } from '../../../redux/store';
+import Circular from '../../../components/Circular';
 
 const SingleEvent = props => {
     /**
@@ -191,7 +192,7 @@ const SingleEvent = props => {
 
             <Nav user={globalUser} />
 
-            {loading ? <div className='container'>loading...</div> : <>
+            {loading ? <div className='container'><Circular /></div> : <>
                 <div className="container" style={{ padding: 0 }}>
 
                     <div className={styles.header} style={{ backgroundImage: "url('/event-detail-header.png')" }}>

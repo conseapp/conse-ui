@@ -74,6 +74,7 @@ const Edit = props => {
             body: JSON.stringify({ _id: query.id })
         })
         let data = await res.json()
+        console.log(data)
         if (data.status == 200)
             setDeck(data.data)
         else if (data.status == 403)
@@ -150,7 +151,6 @@ const Edit = props => {
                     value: JSON.stringify(role)
                 })
             })
-
             setDefaultRoles(options)
         }
     }, [deck, roles, sides])
@@ -237,9 +237,11 @@ const Edit = props => {
         // let token = getCookie( 'token' )
         let token = globalUser.accessToken
 
+
         // Disable submit button
         button.setAttribute('disabled', 'disabled')
-
+        let prevRoles = JSON.stringify(deck.roles)
+        let prevCards = JSON.stringify(deck.last_move_cards)
         defaultRoles.forEach(role => {
             let {
                 _id,
@@ -252,18 +254,31 @@ const Edit = props => {
                 created_at,
                 updated_at
             } = JSON.parse(role.value)
-
-            roles.push({
-                "_id": _id,
-                "name": name,
-                "rate": rate,
-                "desc": desc,
-                "abilities": abilities,
-                "side_id": side_id,
-                "is_disabled": is_disabled,
-                "created_at": created_at,
-                "updated_at": updated_at
-            })
+            if (prevRoles.includes(role.value)) {
+                roles.push({
+                    "_id": _id,
+                    "name": name,
+                    "rate": rate,
+                    "desc": desc,
+                    "abilities": abilities,
+                    "side_id": side_id,
+                    "is_disabled": is_disabled,
+                    "created_at": created_at,
+                    "updated_at": updated_at
+                })
+            } else {
+                roles.push({
+                    "_id": _id.$oid,
+                    "name": name,
+                    "rate": rate,
+                    "desc": desc,
+                    "abilities": abilities,
+                    "side_id": side_id.$oid,
+                    "is_disabled": is_disabled,
+                    "created_at": created_at,
+                    "updated_at": updated_at
+                })
+            }
         })
 
         defaultCards.forEach(card => {
@@ -276,21 +291,37 @@ const Edit = props => {
                 created_at,
                 updated_at
             } = JSON.parse(card.value)
-
-            cards.push({
-                "_id": _id,
-                "name": name,
-                "rate": rate,
-                "desc": desc,
-                "is_disabled": is_disabled,
-                "created_at": created_at,
-                "updated_at": updated_at
-            })
+            if (prevCards.includes(card.value)) {
+                cards.push({
+                    "_id": _id,
+                    "name": name,
+                    "rate": rate,
+                    "desc": desc,
+                    "is_disabled": is_disabled,
+                    "created_at": created_at,
+                    "updated_at": updated_at
+                })
+            } else {
+                cards.push({
+                    "_id": _id.$oid,
+                    "name": name,
+                    "rate": rate,
+                    "desc": desc,
+                    "is_disabled": is_disabled,
+                    "created_at": created_at,
+                    "updated_at": updated_at
+                })
+            }
         })
 
-        let { status } = await CreateDeck(title.value, roles, cards, token, router.query.id)
+        console.log(roles)
+        console.log(cards)
 
+        let { status, message } = await CreateDeck(title.value, roles, cards, token, router.query.id)
+        console.log(message)
         if (status) {
+            console.log(status)
+
             button.removeAttribute('disabled')
 
             if (status === 201 || status === 302) {

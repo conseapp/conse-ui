@@ -82,8 +82,15 @@ const Profile = props => {
         }
     }, [globalUser])
     useEffect(() => {
-        if (expired && ingoing && groups)
-            setLoading(false)
+        if (globalUser.access_level !== 2) {
+            if (expired && ingoing && groups)
+                setLoading(false)
+        }
+        else {
+            if (expired && ingoing)
+                setLoading(false
+                )
+        }
     }, [expired, ingoing, groups])
     /**
      * Get props of this page
