@@ -16,6 +16,7 @@ import { getuser } from '../redux/actions';
 import { wrapper } from '../redux/store';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import Circular from '../components/Circular';
 // import { wrapper } from '../../_app';
 
 const Learn = props => {
@@ -129,7 +130,7 @@ const Learn = props => {
             <Nav user={globalUser} />
 
             <>
-                {loading ? <><div>loading...</div></> : <>
+                {loading ? <><div><Circular /></div></> : <>
                     <div className={"container"}>
 
                         {
