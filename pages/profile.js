@@ -45,6 +45,7 @@ const Profile = props => {
             headers: { "Authorization": `Bearer ${globalUser.accessToken}` }
         })
         let data = await res.json()
+        console.log(">>>>>>>>>>> in going", data)
         if (data.status == 200)
             setIngoing(data.data)
 
@@ -55,6 +56,7 @@ const Profile = props => {
             headers: { "Authorization": `Bearer ${globalUser.accessToken}` }
         })
         let data = await res.json()
+        console.log(">>>>>>>>>>> expired", data)
         if (data.status == 200)
             setExpired(data.data)
 
@@ -74,20 +76,22 @@ const Profile = props => {
 
 
     useEffect(() => {
-        if (globalUser && globalUser.isLoggedIn) {
+        if (globalUser && globalUser.isLoggedIn && (globalUser.access_level === 2 || globalUser.access_level === 0)) {
             loadExpired()
             loadInGoing()
-            loadGroups()
-            canCreateGroupHandler()
+            
         }
+        loadGroups()
     }, [globalUser])
     useEffect(() => {
-        if (globalUser.access_level !== 2) {
-            if (expired && ingoing && groups)
+        if (globalUser.access_level == 1) {
+            canCreateGroupHandler()
+            // if (expired && ingoing && groups)
                 setLoading(false)
         }
         else {
-            if (expired && ingoing)
+
+            if (expired && ingoing && groups)
                 setLoading(false
                 )
         }
@@ -157,10 +161,13 @@ const Profile = props => {
     const [GroupName, SetGroupName] = useState('')
     useEffect(() => {
         if (groups) {
-            let group = groups.filter(g => g.owner === globalUser.username)
+            console.log(">??>>>>>>>>>>>>>> darim", groups)
+            let group = groups.filter(g => g.god_id === globalUser.user_id)
             if (group.length > 0) {
                 SetGroupName(group.at(-1).name)
             }
+        } else{
+           
         }
     }, [groups, globalUser])
 
@@ -246,7 +253,7 @@ const Profile = props => {
                                     <div className={styles.tabs}>
 
                                         <div id={"reserves"} className={`${styles.active} ${styles.reserves}`}>
-                                            {ingoing.length > 0 ?
+                                            {ingoing && ingoing.length > 0 ?
                                                 <ul>
                                                     {ingoing.map(event => {
                                                         return (
@@ -271,7 +278,7 @@ const Profile = props => {
 
                                         <div id={"history"} className={styles.history}>
                                             {
-                                                expired.length > 0 ?
+                                                expired && expired.length > 0 ?
                                                     <ul>
                                                         {expired.map(event => {
                                                             return (
