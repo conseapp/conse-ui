@@ -339,7 +339,11 @@ const Create = props => {
                 toast.success('دک با موفقیت ایجاد شد')
 
                 setTimeout(() => router.push('/conductor/deck/'), 2000)
-            } else {
+            } else if (status == 403){
+                toast.error('ACCESS DENIED')
+                button.removeAttribute('disabled')
+            }
+            else {
                 toast.error('خطایی در هنگام ایجاد دک بوجود آمده')
                 button.removeAttribute('disabled')
             }
