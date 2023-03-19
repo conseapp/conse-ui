@@ -10,3 +10,12 @@ sudo pm2 start npm --name "conse-ui" -- run dev
 ```console
 sudo npm run build && sudo pm2 start npm --name "conse-ui" -- start
 ```
+
+
+# WIP
+
+* player MUST not be able to reserve event after event expiration time
+
+* player MUST not be able to vote twice
+
+* god can't see his/her event 
