@@ -117,7 +117,7 @@ const Login = () => {
             <div className={styles.card}>
 
                 <div className={styles.title}>
-                    <Image src={"/logo.png"} alt={"Conse"} width={112} height={55} />
+                    <Image src={"/logo.png"} alt={"Conse"} width={55} height={55} />
                     <h2>From IA</h2>
                 </div>
 

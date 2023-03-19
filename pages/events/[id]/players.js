@@ -19,6 +19,7 @@ import Circular from '../../../components/Circular';
 const Players = props => {
     const router = useRouter()
     const { query } = router
+
     // const { user, token, event, sides, deck } = props
 
     const [Players, SetPlayers] = useState(undefined)
@@ -72,7 +73,7 @@ const Players = props => {
             method: 'POST',
             headers: { "Authorization": `Bearer ${globalUser.accessToken}` },
             body: JSON.stringify({
-                '_id': event.data.deck_id
+                '_id': event.deck_id
             })
         }
         )
@@ -84,9 +85,9 @@ const Players = props => {
         }
     }
     useEffect(() => {
-        if (globalUser && globalUser.accessToken)
+        if (globalUser && globalUser.accessToken && query.id)
             loadStuff()
-    }, [globalUser])
+    }, [globalUser, query.id])
     useEffect(() => {
         console.log(event, sides, deck, Players, AvailableCards)
         if (event && sides && deck && Players && AvailableCards) {
@@ -96,10 +97,10 @@ const Players = props => {
     }, [event, sides, deck, Players, AvailableCards])
 
     const RevealRoles = async () => {
-        if (token) {
+        if (globalUser.accessToken) {
             const request = await fetch(`${process.env.EVENT_URL}/event/reveal/roles`, {
                 method: 'POST',
-                headers: { "Authorization": `Bearer ${token}` },
+                headers: { "Authorization": `Bearer ${globalUser.accessToken}` },
                 body: JSON.stringify({ "_id": query.id })
             })
             const response = await request.json()

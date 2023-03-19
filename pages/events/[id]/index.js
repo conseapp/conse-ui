@@ -54,8 +54,13 @@ const SingleEvent = props => {
         loadEvents()
     }, [])
     useEffect(() => {
-        if (token && ingoing)
+        if (globalUser && globalUser.isLoggedIn && (globalUser.access_level === 2 || globalUser.access_level === 0)) {
+            if (token && ingoing)
             setLoading(false)
+        } else if (globalUser && globalUser.isLoggedIn && globalUser.access_level == 1){
+            if (token)
+            setLoading(false)
+        }
     }, [token, ingoing])
     // const { user, token, single, ingoing, preloadedState } = props
     const { single, preloadedState } = props
