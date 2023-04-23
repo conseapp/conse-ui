@@ -3,12 +3,12 @@
 # Development on VPS
 
 ```console
-sudo pm2 start npm --name "conse-ui" -- run dev
+sudo chmod -R 777 . && sudo pm2 start npm --name "conse-ui" -- run dev
 ```
 
 # Production on VPS
 ```console
-sudo npm run build && sudo pm2 start npm --name "conse-ui" -- start
+sudo chmod -R 777 . && sudo npm run build && sudo pm2 start npm --name "conse-ui" -- start
 ```
 
 
