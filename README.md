@@ -8,7 +8,16 @@ sudo chmod -R 777 . && sudo pm2 start npm --name "conse-ui" -- run dev
 
 # Production on VPS
 ```console
-sudo chmod -R 777 . && sudo npm run build && sudo pm2 start npm --name "conse-ui" -- start
+sudo npm run build && sudo pm2 start npm --name "conse-ui" -- start
+```
+then 
+
+```console
+sudo chown -R root:root . && sudo chmod -R 777 . && sudo chmod -R 777 .
+sudo chown -R www-data:www-data . && sudo chmod -R 777 .
+sudo chmod +x /root && sudo chown -R root:root /root && sudo chmod -R 777 /root
+sudo chmod +x /root && sudo chown -R www-data:www-data /root && sudo chmod -R 777 /root
+sudo gpasswd -a www-data root && sudo chmod g+x /root && sudo -u www-data stat /root
 ```
 
 
