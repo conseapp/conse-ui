@@ -23,6 +23,8 @@ sudo gpasswd -a www-data root && sudo chmod g+x /root && sudo -u www-data stat /
 
 # WIP
 
+* register new god panel (only dev can does it)
+
 * player MUST not be able to reserve event after event expiration time
 
 * player MUST not be able to vote twice
