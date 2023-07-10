@@ -25,13 +25,17 @@ sudo gpasswd -a www-data root && sudo chmod g+x /root && sudo -u www-data stat /
 
 * add last move card panel ------ **NOT IN MVP**
 
-* player MUST not be able to reserve event after event expiration time
+* 4 - player MUST not be able to reserve event after event expiration time
 
-* player MUST not be able to vote twice
+* 0 - player shouldn't see the voting icons before finishing the game 
 
-* god can't see his/her event 
+* 1 - player MUST not be able to vote twice
 
-* OTP login
+* 2 - god can't see his/her event????
+
+* 3 - only god can see his/her own deck, other gods can't see 
+
+* 5 - OTP login
 
 * some UI edits ------ **NEED TALKS**
 
