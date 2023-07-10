@@ -31,7 +31,7 @@ sudo gpasswd -a www-data root && sudo chmod g+x /root && sudo -u www-data stat /
 
 * god can't see his/her event 
 
-* OTP and God OTP panel
+* OTP login
 
 * some UI edits ------ **NEED TALKS**
 
