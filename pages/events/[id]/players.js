@@ -85,8 +85,10 @@ const Players = props => {
         }
     }
     useEffect(() => {
-        if (globalUser && globalUser.accessToken && query.id)
+        if (globalUser && globalUser.accessToken && query.id) {
             loadStuff()
+            loadEvents()
+        }
     }, [globalUser, query.id])
     useEffect(() => {
         console.log(event, sides, deck, Players, AvailableCards)
@@ -267,6 +269,44 @@ const Players = props => {
             }
         })
     }
+    const expireEvent = async e => {
+        let button = e.target
+
+        await withReactContent(Swal).fire({
+            background: '#F6F6F6',
+            color: '#333',
+            title: <h3 style={{ color: 'var(--danger-color)' }}>آیا مطمئن هستید ؟</h3>,
+            html: 'پس از پایان بازی نمیتوانید تغییری در آن ایجاد کنید و یا دوباره آن را باز کنید',
+            confirmButtonColor: 'var(--danger-color)',
+            confirmButtonText: 'بله میخوام به بازی رو تموم کنم',
+            showCancelButton: true,
+            cancelButtonColor: 'var(--text-color)',
+            cancelButtonText: 'خیر، میخوام تغییرات ایجاد کنم'
+        }).then(async e => {
+            if (e.isConfirmed && token) {
+                let request = await fetch(`${process.env.EVENT_URL}/event/set-expire`, {
+                    method: 'POST',
+                    headers: {
+                        "Authorization": `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        "_id": query.id
+                    })
+                })
+                let response = await request.json()
+                console.log('check here!',response);
+
+                if (response.data.is_expired) {
+                    toast.success('ایونت با موفقیت بسته شد')
+                    button.remove()
+                } else {
+                    toast.warning('خطایی در هنگام بستن ایونت پیش آمده')
+                }
+
+            }
+
+        })
+    }
 
     const UpdateEvent = async e => {
         e.preventDefault()
@@ -396,6 +436,12 @@ const Players = props => {
                                     !event.is_locked &&
                                     <li>
                                         <button type={"button"} onClick={LockEvent}>بستن ایونت</button>
+                                    </li>
+                                }
+                                {
+                                    !event.is_expired &&
+                                    <li>
+                                        <button type={"button"} onClick={expireEvent}>پایان بازی</button>
                                     </li>
                                 }
                                 {/* comment start game for now to uncomment after phases done */}
