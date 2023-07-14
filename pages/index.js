@@ -53,7 +53,7 @@ const Index = props => {
                         </Link>
                     </div>
                     <Swiper spaceBetween={12} slidesPerView={2} freeMode={true} modules={[FreeMode]} className={styles.swiper}>
-                        {events.slice(Math.max(events.length - 5, 1)).reverse().map(event => {
+                        {events.slice(Math.max(events.length - 5, 0)).reverse().map(event => {
                             return (
                                 <SwiperSlide key={event._id.$oid}>
                                     <Link href={`/events/${event._id.$oid}`}>
