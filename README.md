@@ -23,7 +23,7 @@ sudo gpasswd -a www-data root && sudo chmod g+x /root && sudo -u www-data stat /
 
 # WIPs
 
-# done
+## done
 
 * player shouldn't see the voting icons before finishing the game **done**
 
@@ -33,7 +33,7 @@ sudo gpasswd -a www-data root && sudo chmod g+x /root && sudo -u www-data stat /
 
 * disable reserve button if event is locked. **done**
 
-# ingoing
+## ingoing
 
 * 1 - player MUST not be able to vote twice **couldn't be done now**
 
@@ -47,7 +47,7 @@ sudo gpasswd -a www-data root && sudo chmod g+x /root && sudo -u www-data stat /
 
 * some UI edits ------ **NEED TALKS**
 
-# NOT IN MVP
+## NOT IN MVP
 
 * add last move card panel ------ **NOT IN MVP**
 
