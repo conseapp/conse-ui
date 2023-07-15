@@ -29,9 +29,11 @@ sudo gpasswd -a www-data root && sudo chmod g+x /root && sudo -u www-data stat /
 
 * let user see his/her profile without having group **done**
 
-* adding set expire button for god. **done**
+* adding set expire button for god **done**
 
-* disable reserve button if event is locked. **done**
+* disable reserve button if event is locked **done**
+
+* player MUST not be able to reserve event after event expiration time **done**
 
 ## ingoing
 
@@ -41,9 +43,7 @@ sudo gpasswd -a www-data root && sudo chmod g+x /root && sudo -u www-data stat /
 
 * 3 - only god can see his/her own deck, other gods can't see 
 
-* 4 - player MUST not be able to reserve event after event expiration time
-
-* 5 - OTP login
+* 4 - OTP login
 
 * some UI edits ------ **NEED TALKS**
 
