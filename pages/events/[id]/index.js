@@ -21,15 +21,20 @@ const SingleEvent = props => {
     const Router = useRouter()
     const { query } = Router
     const [ingoing, setIngoing] = useState(undefined)
+    const [expired, setExpired] = useState(undefined)
     const [token, setToken] = useState(undefined)
     const [loading, setLoading] = useState(true)
     const { globalUser } = useSelector(state => state.userReducer)
     const [isVoted, setIsVoted] = useState(false)
+    const [isEventLocked, setIsEventLocked] = useState(false)
+    const [isEventExpired, setIsEventExpired] = useState(false)
 
     /**
      * Get all props of this page.
      * @version 1.0
      */
+    const { single, preloadedState } = props
+
 
     const loadEvents = async () => {
         if (globalUser && globalUser.isLoggedIn) {
@@ -40,30 +45,34 @@ const SingleEvent = props => {
             // props.user = await checkToken(context.req.cookies['token'])
             setToken(globalUser.accessToken)
             // Get all in-going events for current user
-            let res = await fetch(`${process.env.EVENT_URL}/event/get/all/player/in-going`, {
+            let res = await fetch(`${process.env.EVENT_URL}/event/get/all/player/${single.is_expired ? 'done' : 'in-going'}`, {
                 method: 'POST',
                 headers: { "Authorization": `Bearer ${globalUser.accessToken}` }
             })
             let data = await res.json()
-            if (data.status == 200)
-                setIngoing(data.data)
+            if (data.status == 200) { single.is_expired ? setExpired(data.data) : setIngoing(data.data) }
         }
     }
 
     useEffect(() => {
         loadEvents()
     }, [])
+
     useEffect(() => {
         if (globalUser && globalUser.isLoggedIn && (globalUser.access_level === 2 || globalUser.access_level === 0)) {
-            if (token && ingoing)
-            setLoading(false)
-        } else if (globalUser && globalUser.isLoggedIn && globalUser.access_level == 1){
+            if (token && (ingoing || expired))
+                setLoading(false)
+        } else if (globalUser && globalUser.isLoggedIn && globalUser.access_level == 1) {
             if (token)
-            setLoading(false)
+                setLoading(false)
         }
-    }, [token, ingoing])
+    }, [token, ingoing, expired])
     // const { user, token, single, ingoing, preloadedState } = props
-    const { single, preloadedState } = props
+
+    useEffect(() => {
+        setIsEventLocked(single.is_locked)
+        setIsEventExpired(single.started_at >= single.expires_at || single.is_expired == true)
+    }, [single.is_locked, single.is_expired])
 
     const [TodayIsEventDay, SetTodayIsEventDay] = useState(false)
 
@@ -84,18 +93,19 @@ const SingleEvent = props => {
     const [IsUserRegistered, SetUserRegistered] = useState(false)
     console.log("ooooooooo", single)
     useEffect(() => {
-        if (token && ingoing) {
+        if (token && (ingoing || expired)) {
             // Check for current user access level
             if (single.group_info.owner === globalUser.user_id) {
                 SetUserRegistered(false)
             } else {
-                // Checking whether the current event exists in the user's event list or not
-                let list = ingoing.filter(event => event._id.$oid === single._id.$oid)
+                // Checking whether the current event exists in the user's ingoing event list or not
+                let list = ingoing ? ingoing : expired
+                list = list.filter(event => event._id.$oid === single._id.$oid)
                 SetUserRegistered(list.length !== 0)
             }
         }
 
-    }, [ingoing, single, single.group_info.owner, token])
+    }, [ingoing, expired, single, single.group_info.owner, token])
 
     /**
      * Function to vote an event.
@@ -209,7 +219,7 @@ const SingleEvent = props => {
                         </span>
 
                         {
-                            IsUserRegistered &&
+                            (IsUserRegistered && isEventExpired && isEventLocked) &&
                             <div className={styles.vote}>
                                 <button type={"button"} onClick={() => { VoteOnEvent(true) }} className={styles.upvote} style={{ position: "relative" }}>
                                     <div style={{ position: "absolute", top: "-25px", color: "green", fontSize: "20px" }}>{single.upvotes}</div>
@@ -262,15 +272,24 @@ const SingleEvent = props => {
                                     </> :
                                     <>
                                         {
-                                            IsUserRegistered ?
-                                                TodayIsEventDay ?
-                                                    <Link href={`${query.id}/info/${globalUser.user_id}`}>
-                                                        <a>
-                                                            مشاهده جزئیات بازی
-                                                        </a>
-                                                    </Link> :
-                                                    <></> :
-                                                <button type={"button"} onClick={ReserveEvent}>رزرو ایونت</button>
+                                            !isEventExpired ?
+                                                IsUserRegistered ?
+                                                    TodayIsEventDay ?
+                                                        <Link href={`${query.id}/info/${globalUser.user_id}`}>
+                                                            <a>
+                                                                مشاهده جزئیات بازی
+                                                            </a>
+                                                        </Link> :
+                                                        <></> :
+                                                    !isEventLocked ?
+                                                        <button type={"button"} disabled={isEventLocked} onClick={ReserveEvent}>رزرو ایونت</button> :
+                                                        <div className={styles.locked}>
+                                                            <span className={styles.locked_text}>ایونت بسته شده است</span>
+                                                        </div> :
+                                                <div className={styles.locked}>
+                                                    <span className={styles.locked_text}>ایونت منقضی شده است</span>
+                                                </div>
+
 
                                         }
                                     </>
