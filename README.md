@@ -23,21 +23,33 @@ sudo gpasswd -a www-data root && sudo chmod g+x /root && sudo -u www-data stat /
 
 # WIPs
 
-* add last move card panel ------ **NOT IN MVP**
+# done
 
-* 4 - player MUST not be able to reserve event after event expiration time
+* player shouldn't see the voting icons before finishing the game **done**
 
-* 0 - player shouldn't see the voting icons before finishing the game 
+* let user see his/her profile without having group **done**
 
-* 1 - player MUST not be able to vote twice
+* adding set expire button for god. **done**
+
+* disable reserve button if event is locked. **done**
+
+# ingoing
+
+* 1 - player MUST not be able to vote twice **couldn't be done now**
 
 * 2 - god can't see his/her event????
 
 * 3 - only god can see his/her own deck, other gods can't see 
 
+* 4 - player MUST not be able to reserve event after event expiration time
+
 * 5 - OTP login
 
 * some UI edits ------ **NEED TALKS**
+
+# NOT IN MVP
+
+* add last move card panel ------ **NOT IN MVP**
 
 * game history ------ **NOT IN MVP**
 
