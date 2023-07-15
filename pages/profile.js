@@ -79,7 +79,6 @@ const Profile = props => {
         if (globalUser && globalUser.isLoggedIn && (globalUser.access_level === 2 || globalUser.access_level === 0)) {
             loadExpired()
             loadInGoing()
-            
         }
         loadGroups()
     }, [globalUser])
@@ -91,9 +90,9 @@ const Profile = props => {
         }
         else {
 
-            if (expired && ingoing && groups)
-                setLoading(false
-                )
+            // if (expired && ingoing && groups)
+            if (expired && ingoing)
+                setLoading(false)
         }
     }, [expired, ingoing, groups])
     /**
