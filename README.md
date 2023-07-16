@@ -35,15 +35,12 @@ sudo gpasswd -a www-data root && sudo chmod g+x /root && sudo -u www-data stat /
 
 * player MUST not be able to reserve event after event expiration time **done**
 
+* player MUST not be able to vote twice **done**
 ## ingoing
 
-* 1 - player MUST not be able to vote twice **couldn't be done now**
+* 1 - only god can see his/her own deck, other gods can't see 
 
-* 2 - god can't see his/her event????
-
-* 3 - only god can see his/her own deck, other gods can't see 
-
-* 4 - OTP login
+* 2 - OTP login
 
 * some UI edits ------ **NEED TALKS**
 

@@ -39,7 +39,7 @@ const SingleEvent = props => {
     const loadEvents = async () => {
         if (globalUser && globalUser.isLoggedIn) {
             for (let i = 0; i < single.voters.length; i++) {
-                if (single.voters[i].nft_owner_wallet_address == globalUser.user_id)
+                if (single.voters[i].user_id == globalUser.user_id)
                     setIsVoted(true)
             }
             // props.user = await checkToken(context.req.cookies['token'])
@@ -129,6 +129,8 @@ const SingleEvent = props => {
                         "_id": query.id,
                         "voter": {
                             "nft_owner_wallet_address": "",
+                            "user_id": globalUser.user_id,
+                            "username": globalUser.username,
                             "is_upvote": is_upvote,
                             "score": 0
                         }
