@@ -39,7 +39,7 @@ sudo gpasswd -a www-data root && sudo chmod g+x /root && sudo -u www-data stat /
 
 ## ingoing
 
-* 2 - OTP login (MUST BE GIVEN)
+* 2 - OTP login **(MUST BE GIVEN)**
 
 * 3 - loading speed issue (move to react maybe!!)
 
@@ -49,8 +49,8 @@ sudo gpasswd -a www-data root && sudo chmod g+x /root && sudo -u www-data stat /
   * add gray color on expired events in explor
   * scroll to left/right hint for learning page
   * proper size for conse logo
-  * logo for learning cards (MUST BE GIVEN)
-  * logo for explor events card background (MUST BE GIVEN)
+  * logo for learning cards **(MUST BE GIVEN)** 
+  * logo for explor events card background **(MUST BE GIVEN)**
   * a separate page is needed for every role learning section like clicking on citizen roles button shows all the citizen roles
   * set event start time 5 mins later + current time
   * a separate input for selecting time of event
