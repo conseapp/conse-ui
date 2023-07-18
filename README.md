@@ -52,7 +52,6 @@ sudo gpasswd -a www-data root && sudo chmod g+x /root && sudo -u www-data stat /
   * logo for learning cards (MUST BE GIVEN)
   * logo for explor events card background (MUST BE GIVEN)
   * a separate page is needed for every role learning section like clicking on citizen roles button shows all the citizen roles
-  * pwa
   * set event start time 5 mins later + current time
   * a separate input for selecting time of event
   * separate color for each player in-game-status like using gray for dead status
