@@ -61,7 +61,7 @@ sudo gpasswd -a www-data root && sudo chmod g+x /root && sudo -u www-data stat /
 
 * add last move card panel
 
-* game history like god must be able to see his/her event history (players, in game events ...)
+* game history
 
 * god assistant section 
 
