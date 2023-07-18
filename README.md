@@ -39,13 +39,11 @@ sudo gpasswd -a www-data root && sudo chmod g+x /root && sudo -u www-data stat /
 
 ## ingoing
 
-* 2 - OTP login **(MUST BE GIVEN)**
+* 1 - OTP login **(MUST BE GIVEN)**
 
-* 3 - loading speed issue (move to react maybe!!)
+* 2 - pwa
 
-* 4 - pwa
-
-* UI/UX edits
+* 3 - UI/UX edits
   * add gray color on expired events in explor
   * scroll to left/right hint for learning page
   * proper size for conse logo
@@ -66,3 +64,5 @@ sudo gpasswd -a www-data root && sudo chmod g+x /root && sudo -u www-data stat /
 * god assistant section 
 
 * portal
+
+* move to react 
