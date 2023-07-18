@@ -63,6 +63,5 @@ sudo gpasswd -a www-data root && sudo chmod g+x /root && sudo -u www-data stat /
 
 * god assistant section 
 
-* portal
+* portal payment 
 
-* move to react 
