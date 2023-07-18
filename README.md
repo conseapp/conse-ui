@@ -36,20 +36,34 @@ sudo gpasswd -a www-data root && sudo chmod g+x /root && sudo -u www-data stat /
 * player MUST not be able to reserve event after event expiration time **done**
 
 * player MUST not be able to vote twice **done**
+
 ## ingoing
 
-* 1 - only god can see his/her own deck, other gods can't see 
+* 2 - OTP login (MUST BE GIVEN)
 
-* 2 - OTP login
+* 3 - loading speed issue (move to react maybe!!)
 
-* some UI edits ------ **NEED TALKS**
+* 4 - pwa
 
-## NOT IN MVP
+* UI/UX edits
+  * add gray color on expired events in explor
+  * scroll to left/right hint for learning page
+  * proper size for conse logo
+  * logo for learning cards (MUST BE GIVEN)
+  * logo for explor events card background (MUST BE GIVEN)
+  * a separate page is needed for every role learning section like clicking on citizen roles button shows all the citizen roles
+  * pwa
+  * set event start time 5 mins later + current time
+  * a separate input for selecting time of event
+  * separate color for each player in-game-status like using gray for dead status
+  * add role in create deck section must be based on sides (UX mock or wireframe MUST BE GIVEN)
 
-* add last move card panel ------ **NOT IN MVP**
+## Beta Release Feature
 
-* game history ------ **NOT IN MVP**
+* add last move card panel
 
-* portal ------ **NOT IN MVP**
+* game history like god must be able to see his/her event history (players, in game events ...)
 
-* FFP ------ **NOT IN MVP**
+* god assistant section 
+
+* portal
