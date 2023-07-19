@@ -62,7 +62,7 @@ sudo gpasswd -a www-data root && sudo chmod g+x /root && sudo -u www-data stat /
 
 * add last move card panel
 
-* game history
+* game history and phases 
 
 * god assistant section 
 
