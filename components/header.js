@@ -2,6 +2,7 @@ import * as React from 'react';
 import styles from "/styles/components/header.module.scss";
 import Link from "next/link";
 import Image from "next/future/image";
+import logo from "../public/logo.png";
 import { deleteCookie } from "cookies-next";
 import { useRouter } from "next/router";
 import { MdLogout, MdStar } from "react-icons/md";
@@ -60,7 +61,7 @@ const Header = props => {
         <header className={styles.component}>
             {loading ?
                 <>
-                <Circular />
+                    <Circular />
                 </>
                 :
                 <>
@@ -68,7 +69,7 @@ const Header = props => {
                     <div className={styles.logo}>
                         <Link href={"/"}>
                             <a>
-                                <Image src='/logo.png' alt={"Conse"} width={66} height={32} />
+                                <Image src={logo} alt={"Conse"} width={50} height={50} quality={100} />
                             </a>
                         </Link>
                     </div>

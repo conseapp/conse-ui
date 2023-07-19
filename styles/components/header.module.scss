@@ -1,6 +1,6 @@
 .component {
   background: #ffffff;
-  font-family: 'IranSans', sans-serif;
+  font-family: "IranSans", sans-serif;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -21,8 +21,8 @@
     width: 100%;
     justify-content: center;
 
-    a {
-      display: flex
+    a{
+      display: flex;
     }
   }
 
@@ -74,16 +74,13 @@
     display: flex;
     white-space: nowrap;
     background: var(--danger-light-color);
-    color: #FE5052;
+    color: #fe5052;
     align-items: center;
     padding: 6px 12px;
     border-radius: 4px;
 
     svg {
-      margin-left: 4px
+      margin-left: 4px;
     }
   }
 }
-
-
-
