@@ -1,7 +1,49 @@
+// Small tablets and large smartphones (landscape view)
+$screen-sm-min: 576px;
+
+// Small tablets (portrait view)
+$screen-md-min: 768px;
+
+// Tablets and small desktops
+$screen-lg-min: 992px;
+
+// Large tablets and desktops
+$screen-xl-min: 1200px;
+
+
 .page {
+  .container {
+    padding: 24px;
+    width: 100%;
+    margin: auto;
+    @media (min-width: $screen-xl-min) {
+      width: 80%;
+    }
+  }
+  .cardrow {
+    margin-bottom: 40px;
+    width: 100%;
+  }
   .swiper {
-    button {
-      background: #FFFFFF;
+    padding-bottom: 40px;
+    width: 100%;
+    .swiper_slide {
+      width: 200px;
+      aspect-ratio: 4/5;
+      border-radius: 5px;
+      @media (min-width: $screen-sm-min) {
+        width: 250px;
+      }
+      @media (min-width: $screen-lg-min) {
+        width: 300px;
+      }
+
+    }
+    .card {
+      width: 100%;
+      height: 100%;
+      direction: rtl;
+      background: #ffffff;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -10,11 +52,9 @@
       padding: 20px;
       position: relative;
       color: var(--text-color);
-      border: 1px solid #E5E5E5;
-      width: 100%;
 
       &:before {
-        content: '';
+        content: "";
         position: absolute;
         width: 100%;
         height: 100%;
@@ -35,15 +75,16 @@
       b {
         display: flex;
         align-items: center;
-        opacity: .5;
         font-weight: normal;
-
+        z-index: 5;
+        cursor: pointer;
         svg {
-          margin-right: 8px
+          margin-right: 8px;
         }
       }
 
       &.lastMoveCard {
+        background: #ffffff;
         h3 {
           color: var(--danger-color);
         }

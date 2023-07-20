@@ -3,10 +3,11 @@ import Header from "../components/header";
 import checkToken from "../utils/checkToken";
 import Nav from "../components/nav";
 import React from "react";
-import { FreeMode } from "swiper";
+import { Pagination, EffectCards } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import 'swiper/css';
-import 'swiper/css/free-mode';
+import 'swiper/css/pagination';
+import 'swiper/css/effect-cards';
 import { CgChevronLeft } from "react-icons/cg";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
@@ -131,29 +132,47 @@ const Learn = props => {
 
             <>
                 {loading ? <><div><Circular /></div></> : <>
-                    <div className={"container"}>
+                    <div className={styles.container}>
 
                         {
                             sides.map(side => {
                                 return (
-                                    <div key={side._id.$oid} className="row" style={{ marginBottom: '40px' }}>
+                                    <div key={side._id.$oid} className={styles.cardrow} >
                                         <div className="page-title">
                                             <h3>{side.name}</h3>
                                         </div>
 
-                                        <Swiper spaceBetween={16} slidesPerView={2} freeMode={true} modules={[FreeMode]} className={styles.swiper}>
+                                        <Swiper
+                                            dir='ltr'
+                                            effect={'cards'}
+                                            grabCursor={true}
+                                            centeredSlides={true}
+                                            slidesPerView={'auto'}
+                                            pagination={{
+                                                dynamicBullets: true,
+                                            }}
+                                            coverflowEffect={{
+                                                rotate: 50,
+                                                stretch: 20,
+                                                depth: 200,
+                                                modifier: 1,
+                                                slideShadows: true,
+                                            }}
+                                            modules={[EffectCards, Pagination]}
+                                            className={styles.swiper}
+                                        >
                                             {roles.map(role => {
                                                 if (role.side_id.$oid === side._id.$oid) {
                                                     return (
-                                                        <SwiperSlide key={role._id.$oid}>
-                                                            <button type={"button"} style={CreateSideColor(role.side_id.$oid)} onClick={openRoleModal} data-id={role._id.$oid}>
+                                                        <SwiperSlide className={styles.swiper_slide} key={role._id.$oid}>
+                                                            <div className={styles.card} style={CreateSideColor(role.side_id.$oid)} onClick={openRoleModal} data-id={role._id.$oid}>
                                                                 <h3>{role.name}</h3>
                                                                 <span dangerouslySetInnerHTML={{ __html: role.desc }} />
-                                                                <b>
+                                                                <b data-id={role._id.$oid}>
                                                                     بیشتر
                                                                     <CgChevronLeft />
                                                                 </b>
-                                                            </button>
+                                                            </div>
                                                         </SwiperSlide>
                                                     )
                                                 }
@@ -164,23 +183,43 @@ const Learn = props => {
                             })
                         }
 
-                        <div className="row" style={{ marginBottom: '40px', display: 'none' }}>
+                        <div className={styles.cardrow}
+                            style={{ marginBottom: '40px', display: 'none' }}
+                        >
                             <div className="page-title">
                                 <h3>کارت های حرکت آخر</h3>
                             </div>
 
-                            <Swiper spaceBetween={16} slidesPerView={2} freeMode={true} modules={[FreeMode]} className={styles.swiper}>
+                            <Swiper
+                                dir='ltr'
+                                effect={'cards'}
+                                grabCursor={true}
+                                centeredSlides={true}
+                                slidesPerView={'auto'}
+                                pagination={{
+                                    dynamicBullets: true,
+                                }}
+                                coverflowEffect={{
+                                    rotate: 50,
+                                    stretch: 20,
+                                    depth: 200,
+                                    modifier: 1,
+                                    slideShadows: true,
+                                }}
+                                modules={[EffectCards, Pagination]}
+                                className={styles.swiper}
+                            >
                                 {cards.map(card => {
                                     return (
-                                        <SwiperSlide key={card._id.$oid}>
-                                            <button type={"button"} className={styles.lastMoveCard} onClick={openCardModal} data-id={card._id.$oid}>
+                                        <SwiperSlide className={styles.swiper_slide} key={card._id.$oid}>
+                                            <div className={`${styles.card} ${styles.lastMoveCard}`} onClick={openCardModal} data-id={card._id.$oid}>
                                                 <h3>{card.name}</h3>
                                                 <span dangerouslySetInnerHTML={{ __html: card.desc }} />
-                                                <b>
+                                                <b data-id={card._id.$oid}>
                                                     بیشتر
                                                     <CgChevronLeft />
                                                 </b>
-                                            </button>
+                                            </div>
                                         </SwiperSlide>
                                     )
                                 })}
@@ -191,7 +230,7 @@ const Learn = props => {
                 </>}
             </>
 
-        </div>
+        </div >
     )
 }
 
