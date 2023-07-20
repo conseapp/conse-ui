@@ -1,11 +1,61 @@
 @import "styles/functions";
 
+
+// Small tablets and large smartphones (landscape view)
+$screen-sm-min: 576px;
+
+// Small tablets (portrait view)
+$screen-md-min: 768px;
+
+// Tablets and small desktops
+$screen-lg-min: 992px;
+
+// Large tablets and desktops
+$screen-xl-min: 1200px;
+
+
 .page {
   .lastEvents {
     .swiper {
+      width: 100%;
+      padding-top: 50px;
+      padding-bottom: 50px;
+
+      @media (min-width: $screen-sm-min) {
+        width: 90%;
+      }
+      @media (min-width: $screen-md-min) {
+        width: 80%;
+      }
+      @media (min-width: $screen-lg-min) {
+        width: 70%;
+      }
+      @media (min-width: $screen-xl-min) {
+        width: 60%;
+      }
+      
+      .swiper_slide {
+        width: 60%;
+        // height: 250px;
+        aspect-ratio: 4/5;
+
+        
+        @media (min-width: $screen-sm-min) {
+          width: 55%;
+        }
+        @media (min-width: $screen-md-min) {
+          width: 50%;
+        }
+        @media (min-width: $screen-lg-min) {
+          width: 45%;
+        }
+        @media (min-width: $screen-xl-min) {
+          width: 40%;
+        }
+      }
       a {
         width: 100%;
-        height: 250px;
+        height: 100%;
         background-size: cover;
         border-radius: 8px;
         position: relative;
@@ -13,14 +63,26 @@
         display: flex;
 
         &:before {
-          content: '';
+          content: "";
           position: absolute;
           width: 100%;
           height: 100%;
           background: rgb(0, 0, 0);
-          background: -webkit-linear-gradient(0deg, rgba(0, 0, 0, .9) 0%, rgba(0, 0, 0, 0) 100%);
-          background: -moz-linear-gradient(0deg, rgba(0, 0, 0, .9) 0%, rgba(0, 0, 0, 0) 100%);
-          background: linear-gradient(0deg, rgba(0, 0, 0, .9) 0%, rgba(0, 0, 0, 0) 100%);
+          background: -webkit-linear-gradient(
+            0deg,
+            rgba(0, 0, 0, 0.9) 0%,
+            rgba(0, 0, 0, 0) 100%
+          );
+          background: -moz-linear-gradient(
+            0deg,
+            rgba(0, 0, 0, 0.9) 0%,
+            rgba(0, 0, 0, 0) 100%
+          );
+          background: linear-gradient(
+            0deg,
+            rgba(0, 0, 0, 0.9) 0%,
+            rgba(0, 0, 0, 0) 100%
+          );
         }
 
         h3 {

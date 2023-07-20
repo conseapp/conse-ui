@@ -5,9 +5,10 @@ import checkToken from "../utils/checkToken";
 import Nav from "../components/nav";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { FreeMode } from "swiper";
+import { Autoplay, Pagination, EffectCoverflow } from "swiper";
 import 'swiper/css';
-import 'swiper/css/free-mode';
+import 'swiper/css/pagination';
+import 'swiper/css/effect-coverflow';
 import { MdChevronLeft } from "react-icons/md";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
@@ -52,10 +53,31 @@ const Index = props => {
                             </a>
                         </Link>
                     </div>
-                    <Swiper spaceBetween={12} slidesPerView={2} freeMode={true} modules={[FreeMode]} className={styles.swiper}>
+                    <Swiper
+                        effect={'coverflow'}
+                        grabCursor={true}
+                        centeredSlides={true}
+                        slidesPerView={'auto'}
+                        autoplay={{
+                            delay: 1500,
+                            disableOnInteraction: false,
+                        }}
+                        pagination={{
+                            dynamicBullets: true,
+                        }}
+                        coverflowEffect={{
+                            rotate: 50,
+                            stretch: 20,
+                            depth: 200,
+                            modifier: 1,
+                            slideShadows: true,
+                        }}
+                        modules={[Autoplay, EffectCoverflow, Pagination]}
+                        className={styles.swiper}
+                    >
                         {events.slice(Math.max(events.length - 5, 0)).reverse().map(event => {
                             return (
-                                <SwiperSlide key={event._id.$oid}>
+                                <SwiperSlide className={styles.swiper_slide} key={event._id.$oid}>
                                     <Link href={`/events/${event._id.$oid}`}>
                                         <a className={styles.item} style={{ backgroundImage: 'url("/events-slide-1.png")' }}>
                                             <h3>{event.title}</h3>
