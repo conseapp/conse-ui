@@ -19,6 +19,7 @@ import persian from "react-date-object/calendars/persian"
 import persian_fa from "react-date-object/locales/persian_fa"
 import TimePicker from "react-multi-date-picker/plugins/time_picker";
 import InputIcon from "react-multi-date-picker/components/input_icon"
+import "react-multi-date-picker/styles/layouts/mobile.css"
 
 const Create = props => {
     const Router = useRouter()
@@ -224,14 +225,15 @@ const Create = props => {
                                 <label htmlFor="started_at">زمان شروع بازی</label>
                                 <DatePicker
                                     value={startDate}
-                                    onChange={value => setStartDate(value)}
-                                    format="YYYY/MM/DD"
+                                    inputClass={styles.date_input}
+                                    className="rmdp-mobile"
+                                    onChange={value => console.log('lol')}
+                                    format="HH:mm - YYYY/MM/DD"
                                     plugins={[
-                                        <TimePicker hideSeconds position="top" />
+                                        <TimePicker hideSeconds position="bottom" />
                                     ]}
                                     calendar={persian}
                                     locale={persian_fa}
-                                    render={<InputIcon />}
                                     calendarPosition="bottom-right"
                                 />
                             </div>
