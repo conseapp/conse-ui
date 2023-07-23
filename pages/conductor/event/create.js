@@ -10,10 +10,15 @@ import { getCookie } from "cookies-next";
 import checkToken from "../../../utils/checkToken";
 import Nav from "../../../components/nav";
 import Header from "../../../components/header";
-import { DatePicker } from "jalali-react-datepicker";
 import createEvent from "../../../utils/createEvent";
 import { useSelector } from "react-redux";
 import Circular from "../../../components/Circular";
+import DateObject from "react-date-object";
+import DatePicker from "react-multi-date-picker"
+import persian from "react-date-object/calendars/persian"
+import persian_fa from "react-date-object/locales/persian_fa"
+import TimePicker from "react-multi-date-picker/plugins/time_picker";
+import InputIcon from "react-multi-date-picker/components/input_icon"
 
 const Create = props => {
     const Router = useRouter()
@@ -71,7 +76,7 @@ const Create = props => {
     /**
      * Submit start_at
      */
-    const [startDate, setStartDate] = useState(new Date())
+    const [startDate, setStartDate] = useState(new DateObject())
 
     /**
      * Change the style of the dropdown list.
@@ -157,12 +162,11 @@ const Create = props => {
             "phases": [],
             "max_players": deck.roles.length,
             "players": [],
-            "started_at": startDate
+            "started_at": startDate.unix
         }
 
         let { status } = await createEvent(body, token)
-        let statss = await createEvent(body, token)
-        console.log(statss)
+
 
         if (status === 201 || status === 302) {
             toast.success('ایونت با موفقیت ایجاد شد')
@@ -218,10 +222,18 @@ const Create = props => {
 
                             <div className="row">
                                 <label htmlFor="started_at">زمان شروع بازی</label>
-                                <DatePicker onClickSubmitButton={({ value }) => {
-                                    let date = new Date(value._d).getTime()
-                                    setStartDate(Math.floor(date / 1000))
-                                }} />
+                                <DatePicker
+                                    value={startDate}
+                                    onChange={value => setStartDate(value)}
+                                    format="YYYY/MM/DD"
+                                    plugins={[
+                                        <TimePicker hideSeconds position="top" />
+                                    ]}
+                                    calendar={persian}
+                                    locale={persian_fa}
+                                    render={<InputIcon />}
+                                    calendarPosition="bottom-right"
+                                />
                             </div>
 
                             <div className="row">

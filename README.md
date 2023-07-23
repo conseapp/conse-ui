@@ -41,6 +41,7 @@ sudo gpasswd -a www-data root && sudo chmod g+x /root && sudo -u www-data stat /
 
 * proper size for conse logo **done**
 
+* a separate input for selecting time of event **done**
 ## ingoing
 
 * 1 - OTP login **(MUST BE GIVEN)**
@@ -54,7 +55,6 @@ sudo gpasswd -a www-data root && sudo chmod g+x /root && sudo -u www-data stat /
   * logo for explor events card background **(MUST BE GIVEN)**
   * a separate page is needed for every role learning section like clicking on citizen roles button shows all the citizen roles
   * set event start time 5 mins later + current time
-  * a separate input for selecting time of event
   * separate color for each player in-game-status like using gray for dead status
   * add role in create deck section must be based on sides (UX mock or wireframe MUST BE GIVEN)
 
