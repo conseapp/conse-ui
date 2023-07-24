@@ -163,7 +163,7 @@ const Create = props => {
             "phases": [],
             "max_players": deck.roles.length,
             "players": [],
-            "started_at": startDate.unix
+            "started_at": startDate.add(5, "minute").unix
         }
 
         let { status } = await createEvent(body, token)
@@ -227,7 +227,7 @@ const Create = props => {
                                     value={startDate}
                                     inputClass={styles.date_input}
                                     className="rmdp-mobile"
-                                    onChange={value => console.log('lol')}
+                                    onChange={value => setStartDate(value)}
                                     format="HH:mm - YYYY/MM/DD"
                                     plugins={[
                                         <TimePicker hideSeconds position="bottom" />
