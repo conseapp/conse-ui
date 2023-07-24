@@ -14,12 +14,7 @@ import createEvent from "../../../utils/createEvent";
 import { useSelector } from "react-redux";
 import Circular from "../../../components/Circular";
 import DateObject from "react-date-object";
-import DatePicker from "react-multi-date-picker"
-import persian from "react-date-object/calendars/persian"
-import persian_fa from "react-date-object/locales/persian_fa"
-import TimePicker from "react-multi-date-picker/plugins/time_picker";
-import InputIcon from "react-multi-date-picker/components/input_icon"
-import "react-multi-date-picker/styles/layouts/mobile.css"
+import DateInput from "../../../components/DateInput";
 
 const Create = props => {
     const Router = useRouter()
@@ -178,6 +173,8 @@ const Create = props => {
         }
     }
 
+    const onChangeHandler = value => setStartDate(value)
+
     return (
         <div className={styles.page}>
 
@@ -223,19 +220,7 @@ const Create = props => {
 
                             <div className="row">
                                 <label htmlFor="started_at">زمان شروع بازی</label>
-                                <DatePicker
-                                    value={startDate}
-                                    inputClass={styles.date_input}
-                                    className="rmdp-mobile"
-                                    onChange={value => setStartDate(value)}
-                                    format="HH:mm - YYYY/MM/DD"
-                                    plugins={[
-                                        <TimePicker hideSeconds position="bottom" />
-                                    ]}
-                                    calendar={persian}
-                                    locale={persian_fa}
-                                    calendarPosition="bottom-right"
-                                />
+                                <DateInput onChange={onChangeHandler} value={startDate} />
                             </div>
 
                             <div className="row">
