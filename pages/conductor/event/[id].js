@@ -10,10 +10,10 @@ import { getCookie } from "cookies-next";
 import checkToken from "../../../utils/checkToken";
 import Nav from "../../../components/nav";
 import Header from "../../../components/header";
-import { DatePicker } from "jalali-react-datepicker";
 import createEvent from "../../../utils/createEvent";
 import { useSelector } from "react-redux";
 import Circular from "../../../components/Circular";
+import DateInput from "../../../components/DateInput";
 
 const Create = props => {
     /**
@@ -72,7 +72,6 @@ const Create = props => {
     //set deck info from the event
     useEffect(() => {
         if (groups && event && decks) {
-            // setStartDate(Math.floor(new Date(event.started_at * 1000).getTime()) / 1000)
             setStartDate(event.started_at * 1000)
             for (var t = 0; t < decks.length; t++) {
                 if (decks[t]._id.$oid == event.deck_id) {
@@ -176,7 +175,7 @@ const Create = props => {
             "phases": [],
             "max_players": deck.roles.length,
             "players": [],
-            "started_at": startDate
+            "started_at": startDate.add(5, "minute").unix
         }
         let { status, message } = await createEvent(body, token)
         if (status === 201 || status === 302) {
@@ -188,6 +187,7 @@ const Create = props => {
         }
     }
 
+    const onChangeHandler = value => setStartDate(value)
 
     return (
         <div className={styles.page}>
@@ -233,10 +233,7 @@ const Create = props => {
 
                             <div className="row">
                                 <label htmlFor="started_at">زمان شروع بازی</label>
-                                <DatePicker value={startDate} onClickSubmitButton={({ value }) => {
-                                    let date = new Date(value._d).getTime()
-                                    setStartDate(Math.floor(date / 1000))
-                                }} />
+                                <DateInput onChange={onChangeHandler} value={startDate} />
                             </div>
 
                             <div className="row">
