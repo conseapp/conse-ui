@@ -1,8 +1,20 @@
 @import "../functions";
 
+// Small tablets and large smartphones (landscape view)
+$screen-sm-min: 576px;
+
+// Small tablets (portrait view)
+$screen-md-min: 768px;
+
+// Tablets and small desktops
+$screen-lg-min: 992px;
+
+// Large tablets and desktops
+$screen-xl-min: 1200px;
+
 .page {
   .search {
-    border-bottom: 1px solid #E5E5E5;
+    border-bottom: 1px solid #e5e5e5;
     padding: 16px;
 
     label {
@@ -10,7 +22,7 @@
       display: flex;
 
       input {
-        border: 1px solid #E5E5E5;
+        border: 1px solid #e5e5e5;
         border-radius: 40px;
         margin-bottom: 0;
       }
@@ -26,33 +38,53 @@
   }
 
   ul.list {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto auto;
     flex-wrap: wrap;
     list-style: none;
-    margin: -8px;
+    gap: 8px;
+
+    @media (min-width: $screen-md-min) {
+      grid-template-columns: auto auto auto;
+    }
+    @media (min-width: $screen-xl-min) {
+      grid-template-columns: auto auto auto auto;
+    }
 
     li {
-      width: 50%;
       display: flex;
       padding: 8px;
+      aspect-ratio: 4/5;
 
-      a {
+      .item {
         width: 100%;
-        height: 230px;
+        height: 100%;
         background-size: cover;
         border-radius: 8px;
         position: relative;
         overflow: hidden;
 
-        &:before {
-          content: '';
+        &::before {
+          content: "";
           position: absolute;
           width: 100%;
           height: 100%;
           background: rgb(0, 0, 0);
-          background: -webkit-linear-gradient(0deg, rgba(0, 0, 0, .9) 0%, rgba(0, 0, 0, 0) 100%);
-          background: -moz-linear-gradient(0deg, rgba(0, 0, 0, .9) 0%, rgba(0, 0, 0, 0) 100%);
-          background: linear-gradient(0deg, rgba(0, 0, 0, .9) 0%, rgba(0, 0, 0, 0) 100%);
+          background: -webkit-linear-gradient(
+            0deg,
+            rgba(0, 0, 0, 0.9) 0%,
+            rgba(0, 0, 0, 0) 100%
+          );
+          background: -moz-linear-gradient(
+            0deg,
+            rgba(0, 0, 0, 0.9) 0%,
+            rgba(0, 0, 0, 0) 100%
+          );
+          background: linear-gradient(
+            0deg,
+            rgba(0, 0, 0, 0.9) 0%,
+            rgba(0, 0, 0, 0) 100%
+          );
         }
 
         h3 {
@@ -65,6 +97,30 @@
           overflow: hidden;
         }
       }
+
+      .expired {
+        .expired_text {
+          font-size: 1rem;
+          text-align: center;
+          width: 100%;
+          font-weight: bold;
+          color: #eee;
+          z-index: 1;
+          background-color: transparent;
+          padding: 0 10px;
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+
+        &::before {
+          content: "";
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.8);
+        }
+      }
     }
   }
 
@@ -74,7 +130,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    opacity: .4;
+    opacity: 0.4;
 
     .icon {
       font-size: 100px;
@@ -85,7 +141,7 @@
       justify-content: center;
       align-items: center;
       border-radius: 150px;
-      transform: rotate(-90deg) scale(.8);
+      transform: rotate(-90deg) scale(0.8);
       margin-bottom: 12px;
     }
 

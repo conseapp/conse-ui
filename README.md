@@ -44,6 +44,8 @@ sudo gpasswd -a www-data root && sudo chmod g+x /root && sudo -u www-data stat /
 * a separate input for selecting time of event **done**
 
 * set event start time 5 mins later + current time **done**
+
+* add gray color on expired events in explor **done**
 ## ingoing
 
 * 1 - OTP login **(MUST BE GIVEN)**
@@ -51,7 +53,6 @@ sudo gpasswd -a www-data root && sudo chmod g+x /root && sudo -u www-data stat /
 * 2 - pwa
 
 * 3 - UI/UX edits
-  * add gray color on expired events in explor
   * scroll to left/right hint for learning page
   * logo for learning cards **(MUST BE GIVEN)** 
   * logo for explor events card background **(MUST BE GIVEN)**

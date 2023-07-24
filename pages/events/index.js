@@ -57,8 +57,11 @@ const Index = props => {
                                     return (
                                         <li key={event._id.$oid}>
                                             <Link href={`/events/${event._id.$oid}`}>
-                                                <a className={styles.item} style={{ backgroundImage: 'url("/events-slide-1.png")' }}>
+                                                <a className={`${styles.item} ${event.is_expired ? styles.expired : ''}`} style={{ backgroundImage: 'url("/events-slide-1.png")' }}>
                                                     <h3>{event.title}</h3>
+                                                    {
+                                                        event.is_expired && <span className={styles.expired_text}>ایونت منقضی شده است</span>
+                                                    }
                                                 </a>
                                             </Link>
                                         </li>
@@ -68,7 +71,7 @@ const Index = props => {
                         </ul> :
                         <div className={styles.notFound}>
                             <span className={styles.icon}>
-                                :(
+                                :
                             </span>
                             <h2>متاسفانه نتیجه ای یافت نشد !!</h2>
                             <h4>لطفا دوباره تلاش کنید</h4>
@@ -86,7 +89,7 @@ export async function getServerSideProps(context) {
     // let user = (typeof context.req.cookies['token'] !== 'undefined') ? await checkToken(context.req.cookies['token']) : {}
 
     // Get events
-    let events = await fetch(`${process.env.EVENT_URL}/event/get/all/in-going`)
+    let events = await fetch(`${process.env.EVENT_URL}/event/get/all`)
     events = await events.json()
 
     return {
