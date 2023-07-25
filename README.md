@@ -58,14 +58,13 @@ sudo gpasswd -a www-data root && sudo chmod g+x /root && sudo -u www-data stat /
   * logo for learning cards **(MUST BE GIVEN)** 
   * logo for explore events card background **(MUST BE GIVEN)**
   * a separate page is needed for every role learning section like clicking on citizen roles button shows all the citizen roles
-  * separate color for each player in-game-status like using gray for dead status
   * add role in create deck section must be based on sides (UX mock or wireframe MUST BE GIVEN)
 
 ## Beta Release Feature
 
 * add last move card panel
 
-* game history and phases 
+* game history and phases (separate color for each player in-game-status like using gray for dead status)
 
 * god assistant section 
 
