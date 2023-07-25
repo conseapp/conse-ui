@@ -15,7 +15,7 @@ export default function DateInput({onChange, value}) {
       onChange={onChange}
       format="HH:mm - YYYY/MM/DD"
       plugins={[
-        <TimePicker hideSeconds position="bottom" />
+        <TimePicker hideSeconds position="bottom" key={''}/>
       ]}
       calendar={persian}
       locale={persian_fa}
