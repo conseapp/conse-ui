@@ -53,9 +53,10 @@ sudo gpasswd -a www-data root && sudo chmod g+x /root && sudo -u www-data stat /
 * 2 - pwa
 
 * 3 - UI/UX edits
+  * dot icon below the user pages 
   * scroll to left/right hint for learning page
   * logo for learning cards **(MUST BE GIVEN)** 
-  * logo for explor events card background **(MUST BE GIVEN)**
+  * logo for explore events card background **(MUST BE GIVEN)**
   * a separate page is needed for every role learning section like clicking on citizen roles button shows all the citizen roles
   * separate color for each player in-game-status like using gray for dead status
   * add role in create deck section must be based on sides (UX mock or wireframe MUST BE GIVEN)
