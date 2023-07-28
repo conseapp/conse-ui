@@ -114,7 +114,7 @@ const Learn = props => {
                 withReactContent(Swal).fire({
                     background: '#F6F6F6',
                     color: '#333',
-                    title: <h3 style={{ color: 'var(--danger-color)' }}>{card.name}</h3>,
+                    title: <h3 dangerouslySetInnerHTML={{ __html: card.name }} style={{ color: 'var(--danger-color)' }}></h3>,
                     html: <div dangerouslySetInnerHTML={{ __html: card.desc }}></div>,
                     confirmButtonColor: 'var(--primary-color)',
                     confirmButtonText: 'متوجه شدم'
@@ -184,7 +184,7 @@ const Learn = props => {
                         }
 
                         <div className={styles.cardrow}
-                            style={{ marginBottom: '40px', display: 'none' }}
+                            // style={{ marginBottom: '40px', display: 'none' }}
                         >
                             <div className="page-title">
                                 <h3>کارت های حرکت آخر</h3>
@@ -213,7 +213,7 @@ const Learn = props => {
                                     return (
                                         <SwiperSlide className={styles.swiper_slide} key={card._id.$oid}>
                                             <div className={`${styles.card} ${styles.lastMoveCard}`} onClick={openCardModal} data-id={card._id.$oid}>
-                                                <h3>{card.name}</h3>
+                                                <h3 dangerouslySetInnerHTML={{ __html: card.name }}></h3>
                                                 <span dangerouslySetInnerHTML={{ __html: card.desc }} />
                                                 <b data-id={card._id.$oid}>
                                                     بیشتر
