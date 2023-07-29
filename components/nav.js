@@ -6,10 +6,10 @@ import Image from "next/future/image";
 import { useDispatch, useSelector } from "react-redux";
 import { getuser } from "../redux/actions";
 import Circular from "./Circular";
+import { useRouter } from "next/router";
 
 const Nav = props => {
-
-
+    const { pathname } = useRouter()
     const [loading, setLoading] = useState(true)
     // const dispatch = useDispatch();
     // const fetchUser = () => dispatch(getuser());
@@ -30,6 +30,7 @@ const Nav = props => {
 
 
     useEffect(() => {
+        console.log("im here",pathname );
         if (globalUser)
             setLoading(false)
     }, [globalUser])
@@ -37,24 +38,26 @@ const Nav = props => {
         <nav className={styles.component}>
             {loading ? <><Circular /></> :
                 <ul className={styles.list}>
-                    <li>
+                    <li className={pathname === '/profile' ? styles.active : ''}>
                         {globalUser && globalUser.isLoggedIn ?
                             <Link href={'/profile'}>
                                 <a>
                                     <Image src='/avatar.png' alt={"User"} width={30} height={30} style={{ borderRadius: '50%' }} />
                                 </a>
-                            </Link> :
+                            </Link>
+                            :
                             <a href={'/login'}>
                                 <Image src='/avatar.png' alt={"User"} width={30} height={30} style={{ borderRadius: '50%' }} />
                             </a>
 
                         }
                     </li>
-                    <li>
+                    <li className={pathname === '/learn' ? styles.active : ''}>
                         {globalUser && globalUser.isLoggedIn ?
                             <Link href={'/learn'}>
                                 <a>
-                                    <MdOutlineInfo /></a>
+                                    <MdOutlineInfo />
+                                </a>
                             </Link>
                             :
                             <a href={'/login'}>
@@ -64,7 +67,7 @@ const Nav = props => {
                     </li>
                     {
                         globalUser.access_level === 0 || globalUser.access_level === 1 ?
-                            <li>
+                            <li className={pathname === '/conductor' ? styles.active : ''}>
                                 <Link href={'/conductor'}>
                                     <a>
                                         <MdOutlineAddBox />
@@ -73,14 +76,14 @@ const Nav = props => {
                             </li> :
                             <></>
                     }
-                    <li>
+                    <li className={pathname === '/events' ? styles.active : ''}>
                         <Link href={'/events'}>
                             <a>
                                 <MdOutlineExplore />
                             </a>
                         </Link>
                     </li>
-                    <li>
+                    <li className={pathname === '/' ? styles.active : ''}>
                         <Link href={'/'}>
                             <a>
                                 <MdOutlineHome />
