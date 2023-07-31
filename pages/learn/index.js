@@ -203,6 +203,12 @@ const Learn = props => {
                             <div className={styles.cardrow}>
                                 <div className="page-title">
                                     <h3>کارت های حرکت آخر</h3>
+                                    <Link href={"/learn/last-move-cards"}>
+                                        <a>
+                                            بیشتر
+                                            <MdChevronLeft />
+                                        </a>
+                                    </Link>
                                 </div>
 
                                 <Swiper
