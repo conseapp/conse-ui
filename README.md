@@ -48,6 +48,12 @@ sudo gpasswd -a www-data root && sudo chmod g+x /root && sudo -u www-data stat /
 * add gray color on expired events in explor **done**
 
 * dot icon below the user pages **done**
+
+* a separate page is needed for every role learning section like clicking on citizen roles button shows all the citizen roles **done**
+
+* add search bar to the index learning page and single side learning page **done** 
+
+* add single last move cards page **done** 
 ## ingoing
 
 * 1 - OTP login **(MUST BE GIVEN)**
@@ -55,10 +61,8 @@ sudo gpasswd -a www-data root && sudo chmod g+x /root && sudo -u www-data stat /
 * 2 - pwa
 
 * 3 - UI/UX edits
-  * scroll to left/right hint for learning page
   * logo for learning cards **(MUST BE GIVEN)** 
   * logo for explore events card background **(MUST BE GIVEN)**
-  * a separate page is needed for every role learning section like clicking on citizen roles button shows all the citizen roles
   * add role in create deck section must be based on sides (UX mock or wireframe MUST BE GIVEN)
 
 ## Beta Release Feature
