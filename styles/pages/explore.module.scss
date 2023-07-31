@@ -39,16 +39,16 @@ $screen-xl-min: 1200px;
 
   ul.list {
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: 1fr 1fr;
     flex-wrap: wrap;
     list-style: none;
     gap: 8px;
 
     @media (min-width: $screen-md-min) {
-      grid-template-columns: auto auto auto;
+      grid-template-columns: 1fr 1fr 1fr;
     }
     @media (min-width: $screen-xl-min) {
-      grid-template-columns: auto auto auto auto;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
     }
 
     li {
