@@ -16,7 +16,7 @@ import { MdSearch } from "react-icons/md";
 
 
 
-export default function lastMoveCard() {
+export default function LastMoveCard() {
 
     const { globalUser } = useSelector(state => state.userReducer)
     const [cards, setCards] = useState(undefined)

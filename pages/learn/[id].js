@@ -17,7 +17,7 @@ import { MdSearch } from "react-icons/md";
 
 
 
-export default function singleSide() {
+export default function SingleSide() {
 
     const { globalUser } = useSelector(state => state.userReducer)
     const [roles, setRoles] = useState(undefined)
