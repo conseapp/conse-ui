@@ -38,7 +38,7 @@ const Nav = props => {
         <nav className={styles.component}>
             {loading ? <><Circular /></> :
                 <ul className={styles.list}>
-                    <li className={pathname === '/profile' ? styles.active : ''}>
+                    <li className={pathname.includes('/profile') ? styles.active : ''}>
                         {globalUser && globalUser.isLoggedIn ?
                             <Link href={'/profile'}>
                                 <a>
@@ -52,7 +52,7 @@ const Nav = props => {
 
                         }
                     </li>
-                    <li className={pathname === '/learn' ? styles.active : ''}>
+                    <li className={pathname.includes('/learn') ? styles.active : ''}>
                         {globalUser && globalUser.isLoggedIn ?
                             <Link href={'/learn'}>
                                 <a>
@@ -67,7 +67,7 @@ const Nav = props => {
                     </li>
                     {
                         globalUser.access_level === 0 || globalUser.access_level === 1 ?
-                            <li className={pathname === '/conductor' ? styles.active : ''}>
+                            <li className={pathname.includes('/conductor') ? styles.active : ''}>
                                 <Link href={'/conductor'}>
                                     <a>
                                         <MdOutlineAddBox />
@@ -76,7 +76,7 @@ const Nav = props => {
                             </li> :
                             <></>
                     }
-                    <li className={pathname === '/events' ? styles.active : ''}>
+                    <li className={pathname.includes('/events') ? styles.active : ''}>
                         <Link href={'/events'}>
                             <a>
                                 <MdOutlineExplore />
