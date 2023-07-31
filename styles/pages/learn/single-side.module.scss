@@ -1,0 +1,140 @@
+// Small tablets and large smartphones (landscape view)
+$screen-sm-min: 576px;
+
+// Small tablets (portrait view)
+$screen-md-min: 768px;
+
+// Tablets and small desktops
+$screen-lg-min: 992px;
+
+// Large tablets and desktops
+$screen-xl-min: 1200px;
+
+.page {
+
+  .search {
+    border-bottom: 1px solid #e5e5e5;
+    padding: 16px;
+
+    label {
+      position: relative;
+      display: flex;
+
+      input {
+        border: 1px solid #e5e5e5;
+        border-radius: 40px;
+        margin-bottom: 0;
+      }
+
+      svg {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 24px;
+        left: 16px;
+      }
+    }
+  }
+  
+  .container {
+    padding: 24px;
+    width: 100%;
+    margin: auto;
+  }
+
+  ul.list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    flex-wrap: wrap;
+    list-style: none;
+    gap: 10px;
+
+    @media (min-width: $screen-md-min) {
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 15px;
+    }
+    @media (min-width: $screen-lg-min) {
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      gap: 20px;
+    }
+    @media (min-width: $screen-xl-min) {
+      gap: 10px;
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    }
+
+    li {
+      aspect-ratio: 4/5;
+      // width: 200px;
+      grid-row: span 1;
+      border-radius: 8px;
+      overflow: hidden;
+
+      .card {
+        width: 100%;
+        height: 100%;
+        direction: rtl;
+        background: #ffffff;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 150px;
+        padding: 20px;
+        position: relative;
+        color: var(--text-color);
+
+        &:before {
+          content: "";
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          z-index: 4;
+        }
+
+        h3 {
+          margin-bottom: 20px;
+        }
+
+        span {
+          height: 46px;
+          font-size: 14px;
+          overflow: hidden;
+          margin-bottom: 20px;
+        }
+
+        b {
+          display: flex;
+          align-items: center;
+          font-weight: normal;
+          z-index: 5;
+          cursor: pointer;
+          svg {
+            margin-right: 8px;
+          }
+        }
+      }
+    }
+  }
+
+  .notFound {
+    padding: 32px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.4;
+
+    .icon {
+      font-size: 100px;
+      border: 7px solid #000;
+      width: 170px;
+      height: 170px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 150px;
+      transform: rotate(-90deg) scale(0.8);
+      margin-bottom: 12px;
+    }
+  }
+}

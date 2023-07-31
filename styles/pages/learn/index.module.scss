@@ -10,8 +10,30 @@ $screen-lg-min: 992px;
 // Large tablets and desktops
 $screen-xl-min: 1200px;
 
-
 .page {
+  .search {
+    border-bottom: 1px solid #e5e5e5;
+    padding: 16px;
+
+    label {
+      position: relative;
+      display: flex;
+
+      input {
+        border: 1px solid #e5e5e5;
+        border-radius: 40px;
+        margin-bottom: 0;
+      }
+
+      svg {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 24px;
+        left: 16px;
+      }
+    }
+  }
   .container {
     padding: 24px;
     width: 100%;
@@ -30,14 +52,25 @@ $screen-xl-min: 1200px;
     .swiper_slide {
       width: 200px;
       aspect-ratio: 4/5;
-      border-radius: 5px;
+      border-radius: 8px;
+      overflow: hidden;
       @media (min-width: $screen-sm-min) {
         width: 250px;
       }
       @media (min-width: $screen-lg-min) {
         width: 300px;
       }
+    }
+    .last_move_slide {
+      width: 250px;
+      aspect-ratio: 5/4;
 
+      @media (min-width: $screen-sm-min) {
+        width: 312.5px;
+      }
+      @media (min-width: $screen-lg-min) {
+        width: 375px;
+      }
     }
     .card {
       width: 100%;
@@ -82,13 +115,36 @@ $screen-xl-min: 1200px;
           margin-right: 8px;
         }
       }
-
       &.lastMoveCard {
-        background: #ffffff;
+        background: #080c1d;
+        color: white;
+
         h3 {
           color: var(--danger-color);
         }
       }
+    }
+  }
+
+  .notFound {
+    padding: 32px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.4;
+
+    .icon {
+      font-size: 100px;
+      border: 7px solid #000;
+      width: 170px;
+      height: 170px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 150px;
+      transform: rotate(-90deg) scale(0.8);
+      margin-bottom: 12px;
     }
   }
 }
