@@ -58,9 +58,7 @@ sudo gpasswd -a www-data root && sudo chmod g+x /root && sudo -u www-data stat /
 
 * 1 - OTP login **(MUST BE GIVEN)**
 
-* 2 - pwa
-
-* 3 - UI/UX edits
+* 2 - ‌UI/UX edits
   * logo for learning cards **(MUST BE GIVEN)** 
   * logo for explore events card background **(MUST BE GIVEN)**
   * add role in create deck section must be based on sides (UX mock or wireframe MUST BE GIVEN)
