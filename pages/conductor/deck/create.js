@@ -17,7 +17,6 @@ import Circular from "../../../components/Circular";
 
 const Create = props => {
     const { globalUser } = useSelector(state => state.userReducer)
-    console.log(globalUser)
     const [sides, setSides] = useState(undefined)
     const [roles, setRoles] = useState(undefined)
     const [cards, setCards] = useState(undefined)
@@ -34,7 +33,6 @@ const Create = props => {
         if (data.status == 200)
             setSides(data.data.sides)
 
-        console.log(data)
         // return data
     }
     const loadRoles = async () => {
@@ -47,7 +45,6 @@ const Create = props => {
         const data = await res.json()
         if (data.status == 200)
             setRoles(data.data.roles)
-        console.log(data)
         // return data
     }
     const loadCards = async () => {
@@ -60,7 +57,6 @@ const Create = props => {
         const data = await res.json()
         if (data.status == 200)
             setCards(data.data)
-        console.log(data)
         // return data
     }
     useEffect(() => {
@@ -169,7 +165,9 @@ const Create = props => {
      * @param options
      * @constructor
      */
-    const selectRoles = options => setSelectedRoles(options)
+    const handleSelectedRoles = id => options => {
+        setSelectedRoles(prev => ({ ...prev, [id]: options }))
+    }
 
     /**
      * Create drop down menu options.
@@ -282,31 +280,34 @@ const Create = props => {
         // Disable submit button
         button.setAttribute('disabled', 'disabled')
 
-        selectedRoles.forEach(role => {
-            let {
-                _id,
-                name,
-                rate,
-                desc,
-                abilities,
-                side_id,
-                is_disabled,
-                created_at,
-                updated_at
-            } = JSON.parse(role.value)
+        Object.keys(selectedRoles).forEach(side => {
+            selectedRoles[side].forEach(role => {
+                let {
+                    _id,
+                    name,
+                    rate,
+                    desc,
+                    abilities,
+                    side_id,
+                    is_disabled,
+                    created_at,
+                    updated_at
+                } = JSON.parse(role.value)
 
-            roles.push({
-                "_id": _id.$oid,
-                "name": name,
-                "rate": rate,
-                "desc": desc,
-                "abilities": abilities,
-                "side_id": side_id.$oid,
-                "is_disabled": is_disabled,
-                "created_at": created_at,
-                "updated_at": updated_at
+                roles.push({
+                    "_id": _id.$oid,
+                    "name": name,
+                    "rate": rate,
+                    "desc": desc,
+                    "abilities": abilities,
+                    "side_id": side_id.$oid,
+                    "is_disabled": is_disabled,
+                    "created_at": created_at,
+                    "updated_at": updated_at
+                })
             })
         })
+
 
         selectedCards.forEach(card => {
             let {
@@ -339,7 +340,7 @@ const Create = props => {
                 toast.success('دک با موفقیت ایجاد شد')
 
                 setTimeout(() => router.push('/conductor/deck/'), 2000)
-            } else if (status == 403){
+            } else if (status == 403) {
                 toast.error('ACCESS DENIED')
                 button.removeAttribute('disabled')
             }
@@ -388,20 +389,33 @@ const Create = props => {
                                             <input type="text" id={"title"} onChange={CheckDeckName} />
                                         </div>
 
-                                        <div className="row">
-                                            <label htmlFor="roles">انتخاب نقش ها</label>
-                                            <Select placeholder={'انتخاب کنید'} styles={roleSelectStyles} options={roleOptions} id={"roles"} isRtl={true} isMulti={true} onChange={selectRoles} />
-                                        </div>
-
-                                        <div className="row">
-                                            <label htmlFor="roles">انتخاب کارت های حرکت آخر</label>
+                                        <div className={`row ${styles.cards}`}>
+                                            <label htmlFor="cards">انتخاب کارت های حرکت آخر</label>
                                             <Select placeholder={'انتخاب کنید'} styles={cardSelectStyles} options={cardOptions} id={"cards"} isRtl={true} isMulti={true} onChange={selectCards} />
                                         </div>
+
+                                        <fieldset className={styles.roles}>
+                                            <legend>انتخاب نقش ها</legend>
+                                            <div className={styles.selectors_container}>
+                                                {
+                                                    sides.map((side) => {
+                                                        const sideOption = roleOptions.filter(option => option.label === side.name)[0].options
+                                                        return (
+                                                            sideOption.length ?
+                                                                <div className={`row ${styles.row}`} key={`${side._id.$oid}`}>
+                                                                    <label htmlFor="roles">انتخاب نقش های <span>{side.name}</span></label>
+                                                                    <Select placeholder={'انتخاب کنید'} styles={roleSelectStyles} value={selectedRoles[side._id.$oid]} options={sideOption} id={"roles"} isRtl={true} isMulti={true} onChange={handleSelectedRoles(side._id.$oid)} />
+                                                                </div>
+                                                                : <></>
+                                                        )
+                                                    })
+                                                }
+                                            </div>
+                                        </fieldset>
 
                                         <div className="row">
                                             <button type={"submit"} disabled={true}>ثبت دک</button>
                                         </div>
-
                                     </form>
 
                                 </div>

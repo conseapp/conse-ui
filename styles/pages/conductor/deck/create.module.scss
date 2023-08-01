@@ -1,6 +1,26 @@
 .page {
   form {
-    .row {
+    fieldset.roles {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      border: none;
+      margin: 24px 0;
+      display: flex;
+      flex-direction: column;
+      legend {
+        font-size: 17px;
+        margin-bottom: 16px;
+        position: relative;
+      }
+      .selectors_container {
+        border-radius: 10px;
+        padding: 16px;
+        border: solid rgb(0, 0, 0, 0.16) 1px;
+      }
+      label {
+        font-size: 16px;
+      }
     }
   }
 }
