@@ -53,7 +53,10 @@ sudo gpasswd -a www-data root && sudo chmod g+x /root && sudo -u www-data stat /
 
 * add search bar to the index learning page and single side learning page **done** 
 
-* add single last move cards page **done** 
+* add single last move cards page **done**
+
+* add role in create deck section must be based on sides **done**
+  
 ## ingoing
 
 * 1 - OTP login **(MUST BE GIVEN)**
@@ -61,8 +64,7 @@ sudo gpasswd -a www-data root && sudo chmod g+x /root && sudo -u www-data stat /
 * 2 - ‌UI/UX edits
   * logo for learning cards **(MUST BE GIVEN)** 
   * logo for explore events card background **(MUST BE GIVEN)**
-  * add role in create deck section must be based on sides (UX mock or wireframe MUST BE GIVEN)
-
+ 
 ## Beta Release Feature
 
 * add last move card panel
