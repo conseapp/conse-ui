@@ -1,12 +1,12 @@
 
 
-# Development on VPS
+# 🛠️ Development on VPS
 
 ```console
 sudo chmod -R 777 . && sudo pm2 start npm --name "conse-ui" -- run dev
 ```
 
-# Production on VPS
+# 🚀 Production on VPS
 ```console
 sudo npm run build && sudo pm2 start npm --name "conse-ui" -- start
 ```
@@ -20,10 +20,7 @@ sudo chmod +x /root && sudo chown -R www-data:www-data /root && sudo chmod -R 77
 sudo gpasswd -a www-data root && sudo chmod g+x /root && sudo -u www-data stat /root
 ```
 
-
-# WIPs
-
-## done
+# ✅ Done by @JavadH0sseini
 
 * player shouldn't see the voting icons before finishing the game **done**
 
@@ -57,7 +54,7 @@ sudo gpasswd -a www-data root && sudo chmod g+x /root && sudo -u www-data stat /
 
 * add role in create deck section must be based on sides **done**
   
-## ingoing
+# 🚧 WIPs
 
 * 1 - OTP login **(MUST BE GIVEN)**
 
@@ -65,7 +62,7 @@ sudo gpasswd -a www-data root && sudo chmod g+x /root && sudo -u www-data stat /
   * logo for learning cards **(MUST BE GIVEN)** 
   * logo for explore events card background **(MUST BE GIVEN)**
  
-## Beta Release Feature
+# 🗓 Beta Release Feature
 
 * add last move card panel
 
