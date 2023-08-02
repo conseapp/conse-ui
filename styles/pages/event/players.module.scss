@@ -103,7 +103,7 @@
     border: 1px solid #CCCCCC;
     border-radius: 0 8px 8px 0;
     padding: 10px;
-    z-index: 5;
+    z-index: 3;
     @include Transition(200ms);
 
     &.open {

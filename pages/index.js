@@ -1,19 +1,19 @@
 import styles from '/styles/pages/index.module.scss'
 import Head from "next/head";
 import Header from "/components/header";
-import checkToken from "../utils/checkToken";
+// import checkToken from "../utils/checkToken";
 import Nav from "../components/nav";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination, EffectCoverflow } from "swiper";
+import { EffectCreative, Pagination} from 'swiper';
 import 'swiper/css';
+import 'swiper/css/effect-creative';
 import 'swiper/css/pagination';
-import 'swiper/css/effect-coverflow';
 import { MdChevronLeft } from "react-icons/md";
-import { useEffect } from "react";
+// import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from 'react-redux';
-import { getuser } from '../redux/actions';
+// import { getuser } from '../redux/actions';
 
 const Index = props => {
     const router = useRouter()
@@ -45,7 +45,7 @@ const Index = props => {
             <div className="container">
                 <div className={styles.lastEvents}>
                     <div className={"page-title"}>
-                        <h3>آخرین ایونت ها</h3>
+                        <h3>آخرین ایونت های شما</h3>
                         <Link href={"/events"}>
                             <a>
                                 بیشتر
@@ -54,32 +54,31 @@ const Index = props => {
                         </Link>
                     </div>
                     <Swiper
-                        effect={'coverflow'}
                         grabCursor={true}
-                        centeredSlides={true}
-                        slidesPerView={'auto'}
-                        autoplay={{
-                            delay: 1500,
-                            disableOnInteraction: false,
-                        }}
+                        // centeredSlides={true}
+                        // slidesPerView={'auto'}
                         pagination={{
                             dynamicBullets: true,
                         }}
-                        coverflowEffect={{
-                            rotate: 50,
-                            stretch: 20,
-                            depth: 200,
-                            modifier: 1,
-                            slideShadows: true,
+                        effect={'creative'}
+                        creativeEffect={{
+                            prev: {
+                                shadow: true,
+                                translate: ['120%', 0, -500],
+                            },
+                            next: {
+                                shadow: true,
+                                translate: ['-120%', 0, -500],
+                            },
                         }}
-                        modules={[Autoplay, EffectCoverflow, Pagination]}
+                        modules={[EffectCreative, Pagination]}
                         className={styles.swiper}
                     >
                         {events.slice(Math.max(events.length - 5, 0)).reverse().map(event => {
                             return (
                                 <SwiperSlide className={styles.swiper_slide} key={event._id.$oid}>
                                     <Link href={`/events/${event._id.$oid}`}>
-                                        <a className={styles.item} style={{ backgroundImage: 'url("/events-slide-1.png")' }}>
+                                        <a className={styles.item} style={{ backgroundImage: 'url("/Syndicate3.jpg")' }}>
                                             <h3>{event.title}</h3>
                                         </a>
                                     </Link>
@@ -92,7 +91,7 @@ const Index = props => {
 
             <Nav user={user} />
 
-        </div>
+        </div >
     )
 }
 

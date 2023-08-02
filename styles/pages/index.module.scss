@@ -17,41 +17,25 @@ $screen-xl-min: 1200px;
 .page {
   .lastEvents {
     .swiper {
-      width: 100%;
+      width: 300px;
       padding-top: 50px;
       padding-bottom: 50px;
 
       @media (min-width: $screen-sm-min) {
-        width: 90%;
+        width: 400px;
       }
       @media (min-width: $screen-md-min) {
-        width: 80%;
+        width: 500px;
       }
       @media (min-width: $screen-lg-min) {
-        width: 70%;
+        width: 600px;
       }
       @media (min-width: $screen-xl-min) {
-        width: 60%;
+        width: 700px;
       }
       
       .swiper_slide {
-        width: 60%;
-        // height: 250px;
-        aspect-ratio: 4/5;
-
-        
-        @media (min-width: $screen-sm-min) {
-          width: 55%;
-        }
-        @media (min-width: $screen-md-min) {
-          width: 50%;
-        }
-        @media (min-width: $screen-lg-min) {
-          width: 45%;
-        }
-        @media (min-width: $screen-xl-min) {
-          width: 40%;
-        }
+        aspect-ratio: 7/5;
       }
       a {
         width: 100%;
