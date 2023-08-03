@@ -61,9 +61,7 @@ sudo gpasswd -a www-data root && sudo chmod g+x /root && sudo -u www-data stat /
 * 2 - ‌UI/UX edits
   * explore page (metadata, card positions)
   * player profile (expired and reserved ones) 
-  * wildonion — Today at 4:33 PM
   * home page (current event + role)
-  * wildonion — Today at 4:43 PM
   * remove god home page and god reserved tabs 
   * call get all god events in history page inside the god panel
   * create deck and event button position
