@@ -65,6 +65,8 @@ const SingleEvent = props => {
         } else if (globalUser && globalUser.isLoggedIn && globalUser.access_level == 1) {
             if (token)
                 setLoading(false)
+        } else {
+                Router.push('/login')
         }
     }, [token, ingoing, expired])
     // const { user, token, single, ingoing, preloadedState } = props

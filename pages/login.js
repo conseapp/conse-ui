@@ -4,6 +4,7 @@ import Image from "next/future/image";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { toast, ToastContainer } from "react-toastify";
+import logo from "../public/logo.png";
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from "next/router";
 import loginUser from "/utils/loginUser";
@@ -12,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getuser } from "../redux/actions";
 
 const Login = () => {
+    const router = useRouter()
     const [redirect, setRedirectUrl] = useState('/')
 
     const dispatch = useDispatch();
@@ -28,16 +30,24 @@ const Login = () => {
             if (params.get('redirect') !== null) {
                 setRedirectUrl(params.get('redirect'))
             }
+
         }
     }, [])
 
-    /**
-     * Use next.js router.
-     *
-     * @version 1.0
-     */
-    const router = useRouter()
-
+   
+   useEffect(() => {
+       // Redirect to another page instead of going back
+       router.beforePopState(({ url, as }) => {
+           if (as !== '/') {
+               router.push('/');
+               return false;
+           }
+           return true;
+       });
+       return () => {
+           router.beforePopState(() => true);
+       };
+   }, [router]);
     /**
      * Redirect to home page if access token is present.
      * @version 1.0
@@ -117,7 +127,13 @@ const Login = () => {
             <div className={styles.card}>
 
                 <div className={styles.title}>
-                    <Image src={"/logo.png"} alt={"Conse"} width={55} height={55} />
+                    <div className={styles.logo}>
+                        <Link href={"/"}>
+                            <a>
+                                <Image src={logo} alt={"Conse"} width={50} height={50} quality={100} />
+                            </a>
+                        </Link>
+                    </div>
                     <h2>From IA</h2>
                 </div>
 

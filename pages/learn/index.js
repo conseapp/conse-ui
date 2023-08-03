@@ -21,6 +21,7 @@ import Circular from '../../components/Circular';
 import { MdChevronLeft } from "react-icons/md";
 import { MdSearch } from "react-icons/md";
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 // import { wrapper } from '../../_app';
 
 const Learn = props => {
@@ -37,6 +38,8 @@ const Learn = props => {
     const [cards, setCards] = useState(undefined)
     const [loading, setLoading] = useState(true)
     const [query, setQuery] = useState('')
+    const Router = useRouter()
+
 
     const loadSides = async () => {
         // const { globalUser } = useSelector(state => state.userReducer)
@@ -83,9 +86,14 @@ const Learn = props => {
     }
 
     useEffect(() => {
-        loadSides()
-        loadRoles()
-        loadCards()
+        if (globalUser && globalUser.isLoggedIn) {
+            loadSides()
+            loadRoles()
+            loadCards()
+        }
+        else {
+            Router.push('/login')
+        }
     }, [])
     useEffect(() => {
         if (sides && roles && cards)
