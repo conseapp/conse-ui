@@ -59,6 +59,14 @@ sudo gpasswd -a www-data root && sudo chmod g+x /root && sudo -u www-data stat /
 * 1 - OTP login **(MUST BE GIVEN)**
 
 * 2 - ‌UI/UX edits
+  * explore page (metadata, card positions)
+  * player profile (expired and reserved ones) 
+  * wildonion — Today at 4:33 PM
+  * home page (current event + role)
+  * wildonion — Today at 4:43 PM
+  * remove god home page and god reserved tabs 
+  * call get all god events in history page inside the god panel
+  * create deck and event button position
   * logo for learning cards **(MUST BE GIVEN)** 
   * logo for explore events card background **(MUST BE GIVEN)**
  
@@ -67,6 +75,8 @@ sudo gpasswd -a www-data root && sudo chmod g+x /root && sudo -u www-data stat /
 * add last move card panel
 
 * game history and phases (separate color for each player in-game-status like using gray for dead status)
+
+* god panel and upload event image
 
 * god assistant section 
 
