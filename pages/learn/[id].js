@@ -5,7 +5,7 @@ import Nav from "../../components/nav";
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/effect-cards';
-import { CgChevronLeft } from "react-icons/cg";
+import { CgMoreO } from "react-icons/cg";
 import CreateSideColor from "../../utils/createSideColor";
 import Circular from '../../components/Circular';
 import { useRouter } from 'next/router'
@@ -13,6 +13,8 @@ import { useSelector } from 'react-redux';
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 import { MdSearch } from "react-icons/md";
+import Image from 'next/image';
+import Link from 'next/link';
 
 
 
@@ -91,6 +93,11 @@ export default function SingleSide() {
                     <div className={styles.container}>
                         <div className="page-title">
                             <h3>{CreateSideColor(query.id).name}</h3>
+                            <Link href={'/learn'}>
+                                <a>
+                                    بازگشت
+                                </a>
+                            </Link>
                         </div>
                         {
                             roles.filter(role => (role.side_id.$oid === query.id && role.name.toLowerCase().includes(searchQuery))).length ?
@@ -99,12 +106,16 @@ export default function SingleSide() {
                                         if (role.side_id.$oid === query.id) {
                                             return (
                                                 <li key={role._id.$oid}>
-                                                    <div className={styles.card} style={CreateSideColor(role.side_id.$oid)} onClick={openRoleModal} data-id={role._id.$oid}>
+                                                    <div className={styles.card} onClick={openRoleModal} data-id={role._id.$oid}>
                                                         <h3>{role.name}</h3>
-                                                        <span dangerouslySetInnerHTML={{ __html: role.desc }} />
+                                                        <Image
+                                                            src={`/roles/${role._id.$oid}.jpg`} // Route of the image file
+                                                            layout='fill'
+                                                            alt={role.name}
+                                                        />
                                                         <b data-id={role._id.$oid}>
-                                                            بیشتر
-                                                            <CgChevronLeft />
+                                                            {/* بیشتر */}
+                                                            <CgMoreO />
                                                         </b>
                                                     </div>
                                                 </li>

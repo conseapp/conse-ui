@@ -5,14 +5,15 @@ import Nav from "../../components/nav";
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/effect-cards';
-import { CgChevronLeft } from "react-icons/cg";
+import { CgMoreO } from "react-icons/cg";
 import Circular from '../../components/Circular';
 import { useRouter } from 'next/router'
 import { useSelector } from 'react-redux';
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 import { MdSearch } from "react-icons/md";
-
+import Image from 'next/image';
+import Link from 'next/link';
 
 
 
@@ -91,6 +92,11 @@ export default function LastMoveCard() {
                     <div className={styles.container}>
                         <div className="page-title">
                             <h3>کارت های حرکت آخر</h3>
+                            <Link href={'/learn'}>
+                                <a>
+                                    بازگشت
+                                </a>
+                            </Link>
                         </div>
                         {
                             cards.filter(card => card.name.toLowerCase().includes(searchQuery)).length ?
@@ -98,12 +104,16 @@ export default function LastMoveCard() {
                                     {Search(cards).map(card => {
                                         return (
                                             <li key={card._id.$oid}>
-                                                <div className={`${styles.card} ${styles.last_move_card}`} onClick={openCardModal} data-id={card._id.$oid}>
+                                                <div className={`${styles.card} ${styles.lastMoveCard}`} onClick={openCardModal} data-id={card._id.$oid}>
                                                     <h3 dangerouslySetInnerHTML={{ __html: card.name }}></h3>
-                                                    <span dangerouslySetInnerHTML={{ __html: card.desc }} />
+                                                    <Image
+                                                        src={`/last-move-cards/${card._id.$oid}.jpg`} // Route of the image file
+                                                        layout='fill'
+                                                        alt={card.name}
+                                                    />
                                                     <b data-id={card._id.$oid}>
-                                                        بیشتر
-                                                        <CgChevronLeft />
+                                                        {/* بیشتر */}
+                                                        <CgMoreO />
                                                     </b>
                                                 </div>
                                             </li>
