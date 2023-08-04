@@ -53,6 +53,8 @@ sudo gpasswd -a www-data root && sudo chmod g+x /root && sudo -u www-data stat /
 * add single last move cards page **done**
 
 * add role in create deck section must be based on sides **done**
+
+* handling user navigation when hasn't logged in **done**
   
 # 🚧 WIPs
 
@@ -61,6 +63,18 @@ sudo gpasswd -a www-data root && sudo chmod g+x /root && sudo -u www-data stat /
 * 2 - ‌UI/UX edits
   * logo for learning cards **(MUST BE GIVEN)** 
   * logo for explore events card background **(MUST BE GIVEN)**
+
+  * explore page (metadata, card positions)
+
+  * player profile (expired and reserved ones) 
+  
+  * home page (current event + role)
+
+  * remove god home page and god reserved tabs 
+
+  * call get all god events in history page inside the god panel
+  
+  * create deck and event button position
  
 # 🗓 Beta Release Feature
 
