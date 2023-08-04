@@ -51,7 +51,7 @@ $screen-xl-min: 1200px;
     width: 100%;
     .swiper_slide {
       width: 200px;
-      aspect-ratio: 4/5;
+      aspect-ratio: 5/7;
       border-radius: 8px;
       overflow: hidden;
       @media (min-width: $screen-sm-min) {
@@ -76,7 +76,7 @@ $screen-xl-min: 1200px;
       width: 100%;
       height: 100%;
       direction: rtl;
-      background: #ffffff;
+      background: #eee;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -96,23 +96,34 @@ $screen-xl-min: 1200px;
 
       h3 {
         margin-bottom: 20px;
+        z-index: 1;
       }
 
-      span {
-        height: 46px;
-        font-size: 14px;
-        overflow: hidden;
-        margin-bottom: 20px;
+      img {
+        z-index: 2;
       }
 
       b {
+        background-color: rgba(0, 0, 0, 0.561);
+        // box-shadow: -2px 5px 5px rgb(0, 0, 0, 0.5);
+        // background-color: red;
+        border-radius: 10px;
+        position: absolute;
+        top: 2%;
+        right: 2%;
         display: flex;
+        padding: 3px;
+        justify-content: center;
         align-items: center;
         font-weight: normal;
         z-index: 5;
+        font-size: 24px;
         cursor: pointer;
+        color: #fff;
         svg {
-          margin-right: 8px;
+          color: white;
+          pointer-events: none;
+          // stroke-width: 1px;
         }
       }
       &.lastMoveCard {
