@@ -54,6 +54,7 @@ $screen-xl-min: 1200px;
       aspect-ratio: 5/7;
       border-radius: 8px;
       overflow: hidden;
+      box-shadow: -6px 6px 6px rgb(0, 0, 0, 0.2);
       @media (min-width: $screen-sm-min) {
         width: 250px;
       }
@@ -62,14 +63,14 @@ $screen-xl-min: 1200px;
       }
     }
     .last_move_slide {
-      width: 250px;
-      aspect-ratio: 5/4;
+      width: 300px;
+      aspect-ratio: 89/54;
 
       @media (min-width: $screen-sm-min) {
-        width: 312.5px;
+        width: 380px;
       }
       @media (min-width: $screen-lg-min) {
-        width: 375px;
+        width: 440px;
       }
     }
     .card {
@@ -105,8 +106,6 @@ $screen-xl-min: 1200px;
 
       b {
         background-color: rgba(0, 0, 0, 0.561);
-        // box-shadow: -2px 5px 5px rgb(0, 0, 0, 0.5);
-        // background-color: red;
         border-radius: 10px;
         position: absolute;
         top: 2%;
@@ -123,16 +122,9 @@ $screen-xl-min: 1200px;
         svg {
           color: white;
           pointer-events: none;
-          // stroke-width: 1px;
         }
       }
       &.lastMoveCard {
-        background: #080c1d;
-        color: white;
-
-        h3 {
-          color: var(--danger-color);
-        }
       }
     }
   }

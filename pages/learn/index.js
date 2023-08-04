@@ -197,11 +197,11 @@ const Learn = props => {
                                                                         src={`/roles/${role._id.$oid}.jpg`} // Route of the image file
                                                                         layout='fill'
                                                                         alt={role.name}
-                                                                        />
-                                                                        <b data-id={role._id.$oid}>
-                                                                            {/* بیشتر */}
-                                                                            <CgMoreO />
-                                                                        </b>
+                                                                    />
+                                                                    <b data-id={role._id.$oid}>
+                                                                        {/* بیشتر */}
+                                                                        <CgMoreO />
+                                                                    </b>
                                                                 </div>
                                                             </SwiperSlide>
                                                         )
@@ -241,7 +241,11 @@ const Learn = props => {
                                             <SwiperSlide className={`${styles.swiper_slide} ${styles.last_move_slide}`} key={card._id.$oid}>
                                                 <div className={`${styles.card} ${styles.lastMoveCard}`} onClick={openCardModal} data-id={card._id.$oid}>
                                                     <h3 dangerouslySetInnerHTML={{ __html: card.name }}></h3>
-                                                    <span dangerouslySetInnerHTML={{ __html: card.desc }} />
+                                                    <Image
+                                                        src={`/last-move-cards/${card._id.$oid}.jpg`} // Route of the image file
+                                                        layout='fill'
+                                                        alt={card.name}
+                                                    />
                                                     <b data-id={card._id.$oid}>
                                                         {/* بیشتر */}
                                                         <CgMoreO />
