@@ -69,18 +69,6 @@ sudo gpasswd -a www-data root && sudo chmod g+x /root && sudo -u www-data stat /
   * create deck and event button position
   * logo for learning cards **(MUST BE GIVEN)** 
   * logo for explore events card background **(MUST BE GIVEN)**
-
-  * explore page (metadata, card positions)
-
-  * player profile (expired and reserved ones) 
-  
-  * home page (current event + role)
-
-  * remove god home page and god reserved tabs 
-
-  * call get all god events in history page inside the god panel
-  
-  * create deck and event button position
  
 # 🗓 Beta Release Feature
 
