@@ -6,7 +6,11 @@ import Nav from "../../components/nav";
 import Header from "../../components/header";
 import { useState } from "react";
 import { MdSearch } from "react-icons/md";
+import { FaMapMarkerAlt } from "react-icons/fa";
 import { useSelector } from 'react-redux';
+import { DateObject } from "react-multi-date-picker"
+import persian from "react-date-object/calendars/persian";
+import persian_fa from "react-date-object/locales/persian_fa";
 
 const Index = props => {
     /**
@@ -48,23 +52,76 @@ const Index = props => {
                 </label>
             </div>
 
-            <div className="container">
+            <div className={styles.container}>
                 {
                     Events.length > 0 ?
                         <ul className={styles.list}>
                             {
-                                Events.map(event => {
+                                Events.map((event, index) => {
+                                    const startTime = new DateObject({
+                                        date: event.started_at * 1000,
+                                        calendar: persian,
+                                        locale: persian_fa,
+                                    })
                                     return (
-                                        <li key={event._id.$oid}>
-                                            <Link href={`/events/${event._id.$oid}`}>
-                                                <a className={`${styles.item} ${event.is_expired ? styles.expired : ''}`} style={{ backgroundImage: 'url("/events-slide-1.png")' }}>
-                                                    <h3>{event.title}</h3>
+                                        ((index + 1) % 3 == 0) ?
+                                            <li key={event._id.$oid} className={styles.full}>
+                                                <Link href={`/events/${event._id.$oid}`}>
+                                                    <a className={`${styles.item} ${event.is_expired ? styles.expired : ''}`} style={{ backgroundImage: `url("/e3.jpg")` }}>
+                                                        {/* <h3>{event.title}</h3>
                                                     {
                                                         event.is_expired && <span className={styles.expired_text}>ایونت منقضی شده است</span>
-                                                    }
-                                                </a>
-                                            </Link>
-                                        </li>
+                                                    } */}
+                                                        <div className={styles.data}>
+                                                            <div className={styles.event_title}>
+                                                                <FaMapMarkerAlt />
+                                                                <h3>
+                                                                    {event.title}
+                                                                </h3>
+                                                            </div>
+                                                            <div className={styles.row}>
+                                                                <div>
+                                                                    <span className={styles.time}>{startTime.format("d MMMM")}</span>
+                                                                    <span>{`سناریو: ${event.content}`}</span>
+                                                                </div>
+                                                                <div>
+                                                                    <span>{`ظرفیت: ${event.max_players}`}</span>
+                                                                    <span>{`گرداننده: ${event.group_info.owner}`}</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        {
+                                                        !event.is_expired && <button className={styles.btn}>رزرو</button>
+                                                        }
+                                                    </a>
+                                                </Link>
+                                            </li>
+                                            :
+                                            <li key={event._id.$oid}>
+                                                <Link href={`/events/${event._id.$oid}`}>
+                                                    <a className={`${styles.item} ${event.is_expired ? styles.expired : ''}`} style={{ backgroundImage: `url("/e${(index) % 2 == 0 ? 1 : 2}.jpg")` }}>
+                                                        {/* <h3>{event.title}</h3>
+                                                    {
+                                                        event.is_expired && <span className={styles.expired_text}>ایونت منقضی شده است</span>
+                                                    } */}
+                                                        <div className={styles.data}>
+                                                            <div className={styles.event_title}>
+                                                                <FaMapMarkerAlt />
+                                                                <h3>
+                                                                    {event.title}
+                                                                </h3>
+                                                            </div>
+                                                            <span className={styles.time}>{startTime.format("d MMMM")}</span>
+                                                            <span>{`سناریو: ${event.content}`}</span>
+                                                            <span>{`ظرفیت: ${event.max_players}`}</span>
+                                                            <span>{`گرداننده: ${event.group_info.owner}`}</span>
+                                                        </div>
+                                                        {
+                                                        !event.is_expired && <button className={styles.btn}>رزرو</button>
+                                                        }
+                                                    </a>
+                                                </Link>
+                                            </li>
                                     )
                                 })
                             }

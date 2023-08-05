@@ -13,6 +13,9 @@ $screen-lg-min: 992px;
 $screen-xl-min: 1200px;
 
 .page {
+  .container {
+    padding: 14px;
+  }
   .search {
     border-bottom: 1px solid #e5e5e5;
     padding: 16px;
@@ -40,85 +43,140 @@ $screen-xl-min: 1200px;
   ul.list {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    flex-wrap: wrap;
     list-style: none;
     gap: 8px;
 
-    @media (min-width: $screen-md-min) {
-      grid-template-columns: 1fr 1fr 1fr;
-    }
-    @media (min-width: $screen-xl-min) {
-      grid-template-columns: 1fr 1fr 1fr 1fr;
-    }
-
     li {
       display: flex;
-      padding: 8px;
-      aspect-ratio: 4/5;
+      // padding: 8px;
+      aspect-ratio: 47/32;
+      overflow: hidden;
+
+      &.full {
+        grid-column: span 2;
+        aspect-ratio: 97/32;
+        .item {
+          flex-direction: column-reverse;
+          justify-content: end;
+
+          .data {
+            padding: 12px 6px;
+            gap: 5px;
+            width: 100%;
+            flex-direction: column;
+
+            .row {
+              display: flex;
+              flex-direction: row;
+              width: 90%;
+              margin: auto;
+              justify-content: space-between;
+              div {
+                display: flex;
+                flex-direction: column;
+              }
+            }
+          }
+          .btn {
+            top: 0px;
+          }
+        }
+      }
 
       .item {
         width: 100%;
         height: 100%;
         background-size: cover;
-        border-radius: 8px;
+        border-radius: 12px;
         position: relative;
         overflow: hidden;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
 
         &::before {
           content: "";
           position: absolute;
           width: 100%;
           height: 100%;
-          background: rgb(0, 0, 0);
-          background: -webkit-linear-gradient(
-            0deg,
-            rgba(0, 0, 0, 0.9) 0%,
-            rgba(0, 0, 0, 0) 100%
-          );
-          background: -moz-linear-gradient(
-            0deg,
-            rgba(0, 0, 0, 0.9) 0%,
-            rgba(0, 0, 0, 0) 100%
-          );
-          background: linear-gradient(
-            0deg,
-            rgba(0, 0, 0, 0.9) 0%,
-            rgba(0, 0, 0, 0) 100%
-          );
+          background: rgb(0, 0, 0, 0.75);
         }
 
-        h3 {
-          position: absolute;
-          color: var(--text-icon-color);
+        .data {
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          padding: 12px 6px;
+          width: 65%;
+          // bottom: 12px;
+          .event_title{
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            svg {
+              fill: #cd0000;
+            }
+          }
+          h3 {
+            direction: rtl;
+            color: #eee;
+            font-size: 14px;
+            font-weight: normal;
+            white-space: nowrap; 
+            overflow: hidden;
+            text-overflow: ellipsis; 
+           
+          }
+          span {
+            padding-right: 15px;
+            color: #bbb;
+            font-size: 10px;
+            white-space: nowrap; 
+            overflow: hidden;
+            text-overflow: ellipsis; 
+          }
+        }
+        .btn {
+          position: relative;
+          background-color: transparent;
+          border: solid 2px;
+          color: #ddd;
+          font-size: 12px;
+          display: flex;
+          align-items: center;
+          padding: 0px 14px;
+          border-radius: 40px;
           bottom: 12px;
-          right: 12px;
-          padding-left: 24px;
-          max-height: 60px;
-          overflow: hidden;
+          left: 6px;
         }
       }
 
       .expired {
-        .expired_text {
-          font-size: 1rem;
-          text-align: center;
-          width: 100%;
-          font-weight: bold;
-          color: #eee;
-          z-index: 1;
-          background-color: transparent;
-          padding: 0 10px;
-          position: absolute;
-          top: 50%;
-          transform: translateY(-50%);
-        }
+        // .expired_text {
+        //   font-size: 1rem;
+        //   text-align: center;
+        //   width: 100%;
+        //   font-weight: bold;
+        //   color: #eee;
+        //   z-index: 1;
+        //   background-color: transparent;
+        //   padding: 0 10px;
+        //   position: absolute;
+        //   top: 50%;
+        //   transform: translateY(-50%);
+        // }
 
         &::before {
-          content: "";
+          content: "ایونت منقضی شده است";
           position: absolute;
           width: 100%;
           height: 100%;
-          background: rgba(0, 0, 0, 0.8);
+          background: rgba(0, 0, 0, 0.9);
+          z-index: 2;
+          color: white;
+          display: flex;
+          justify-content: center;
+          align-items: center;
         }
       }
     }
