@@ -91,7 +91,7 @@ const Index = props => {
                                                             </div>
                                                         </div>
                                                         {
-                                                        !event.is_expired && <button className={styles.btn}>رزرو</button>
+                                                        !event.is_expired && <button className={styles.btn}>بیشتر</button>
                                                         }
                                                     </a>
                                                 </Link>
@@ -99,7 +99,7 @@ const Index = props => {
                                             :
                                             <li key={event._id.$oid}>
                                                 <Link href={`/events/${event._id.$oid}`}>
-                                                    <a className={`${styles.item} ${event.is_expired ? styles.expired : ''}`} style={{ backgroundImage: `url("/e${(index) % 2 == 0 ? 1 : 2}.jpg")` }}>
+                                                    <a className={`${styles.item} ${event.is_expired ? styles.expired : ''}`} style={{ backgroundImage: `url("/${(index) % 2 == 0 ? 'e1' : 'e2'}.jpg")` }}>
                                                         {/* <h3>{event.title}</h3>
                                                     {
                                                         event.is_expired && <span className={styles.expired_text}>ایونت منقضی شده است</span>
@@ -117,7 +117,7 @@ const Index = props => {
                                                             <span>{`گرداننده: ${event.group_info.owner}`}</span>
                                                         </div>
                                                         {
-                                                        !event.is_expired && <button className={styles.btn}>رزرو</button>
+                                                        !event.is_expired && <button className={styles.btn}>بیشتر</button>
                                                         }
                                                     </a>
                                                 </Link>

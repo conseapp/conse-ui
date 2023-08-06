@@ -79,6 +79,9 @@ $screen-xl-min: 1200px;
           }
           .btn {
             top: 0px;
+            @media (max-width: 345px) {
+              top: 25px;
+            }
           }
         }
       }
@@ -109,7 +112,11 @@ $screen-xl-min: 1200px;
           padding: 12px 6px;
           width: 65%;
           // bottom: 12px;
-          .event_title{
+          @media (max-width: 315px) {
+            width: 70%;
+            padding: 4px 0px;
+          }
+          .event_title {
             display: flex;
             align-items: center;
             gap: 3px;
@@ -122,18 +129,20 @@ $screen-xl-min: 1200px;
             color: #eee;
             font-size: 14px;
             font-weight: normal;
-            white-space: nowrap; 
+            white-space: nowrap;
             overflow: hidden;
-            text-overflow: ellipsis; 
-           
+            text-overflow: ellipsis;
+            @media (max-width: 315px) {
+              font-size: 12px;
+            }
           }
           span {
             padding-right: 15px;
             color: #bbb;
             font-size: 10px;
-            white-space: nowrap; 
+            white-space: nowrap;
             overflow: hidden;
-            text-overflow: ellipsis; 
+            text-overflow: ellipsis;
           }
         }
         .btn {
@@ -148,6 +157,10 @@ $screen-xl-min: 1200px;
           border-radius: 40px;
           bottom: 12px;
           left: 6px;
+          @media (max-width: 315px) {
+            padding: 0px 8px;
+            font-size: 10px;
+          }
         }
       }
 
@@ -177,6 +190,8 @@ $screen-xl-min: 1200px;
           display: flex;
           justify-content: center;
           align-items: center;
+          font-size: 14px;
+          text-align: center;
         }
       }
     }
