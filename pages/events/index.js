@@ -53,6 +53,9 @@ const Index = props => {
             </div>
 
             <div className={styles.container}>
+                <div className={"page-title"}>
+                    <h3>آخرین ایونت ها</h3>
+                </div>
                 {
                     Events.length > 0 ?
                         <ul className={styles.list}>
@@ -91,7 +94,7 @@ const Index = props => {
                                                             </div>
                                                         </div>
                                                         {
-                                                        !event.is_expired && <button className={styles.btn}>بیشتر</button>
+                                                            !event.is_expired && <button className={styles.btn}>بیشتر</button>
                                                         }
                                                     </a>
                                                 </Link>
@@ -117,7 +120,7 @@ const Index = props => {
                                                             <span>{`گرداننده: ${event.group_info.owner}`}</span>
                                                         </div>
                                                         {
-                                                        !event.is_expired && <button className={styles.btn}>بیشتر</button>
+                                                            !event.is_expired && <button className={styles.btn}>بیشتر</button>
                                                         }
                                                     </a>
                                                 </Link>
