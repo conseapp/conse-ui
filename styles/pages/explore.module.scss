@@ -165,20 +165,6 @@ $screen-xl-min: 1200px;
       }
 
       .expired {
-        // .expired_text {
-        //   font-size: 1rem;
-        //   text-align: center;
-        //   width: 100%;
-        //   font-weight: bold;
-        //   color: #eee;
-        //   z-index: 1;
-        //   background-color: transparent;
-        //   padding: 0 10px;
-        //   position: absolute;
-        //   top: 50%;
-        //   transform: translateY(-50%);
-        // }
-
         &::before {
           content: "ایونت منقضی شده است";
           position: absolute;

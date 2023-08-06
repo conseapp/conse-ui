@@ -56,18 +56,25 @@ sudo gpasswd -a www-data root && sudo chmod g+x /root && sudo -u www-data stat /
 
 * handling user navigation when hasn't logged in **done**
   
+* logo for learning cards **done**
+
+* explore page (metadata, card positions, title) **done**
+
+* player profile (expired and reserved ones) 
+
+* remove god reserved tabs 
+
+* call get all god events in history page inside the god panel
+
+
 # 🚧 WIPs
 
 * 1 - OTP login **(MUST BE GIVEN)**
 
 * 2 - ‌UI/UX edits
-  * explore page (metadata, card positions)
-  * player profile (expired and reserved ones) 
   * home page (current event + role)
-  * remove god home page and god reserved tabs 
-  * call get all god events in history page inside the god panel
+  * remove god home page 
   * create deck and event button position
-  * logo for learning cards **(MUST BE GIVEN)** 
   * logo for explore events card background **(MUST BE GIVEN)**
  
 # 🗓 Beta Release Feature
