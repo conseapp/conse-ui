@@ -78,6 +78,7 @@ sudo gpasswd -a www-data root && sudo chmod g+x /root && sudo -u www-data stat /
 * 2 - ‌UI/UX edits
   * home page (role)
   * create deck and event button position
+  * add role on current event of the user home page
   * logo for explore events card background **(MUST BE GIVEN)**
  
 # 🗓 Beta Release Feature
