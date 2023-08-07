@@ -13,7 +13,13 @@ import { MdChevronLeft } from "react-icons/md";
 // import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import Alert from "../components/alert";
+import { FaMapMarkerAlt } from "react-icons/fa";
+import { DateObject } from "react-multi-date-picker"
+import persian from "react-date-object/calendars/persian";
+import persian_fa from "react-date-object/locales/persian_fa";
+
 // import { getuser } from '../redux/actions';
 
 const Index = props => {
@@ -26,6 +32,21 @@ const Index = props => {
 
 
     const { globalUser } = useSelector(state => state.userReducer)
+    const [ingoing, setIngoing] = useState(undefined)
+    const [todayEvent, setTodayEvent] = useState(undefined)
+    const [startTime, setStartTime] = useState(undefined)
+
+
+    const loadInGoing = async () => {
+        let res = await fetch(`${process.env.EVENT_URL}/event/get/all/player/in-going`, {
+            method: "POST",
+            headers: { "Authorization": `Bearer ${globalUser.accessToken}` }
+        })
+        let data = await res.json()
+        if (data.status == 200)
+            setIngoing(data.data)
+
+    }
 
     useEffect(() => {
         if (globalUser && globalUser.isLoggedIn && (globalUser.access_level === 1)) {
@@ -33,11 +54,44 @@ const Index = props => {
         }
     }, [globalUser])
 
+    useEffect(() => {
+        if (globalUser && globalUser.isLoggedIn && (globalUser.access_level === 2 || globalUser.access_level === 0)) {
+            loadInGoing()
+        }
+    }, [globalUser])
+
+    useEffect(() => {
+        if (ingoing) {
+            ingoing.forEach((e) => {
+                let event = new Date(e.started_at * 1000)
+                let current = new Date()
+
+                let e_date = `${event.getFullYear()}/${event.getMonth()}/${event.getDay()}`,
+                    c_date = `${current.getFullYear()}/${current.getMonth()}/${current.getDay()}`
+
+                if (e_date == c_date) {
+                    setTodayEvent(e)
+                }
+            });
+        }
+    }, [ingoing])
+
+    useEffect(() => {
+        if (todayEvent) {
+            setStartTime(new DateObject({
+                date: todayEvent.started_at * 1000,
+                calendar: persian,
+                locale: persian_fa,
+            }))
+        }
+    }, [todayEvent])
+
+
     /**
      * Get all props of this page.
      * @version 1.0
      */
-    const { events } = props
+    // const { events } = props
 
     return (
         <div className={styles.page}>
@@ -54,7 +108,7 @@ const Index = props => {
                         <div className="container">
                             <div className={styles.lastEvents}>
                                 <div className={"page-title"}>
-                                    <h3>آخرین ایونت های شما</h3>
+                                    <h3>ایونت در حال بازی</h3>
                                     <Link href={"/events"}>
                                         <a>
                                             بیشتر
@@ -62,7 +116,7 @@ const Index = props => {
                                         </a>
                                     </Link>
                                 </div>
-                                <Swiper
+                                {/* <Swiper
                                     grabCursor={true}
                                     // centeredSlides={true}
                                     // slidesPerView={'auto'}
@@ -94,7 +148,46 @@ const Index = props => {
                                             </SwiperSlide>
                                         )
                                     })}
-                                </Swiper>
+                                </Swiper> */}
+
+                                {
+                                    todayEvent ?
+                                        <>
+                                            <div className={styles.event}>
+                                                <Link href={`/events/${todayEvent._id.$oid}`}>
+                                                    <a className={`${styles.item}`} style={{ backgroundImage: `url("/e3.jpg")` }}>
+                                                        <div className={styles.data}>
+                                                            <div className={styles.event_title}>
+                                                                <FaMapMarkerAlt />
+                                                                <h3>
+                                                                    {todayEvent.title}
+                                                                </h3>
+                                                            </div>
+                                                            <div className={styles.row}>
+                                                                {
+                                                                    startTime ?
+                                                                        <div>
+                                                                            <span className={styles.time}>{startTime.format("d MMMM")}</span>
+                                                                            <span>{`سناریو: ${todayEvent.content}`}</span>
+                                                                        </div> : <></>
+                                                                }
+                                                                <div>
+                                                                    <span>{`ظرفیت: ${todayEvent.max_players}`}</span>
+                                                                    <span>{`گرداننده: ${todayEvent.group_info.owner}`}</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <button className={styles.btn}>بیشتر</button>
+
+                                                    </a>
+                                                </Link>
+                                            </div>
+                                        </>
+                                        : <Alert>
+                                            شما در حال بازی هیچ ایونتی نیستید
+                                        </Alert>
+                                }
                             </div>
                         </div>
 
@@ -107,20 +200,20 @@ const Index = props => {
     )
 }
 
-export async function getServerSideProps() {
-    // Check user
-    // let user = (typeof context.req.cookies['token'] !== 'undefined') ? await checkToken(context.req.cookies['token']) : {}
+// export async function getServerSideProps() {
+//     // Check user
+//     // let user = (typeof context.req.cookies['token'] !== 'undefined') ? await checkToken(context.req.cookies['token']) : {}
 
-    // Get events
-    let events = await fetch(`${process.env.EVENT_URL}/event/get/all/in-going`)
-    events = await events.json()
+//     // Get events
+//     // let events = await fetch(`${process.env.EVENT_URL}/event/get/all/in-going`)
+//     // events = await events.json()
 
-    return {
-        props: {
-            // user: user,
-            events: events.data
-        }
-    }
-}
+//     // return {
+//     //     props: {
+//     //         // user: user,
+//     //         events: events.data
+//     //     }
+//     // }
+// }
 
 export default Index

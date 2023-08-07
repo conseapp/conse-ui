@@ -68,12 +68,15 @@ sudo gpasswd -a www-data root && sudo chmod g+x /root && sudo -u www-data stat /
 
 * remove god home page **done**
 
+* home page (current event) **done**
+
+
 # 🚧 WIPs
 
 * 1 - OTP login **(MUST BE GIVEN)**
 
 * 2 - ‌UI/UX edits
-  * home page (current event + role)
+  * home page (role)
   * create deck and event button position
   * logo for explore events card background **(MUST BE GIVEN)**
  
