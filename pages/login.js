@@ -34,27 +34,29 @@ const Login = () => {
         }
     }, [])
 
-   
-   useEffect(() => {
-       // Redirect to another page instead of going back
-       router.beforePopState(({ url, as }) => {
-           if (as !== '/') {
-               router.push('/');
-               return false;
-           }
-           return true;
-       });
-       return () => {
-           router.beforePopState(() => true);
-       };
-   }, [router]);
+
+    useEffect(() => {
+        // Redirect to another page instead of going back
+        router.beforePopState(({ url, as }) => {
+            if (as !== '/') {
+                router.push('/');
+                return false;
+            }
+            return true;
+        });
+        return () => {
+            router.beforePopState(() => true);
+        };
+    }, [router]);
     /**
      * Redirect to home page if access token is present.
      * @version 1.0
      */
     useEffect(() => {
         // if (hasCookie('token')) router.push(redirect).then()
-        if (globalUser && globalUser.isLoggedIn)
+        if (globalUser && globalUser.isLoggedIn && globalUser.access_level === 1)
+            router.push('/profile')
+        else if (globalUser && globalUser.isLoggedIn)
             router.push(redirect)
     }, [redirect, router])
 
@@ -101,8 +103,12 @@ const Login = () => {
 
                 // Set access token to cookie
                 localStorage.setItem("loginresp", JSON.stringify(response))
+
                 // Redirect to home page
-                setTimeout(() => router.push(redirect), 2000)
+                response.data.access_level === 1 ?
+                    setTimeout(() => router.push('/profile'), 2000)
+                    :
+                    setTimeout(() => router.push(redirect), 2000)
             } else {
                 // Show message
                 if (response.status === 404)

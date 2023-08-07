@@ -67,7 +67,7 @@ const Header = props => {
                 <>
 
                     <div className={styles.logo}>
-                        <Link href={"/"}>
+                        <Link href={`${globalUser.access_level === 1 ? '/profile' : '/'}`}>
                             <a>
                                 <Image src={logo} alt={"Conse"} width={50} height={50} quality={100} />
                             </a>

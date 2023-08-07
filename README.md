@@ -60,12 +60,13 @@ sudo gpasswd -a www-data root && sudo chmod g+x /root && sudo -u www-data stat /
 
 * explore page (metadata, card positions, title) **done**
 
-* player profile (expired and reserved ones) 
+* player profile (expired and reserved ones) **done**
 
-* remove god reserved tabs 
+* remove god reserved tabs **done**
 
-* call get all god events in history page inside the god panel
+* call get all god events in history page inside the god panel **done**
 
+* remove god home page **done**
 
 # 🚧 WIPs
 
@@ -73,7 +74,6 @@ sudo gpasswd -a www-data root && sudo chmod g+x /root && sudo -u www-data stat /
 
 * 2 - ‌UI/UX edits
   * home page (current event + role)
-  * remove god home page 
   * create deck and event button position
   * logo for explore events card background **(MUST BE GIVEN)**
  

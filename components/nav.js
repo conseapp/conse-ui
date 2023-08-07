@@ -83,6 +83,8 @@ const Nav = props => {
                             </a>
                         </Link>
                     </li>
+                    {
+                    ((globalUser.access_level !== 1)) ?
                     <li className={pathname === '/' ? styles.active : ''}>
                         <Link href={'/'}>
                             <a>
@@ -90,6 +92,9 @@ const Nav = props => {
                             </a>
                         </Link>
                     </li>
+                    :
+                    <></>
+                    }
                 </ul>
             }
         </nav>
