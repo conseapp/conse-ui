@@ -95,28 +95,24 @@ const Index = props => {
 
     return (
         <div className={styles.page}>
+            <Head>
+                <title>کنسه</title>
+            </Head>
 
-            {
-                (globalUser.access_level !== 1) ?
-                    <>
-                        <Head>
-                            <title>کنسه</title>
-                        </Head>
+            <Header user={globalUser} />
 
-                        <Header user={globalUser} />
-
-                        <div className="container">
-                            <div className={styles.lastEvents}>
-                                <div className={"page-title"}>
-                                    <h3>ایونت در حال بازی</h3>
-                                    <Link href={"/events"}>
-                                        <a>
-                                            بیشتر
-                                            <MdChevronLeft />
-                                        </a>
-                                    </Link>
-                                </div>
-                                {/* <Swiper
+            <div className="container">
+                <div className={styles.lastEvents}>
+                    <div className={"page-title"}>
+                        <h3>ایونت در حال بازی</h3>
+                        <Link href={"/events"}>
+                            <a>
+                                بیشتر
+                                <MdChevronLeft />
+                            </a>
+                        </Link>
+                    </div>
+                    {/* <Swiper
                                     grabCursor={true}
                                     // centeredSlides={true}
                                     // slidesPerView={'auto'}
@@ -150,52 +146,48 @@ const Index = props => {
                                     })}
                                 </Swiper> */}
 
-                                {
-                                    todayEvent ?
-                                        <>
-                                            <div className={styles.event}>
-                                                <Link href={`/events/${todayEvent._id.$oid}`}>
-                                                    <a className={`${styles.item}`} style={{ backgroundImage: `url("/e3.jpg")` }}>
-                                                        <div className={styles.data}>
-                                                            <div className={styles.event_title}>
-                                                                <FaMapMarkerAlt />
-                                                                <h3>
-                                                                    {todayEvent.title}
-                                                                </h3>
-                                                            </div>
-                                                            <div className={styles.row}>
-                                                                {
-                                                                    startTime ?
-                                                                        <div>
-                                                                            <span className={styles.time}>{startTime.format("d MMMM")}</span>
-                                                                            <span>{`سناریو: ${todayEvent.content}`}</span>
-                                                                        </div> : <></>
-                                                                }
-                                                                <div>
-                                                                    <span>{`ظرفیت: ${todayEvent.max_players}`}</span>
-                                                                    <span>{`گرداننده: ${todayEvent.group_info.owner}`}</span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <button className={styles.btn}>بیشتر</button>
-
-                                                    </a>
-                                                </Link>
+                    {
+                        todayEvent ?
+                            <>
+                                <div className={styles.event}>
+                                    <Link href={`/events/${todayEvent._id.$oid}`}>
+                                        <a className={`${styles.item}`} style={{ backgroundImage: `url("/e3.jpg")` }}>
+                                            <div className={styles.data}>
+                                                <div className={styles.event_title}>
+                                                    <FaMapMarkerAlt />
+                                                    <h3>
+                                                        {todayEvent.title}
+                                                    </h3>
+                                                </div>
+                                                <div className={styles.row}>
+                                                    {
+                                                        startTime ?
+                                                            <div>
+                                                                <span className={styles.time}>{startTime.format("d MMMM")}</span>
+                                                                <span>{`سناریو: ${todayEvent.content}`}</span>
+                                                            </div> : <></>
+                                                    }
+                                                    <div>
+                                                        <span>{`ظرفیت: ${todayEvent.max_players}`}</span>
+                                                        <span>{`گرداننده: ${todayEvent.group_info.owner}`}</span>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </>
-                                        : <Alert>
-                                            شما در حال بازی هیچ ایونتی نیستید
-                                        </Alert>
-                                }
-                            </div>
-                        </div>
 
-                        <Nav user={globalUser} />
-                    </>
-                    : <></>
-            }
+                                            <button className={styles.btn}>بیشتر</button>
 
+                                        </a>
+                                    </Link>
+                                </div>
+                            </>
+                            : <Alert>
+                                شما در حال بازی هیچ ایونتی نیستید
+                            </Alert>
+                    }
+                </div>
+            </div>
+
+            <Nav user={globalUser} />
         </div >
     )
 }
