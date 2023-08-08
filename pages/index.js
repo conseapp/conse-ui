@@ -19,6 +19,7 @@ import { FaMapMarkerAlt } from "react-icons/fa";
 import { DateObject } from "react-multi-date-picker"
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
+import CreateSideColor from "../utils/createSideColor";
 
 // import { getuser } from '../redux/actions';
 
@@ -35,6 +36,7 @@ const Index = props => {
     const [ingoing, setIngoing] = useState(undefined)
     const [todayEvent, setTodayEvent] = useState(undefined)
     const [startTime, setStartTime] = useState(undefined)
+    const [player, setPlayer] = useState(undefined)
 
 
     const loadInGoing = async () => {
@@ -46,6 +48,28 @@ const Index = props => {
         if (data.status == 200)
             setIngoing(data.data)
 
+    }
+
+    const getPlayer = async () => {
+        // Get current player info
+        let player = await fetch(`${process.env.GAME_URL}/game/player/get/single`, {
+            method: 'POST',
+            headers: { "Authorization": `Bearer ${globalUser.accessToken}` },
+            body: JSON.stringify({
+                "event_id": todayEvent._id.$oid,
+                "user_id": globalUser.user_id
+            })
+        })
+        let playerData = await player.json()
+        if (playerData.status == 200) {
+            setPlayer(playerData.data)
+        } else if (playerData.status == 404) {
+            setPlayer(false)
+            toast.error("بازیکن یافت نشد")
+        }
+        else if (playerData.status == 403) {
+            setPlayer(false)
+        }
     }
 
     useEffect(() => {
@@ -83,6 +107,7 @@ const Index = props => {
                 calendar: persian,
                 locale: persian_fa,
             }))
+            getPlayer()
         }
     }, [todayEvent])
 
@@ -112,7 +137,8 @@ const Index = props => {
                             </a>
                         </Link>
                     </div>
-                    {/* <Swiper
+                    <>
+                        {/* <Swiper
                                     grabCursor={true}
                                     // centeredSlides={true}
                                     // slidesPerView={'auto'}
@@ -145,6 +171,7 @@ const Index = props => {
                                         )
                                     })}
                                 </Swiper> */}
+                    </>
 
                     {
                         todayEvent ?
@@ -164,12 +191,19 @@ const Index = props => {
                                                         startTime ?
                                                             <div>
                                                                 <span className={styles.time}>{startTime.format("d MMMM")}</span>
-                                                                <span>{`سناریو: ${todayEvent.content}`}</span>
+                                                                <span>سناریو: {todayEvent.content}</span>
                                                             </div> : <></>
                                                     }
+                                                    {
+                                                        player ?
+                                                            <span className={styles.role} style={player.side_id !== null ? CreateSideColor(player.side_id.$oid) : {}}>
+                                                            {player.role_name}
+                                                            </span>
+                                                            : <></>
+                                                    }
                                                     <div>
-                                                        <span>{`ظرفیت: ${todayEvent.max_players}`}</span>
-                                                        <span>{`گرداننده: ${todayEvent.group_info.owner}`}</span>
+                                                        <span>ظرفیت: {todayEvent.max_players}</span>
+                                                        <span>گرداننده: {todayEvent.group_info.owner}</span>
                                                     </div>
                                                 </div>
                                             </div>
