@@ -39,10 +39,26 @@ const Conductor = props => {
                                 </Link>
                             </li>
                             <li>
+                            <Link href={'/conductor/deck/create'}>
+                                <a>
+                                    <GiCardRandom />
+                                    ایجاد دک
+                                </a>
+                            </Link>
+                            </li>
+                            <li>
                                 <Link href={'/conductor/event'}>
                                     <a>
                                         <MdEvent />
                                         ایونت های شما
+                                    </a>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href={'/conductor/event/create'}>
+                                    <a>
+                                        <MdEvent />
+                                        ایجاد ایونت
                                     </a>
                                 </Link>
                             </li>

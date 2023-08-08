@@ -70,7 +70,7 @@ const Profile = props => {
         })
         let data = await res.json()
         if (data.status == 200)
-            setGodEvents(data.data)
+            setGodEvents(data.data.reverse())
 
     }
     const loadGroups = async () => {

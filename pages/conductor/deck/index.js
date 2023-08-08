@@ -59,12 +59,12 @@ const Decks = props => {
                 {loading ? <div><Circular /></div> : <>
                     <div className="container">
                         {err ? <>{err}</> : <>
-                            <Link href={'deck/create'}>
+                            {/* <Link href={'deck/create'}>
                                 <a className={styles.addButton}>
                                     <MdAdd />
                                     ایجاد دک
                                 </a>
-                            </Link>
+                            </Link> */}
 
                             <table className={styles.tableOfContent}>
                                 <thead>

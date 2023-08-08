@@ -63,12 +63,12 @@ const Decks = props => {
                 {loading ? <><div><Circular /></div></> : <>
                     <div className="container">
 
-                        <Link href={'event/create'}>
+                        {/* <Link href={'event/create'}>
                             <a className={styles.addButton}>
                                 <MdAdd />
                                 ایجاد ایونت
                             </a>
-                        </Link>
+                        </Link> */}
 
                         <table>
                             <thead>
