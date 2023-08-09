@@ -74,7 +74,9 @@ sudo gpasswd -a www-data root && sudo chmod g+x /root && sudo -u www-data stat /
 
 * create deck and event button position **done**
 
-* OTP login
+* OTP login **done**
+
+* fix upsert event api issue **done**
  
 # 🗓 Beta Release Feature
 
