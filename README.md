@@ -73,12 +73,8 @@ sudo gpasswd -a www-data root && sudo chmod g+x /root && sudo -u www-data stat /
 * add role on current event of the user home page **done**
 
 * create deck and event button position **done**
-# 🚧 WIPs
 
-* 1 - OTP login **(MUST BE GIVEN)**
-
-* 2 - ‌UI/UX edits
-  * logo for explore events card background **(MUST BE GIVEN)**
+* OTP login
  
 # 🗓 Beta Release Feature
 
