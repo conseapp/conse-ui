@@ -1,4 +1,4 @@
-import styles from "/styles/pages/auth/login.module.scss";
+import styles from "/styles/pages/auth/login-otp.module.scss";
 import Head from "next/head";
 import Image from "next/future/image";
 import React, { useEffect, useState } from "react";
@@ -7,14 +7,26 @@ import { toast, ToastContainer } from "react-toastify";
 import logo from "../public/logo.png";
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from "next/router";
-import loginUser from "/utils/loginUser";
+import checkOtp from "/utils/checkOtp";
 import { hasCookie, setCookie } from "cookies-next";
 import { useDispatch, useSelector } from "react-redux";
 import { getuser } from "../redux/actions";
+import { BsFillShieldLockFill, BsTelephoneFill } from "react-icons/bs";
+import OtpInput from 'react-otp-input';
+import Timer from "../components/Timer";
+
 
 const Login = () => {
     const router = useRouter()
     const [redirect, setRedirectUrl] = useState('/')
+    const [phNumber, setPhNumber] = useState('')
+    const [otp, setOtp] = useState('')
+    const [isDisabled, setisDisabled] = useState(false)
+    const [isPhDisabled, setisPhDisabled] = useState(false)
+    const [showOtp, setShowOtp] = useState(false)
+    const [expiryTime, setExpiryTime] = useState('')
+    const [isExpired, setIsExpired] = useState(false)
+
 
     const dispatch = useDispatch();
     const fetchUser = () => dispatch(getuser());
@@ -30,7 +42,6 @@ const Login = () => {
             if (params.get('redirect') !== null) {
                 setRedirectUrl(params.get('redirect'))
             }
-
         }
     }, [])
 
@@ -61,42 +72,92 @@ const Login = () => {
     }, [redirect, router])
 
     /**
-     * Function to check user information during login.
+     * Function to request the otp code.
      *
      * @version 1.0
      * @returns {Promise<void>}
      * @constructor
      * @param event
      */
-    const loginHandle = async event => {
+    const otpReqHandle = async event => {
         event.preventDefault()
-
-        // Form
-        let username = document.getElementById('username'),
-            password = document.getElementById('password'),
-            button = document.getElementById('submit')
         // Errors
         let errors = 0
-        if (username.value === '') {
+
+        if (phNumber.length === 0) {
+            toast.error("شماره همراه خود را وارد کنید");
             errors++
-            toast.error('نام و نام خانوادگی نمیتواند خالی باشد')
-        }
-        if (password.value === '') {
+        } else if (phNumber.slice(0, 2) !== '09') {
+            toast.error("شماره همراه خود را درست وارد کنید");
             errors++
-            toast.error('کلمه عبور نمیتواند خالی باشد')
+        } else if (phNumber.length !== 11) {
+            toast.error("شماره همراه باید شامل 11 رقم باشد");
+            errors++
         }
 
         // Send request to server if there is no errors
         if (errors === 0) {
 
             // Disable all fields
-            username.setAttribute('disabled', 'disabled')
-            password.setAttribute('disabled', 'disabled')
-            button.setAttribute('disabled', 'disabled')
+            setisPhDisabled(true)
 
-            // Login user
-            let response = await loginUser(username.value.toLowerCase(), password.value)
-            console.log(response)
+            // sending request
+            let request = await fetch(`${process.env.AUTH_URL}/auth/otp-req`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    "phone": phNumber,
+                })
+            })
+            let response = await request.json()
+
+            if (response.status === 200) {
+                const time = new Date();
+                // Show message
+                toast.success('رمز یکبار مصرف برای شما ارسال شد')
+                setExpiryTime(time.setSeconds(time.getSeconds() + 120))
+                setShowOtp(true)
+
+            } else {
+                // Show message
+                if (response.status === 404)
+                    toast.error('اطلاعات وارد شده صححیح نمیباشد')
+                else
+                    toast.error('خطایی در هنگام ورود به حساب پیش آمده')
+                // Enable login button
+                setisPhDisabled(false)
+            }
+        }
+    }
+
+    /**
+     * Function to check otp code.
+     *
+     * @version 1.0
+     * @returns {Promise<void>}
+     * @constructor
+     * @param event
+     */
+    const otpCheckHandle = async event => {
+        event.preventDefault()
+
+        // Errors
+        let errors = 0
+        if (otp.length !== 4) {
+            toast.error("رمز یکبار مصرف را وارد کنید");
+            errors++
+        }
+
+        // Send request to server if there is no errors
+        if (errors === 0) {
+
+            // Disable all fields
+            setisDisabled(true)
+
+            // check otp
+            let time = Math.floor(new Date().getTime() / 1000);
+            let response = await checkOtp(phNumber, otp, time)
+            console.log(response);
+
             if (response.status === 200) {
                 // Show message
                 toast.success('شما با موفقیت وارد شدید')
@@ -112,15 +173,45 @@ const Login = () => {
             } else {
                 // Show message
                 if (response.status === 404)
-                    toast.error('اطلاعات وارد شده صححیح نمیباشد')
+                    toast.error('کد وارد شده صححیح نمیباشد')
                 else
                     toast.error('خطایی در هنگام ورود به حساب پیش آمده')
                 // Enable login button
-                username.removeAttribute('disabled')
-                password.removeAttribute('disabled')
-                button.removeAttribute('disabled')
+                setisDisabled(false);
             }
         }
+    }
+
+    const resendOtp = async () => {
+        let request = await fetch(`${process.env.AUTH_URL}/auth/otp-req`, {
+            method: 'POST',
+            body: JSON.stringify({
+                "phone": phNumber,
+            })
+        })
+        let response = await request.json()
+
+        if (response.status === 200) {
+            const time = new Date();
+            // Show message
+            toast.success('رمز یکبار مصرف برای شما ارسال شد')
+            setExpiryTime(time.setSeconds(time.getSeconds() + 120))
+            setisDisabled(false)
+            setIsExpired(false)
+
+
+        } else {
+            // Show message
+            if (response.status === 404)
+                toast.error('اطلاعات وارد شده صححیح نمیباشد')
+            else
+                toast.error('خطایی در هنگام ورود به حساب پیش آمده')
+        }
+    }
+
+    const handleExpire = () => {
+        setIsExpired(true)
+        setisDisabled(true)
     }
 
     return (
@@ -131,7 +222,6 @@ const Login = () => {
             </Head>
 
             <div className={styles.card}>
-
                 <div className={styles.title}>
                     <div className={styles.logo}>
                         <Link href={"/"}>
@@ -143,38 +233,69 @@ const Login = () => {
                     <h2>From IA</h2>
                 </div>
 
-                <div className={styles.form}>
-                    <form onSubmit={loginHandle}>
-
-                        <h3>ورود به حساب کاربری</h3>
-
-                        <div className={styles.row}>
-                            <label htmlFor={"username"}>نام و نام خانوادگی</label>
-                            <input type="text" id={"username"} name={"username"} />
-                        </div>
-
-                        <div className={styles.row}>
-                            <label htmlFor={"password"}>کلمه عبور</label>
-                            <input type="password" id={"password"} name={"password"} />
-                        </div>
-
-                        <div className={styles.row}>
-                            <button type={"submit"} id={"submit"}>ورود به حساب کاربری</button>
-                        </div>
-
-                        <div className={styles.row}>
-                            <div className={styles.footer}>
-                                حساب کاربری ندارید ؟
-                                <Link href={"/signup"}>
-                                    <a>
-                                        ثبت نام کنید
-                                    </a>
-                                </Link>
+                {
+                    showOtp ?
+                        <form onSubmit={otpCheckHandle} className={`${styles.form} ${styles.otp}`}>
+                            <div className={styles.icon}>
+                                <BsFillShieldLockFill size={30} />
                             </div>
-                        </div>
 
-                    </form>
-                </div>
+                            <label htmlFor={"otp-code"}>رمز یکبار مصرف را وارد نمایید</label>
+                            <OtpInput
+                                value={otp}
+                                onChange={setOtp}
+                                numInputs={4}
+                                renderInput={(props) => <input {...props} disabled={isDisabled} />}
+                                containerStyle={{ direction: "ltr" }}
+                                inputType="number"
+                                inputStyle={{ minWidth: '1rem', width: '50px', height: '50px', padding: '0', margin: '4px' }}
+                            />
+
+                            <button type={"submit"} id={"submit-otp"} disabled={isDisabled}>تایید</button>
+                            {
+                                isExpired ?
+                                    <div className={styles.resend}>
+                                        <div>مهلت رمز یکبار مصرف به اتمام رسید</div>
+                                        <button type={"button"} id={"resend"} onClick={resendOtp}>ارسال مجدد</button>
+                                    </div>
+                                    :
+                                    <Timer expiryTimestamp={expiryTime} onExpire={handleExpire} />
+                            }
+                        </form>
+                        :
+                        <form onSubmit={otpReqHandle} className={`${styles.form} ${styles.otp}`}>
+                            <div className={styles.icon}>
+                                <BsTelephoneFill size={30} />
+                            </div>
+
+                            <label htmlFor={"ph-number"}>شماره موبایل خود را وارد کنید</label>
+                            <input
+                                type="number"
+                                value={phNumber}
+                                id="ph-number"
+                                name="ph-number"
+                                placeholder="09*********"
+                                dir="ltr"
+                                onChange={(e) => setPhNumber(e.target.value)}
+                                disabled={isPhDisabled}
+                            />
+
+                            <button type={"submit"} id={"submit-ph"} disabled={isPhDisabled}>ارسال کد</button>
+
+                            <div className={styles.row}>
+                                <div className={styles.footer}>
+                                    حساب کاربری ندارید ؟
+                                    <Link href={"/signup"}>
+                                        <a>
+                                            ثبت نام کنید
+                                        </a>
+                                    </Link>
+                                </div>
+                            </div>
+                        </form>
+                }
+
+
 
             </div>
 
