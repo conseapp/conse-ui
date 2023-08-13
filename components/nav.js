@@ -84,7 +84,7 @@ const Nav = props => {
                         </Link>
                     </li>
                     {
-                    ((globalUser.access_level !== 1)) ?
+                    ((globalUser.access_level == 2)) ?
                     <li className={pathname === '/' ? styles.active : ''}>
                         <Link href={'/'}>
                             <a>

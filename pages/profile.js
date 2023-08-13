@@ -33,7 +33,6 @@ const Profile = props => {
 
     const { globalUser } = useSelector(state => state.userReducer)
     let user = (globalUser && globalUser.accessToken) ? checkToken(globalUser.accessToken) : {}
-    console.log("dddddddddddd", user)
 
     const [ingoing, setIngoing] = useState(undefined)
     const [expired, setExpired] = useState(undefined)
@@ -87,17 +86,17 @@ const Profile = props => {
 
 
     useEffect(() => {
-        if (globalUser && globalUser.isLoggedIn && (globalUser.access_level === 2 || globalUser.access_level === 0)) {
+        if (globalUser && globalUser.isLoggedIn && (globalUser.access_level === 2)) {
             loadExpired()
             loadInGoing()
         }
-        if (globalUser && globalUser.isLoggedIn && (globalUser.access_level === 1)) {
+        if (globalUser && globalUser.isLoggedIn && (globalUser.access_level === 1 || globalUser.access_level === 0)) {
             loadGroups()
             loadGodEvents()
         }
     }, [globalUser])
     useEffect(() => {
-        if (globalUser.access_level === 1) {
+        if (globalUser.access_level === 1 || globalUser.access_level === 0) {
             canCreateGroupHandler()
             if (godEvents && groups)
             setLoading(false)
@@ -256,7 +255,7 @@ const Profile = props => {
                                     <div className={styles.navigation}>
                                         <ul>
                                             {
-                                                 (globalUser.access_level == 2 || globalUser.access_level == 0 ) &&
+                                                 (globalUser.access_level == 2 ) &&
                                                 <>
                                                     <li className={styles.active} data-target={"#reserves"}>رزرو های من</li>
                                                     <li data-target={"#history"} onClick={tabSelect}>پایان یافته</li>
@@ -264,7 +263,7 @@ const Profile = props => {
                                             }
 
                                             {
-                                                globalUser.access_level == 1 &&
+                                                (globalUser.access_level == 1 || globalUser.access_level == 0) &&
                                                 <>
                                                     <li className={styles.active} data-target={"#god-events"}>ایونت های من</li>
                                                     <li data-target={"#group"} onClick={tabSelect}>گروه من</li>
@@ -276,7 +275,7 @@ const Profile = props => {
                                     <div className={styles.tabs}>
 
                                         {
-                                            (globalUser.access_level == 2 || globalUser.access_level == 0 ) &&
+                                            (globalUser.access_level == 2) &&
                                             <>
                                                 <div id={"reserves"} className={`${styles.active} ${styles.reserves}`}>
                                                     {ingoing && ingoing.length > 0 ?
@@ -357,7 +356,7 @@ const Profile = props => {
                                             </>
                                         }
                                         {
-                                            globalUser.access_level == 1 &&
+                                            (globalUser.access_level == 1 || globalUser.access_level == 0 ) &&
                                             <>
                                                 <div id={"group"} className={styles.group}>
                                                     {CanCreateGroup ?
