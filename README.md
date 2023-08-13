@@ -80,6 +80,16 @@ sudo gpasswd -a www-data root && sudo chmod g+x /root && sudo -u www-data stat /
  
 # 🗓 Beta Release Feature
 
+* portal
+* ux update
+* realtiming
+* install recommend
+* history and phases
+* edit profile
+* username as name
+* god add group
+* register new god with dev access 
+
 * add last move card panel
 
 * game history and phases (separate color for each player in-game-status like using gray for dead status)
