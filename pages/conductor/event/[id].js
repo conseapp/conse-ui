@@ -166,15 +166,15 @@ const Create = props => {
             "title": title.value,
             "content": content.value,
             "deck_id": deck._id.$oid,
-            "entry_price": '0',
+            "entry_price": event.entry_price,
             "group_info": group_info,
-            "creator_wallet_address": "0x0000000000000000000000000000000000000000",
-            "upvotes": 0,
-            "downvotes": 0,
-            "voters": [],
-            "phases": [],
+            "creator_wallet_address": event.creator_wallet_address,
+            "upvotes": event.upvotes,
+            "downvotes": event.downvotes,
+            "voters": event.voters,
+            "phases": event.phases,
             "max_players": deck.roles.length,
-            "players": [],
+            "players": event.players,
             "started_at": startDate.add(5, "minute").unix
         }
         let { status, message } = await createEvent(body, token)
