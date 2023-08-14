@@ -391,7 +391,7 @@ const Create = props => {
 
                                         <div className={`row ${styles.cards}`}>
                                             <label htmlFor="cards">انتخاب کارت های حرکت آخر</label>
-                                            <Select placeholder={'انتخاب کنید'} styles={cardSelectStyles} options={cardOptions} id={"cards"} isRtl={true} isMulti={true} onChange={selectCards} />
+                                            <Select closeMenuOnSelect={false} placeholder={'انتخاب کنید'} styles={cardSelectStyles} options={cardOptions} id={"cards"} isRtl={true} isMulti={true} onChange={selectCards} />
                                         </div>
 
                                         <fieldset className={styles.roles}>
@@ -404,7 +404,7 @@ const Create = props => {
                                                             sideOption.length ?
                                                                 <div className={`row ${styles.row}`} key={`${side._id.$oid}`}>
                                                                     <label htmlFor="roles">انتخاب نقش های <span>{side.name}</span></label>
-                                                                    <Select placeholder={'انتخاب کنید'} styles={roleSelectStyles} value={selectedRoles[side._id.$oid]} options={sideOption} id={"roles"} isRtl={true} isMulti={true} onChange={handleSelectedRoles(side._id.$oid)} />
+                                                                    <Select closeMenuOnSelect={false} placeholder={'انتخاب کنید'} styles={roleSelectStyles} value={selectedRoles[side._id.$oid]} options={sideOption} id={"roles"} isRtl={true} isMulti={true} onChange={handleSelectedRoles(side._id.$oid)} />
                                                                 </div>
                                                                 : <></>
                                                         )

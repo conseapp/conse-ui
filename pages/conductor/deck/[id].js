@@ -367,7 +367,7 @@ const Edit = props => {
 
                             <div className="row">
                                 <label htmlFor="roles">انتخاب نقش ها</label>
-                                <Select placeholder={'انتخاب کنید'} styles={{
+                                <Select closeMenuOnSelect={false} placeholder={'انتخاب کنید'} styles={{
                                     option: (provided, state) => {
                                         let { side_id } = JSON.parse(state.value)
                                         let color = {}
@@ -403,7 +403,7 @@ const Edit = props => {
 
                             <div className="row">
                                 <label htmlFor="roles">انتخاب کارت های حرکت آخر</label>
-                                <Select placeholder={'انتخاب کنید'} styles={{
+                                <Select closeMenuOnSelect={false} placeholder={'انتخاب کنید'} styles={{
                                     option: (provided, state) => {
                                         return {
                                             ...provided,
