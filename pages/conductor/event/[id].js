@@ -226,7 +226,7 @@ const Create = props => {
 
                             <div className="row">
                                 <label htmlFor="deck">انتخاب دک بازی</label>
-                                <Select placeholder={deckName} styles={SelectStyles} options={DeckOptions} id={"deck"} isRtl={true} onChange={e => {
+                                <Select menuPlacement="auto" minMenuHeight={300} placeholder={deckName} styles={SelectStyles} options={DeckOptions} id={"deck"} isRtl={true} onChange={e => {
                                     SetDeckValue(e.value)
                                 }} />
                             </div>
