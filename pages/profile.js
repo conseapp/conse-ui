@@ -70,6 +70,8 @@ const Profile = props => {
         let data = await res.json()
         if (data.status == 200)
             setGodEvents(data.data.reverse())
+        if (data.status == 404)
+            setGodEvents([])
 
     }
     const loadGroups = async () => {
@@ -99,7 +101,7 @@ const Profile = props => {
         if (globalUser.access_level === 1 || globalUser.access_level === 0) {
             canCreateGroupHandler()
             if (godEvents && groups)
-            setLoading(false)
+                setLoading(false)
         }
         else {
 
@@ -255,7 +257,7 @@ const Profile = props => {
                                     <div className={styles.navigation}>
                                         <ul>
                                             {
-                                                 (globalUser.access_level == 2 ) &&
+                                                (globalUser.access_level == 2) &&
                                                 <>
                                                     <li className={styles.active} data-target={"#reserves"}>رزرو های من</li>
                                                     <li data-target={"#history"} onClick={tabSelect}>پایان یافته</li>
@@ -356,7 +358,7 @@ const Profile = props => {
                                             </>
                                         }
                                         {
-                                            (globalUser.access_level == 1 || globalUser.access_level == 0 ) &&
+                                            (globalUser.access_level == 1 || globalUser.access_level == 0) &&
                                             <>
                                                 <div id={"group"} className={styles.group}>
                                                     {CanCreateGroup ?
@@ -444,7 +446,7 @@ const Profile = props => {
                                                             })}
                                                         </ul> :
                                                         <Alert>
-                                                            بازی رزروی وجود ندارد
+                                                            ایونتی وجود ندارد
                                                         </Alert>
                                                     }
 
