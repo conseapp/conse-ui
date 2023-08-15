@@ -20,7 +20,9 @@ sudo chmod +x /root && sudo chown -R www-data:www-data /root && sudo chmod -R 77
 sudo gpasswd -a www-data root && sudo chmod g+x /root && sudo -u www-data stat /root
 ```
 
-# ✅ Done by @JavadH0sseini
+# ✅ MVP Tasks Done by @JavadH0sseini
+
+> Refer to notion for MVP alpha and beta release features
 
 * player shouldn't see the voting icons before finishing the game **done**
 
@@ -77,23 +79,4 @@ sudo gpasswd -a www-data root && sudo chmod g+x /root && sudo -u www-data stat /
 * OTP login **done**
 
 * fix upsert event api issue **done**
- 
-# 🗓 Beta Release Feature
-
-* portal
-* new ux
-* realtiming
-* install recommend
-* history and phases
-* register new god with dev access 
-
-* add last move card panel
-
-* game history and phases (separate color for each player in-game-status like using gray for dead status)
-
-* god panel and upload event image
-
-* god assistant section 
-
-* portal payment 
 
