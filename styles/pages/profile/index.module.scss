@@ -149,9 +149,10 @@
         }
       }
 
-      &.group {
+      &.group , &.username {
         padding: 24px;
       }
+      
     }
   }
 }

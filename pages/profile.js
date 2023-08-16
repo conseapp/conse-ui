@@ -16,6 +16,7 @@ import { FaMapMarkerAlt } from "react-icons/fa";
 import { DateObject } from "react-multi-date-picker"
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
+import { useRouter } from 'next/router';
 /**
  * Profile Page
  * @version 1.0
@@ -33,11 +34,12 @@ const Profile = props => {
 
     const { globalUser } = useSelector(state => state.userReducer)
     let user = (globalUser && globalUser.accessToken) ? checkToken(globalUser.accessToken) : {}
-
+    const router = useRouter();
     const [ingoing, setIngoing] = useState(undefined)
     const [expired, setExpired] = useState(undefined)
     const [godEvents, setGodEvents] = useState(undefined)
     const [groups, setGroups] = useState(undefined)
+    const [username, setUsername] = useState(undefined)
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     const [loading, setLoading] = useState(true)
     const [CanCreateGroup, setCanCreateGroup] = useState(false)
@@ -50,6 +52,8 @@ const Profile = props => {
         let data = await res.json()
         if (data.status == 200)
             setIngoing(data.data)
+        else
+            console.log(data, 'ingoing');
 
     }
     const loadExpired = async () => {
@@ -60,6 +64,8 @@ const Profile = props => {
         let data = await res.json()
         if (data.status == 200)
             setExpired(data.data)
+        else
+            console.log(data, 'exp');
 
     }
     const loadGodEvents = async () => {
@@ -96,6 +102,7 @@ const Profile = props => {
             loadGroups()
             loadGodEvents()
         }
+
     }, [globalUser])
     useEffect(() => {
         if (globalUser.access_level === 1 || globalUser.access_level === 0) {
@@ -104,20 +111,12 @@ const Profile = props => {
                 setLoading(false)
         }
         else {
-
             // if (expired && ingoing && groups)
+            setUsername(globalUser.username)
             if (expired && ingoing)
                 setLoading(false)
         }
     }, [expired, ingoing, godEvents, groups])
-    /**
-     * Get props of this page
-     * @version 1.0
-     * @var user, groups
-     */
-    // const { groups, ingoing, expired } = props
-    const { groupss } = props
-    console.log('groupss,,,,,,,,,,,,', groupss)
 
     /**
      * Changing the state of panels when clicking on navigation items.
@@ -230,6 +229,49 @@ const Profile = props => {
         }
     }
 
+    const SubmitUsername = async e => {
+        e.preventDefault()
+
+        let form = e.target,
+            submit = form.querySelector('button[type="submit"]')
+
+        let errors = 0
+        if (username === '') {
+            errors++
+            toast.error('نام و نام خانوادگی نمیتواند خالی باشد')
+        } else if (username.match(/^[a-zA-Z]|[\u0600-\u06FF\s]+$/) === null) {
+            errors++
+            toast.error('برای نام و نام خانوادگی تنها حروف مجاز است')
+        }
+        // Send request to server if there is no errors
+        if (errors === 0) {
+            let response = await fetch(`${process.env.AUTH_URL}/auth/edit-profile`, {
+                method: 'POST',
+                headers: { "Authorization": `Bearer ${globalUser.accessToken}` },
+                body: JSON.stringify({
+                    "username": username.toLocaleLowerCase(),
+                    "phone": globalUser.phone_number,
+                })
+            })
+            let res = await response.json()
+            let { status } = res;
+
+            console.log(res);
+            if (status === 200) {
+                const prev = JSON.parse(localStorage.getItem("loginresp"))
+                const newData = { ...prev, data:{...prev.data, username: username.toLocaleLowerCase()} }
+                localStorage.setItem('loginresp', JSON.stringify(newData))
+                toast.success('نام و نام خوانوادگی شما با موفقیت ثبت شد')
+                router.reload();
+            } else {
+                toast.error('خطایی در هنگام ثبت نام کاربری شما بوجود آمده، لطفا دوباره تلاش کنید')
+                submit.removeAttribute('disabled')
+            }
+        }
+    }
+
+
+
     return (
         <div className={styles.page}>
 
@@ -261,6 +303,7 @@ const Profile = props => {
                                                 <>
                                                     <li className={styles.active} data-target={"#reserves"}>رزرو های من</li>
                                                     <li data-target={"#history"} onClick={tabSelect}>پایان یافته</li>
+                                                    <li data-target={"#username"} onClick={tabSelect}>نام کاربری</li>
                                                 </>
                                             }
 
@@ -323,6 +366,26 @@ const Profile = props => {
                                                             بازی رزروی وجود ندارد
                                                         </Alert>
                                                     }
+
+                                                </div>
+
+                                                <div id={"username"} className={styles.username}>
+                                                    <div className={"page-title"}>
+                                                        <h2>مشخصات شما</h2>
+                                                    </div>
+
+                                                    <form onSubmit={SubmitUsername} className={"submit-form"}>
+                                                        <div className="row">
+                                                            <label htmlFor="username">نام و نام خانوادگی</label>
+                                                            <input value={username} onChange={e => setUsername(e.target.value)} type="text" id={"username"} />
+                                                        </div>
+
+                                                        <div className="row">
+                                                            <button type={"submit"}>ثبت</button>
+                                                        </div>
+                                                    </form>
+
+                                                    <ToastContainer position="bottom-center" autoClose={3000} hideProgressBar newestOnTop={false} closeOnClick rtl pauseOnFocusLoss draggable pauseOnHover />
 
                                                 </div>
 
@@ -467,41 +530,5 @@ const Profile = props => {
     )
 }
 
-/**
- * @link https://nextjs.org/docs/basic-features/data-fetching/get-server-side-props
- * @param context
- * @returns {Promise<{props: {expired, ingoing, groups: *, user: any}}>}
- */
-export async function getServerSideProps(context) {
-    //     // Check user
-    //     // let user = (typeof context.req.cookies['token'] !== 'undefined') ? await checkToken(context.req.cookies['token']) : {}
-
-    //     // Get all groups
-    let groups = await fetch(`${process.env.GAME_URL}/game/get/group/all`)
-    groups = await groups.json()
-
-    //     // // Get all player ingoing events
-    //     // let ingoing = await fetch(`${process.env.EVENT_URL}/event/get/all/player/in-going`, {
-    //     //     method: "POST",
-    //     //     headers: { "Authorization": `Bearer ${context.req.cookies['token']}` }
-    //     // })
-    //     // ingoing = await ingoing.json()
-
-    //     // // Get all player ingoing events
-    //     // let expired = await fetch(`${process.env.EVENT_URL}/event/get/all/player/done`, {
-    //     //     method: "POST",
-    //     //     headers: { "Authorization": `Bearer ${context.req.cookies['token']}` }
-    //     // })
-    //     // expired = await expired.json()
-
-    return {
-        props: {
-            groupss: groups.data.groups,
-            //             // ingoing: ingoing.data,
-            //             // expired: expired.data,
-            //             // user: user
-        }
-    }
-}
 
 export default Profile
