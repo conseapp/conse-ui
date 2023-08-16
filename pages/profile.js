@@ -105,6 +105,7 @@ const Profile = props => {
 
     }, [globalUser])
     useEffect(() => {
+        setUsername(globalUser.username)
         if (globalUser.access_level === 1 || globalUser.access_level === 0) {
             canCreateGroupHandler()
             if (godEvents && groups)
@@ -112,7 +113,6 @@ const Profile = props => {
         }
         else {
             // if (expired && ingoing && groups)
-            setUsername(globalUser.username)
             if (expired && ingoing)
                 setLoading(false)
         }
@@ -259,7 +259,7 @@ const Profile = props => {
             console.log(res);
             if (status === 200) {
                 const prev = JSON.parse(localStorage.getItem("loginresp"))
-                const newData = { ...prev, data:{...prev.data, username: username.toLocaleLowerCase()} }
+                const newData = { ...prev, data: { ...prev.data, username: username.toLocaleLowerCase() } }
                 localStorage.setItem('loginresp', JSON.stringify(newData))
                 toast.success('نام و نام خوانوادگی شما با موفقیت ثبت شد')
                 router.reload();
@@ -303,7 +303,6 @@ const Profile = props => {
                                                 <>
                                                     <li className={styles.active} data-target={"#reserves"}>رزرو های من</li>
                                                     <li data-target={"#history"} onClick={tabSelect}>پایان یافته</li>
-                                                    <li data-target={"#username"} onClick={tabSelect}>نام کاربری</li>
                                                 </>
                                             }
 
@@ -314,6 +313,8 @@ const Profile = props => {
                                                     <li data-target={"#group"} onClick={tabSelect}>گروه من</li>
                                                 </>
                                             }
+                                            <li data-target={"#username"} onClick={tabSelect}>نام کاربری</li>
+
                                         </ul>
                                     </div>
 
@@ -366,26 +367,6 @@ const Profile = props => {
                                                             بازی رزروی وجود ندارد
                                                         </Alert>
                                                     }
-
-                                                </div>
-
-                                                <div id={"username"} className={styles.username}>
-                                                    <div className={"page-title"}>
-                                                        <h2>مشخصات شما</h2>
-                                                    </div>
-
-                                                    <form onSubmit={SubmitUsername} className={"submit-form"}>
-                                                        <div className="row">
-                                                            <label htmlFor="username">نام و نام خانوادگی</label>
-                                                            <input value={username} onChange={e => setUsername(e.target.value)} type="text" id={"username"} />
-                                                        </div>
-
-                                                        <div className="row">
-                                                            <button type={"submit"}>ثبت</button>
-                                                        </div>
-                                                    </form>
-
-                                                    <ToastContainer position="bottom-center" autoClose={3000} hideProgressBar newestOnTop={false} closeOnClick rtl pauseOnFocusLoss draggable pauseOnHover />
 
                                                 </div>
 
@@ -516,6 +497,26 @@ const Profile = props => {
                                                 </div>
                                             </>
                                         }
+
+                                        <div id={"username"} className={styles.username}>
+                                            <div className={"page-title"}>
+                                                <h2>مشخصات شما</h2>
+                                            </div>
+
+                                            <form onSubmit={SubmitUsername} className={"submit-form"}>
+                                                <div className="row">
+                                                    <label htmlFor="username">نام و نام خانوادگی</label>
+                                                    <input value={username} onChange={e => setUsername(e.target.value)} type="text" id={"username"} />
+                                                </div>
+
+                                                <div className="row">
+                                                    <button type={"submit"}>ثبت</button>
+                                                </div>
+                                            </form>
+
+                                            <ToastContainer position="bottom-center" autoClose={3000} hideProgressBar newestOnTop={false} closeOnClick rtl pauseOnFocusLoss draggable pauseOnHover />
+
+                                        </div>
 
 
 
