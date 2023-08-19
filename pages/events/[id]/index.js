@@ -66,7 +66,7 @@ const SingleEvent = props => {
             if (token)
                 setLoading(false)
         } else {
-                Router.push('/login')
+            Router.push('/login')
         }
     }, [token, ingoing, expired])
     // const { user, token, single, ingoing, preloadedState } = props
@@ -214,8 +214,8 @@ const SingleEvent = props => {
             {loading ? <div className='container'><Circular /></div> : <>
                 <div className="container" style={{ padding: 0 }}>
 
-                    <div className={styles.header} style={{ backgroundImage: "url('/event-detail-header.png')" }}>
-
+                    <div className={styles.header}>
+                        <img src={single.image_path ? `${process.env.ADMIN_URL}/${single.image_path}` : '/e1.jpg'} alt='' />
                         <h2>{single.title}</h2>
 
                         <span className={styles.maxPlayers}>
