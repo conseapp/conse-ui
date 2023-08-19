@@ -335,7 +335,8 @@ const Profile = props => {
                                                                 return (
                                                                     <li key={event._id.$oid} className={styles.full}>
                                                                         <Link href={`/events/${event._id.$oid}`}>
-                                                                            <a className={`${styles.item}`} style={{ backgroundImage: `url("/e3.jpg")` }}>
+                                                                            <a className={`${styles.item}`}>
+                                                                                <img src={event.image_path ? `${process.env.ADMIN_URL}/${event.image_path}` : '/e1.jpg'} alt='' />
                                                                                 <div className={styles.data}>
                                                                                     <div className={styles.event_title}>
                                                                                         <FaMapMarkerAlt />
@@ -378,7 +379,8 @@ const Profile = props => {
                                                                     return (
                                                                         <li key={event._id.$oid} className={styles.full}>
                                                                             <Link href={`/events/${event._id.$oid}`}>
-                                                                                <a className={`${styles.item} ${styles.expired}`} style={{ backgroundImage: `url("/e3.jpg")` }}>
+                                                                                <a className={`${styles.item} ${styles.expired}`}>
+                                                                                    <img src={event.image_path ? `${process.env.ADMIN_URL}/${event.image_path}` : '/e1.jpg'} alt='' />
                                                                                     <div className={styles.data}>
                                                                                         <div className={styles.event_title}>
                                                                                             <FaMapMarkerAlt />
@@ -461,7 +463,9 @@ const Profile = props => {
                                                                 return (
                                                                     <li key={event._id.$oid} className={styles.full}>
                                                                         <Link href={`/events/${event._id.$oid}`}>
-                                                                            <a className={`${styles.item} ${event.is_expired ? styles.expired : ''}`} style={{ backgroundImage: `url("/e3.jpg")` }}>
+                                                                            <a className={`${styles.item} ${event.is_expired ? styles.expired : ''}`}>
+                                                                                <img src={event.image_path ? `${process.env.ADMIN_URL}/${event.image_path}` : '/e1.jpg'} alt='' />
+
                                                                                 <div className={styles.data}>
                                                                                     <div className={styles.event_title}>
                                                                                         <FaMapMarkerAlt />

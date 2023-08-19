@@ -178,7 +178,8 @@ const Index = props => {
                             <>
                                 <div className={styles.event}>
                                     <Link href={`/events/${todayEvent._id.$oid}`}>
-                                        <a className={`${styles.item}`} style={{ backgroundImage: `url("/e3.jpg")` }}>
+                                        <a className={`${styles.item}`}>
+                                            <img src={todayEvent.image_path ? `${process.env.ADMIN_URL}/${todayEvent.image_path}` : '/e1.jpg'} alt='' />
                                             <div className={styles.data}>
                                                 <div className={styles.event_title}>
                                                     <FaMapMarkerAlt />
@@ -197,7 +198,7 @@ const Index = props => {
                                                     {
                                                         player ?
                                                             <span className={styles.role} style={player.side_id !== null ? CreateSideColor(player.side_id.$oid) : {}}>
-                                                            {player.role_name}
+                                                                {player.role_name}
                                                             </span>
                                                             : <></>
                                                     }

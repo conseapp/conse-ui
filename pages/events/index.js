@@ -70,7 +70,8 @@ const Index = props => {
                                         ((index + 1) % 3 == 0) ?
                                             <li key={event._id.$oid} className={styles.full}>
                                                 <Link href={`/events/${event._id.$oid}`}>
-                                                    <a className={`${styles.item} ${event.is_expired ? styles.expired : ''}`} style={{ backgroundImage: `url("/e3.jpg")` }}>
+                                                    <a className={`${styles.item} ${event.is_expired ? styles.expired : ''}`} >
+                                                        <img src={event.image_path ? `${process.env.ADMIN_URL}/${event.image_path}` : '/e1.jpg'} alt='' />
                                                         {/* <h3>{event.title}</h3>
                                                     {
                                                         event.is_expired && <span className={styles.expired_text}>ایونت منقضی شده است</span>
@@ -102,7 +103,8 @@ const Index = props => {
                                             :
                                             <li key={event._id.$oid}>
                                                 <Link href={`/events/${event._id.$oid}`}>
-                                                    <a className={`${styles.item} ${event.is_expired ? styles.expired : ''}`} style={{ backgroundImage: `url("/${(index) % 2 == 0 ? 'e1' : 'e2'}.jpg")` }}>
+                                                    <a className={`${styles.item} ${event.is_expired ? styles.expired : ''}`} >
+                                                        <img src={event.image_path ? `${process.env.ADMIN_URL}/${event.image_path}` : '/e1.jpg'} alt='' />
                                                         {/* <h3>{event.title}</h3>
                                                     {
                                                         event.is_expired && <span className={styles.expired_text}>ایونت منقضی شده است</span>
