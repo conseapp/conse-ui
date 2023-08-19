@@ -19,6 +19,7 @@ module.exports = withPWA( {
     env:             {
         AUTH_URL:  process.env.AUTH_URL,
         EVENT_URL: process.env.EVENT_URL,
-        GAME_URL:  process.env.GAME_URL
+        GAME_URL:  process.env.GAME_URL,
+        ADMIN_URL:  process.env.ADMIN_URL
     }
 } )

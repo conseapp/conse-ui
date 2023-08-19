@@ -1,7 +1,7 @@
 import styles from "/styles/pages/conductor/event/create.module.scss";
 import Head from "next/head";
 import Select from "react-select";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from "next/router";
@@ -26,20 +26,25 @@ const Create = props => {
 
     const { globalUser } = useSelector(state => state.userReducer)
     const [loading, setLoading] = useState(true)
+    const [imgLoading, setImgLoading] = useState(false)
     const [event, setEvent] = useState(undefined)
     const [groups, setGroups] = useState(undefined)
     const [decks, setDecks] = useState(undefined)
     const [deckName, setDeckName] = useState(undefined)
+    const [selectedImg, setSelectedImg] = useState(null)
+    const fileInput = useRef()
+
     useEffect(() => {
-        if (globalUser.accessToken)
+        if (globalUser.accessToken && query.id)
             loadPage()
-        else {
+
+        if (!globalUser.accessToken) {
             toast.error("وارد حساب کاربری خود شوید")
             setTimeout(() => {
                 Router.push('/')
             }, 2000)
         }
-    }, [globalUser])
+    }, [globalUser, query.id])
     const loadPage = async () => {
         let event = await fetch(`${process.env.GAME_URL}/event/get/single/${query.id}/god`, {
             method: 'POST',
@@ -189,6 +194,34 @@ const Create = props => {
 
     const onChangeHandler = value => setStartDate(value)
 
+    const fileChangeHandler = event => {
+        setSelectedImg(event.target.files[0])
+    }
+
+    const fileUploadHandler = async event => {
+        setImgLoading(true)
+        const fd = new FormData();
+        fd.append('img', selectedImg)
+
+        const response = await fetch(`${process.env.ADMIN_URL}/admin/event/${query.id}/upload/img`, {
+            method: 'POST',
+            headers: { "Authorization": `Bearer ${globalUser.accessToken}` },
+            body: fd,
+        })
+
+        let result = await response.json()
+        if (result.status == 200) {
+            toast.success('تصویر ایونت با موفقیت آپلود شد')
+            setImgLoading(false)
+
+        } else {
+            toast.success('خطایی در هنگام آپلود تصویر بوجود آمده')
+            console.log(result);
+            setImgLoading(false)
+
+        }
+    }
+
     return (
         <div className={styles.page}>
 
@@ -235,6 +268,41 @@ const Create = props => {
                                 <label htmlFor="started_at">زمان شروع بازی</label>
                                 <DateInput onChange={onChangeHandler} value={startDate} />
                             </div>
+
+                            <fieldset className={styles.img_field}>
+                                <legend htmlFor="img">تصویر ایونت</legend>
+                                <div className={styles.img_form}>
+                                    <input
+                                        type="file"
+                                        style={{ display: 'none' }}
+                                        id={"img"}
+                                        accept="image/*"
+                                        onChange={fileChangeHandler}
+                                        ref={fileInput}
+                                    />
+                                    {
+                                        selectedImg ?
+                                            <div className={styles.selected_img}>
+                                                <img src={URL.createObjectURL(selectedImg)} alt="" />
+                                                <span onClick={() => setSelectedImg(null)}>&times;</span>
+                                            </div> :
+                                            <></>
+                                    }
+                                    <div className={styles.btn_container}>
+                                        {
+                                            !selectedImg ?
+                                                <button onClick={() => fileInput.current.click()} type={"button"}>انتخاب تصویر</button>
+                                                :
+                                                <>
+                                                    {
+                                                        imgLoading ? <div className={styles.loading}><Circular /></div> :
+                                                            <button onClick={fileUploadHandler} type={"button"} >آپلود</button>
+                                                    }
+                                                </>
+                                        }
+                                    </div>
+                                </div>
+                            </fieldset>
 
                             <div className="row">
                                 <button type={"submit"}>ویرایش ایونت</button>
