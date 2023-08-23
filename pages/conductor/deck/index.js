@@ -29,7 +29,7 @@ const Decks = props => {
         })
         let data = await res.json()
         if (data.status == 200)
-            setDecks(data.data.decks)
+            setDecks(data.data.decks.reverse())
         else if (data.status == 403)
             setErr("شما مجاز به ورود به این صفحه نیستید")
         else

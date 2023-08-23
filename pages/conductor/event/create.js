@@ -51,7 +51,7 @@ const Create = props => {
         })
         let decksData = await decks.json()
         if (decksData.status == 200)
-            setDecks(decksData.data.decks)
+            setDecks(decksData.data.decks.reverse())
 
     }
     useEffect(() => {
