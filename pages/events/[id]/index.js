@@ -255,7 +255,7 @@ const SingleEvent = props => {
                                         برای رزرو ایونت لطفا وارد شوید
                                     </a>
                                 </Link> :
-                                single.group_info.owner === globalUser.username ?
+                                single.group_info.god_id === globalUser.user_id ? // god id === global user id
                                     <>
                                         {
                                             TodayIsEventDay &&
