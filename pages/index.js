@@ -205,6 +205,7 @@ const Index = props => {
                                                     <div>
                                                         <span>ظرفیت: {todayEvent.max_players}</span>
                                                         <span>گرداننده: {todayEvent.group_info.owner}</span>
+                                                        <span>نام گروه: {todayEvent.group_info.name}</span>
                                                     </div>
                                                 </div>
                                             </div>

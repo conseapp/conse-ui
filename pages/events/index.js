@@ -91,6 +91,7 @@ const Index = props => {
                                                                 <div>
                                                                     <span>{`ظرفیت: ${event.max_players}`}</span>
                                                                     <span>{`گرداننده: ${event.group_info.owner}`}</span>
+                                                                    <span>{`نام گروه: ${event.group_info.name}`}</span>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -120,6 +121,8 @@ const Index = props => {
                                                             <span>{`سناریو: ${event.content}`}</span>
                                                             <span>{`ظرفیت: ${event.max_players}`}</span>
                                                             <span>{`گرداننده: ${event.group_info.owner}`}</span>
+                                                            <span>{`نام گروه: ${event.group_info.name}`}</span>
+                                                            
                                                         </div>
                                                         {
                                                             !event.is_expired && <button className={styles.btn}>بیشتر</button>

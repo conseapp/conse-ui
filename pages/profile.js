@@ -352,6 +352,7 @@ const Profile = props => {
                                                                                         <div>
                                                                                             <span>{`ظرفیت: ${event.max_players}`}</span>
                                                                                             <span>{`گرداننده: ${event.group_info.owner}`}</span>
+                                                                                            <span>{`نام گروه: ${event.group_info.name}`}</span>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -481,6 +482,7 @@ const Profile = props => {
                                                                                         <div>
                                                                                             <span>{`ظرفیت: ${event.max_players}`}</span>
                                                                                             <span>{`گرداننده: ${event.group_info.owner}`}</span>
+                                                                                            <span>{`نام گروه: ${event.group_info.name}`}</span>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>

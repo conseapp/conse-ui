@@ -97,7 +97,7 @@ $screen-xl-min: 1200px;
         align-items: flex-end;
         flex-direction: column-reverse;
         justify-content: end;
-      
+
         &::before {
           content: "";
           position: absolute;
@@ -105,7 +105,7 @@ $screen-xl-min: 1200px;
           height: 100%;
           background: rgb(0, 0, 0, 0.75);
         }
-        
+
         img {
           position: absolute;
           display: block;
@@ -150,6 +150,7 @@ $screen-xl-min: 1200px;
             text-overflow: ellipsis;
           }
           span {
+            width: 100px;
             padding-right: 15px;
             color: #bbb;
             font-size: 10px;
@@ -157,10 +158,16 @@ $screen-xl-min: 1200px;
             overflow: hidden;
             text-overflow: ellipsis;
 
-            &.role{
-            font-size: 12px;
-            border-radius: 5px;
-            padding: 5px;
+            &.role {
+              display: inline-block;
+              font-size: 12px;
+              border-radius: 5px;
+              padding-right: 0;
+              height: 80%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              align-self: center;
             }
           }
         }
@@ -175,9 +182,9 @@ $screen-xl-min: 1200px;
           padding: 0px 14px;
           border-radius: 40px;
           left: 12px;
-          top: 10px;
+          top: 20px;
           @media (max-width: 345px) {
-            top: 25px;
+            top: 40px;
           }
         }
       }
