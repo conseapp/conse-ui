@@ -17,6 +17,8 @@ import { DateObject } from "react-multi-date-picker"
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
 import { useRouter } from 'next/router';
+import withReactContent from "sweetalert2-react-content";
+import Swal from "sweetalert2";
 /**
  * Profile Page
  * @version 1.0
@@ -43,6 +45,7 @@ const Profile = props => {
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     const [loading, setLoading] = useState(true)
     const [CanCreateGroup, setCanCreateGroup] = useState(false)
+    const [allUsers, setAllUsers] = useState(null)
 
     const loadInGoing = async () => {
         let res = await fetch(`${process.env.EVENT_URL}/event/get/all/player/in-going`, {
@@ -91,6 +94,16 @@ const Profile = props => {
             setGroups(data.data.groups)
 
     }
+    const loadAllUsers = async () => {
+        let res = await fetch(`${process.env.AUTH_URL}/auth/user/get/all`, {
+            method: 'POST',
+            headers: { "Authorization": `Bearer ${globalUser.accessToken}` },
+        })
+        let data = await res.json()
+        if (data.status == 200)
+            setAllUsers(data.data)
+
+    }
 
 
     useEffect(() => {
@@ -102,13 +115,21 @@ const Profile = props => {
             loadGroups()
             loadGodEvents()
         }
+        if (globalUser && globalUser.isLoggedIn && (globalUser.access_level === 0)) {
+            loadAllUsers()
+        }
 
     }, [globalUser])
     useEffect(() => {
         setUsername(globalUser.username)
-        if (globalUser.access_level === 1 || globalUser.access_level === 0) {
+        if (globalUser.access_level === 1) {
             canCreateGroupHandler()
             if (godEvents && groups)
+                setLoading(false)
+        }
+        else if (globalUser.access_level === 0) {
+            canCreateGroupHandler()
+            if (godEvents && groups && allUsers)
                 setLoading(false)
         }
         else {
@@ -116,7 +137,7 @@ const Profile = props => {
             if (expired && ingoing)
                 setLoading(false)
         }
-    }, [expired, ingoing, godEvents, groups])
+    }, [expired, ingoing, godEvents, groups, allUsers])
 
     /**
      * Changing the state of panels when clicking on navigation items.
@@ -205,7 +226,7 @@ const Profile = props => {
 
         if (name.value === '') {
             submit.removeAttribute('disabled')
-            toast.warning('نام گروه نمیتواند خالی باشد')
+            toast.warning('نام گروه نمیتواند خالی باشد', {containerId: 'group'})
             return
         }
 
@@ -221,10 +242,10 @@ const Profile = props => {
         let { status } = await response.json()
 
         if (status === 201) {
-            toast.success('گروه با موفقیت ثبت شد')
+            toast.success('گروه با موفقیت ثبت شد', {containerId: 'group'})
             submit.remove()
         } else {
-            toast.error('خطایی در هنگام ثبت گروه بوجود آمده، لطفا دوباره تلاش کنید')
+            toast.error('خطایی در هنگام ثبت گروه بوجود آمده، لطفا دوباره تلاش کنید', {containerId: 'group'})
             submit.removeAttribute('disabled')
         }
     }
@@ -238,10 +259,10 @@ const Profile = props => {
         let errors = 0
         if (username === '') {
             errors++
-            toast.error('نام و نام خانوادگی نمیتواند خالی باشد')
+            toast.error('نام و نام خانوادگی نمیتواند خالی باشد',{containerId: 'username'})
         } else if (username.match(/^[a-zA-Z]|[\u0600-\u06FF\s]+$/) === null) {
             errors++
-            toast.error('برای نام و نام خانوادگی تنها حروف مجاز است')
+            toast.error('برای نام و نام خانوادگی تنها حروف مجاز است',{containerId: 'username'})
         }
         // Send request to server if there is no errors
         if (errors === 0) {
@@ -261,13 +282,50 @@ const Profile = props => {
                 const prev = JSON.parse(localStorage.getItem("loginresp"))
                 const newData = { ...prev, data: { ...prev.data, username: username.toLocaleLowerCase() } }
                 localStorage.setItem('loginresp', JSON.stringify(newData))
-                toast.success('نام و نام خوانوادگی شما با موفقیت ثبت شد')
+                toast.success('نام و نام خوانوادگی شما با موفقیت ثبت شد',{containerId: 'username'})
                 router.reload();
             } else {
-                toast.error('خطایی در هنگام ثبت نام کاربری شما بوجود آمده، لطفا دوباره تلاش کنید')
+                toast.error('خطایی در هنگام ثبت نام کاربری شما بوجود آمده، لطفا دوباره تلاش کنید',{containerId: 'username'})
                 submit.removeAttribute('disabled')
             }
         }
+    }
+
+    const addGod = async (userId, username) => {
+        const massage = `اگر میخواهید کاربر ${username} را به عنوان گاد انتخاب کنید "تایید" را بزنید`
+
+        await withReactContent(Swal).fire({
+            background: '#F6F6F6',
+            color: '#333',
+            title: <h3 style={{ color: '#0F4393' }}>آیا مطمئن هستید ؟</h3>,
+            html: massage,
+            confirmButtonColor: '#0F4393',
+            confirmButtonText: 'تایید',
+            showCancelButton: true,
+            cancelButtonColor: 'var(--text-color)',
+            cancelButtonText: 'انصراف'
+        }).then(async e => {
+            if (e.isConfirmed) {
+                let request = await fetch(`${process.env.AUTH_URL}/auth/signup/new-god`, {
+                    method: 'POST',
+                    headers: {
+                        "Authorization": `Bearer ${globalUser.accessToken}`
+                    },
+                    body: JSON.stringify({
+                        "_id": userId
+                    })
+                })
+                let response = await request.json()
+                console.log(response);
+                if (response.status == 200) {
+                    toast.success('گاد با موفقیت ثبت شد',{containerId: 'new-god'})
+                    router.reload()
+                } else {
+                    toast.warning('خطایی در هنگام ثبت گاد پیش آمده',{containerId: 'new-god'})
+                }
+            }
+
+        })
     }
 
 
@@ -311,6 +369,12 @@ const Profile = props => {
                                                 <>
                                                     <li className={styles.active} data-target={"#god-events"}>ایونت های من</li>
                                                     <li data-target={"#group"} onClick={tabSelect}>گروه من</li>
+                                                </>
+                                            }
+                                            {
+                                                (globalUser.access_level == 0) &&
+                                                <>
+                                                    <li data-target={"#new-god"} onClick={tabSelect}>گاد جدید</li>
                                                 </>
                                             }
                                             <li data-target={"#username"} onClick={tabSelect}>نام کاربری</li>
@@ -431,7 +495,7 @@ const Profile = props => {
                                                                 </div>
                                                             </form>
 
-                                                            <ToastContainer position="bottom-center" autoClose={3000} hideProgressBar newestOnTop={false} closeOnClick rtl pauseOnFocusLoss draggable pauseOnHover />
+                                                            <ToastContainer enableMultiContainer containerId={'group'} position="bottom-center" autoClose={3000} hideProgressBar newestOnTop={false} closeOnClick rtl pauseOnFocusLoss draggable pauseOnHover />
 
                                                         </> : <>
                                                             <div className={"page-title"}>
@@ -503,6 +567,36 @@ const Profile = props => {
                                                 </div>
                                             </>
                                         }
+                                        {
+                                            (globalUser.access_level == 0) &&
+                                            <>
+                                                <div id={"new-god"} className={styles.new_god}>
+                                                    <table>
+                                                        <thead>
+                                                            <tr>
+                                                                <th>#</th>
+                                                                <th>نام کاربر</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {allUsers.map((user, index) => {
+                                                                if (user.access_level == 2)
+                                                                    return (
+                                                                        <tr key={user._id.$oid}>
+                                                                            <td>{index + 1}</td>
+                                                                            <td>{user.username}</td>
+                                                                            <td>
+                                                                                <button type={"button"} onClick={() => addGod(user._id.$oid, user.username)}>انتخاب</button>
+                                                                            </td>
+                                                                        </tr>
+                                                                    )
+                                                            })}
+                                                        </tbody>
+                                                    </table>
+                                                    <ToastContainer enableMultiContainer containerId={'new-god'} position="bottom-center" autoClose={3000} hideProgressBar newestOnTop={false} closeOnClick rtl pauseOnFocusLoss draggable pauseOnHover />
+                                                </div>
+                                            </>
+                                        }
 
                                         <div id={"username"} className={styles.username}>
                                             <div className={"page-title"}>
@@ -520,7 +614,7 @@ const Profile = props => {
                                                 </div>
                                             </form>
 
-                                            <ToastContainer position="bottom-center" autoClose={3000} hideProgressBar newestOnTop={false} closeOnClick rtl pauseOnFocusLoss draggable pauseOnHover />
+                                            <ToastContainer enableMultiContainer containerId={'username'} position="bottom-center" autoClose={3000} hideProgressBar newestOnTop={false} closeOnClick rtl pauseOnFocusLoss draggable pauseOnHover />
 
                                         </div>
 
