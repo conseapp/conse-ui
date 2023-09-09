@@ -3,9 +3,9 @@ import Link from "next/link";
 import { MdEvent } from "react-icons/md";
 import { GiCardRandom } from "react-icons/gi";
 import Head from "next/head";
-import checkToken from "../../utils/checkToken";
-import Header from "../../components/header";
-import Nav from "../../components/nav";
+import checkToken from "../../../utils/checkToken";
+import Header from "../../../components/header";
+import Nav from "../../../components/nav";
 import { useSelector } from 'react-redux';
 
 const Conductor = props => {
@@ -31,7 +31,7 @@ const Conductor = props => {
                     <div className="container">
                         <ul className={styles.list}>
                             <li>
-                                <Link href={'/conductor/deck'}>
+                                <Link href={'/mafia/conductor/deck'}>
                                     <a>
                                         <GiCardRandom />
                                         دک های شما
@@ -39,7 +39,7 @@ const Conductor = props => {
                                 </Link>
                             </li>
                             <li>
-                            <Link href={'/conductor/deck/create'}>
+                            <Link href={'/mafia/conductor/deck/create'}>
                                 <a>
                                     <GiCardRandom />
                                     ایجاد دک
@@ -47,7 +47,7 @@ const Conductor = props => {
                             </Link>
                             </li>
                             <li>
-                                <Link href={'/conductor/event'}>
+                                <Link href={'/mafia/conductor/event'}>
                                     <a>
                                         <MdEvent />
                                         ایونت های شما
@@ -55,7 +55,7 @@ const Conductor = props => {
                                 </Link>
                             </li>
                             <li>
-                                <Link href={'/conductor/event/create'}>
+                                <Link href={'/mafia/conductor/event/create'}>
                                     <a>
                                         <MdEvent />
                                         ایجاد ایونت

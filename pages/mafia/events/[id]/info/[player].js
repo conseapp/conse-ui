@@ -1,18 +1,18 @@
-import checkToken from "../../../../utils/checkToken";
-import styles from "../../../../styles/pages/event/info/player.module.scss";
+import checkToken from "../../../../../utils/checkToken";
+import styles from "../../../../../styles/pages/event/info/player.module.scss";
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
-import Header from "../../../../components/header";
-import Nav from "../../../../components/nav";
+import Header from "../../../../../components/header";
+import Nav from "../../../../../components/nav";
 import Image from "next/future/image";
 import { useRouter } from "next/router";
 import { MdRefresh } from "react-icons/md";
-import CreateSideColor from "../../../../utils/createSideColor";
+import CreateSideColor from "../../../../../utils/createSideColor";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import Circular from "../../../../components/Circular";
+import Circular from "../../../../../components/Circular";
 
 const Info = props => {
     const router = useRouter()

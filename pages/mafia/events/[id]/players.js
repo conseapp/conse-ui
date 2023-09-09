@@ -3,18 +3,18 @@ import Head from "next/head";
 import { MdClose, MdRefresh, MdSettings } from "react-icons/md";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import CreateSideColor from "../../../utils/createSideColor";
+import CreateSideColor from "../../../../utils/createSideColor";
 import Modal from 'react-modal';
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import checkToken from "../../../utils/checkToken";
-import Header from "../../../components/header";
-import Nav from "../../../components/nav";
-import statuses from "../../../utils/allPossibleStatus";
+import checkToken from "../../../../utils/checkToken";
+import Header from "../../../../components/header";
+import Nav from "../../../../components/nav";
+import statuses from "../../../../utils/allPossibleStatus";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 import { useSelector } from 'react-redux';
-import Circular from '../../../components/Circular';
+import Circular from '../../../../components/Circular';
 
 const Players = props => {
     const router = useRouter()
@@ -52,7 +52,7 @@ const Players = props => {
         else if (eventData.status == 403) {
             toast.error("ورود به این صفحه برای شما مجاز نیست")
             setTimeout(() => {
-                router.push("/")
+                router.push("/mafia/profile")
             }, 2000);
         }
         let sides = await fetch(`${process.env.EVENT_URL}/game/side/get/availables`, {
@@ -361,7 +361,7 @@ const Players = props => {
     }
 
     const StartEvent = async e => {
-        let href = `/events/${query.id}/night/0`
+        let href = `/mafia/events/${query.id}/night/0`
 
         await router.push(href)
     }

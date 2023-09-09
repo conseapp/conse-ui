@@ -2,14 +2,14 @@ import styles from "/styles/pages/conductor/event/index.module.scss";
 import Link from "next/link";
 import { MdAdd, MdEdit } from "react-icons/md";
 import Head from "next/head";
-import Header from "../../../components/header";
-import checkToken from "../../../utils/checkToken";
-import Nav from "../../../components/nav";
+import Header from "../../../../components/header";
+import checkToken from "../../../../utils/checkToken";
+import Nav from "../../../../components/nav";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
-import Circular from "../../../components/Circular";
+import Circular from "../../../../components/Circular";
 
 const Decks = props => {
     /**
@@ -26,7 +26,7 @@ const Decks = props => {
         else {
             toast.error("وارد حساب کاربری خود شوید")
             setTimeout(() => {
-                Router.push('/login')
+                Router.push('/mafia/login')
             }, 2000)
         }
     }, [globalUser])
@@ -63,7 +63,7 @@ const Decks = props => {
                 {loading ? <><div><Circular /></div></> : <>
                     <div className="container">
 
-                        {/* <Link href={'event/create'}>
+                        {/* <Link href={'/mafia/event/create'}>
                             <a className={styles.addButton}>
                                 <MdAdd />
                                 ایجاد ایونت
@@ -85,7 +85,7 @@ const Decks = props => {
                                             <td>{index + 1}</td>
                                             <td>{event.title}</td>
                                             <td>
-                                                <Link href={`/conductor/event/${event._id.$oid}`}>
+                                                <Link href={`/mafia/conductor/event/${event._id.$oid}`}>
                                                     <a>
                                                         <MdEdit />
                                                     </a>

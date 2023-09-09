@@ -4,16 +4,16 @@ import Image from "next/future/image";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { toast, ToastContainer } from "react-toastify";
-import logo from "../public/logo-white.png";
+import logo from "../../public/logo-white.png";
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from "next/router";
 import checkOtp from "/utils/checkOtp";
 import { hasCookie, setCookie } from "cookies-next";
 import { useDispatch, useSelector } from "react-redux";
-import { getuser } from "../redux/actions";
+import { getuser } from "../../redux/actions";
 import { BsFillShieldLockFill, BsTelephoneFill } from "react-icons/bs";
 import OtpInput from 'react-otp-input';
-import Timer from "../components/Timer";
+import Timer from "../../components/Timer";
 
 
 const Login = () => {
@@ -66,9 +66,9 @@ const Login = () => {
     useEffect(() => {
         // if (hasCookie('token')) router.push(redirect).then()
         if (globalUser && globalUser.isLoggedIn && globalUser.access_level === 2)
-            router.push('/home')
+            router.push('/mafia/home')
         else if (globalUser && globalUser.isLoggedIn)
-            router.push('/profile')
+            router.push('/mafia/profile')
     }, [router])
 
     /**
@@ -167,9 +167,9 @@ const Login = () => {
 
                 // Redirect to home page
                 response.data.access_level === 2 ?
-                    setTimeout(() => router.push('/home'), 2000)
+                    setTimeout(() => router.push('/mafia/home'), 2000)
                     :
-                    setTimeout(() => router.push('/profile'), 2000)
+                    setTimeout(() => router.push('/mafia/profile'), 2000)
             } else {
                 // Show message
                 if (response.status === 404)
@@ -282,7 +282,7 @@ const Login = () => {
 
                             <button type={"submit"} id={"submit-ph"} disabled={isPhDisabled}>ارسال کد</button>
 
-                            <div className={styles.row}>
+                            {/* <div className={styles.row}>
                                 <div className={styles.footer}>
                                     حساب کاربری ندارید ؟
                                     <Link href={"/signup"}>
@@ -291,7 +291,7 @@ const Login = () => {
                                         </a>
                                     </Link>
                                 </div>
-                            </div>
+                            </div> */}
                         </form>
                 }
 

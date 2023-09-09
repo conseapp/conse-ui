@@ -4,14 +4,14 @@ import { MdInfo } from "react-icons/md";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import Link from "next/link";
-import checkToken from "../utils/checkToken";
+import checkToken from "../../utils/checkToken";
 import Head from "next/head";
-import Header from "../components/header";
-import Nav from "../components/nav";
-import Alert from "../components/alert";
+import Header from "../../components/header";
+import Nav from "../../components/nav";
+import Alert from "../../components/alert";
 import { useDispatch, useSelector } from 'react-redux';
-import { getuser } from '../redux/actions';
-import Circular from '../components/Circular';
+import { getuser } from '../../redux/actions';
+import Circular from '../../components/Circular';
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { DateObject } from "react-multi-date-picker"
 import persian from "react-date-object/calendars/persian";
@@ -398,7 +398,7 @@ const Profile = props => {
                                                                 })
                                                                 return (
                                                                     <li key={event._id.$oid} className={styles.full}>
-                                                                        <Link href={`/events/${event._id.$oid}`}>
+                                                                        <Link href={`/mafia/events/${event._id.$oid}`}>
                                                                             <a className={`${styles.item}`}>
                                                                                 <img src={event.image_path ? `${process.env.ADMIN_URL}/${event.image_path}` : '/e1.jpg'} alt='' />
                                                                                 <div className={styles.data}>
@@ -443,7 +443,7 @@ const Profile = props => {
                                                                 {expired.map(event => {
                                                                     return (
                                                                         <li key={event._id.$oid} className={styles.full}>
-                                                                            <Link href={`/events/${event._id.$oid}`}>
+                                                                            <Link href={`/mafia/events/${event._id.$oid}`}>
                                                                                 <a className={`${styles.item} ${styles.expired}`}>
                                                                                     <img src={event.image_path ? `${process.env.ADMIN_URL}/${event.image_path}` : '/e1.jpg'} alt='' />
                                                                                     <div className={styles.data}>
@@ -527,7 +527,7 @@ const Profile = props => {
                                                                 })
                                                                 return (
                                                                     <li key={event._id.$oid} className={styles.full}>
-                                                                        <Link href={`/events/${event._id.$oid}`}>
+                                                                        <Link href={`/mafia/events/${event._id.$oid}`}>
                                                                             <a className={`${styles.item} ${event.is_expired ? styles.expired : ''}`}>
                                                                                 <img src={event.image_path ? `${process.env.ADMIN_URL}/${event.image_path}` : '/e1.jpg'} alt='' />
 

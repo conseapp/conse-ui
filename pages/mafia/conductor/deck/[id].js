@@ -6,14 +6,14 @@ import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from "next/router";
 import Link from "next/link";
-import CreateSideColor from "../../../utils/createSideColor";
-import checkToken from "../../../utils/checkToken";
-import Header from "../../../components/header";
-import Nav from "../../../components/nav";
+import CreateSideColor from "../../../../utils/createSideColor";
+import checkToken from "../../../../utils/checkToken";
+import Header from "../../../../components/header";
+import Nav from "../../../../components/nav";
 import { getCookie } from "cookies-next";
-import CreateDeck from "../../../utils/createDeck";
+import CreateDeck from "../../../../utils/createDeck";
 import { useSelector } from "react-redux";
-import Circular from "../../../components/Circular";
+import Circular from "../../../../components/Circular";
 
 const Edit = props => {
 
@@ -327,7 +327,7 @@ const Edit = props => {
             if (status === 201 || status === 302) {
                 toast.success('دک با موفقیت ویرایش شد')
 
-                setTimeout(() => router.push('/conductor/deck/'), 2000)
+                setTimeout(() => router.push('/mafia/conductor/deck/'), 2000)
             } else {
                 toast.error('خطایی در هنگام ویرایش دک بوجود آمده')
                 button.removeAttribute('disabled')
@@ -414,7 +414,7 @@ const Edit = props => {
 
                         <div className="page-title">
                             <h2>افزودن دک بازی</h2>
-                            <Link href={'/conductor/deck'}>
+                            <Link href={'/mafia/conductor/deck'}>
                                 <a>
                                     بازگشت
                                 </a>

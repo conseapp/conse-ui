@@ -4,13 +4,13 @@ import Image from "next/future/image";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { toast, ToastContainer } from "react-toastify";
-import logo from "../public/logo-white.png";
+import logo from "../../public/logo-white.png";
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from "next/router";
 import loginUser from "/utils/loginUser";
 import { hasCookie, setCookie } from "cookies-next";
 import { useDispatch, useSelector } from "react-redux";
-import { getuser } from "../redux/actions";
+import { getuser } from "../../redux/actions";
 
 const Login = () => {
     const router = useRouter()
@@ -55,9 +55,9 @@ const Login = () => {
     useEffect(() => {
         // if (hasCookie('token')) router.push(redirect).then()
         if (globalUser && globalUser.isLoggedIn && globalUser.access_level === 2)
-            router.push('/home')
+            router.push('/mafia/home')
         else if (globalUser && globalUser.isLoggedIn)
-            router.push('/profile')
+            router.push('/mafia/profile')
     }, [redirect, router])
 
     /**
@@ -105,10 +105,10 @@ const Login = () => {
                 localStorage.setItem("loginresp", JSON.stringify(response))
 
                 // Redirect to home page
-                response.data.access_level === 1 ?
-                    setTimeout(() => router.push('/profile'), 2000)
+                response.data.access_level === 2 ?
+                    setTimeout(() => router.push('/mafia/home'), 2000)
                     :
-                    setTimeout(() => router.push(redirect), 2000)
+                    setTimeout(() => router.push('/mafia/profile'), 2000)
             } else {
                 // Show message
                 if (response.status === 404)
@@ -165,7 +165,7 @@ const Login = () => {
                         <div className={styles.row}>
                             <div className={styles.footer}>
                                 حساب کاربری ندارید ؟
-                                <Link href={"/signup"}>
+                                <Link href={"/mafia/signup"}>
                                     <a>
                                         ثبت نام کنید
                                     </a>

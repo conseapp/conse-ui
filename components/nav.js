@@ -38,37 +38,37 @@ const Nav = props => {
         <nav className={styles.component}>
             {loading ? <><Circular /></> :
                 <ul className={styles.list}>
-                    <li className={pathname.includes('/profile') ? styles.active : ''}>
+                    <li className={pathname.includes('/mafia/profile') ? styles.active : ''}>
                         {globalUser && globalUser.isLoggedIn ?
-                            <Link href={'/profile'}>
+                            <Link href={'/mafia/profile'}>
                                 <a>
                                     <Image src='/avatar.png' alt={"User"} width={30} height={30} style={{ borderRadius: '50%' }} />
                                 </a>
                             </Link>
                             :
-                            <a href={'/login'}>
+                            <a href={'/mafia/login'}>
                                 <Image src='/avatar.png' alt={"User"} width={30} height={30} style={{ borderRadius: '50%' }} />
                             </a>
 
                         }
                     </li>
-                    <li className={pathname.includes('/learn') ? styles.active : ''}>
+                    <li className={pathname.includes('/mafia/learn') ? styles.active : ''}>
                         {globalUser && globalUser.isLoggedIn ?
-                            <Link href={'/learn'}>
+                            <Link href={'/mafia/learn'}>
                                 <a>
                                     <MdOutlineInfo />
                                 </a>
                             </Link>
                             :
-                            <a href={'/login'}>
+                            <a href={'/mafia/login'}>
                                 <MdOutlineInfo />
                             </a>
                         }
                     </li>
                     {
                         globalUser.access_level === 0 || globalUser.access_level === 1 ?
-                            <li className={pathname.includes('/conductor') ? styles.active : ''}>
-                                <Link href={'/conductor'}>
+                            <li className={pathname.includes('/mafia/conductor') ? styles.active : ''}>
+                                <Link href={'/mafia/conductor'}>
                                     <a>
                                         <MdOutlineAddBox />
                                     </a>
@@ -76,8 +76,8 @@ const Nav = props => {
                             </li> :
                             <></>
                     }
-                    <li className={pathname.includes('/events') ? styles.active : ''}>
-                        <Link href={'/events'}>
+                    <li className={pathname.includes('/mafia/events') ? styles.active : ''}>
+                        <Link href={'/mafia/events'}>
                             <a>
                                 <MdOutlineExplore />
                             </a>
@@ -85,8 +85,8 @@ const Nav = props => {
                     </li>
                     {
                     ((globalUser.access_level !== 1 && globalUser.access_level !== 0 )) ?
-                    <li className={pathname === '/home' ? styles.active : ''}>
-                        <Link href={'/home'}>
+                    <li className={pathname === '/mafia/home' ? styles.active : ''}>
+                        <Link href={'/mafia/home'}>
                             <a>
                                 <MdOutlineHome />
                             </a>

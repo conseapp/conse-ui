@@ -12,7 +12,7 @@ $screen-xl-min: 1200px;
 
 .page {
   .search {
-    border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid #3f3f3f;
     padding: 16px;
 
     label {
@@ -20,7 +20,7 @@ $screen-xl-min: 1200px;
       display: flex;
 
       input {
-        border: 1px solid #e5e5e5;
+        border: 1px solid #3f3f3f;
         border-radius: 40px;
         margin-bottom: 0;
       }

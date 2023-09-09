@@ -1,9 +1,8 @@
 import styles from '/styles/pages/explore.module.scss'
 import Link from "next/link";
-import checkToken from "../../utils/checkToken";
 import Head from "next/head";
-import Nav from "../../components/nav";
-import Header from "../../components/header";
+import Nav from "../../../components/nav";
+import Header from "../../../components/header";
 import { useState } from "react";
 import { MdSearch } from "react-icons/md";
 import { FaMapMarkerAlt } from "react-icons/fa";
@@ -69,7 +68,7 @@ const Index = props => {
                                     return (
                                         ((index + 1) % 3 == 0) ?
                                             <li key={event._id.$oid} className={styles.full}>
-                                                <Link href={`/events/${event._id.$oid}`}>
+                                                <Link href={`/mafia/events/${event._id.$oid}`}>
                                                     <a className={`${styles.item} ${event.is_expired ? styles.expired : ''}`} >
                                                         <img src={event.image_path ? `${process.env.ADMIN_URL}/${event.image_path}` : '/e1.jpg'} alt='' />
                                                         {/* <h3>{event.title}</h3>
@@ -103,7 +102,7 @@ const Index = props => {
                                             </li>
                                             :
                                             <li key={event._id.$oid}>
-                                                <Link href={`/events/${event._id.$oid}`}>
+                                                <Link href={`/mafia/events/${event._id.$oid}`}>
                                                     <a className={`${styles.item} ${event.is_expired ? styles.expired : ''}`} >
                                                         <img src={event.image_path ? `${process.env.ADMIN_URL}/${event.image_path}` : '/e1.jpg'} alt='' />
                                                         {/* <h3>{event.title}</h3>

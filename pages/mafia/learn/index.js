@@ -1,7 +1,7 @@
 import styles from '/styles/pages/learn/index.module.scss'
-import Header from "../../components/header";
-import checkToken from "../../utils/checkToken";
-import Nav from "../../components/nav";
+import Header from "../../../components/header";
+import checkToken from "../../../utils/checkToken";
+import Nav from "../../../components/nav";
 import React from "react";
 import { Pagination, FreeMode } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -12,13 +12,13 @@ import { CgChevronLeft } from "react-icons/cg";
 import { CgMoreO } from "react-icons/cg";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
-import CreateSideColor from "../../utils/createSideColor";
+import CreateSideColor from "../../../utils/createSideColor";
 import { useDispatch, useSelector } from 'react-redux';
-import { getuser } from '../../redux/actions';
-import { wrapper } from '../../redux/store';
+import { getuser } from '../../../redux/actions';
+import { wrapper } from '../../../redux/store';
 import { useEffect } from 'react';
 import { useState } from 'react';
-import Circular from '../../components/Circular';
+import Circular from '../../../components/Circular';
 import { MdChevronLeft } from "react-icons/md";
 import { MdSearch } from "react-icons/md";
 import Link from 'next/link';
@@ -168,7 +168,7 @@ const Learn = props => {
                                         <div key={side._id.$oid} className={styles.cardrow} >
                                             <div className="page-title">
                                                 <h3>{side.name}</h3>
-                                                <Link href={`/learn/${side._id.$oid}`}>
+                                                <Link href={`/mafia/learn/${side._id.$oid}`}>
                                                     <a>
                                                         بیشتر
                                                         <MdChevronLeft />
@@ -217,7 +217,7 @@ const Learn = props => {
                             <div className={styles.cardrow}>
                                 <div className="page-title">
                                     <h3>کارت های حرکت آخر</h3>
-                                    <Link href={"/learn/last-move-cards"}>
+                                    <Link href={"/mafia/learn/last-move-cards"}>
                                         <a>
                                             بیشتر
                                             <MdChevronLeft />

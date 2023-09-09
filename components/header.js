@@ -67,7 +67,7 @@ const Header = props => {
                 <>
 
                     <div className={styles.logo}>
-                        <Link href={`${globalUser.access_level === 1 ? '/profile' : '/'}`}>
+                        <Link href={`${(globalUser.access_level === 1 || globalUser.access_level === 0) ? '/mafia/profile' : '/mafia/home'}`}>
                             <a>
                                 <Image src={logo} alt={"Conse"} width={50} height={50} quality={100} />
                             </a>
@@ -80,7 +80,7 @@ const Header = props => {
                             {
                                 globalUser && !globalUser.isLoggedIn ?
 
-                                    <a href={'/login'} className={styles.loginButton}>ورود به حساب کاربری</a>
+                                    <a href={'/mafia/login'} className={styles.loginButton}>ورود به حساب کاربری</a>
                                     :
 
                                     <>

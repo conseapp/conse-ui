@@ -1,14 +1,14 @@
 import styles from "/styles/pages/conductor/deck/index.module.scss";
 import Link from "next/link";
 import { MdAdd, MdEdit } from "react-icons/md";
-import checkToken from "../../../utils/checkToken";
+import checkToken from "../../../../utils/checkToken";
 import Head from "next/head";
-import Header from "../../../components/header";
-import Nav from "../../../components/nav";
+import Header from "../../../../components/header";
+import Nav from "../../../../components/nav";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import { useEffect } from "react";
-import Circular from "../../../components/Circular";
+import Circular from "../../../../components/Circular";
 
 const Decks = props => {
     /**
@@ -59,7 +59,7 @@ const Decks = props => {
                 {loading ? <div><Circular /></div> : <>
                     <div className="container">
                         {err ? <>{err}</> : <>
-                            {/* <Link href={'deck/create'}>
+                            {/* <Link href={'/mafia/deck/create'}>
                                 <a className={styles.addButton}>
                                     <MdAdd />
                                     ایجاد دک
@@ -81,7 +81,7 @@ const Decks = props => {
                                                 <td>{index + 1}</td>
                                                 <td>{deck.deck_name}</td>
                                                 <td>
-                                                    <Link href={`/conductor/deck/${deck._id.$oid}`}>
+                                                    <Link href={`/mafia/conductor/deck/${deck._id.$oid}`}>
                                                         <a>
                                                             <MdEdit />
                                                         </a>

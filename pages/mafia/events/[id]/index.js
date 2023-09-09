@@ -2,16 +2,16 @@ import styles from '/styles/pages/event/index.module.scss'
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import 'react-toastify/dist/ReactToastify.css';
-import checkToken from "../../../utils/checkToken";
+import checkToken from "../../../../utils/checkToken";
 import Head from "next/head";
 import { AiFillDislike, AiFillLike } from "react-icons/ai";
 import { toast, ToastContainer } from "react-toastify";
 import Link from "next/link";
-import Header from "../../../components/header";
-import Nav from "../../../components/nav";
+import Header from "../../../../components/header";
+import Nav from "../../../../components/nav";
 import { useSelector } from 'react-redux';
-import { store } from '../../../redux/store';
-import Circular from '../../../components/Circular';
+import { store } from '../../../../redux/store';
+import Circular from '../../../../components/Circular';
 
 const SingleEvent = props => {
     /**
@@ -66,7 +66,7 @@ const SingleEvent = props => {
             if (token)
                 setLoading(false)
         } else {
-            Router.push('/login')
+            Router.push('/mafia/login')
         }
     }, [token, ingoing, expired])
     // const { user, token, single, ingoing, preloadedState } = props
@@ -250,7 +250,7 @@ const SingleEvent = props => {
                     <div className={styles.footer}>
                         {
                             token === undefined ?
-                                <Link href={`/login?redirect=/events/${single._id.$oid}`}>
+                                <Link href={`/mafia/login?redirect=/events/${single._id.$oid}`}>
                                     <a>
                                         برای رزرو ایونت لطفا وارد شوید
                                     </a>

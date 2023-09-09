@@ -7,13 +7,13 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { getCookie } from "cookies-next";
-import checkToken from "../../../utils/checkToken";
-import Nav from "../../../components/nav";
-import Header from "../../../components/header";
-import createEvent from "../../../utils/createEvent";
+import checkToken from "../../../../utils/checkToken";
+import Nav from "../../../../components/nav";
+import Header from "../../../../components/header";
+import createEvent from "../../../../utils/createEvent";
 import { useSelector } from "react-redux";
-import Circular from "../../../components/Circular";
-import DateInput from "../../../components/DateInput";
+import Circular from "../../../../components/Circular";
+import DateInput from "../../../../components/DateInput";
 
 const Create = props => {
     /**
@@ -41,7 +41,7 @@ const Create = props => {
         if (!globalUser.accessToken) {
             toast.error("وارد حساب کاربری خود شوید")
             setTimeout(() => {
-                Router.push('/')
+                Router.push('/mafia/login')
             }, 2000)
         }
     }, [globalUser, query.id])
@@ -196,7 +196,7 @@ const Create = props => {
         let { status, message } = await createEvent(body, token)
         if (status === 201 || status === 302) {
             toast.success('ایونت با موفقیت ایجاد شد')
-            setTimeout(() => Router.push('/conductor/event/'), 2000)
+            setTimeout(() => Router.push('/mafia/conductor/event/'), 2000)
         } else {
             toast.error('خطایی در هنگام ایجاد ایونت بوجود آمده')
             button.removeAttribute('disabled')
@@ -249,7 +249,7 @@ const Create = props => {
 
                         <div className="page-title">
                             <h2>ویرایش ایونت</h2>
-                            <Link href={'/conductor/event'}>
+                            <Link href={'/mafia/conductor/event'}>
                                 <a>
                                     بازگشت
                                 </a>

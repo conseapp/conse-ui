@@ -2,7 +2,7 @@ import styles from '/styles/pages/home.module.scss'
 import Head from "next/head";
 import Header from "/components/header";
 // import checkToken from "../utils/checkToken";
-import Nav from "../components/nav";
+import Nav from "../../components/nav";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCreative, Pagination } from 'swiper';
@@ -14,12 +14,12 @@ import { MdChevronLeft } from "react-icons/md";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import Alert from "../components/alert";
+import Alert from "../../components/alert";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { DateObject } from "react-multi-date-picker"
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
-import CreateSideColor from "../utils/createSideColor";
+import CreateSideColor from "../../utils/createSideColor";
 
 // import { getuser } from '../redux/actions';
 
@@ -74,7 +74,7 @@ const Index = props => {
 
     useEffect(() => {
         if (globalUser && globalUser.isLoggedIn && (globalUser.access_level === 1 || globalUser.access_level === 0)) {
-            router.push('/profile')
+            router.push('/mafia/profile')
         }
     }, [globalUser])
 
@@ -130,54 +130,19 @@ const Index = props => {
                 <div className={styles.lastEvents}>
                     <div className={"page-title"}>
                         <h3>ایونت در حال بازی</h3>
-                        <Link href={"/events"}>
+                        <Link href={"/mafia/events"}>
                             <a>
                                 بیشتر
                                 <MdChevronLeft />
                             </a>
                         </Link>
                     </div>
-                    <>
-                        {/* <Swiper
-                                    grabCursor={true}
-                                    // centeredSlides={true}
-                                    // slidesPerView={'auto'}
-                                    pagination={{
-                                        dynamicBullets: true,
-                                    }}
-                                    effect={'creative'}
-                                    creativeEffect={{
-                                        prev: {
-                                            shadow: true,
-                                            translate: ['120%', 0, -500],
-                                        },
-                                        next: {
-                                            shadow: true,
-                                            translate: ['-120%', 0, -500],
-                                        },
-                                    }}
-                                    modules={[EffectCreative, Pagination]}
-                                    className={styles.swiper}
-                                >
-                                    {events.slice(Math.max(events.length - 5, 0)).reverse().map(event => {
-                                        return (
-                                            <SwiperSlide className={styles.swiper_slide} key={event._id.$oid}>
-                                                <Link href={`/events/${event._id.$oid}`}>
-                                                    <a className={styles.item} style={{ backgroundImage: 'url("/Syndicate3.jpg")' }}>
-                                                        <h3>{event.title}</h3>
-                                                    </a>
-                                                </Link>
-                                            </SwiperSlide>
-                                        )
-                                    })}
-                                </Swiper> */}
-                    </>
 
                     {
                         todayEvent ?
                             <>
                                 <div className={styles.event}>
-                                    <Link href={`/events/${todayEvent._id.$oid}`}>
+                                    <Link href={`/mafia/events/${todayEvent._id.$oid}`}>
                                         <a className={`${styles.item}`}>
                                             <img src={todayEvent.image_path ? `${process.env.ADMIN_URL}/${todayEvent.image_path}` : '/e1.jpg'} alt='' />
                                             <div className={styles.data}>

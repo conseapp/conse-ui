@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import styles from '/styles/pages/learn/single-side.module.scss'
-import Header from "../../components/header";
-import Nav from "../../components/nav";
+import Header from "../../../components/header";
+import Nav from "../../../components/nav";
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/effect-cards';
 import { CgMoreO } from "react-icons/cg";
-import CreateSideColor from "../../utils/createSideColor";
-import Circular from '../../components/Circular';
+import Circular from '../../../components/Circular';
 import { useRouter } from 'next/router'
 import { useSelector } from 'react-redux';
 import withReactContent from "sweetalert2-react-content";
@@ -18,18 +17,17 @@ import Link from 'next/link';
 
 
 
-
-export default function SingleSide() {
+export default function LastMoveCard() {
 
     const { globalUser } = useSelector(state => state.userReducer)
-    const [roles, setRoles] = useState(undefined)
+    const [cards, setCards] = useState(undefined)
     const [loading, setLoading] = useState(true)
     const [searchQuery, setSearchQuery] = useState('')
 
 
-    const loadRoles = async () => {
+    const loadCards = async () => {
         // const { globalUser } = useSelector(state => state.userReducer)
-        const res = await fetch(`${process.env.GAME_URL}/game/role/get/availables`, {
+        const res = await fetch(`${process.env.GAME_URL}/game/last-move/get/availables`, {
             method: 'GET',
             headers: {
                 "Authorization": `Bearer ${globalUser.accessToken}`
@@ -37,31 +35,32 @@ export default function SingleSide() {
         })
         const data = await res.json()
         if (data.status == 200)
-            setRoles(data.data.roles)
+            setCards(data.data)
         console.log(data)
         // return data
     }
 
     useEffect(() => {
-        loadRoles()
+        loadCards()
     }, [])
 
     useEffect(() => {
-        if (roles)
+        if (cards)
             setLoading(false)
-    }, [roles])
+    }, [cards])
 
     const { query } = useRouter()
 
-    const openRoleModal = async e => {
+    const openCardModal = async e => {
         let id = e.target.getAttribute('data-id')
 
-        roles.map(role => {
-            if (role._id.$oid === id) {
+        cards.map(card => {
+            if (card._id.$oid === id) {
                 withReactContent(Swal).fire({
-                    ...CreateSideColor(role.side_id.$oid),
-                    title: <h3>{role.name}</h3>,
-                    html: <div dangerouslySetInnerHTML={{ __html: role.desc }}></div>,
+                    background: '#080C1D',
+                    color: '#fff',
+                    title: <h3 dangerouslySetInnerHTML={{ __html: card.name }} style={{ color: 'var(--danger-color)' }}></h3>,
+                    html: <div dangerouslySetInnerHTML={{ __html: card.desc }}></div>,
                     confirmButtonColor: 'var(--primary-color)',
                     confirmButtonText: 'متوجه شدم'
                 })
@@ -92,35 +91,33 @@ export default function SingleSide() {
                 {loading ? <><div><Circular /></div></> : <>
                     <div className={styles.container}>
                         <div className="page-title">
-                            <h3>{CreateSideColor(query.id).name}</h3>
-                            <Link href={'/learn'}>
+                            <h3>کارت های حرکت آخر</h3>
+                            <Link href={'/mafia/learn'}>
                                 <a>
                                     بازگشت
                                 </a>
                             </Link>
                         </div>
                         {
-                            roles.filter(role => (role.side_id.$oid === query.id && role.name.toLowerCase().includes(searchQuery))).length ?
-                                <ul className={styles.list}>
-                                    {Search(roles).map(role => {
-                                        if (role.side_id.$oid === query.id) {
-                                            return (
-                                                <li key={role._id.$oid}>
-                                                    <div className={styles.card} onClick={openRoleModal} data-id={role._id.$oid}>
-                                                        <h3>{role.name}</h3>
-                                                        <Image
-                                                            src={`/roles/${role._id.$oid}.jpg`} // Route of the image file
-                                                            layout='fill'
-                                                            alt={role.name}
-                                                        />
-                                                        <b data-id={role._id.$oid}>
-                                                            {/* بیشتر */}
-                                                            <CgMoreO />
-                                                        </b>
-                                                    </div>
-                                                </li>
-                                            )
-                                        }
+                            cards.filter(card => card.name.toLowerCase().includes(searchQuery)).length ?
+                                <ul className={`${styles.list} ${styles.last_move_list}`}>
+                                    {Search(cards).map(card => {
+                                        return (
+                                            <li key={card._id.$oid}>
+                                                <div className={`${styles.card} ${styles.lastMoveCard}`} onClick={openCardModal} data-id={card._id.$oid}>
+                                                    <h3 dangerouslySetInnerHTML={{ __html: card.name }}></h3>
+                                                    <Image
+                                                        src={`/last-move-cards/${card._id.$oid}.jpg`} // Route of the image file
+                                                        layout='fill'
+                                                        alt={card.name}
+                                                    />
+                                                    <b data-id={card._id.$oid}>
+                                                        {/* بیشتر */}
+                                                        <CgMoreO />
+                                                    </b>
+                                                </div>
+                                            </li>
+                                        )
                                     })}
                                 </ul >
 
