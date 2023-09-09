@@ -1,20 +1,12 @@
 import styles from '/styles/pages/index.module.scss'
 import Head from "next/head";
-import Header from "/components/header";
-import Link from "next/link";
-import { MdChevronLeft } from "react-icons/md";
-// import { useEffect } from "react";
 import { useRouter } from "next/router";
-// import 'logo.png' from "'logo.png'.png";
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import Alert from "../components/alert";
-import { FaMapMarkerAlt } from "react-icons/fa";
-import { DateObject } from "react-multi-date-picker"
-import persian from "react-date-object/calendars/persian";
-import persian_fa from "react-date-object/locales/persian_fa";
-import CreateSideColor from "../utils/createSideColor";
-import Image from 'next/image';
+import Image from "next/future/image";
+import logo from "../public/logo-white.png";
+import Link from 'next/link';
+
 
 // import { getuser } from '../redux/actions';
 
@@ -25,10 +17,10 @@ const Index = props => {
 
     useEffect(() => {
         if (globalUser && globalUser.isLoggedIn && (globalUser.access_level === 0)) {
-            router.push('/profile')
+            router.push('/mafia/profile')
         }
         if (globalUser && globalUser.isLoggedIn && (globalUser.access_level === 2)) {
-            router.push('/home')
+            router.push('/mafia/home')
         }
     }, [globalUser])
 
@@ -39,6 +31,18 @@ const Index = props => {
                 <Head>
                     <title>کنسه</title>
                 </Head>
+                <div className={styles.logo}>
+                    <Image src={logo} alt={"Conse"} width={150} height={150} quality={100} />
+                </div>
+                <h1>به کنسه خوش آمدید!</h1>
+                <span>برای ورود لطفا
+                    <Link href={"/mafia/login"}>
+                        <a>
+                            &nbsp;اینجا&nbsp;
+                        </a>
+                    </Link>
+                    کلیک کنید</span>
+                <div className={styles.footer}>From IA</div>
             </div>
 
     )
