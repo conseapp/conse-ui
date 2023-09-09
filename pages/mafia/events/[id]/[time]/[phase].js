@@ -1,7 +1,7 @@
 import styles from '/styles/pages/event/phase.module.scss'
-import Header from "../../../../components/header";
-import Nav from "../../../../components/nav";
-import checkToken from "../../../../utils/checkToken";
+import Header from "../../../../../components/header";
+import Nav from "../../../../../components/nav";
+import checkToken from "../../../../../utils/checkToken";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -39,7 +39,7 @@ const Phase = props => {
 
     const [ nextPhase, setNextPhase ] = useState( '#' )
     useEffect( () => {
-        let href = `/events/${ router.query.id }/`
+        let href = `/mafia/events/${ router.query.id }/`
 
         if ( time === 'day' ) {
             href += `mid-day/${ phase }`
@@ -54,7 +54,7 @@ const Phase = props => {
 
     const [ prevPhase, setPrevPhase ] = useState( '#' )
     useEffect( () => {
-        let href = `/events/${ router.query.id }/`
+        let href = `/mafia/events/${ router.query.id }/`
 
         if ( time === 'day' ) {
             href += `night/${ parseInt( phase ) - 1 }`

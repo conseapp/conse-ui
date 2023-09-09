@@ -7,8 +7,8 @@ import { useRouter } from "next/router";
 import { hasCookie, setCookie } from "cookies-next";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import signupUser from "../utils/signupUser";
-import loginUser from "../utils/loginUser";
+import signupUser from "../../utils/signupUser";
+import loginUser from "../../utils/loginUser";
 import { useSelector } from "react-redux";
 
 const Register = () => {
@@ -29,7 +29,7 @@ const Register = () => {
     useEffect(() => {
         // if (hasCookie('token')) router.push('/').then()
         if (globalUser && globalUser.isLoggedIn)
-            router.push('/')
+            router.push('/mafia/profile')
     }, [router])
 
     /**
@@ -99,7 +99,7 @@ const Register = () => {
 
 
                     // Redirect to home page
-                    setTimeout(() => router.push('/'), 2000)
+                    setTimeout(() => router.push('/profile'), 2000)
                 } else {
                     // Show message
                     toast.error('خطایی در هنگام ثبت نام پیش آمده لطفا دوباره امتحان کنید')
@@ -163,7 +163,7 @@ const Register = () => {
 
                         <div className={styles.row}>
                             <div className={styles.footer}>
-                                <Link href={"/login"}>
+                                <Link href={"/mafia/login"}>
                                     <a>
                                         ورود به حساب کاربری
                                     </a>
