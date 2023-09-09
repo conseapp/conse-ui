@@ -13,7 +13,7 @@ const Circular = (props) => {
                 variant="indeterminate"
                 disableShrink
                 sx={{
-                    color: (theme) => (theme.palette.mode === 'light' ? '#1a90ff' : '#308fe8'),
+                    color: (theme) => (theme.palette.mode === 'light' ? '#a688fa' : '#a688fa'),
                     animationDuration: '550ms',
                     position: 'absolute',
                     left: 'calc(50% - 20px)',

@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import Image from "next/future/image";
 import logo from "../public/logo-white.png";
 import Link from 'next/link';
+import Circular from '../components/Circular';
 
 
 // import { getuser } from '../redux/actions';
@@ -16,11 +17,8 @@ const Index = props => {
     const { globalUser } = useSelector(state => state.userReducer)
 
     useEffect(() => {
-        if (globalUser && globalUser.isLoggedIn && (globalUser.access_level === 0)) {
+        if (globalUser && globalUser.isLoggedIn) {
             router.push('/mafia/profile')
-        }
-        if (globalUser && globalUser.isLoggedIn && (globalUser.access_level === 2)) {
-            router.push('/mafia/home')
         }
     }, [globalUser])
 
