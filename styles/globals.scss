@@ -6,9 +6,9 @@
   font-weight: bold;
   src: url("fonts/IranSans/IranSansBold.eot");
   src: url("fonts/IranSans/IranSansBold.eot?#iefix") format("embedded-opentype"),
-  url("fonts/IranSans/IranSansBold.ttf") format("truetype"),
-  url("fonts/IranSans/IranSansBold.woff") format("woff"),
-  url("fonts/IranSans/IranSansBold.woff2") format("woff2");
+    url("fonts/IranSans/IranSansBold.ttf") format("truetype"),
+    url("fonts/IranSans/IranSansBold.woff") format("woff"),
+    url("fonts/IranSans/IranSansBold.woff2") format("woff2");
 }
 
 @font-face {
@@ -16,29 +16,32 @@
   font-style: normal;
   font-weight: normal;
   src: url("fonts/IranSans/IranSansRegular.eot");
-  src: url("fonts/IranSans/IranSansRegular.eot?#iefix") format("embedded-opentype"),
-  url("fonts/IranSans/IranSansRegular.ttf") format("truetype"),
-  url("fonts/IranSans/IranSansRegular.woff") format("woff"),
-  url("fonts/IranSans/IranSansRegular.woff2") format("woff2");
+  src: url("fonts/IranSans/IranSansRegular.eot?#iefix")
+      format("embedded-opentype"),
+    url("fonts/IranSans/IranSansRegular.ttf") format("truetype"),
+    url("fonts/IranSans/IranSansRegular.woff") format("woff"),
+    url("fonts/IranSans/IranSansRegular.woff2") format("woff2");
 }
 
 :root {
-  --primary-color: #0F4393;
-  --primary-light-color: #0F439325;
-  --text-icon-color: #FFFFFF;
-  --text-color: #333333;
+  --primary-color: #a688fa;
+  --primary-light-color: #121212;
+  --text-color: #ffffffdd;
+  --text-color-secondary: #ffffffb2;
 
   --success-color: #4af6c9;
-  --success-light-color: #4af6c925;
+  --success-light-color: #121212;
 
-  --danger-color: #FE5052;
-  --danger-light-color: #FE505225;
+  --danger-color: #fe5052;
+  --danger-light-color: #121212;
 
-  --warning-color: #FFC107;
-  --warning-light-color: #FFC10725;
+  --warning-color: #ffc107;
+  --warning-light-color: #121212;
 
-  --info-color: #03A9F4;
-  --info-light-color: #03A9F425;
+  --info-color: #03a9f4;
+  --info-light-color: #121212;
+
+  --dark-bg-color: #121212;
 }
 
 * {
@@ -48,14 +51,17 @@
   outline: none;
 }
 
-html, body {
+html,
+body {
   direction: rtl;
   font-family: "IranSans", sans-serif;
   font-weight: normal;
+  color: var(--text-color);
 }
 
 body {
   padding-bottom: 73px;
+  background-color: var(--dark-bg-color);
 }
 
 a {
@@ -63,12 +69,18 @@ a {
   color: var(--primary-color);
 }
 
-input, button, textarea, select {
+input,
+button,
+textarea,
+select {
   font-family: "IranSans", sans-serif;
 }
 
-input, textarea, select {
-  background: #E5E5E5;
+input,
+textarea,
+select {
+  background: #282828;
+  color: var(--text-color);
   border-radius: 10px;
   border: none;
   font-size: 16px;
@@ -76,6 +88,9 @@ input, textarea, select {
   margin-bottom: 5px;
   max-width: 100%;
   min-width: 100%;
+  ::placeholder {
+    color: #3f3f3f;
+  }
 }
 
 button {
@@ -85,12 +100,19 @@ button {
   cursor: pointer;
   font-size: 16px;
   padding: 10px 16px;
-  color: #ffffff;
-  @include Transition(200ms)
+  color: var(--primary-light-color);
+  @include Transition(300ms);
+
+  &:hover {
+    background: #7a5af5;
+  }
+  &:active {
+    background: #463eb6;
+  }
 }
 
 [disabled]:where(button, input, textarea) {
-  opacity: .5;
+  opacity: 0.5;
 }
 
 input::-webkit-outer-spin-button,
@@ -104,7 +126,7 @@ input.input-number {
 }
 
 .Toastify__toast {
-  font-family: 'IranSans', sans-serif !important;
+  font-family: "IranSans", sans-serif !important;
 }
 
 .container {
@@ -129,8 +151,9 @@ input.input-number {
     }
   }
 
-  &:before, &:after {
-    content: '';
+  &:before,
+  &:after {
+    content: "";
     width: 10px;
     height: 10px;
     background: var(--primary-color);

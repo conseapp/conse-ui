@@ -85,8 +85,8 @@ const Nav = props => {
                     </li>
                     {
                     ((globalUser.access_level !== 1 && globalUser.access_level !== 0 )) ?
-                    <li className={pathname === '/' ? styles.active : ''}>
-                        <Link href={'/'}>
+                    <li className={pathname === '/home' ? styles.active : ''}>
+                        <Link href={'/home'}>
                             <a>
                                 <MdOutlineHome />
                             </a>

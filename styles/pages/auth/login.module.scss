@@ -20,7 +20,7 @@
 }
 
 .card {
-  background: #ffffff;
+  background: var(--dark-bg-color);
   width: calc(100vw - 40px);
   min-height: calc(100vh - 40px);
   border-radius: 18px;

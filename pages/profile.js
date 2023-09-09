@@ -429,7 +429,7 @@ const Profile = props => {
                                                                 )
                                                             })}
                                                         </ul> :
-                                                        <Alert>
+                                                        <Alert type={"info"}>
                                                             بازی رزروی وجود ندارد
                                                         </Alert>
                                                     }
@@ -461,7 +461,7 @@ const Profile = props => {
                                                                     )
                                                                 })}
                                                             </ul> :
-                                                            <Alert>
+                                                            <Alert type={"info"}>
                                                                 تاریخچه ای وجود ندارد
                                                             </Alert>
                                                     }
@@ -559,7 +559,7 @@ const Profile = props => {
                                                                 )
                                                             })}
                                                         </ul> :
-                                                        <Alert>
+                                                        <Alert type={"info"}>
                                                             ایونتی وجود ندارد
                                                         </Alert>
                                                     }

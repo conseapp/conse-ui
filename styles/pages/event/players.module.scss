@@ -19,7 +19,7 @@
       span {
         position: absolute;
         bottom: 0;
-        background: #FFF;
+        background: var(--dark-bg-color);
         padding: 4px 12px;
         border-radius: 8px 8px 0 0;
         color: var(--primary-color);
@@ -27,7 +27,7 @@
       }
 
       &:before {
-        content: '';
+        content: "";
         position: absolute;
         background: rgba(0, 0, 0, 0.5);
         width: 100%;
@@ -51,7 +51,7 @@
           display: flex;
           align-items: center;
           width: 100%;
-          background: #E5E5E5;
+          background: #e5e5e5;
           padding: 16px;
           border-radius: 8px;
 
@@ -67,7 +67,7 @@
             }
 
             span {
-              opacity: .8;
+              opacity: 0.8;
 
               &:before {
                 content: "( ";
@@ -84,7 +84,7 @@
             align-items: center;
             justify-content: center;
             color: var(--text-color);
-            background: #FFFFFF;
+            background: var(--dark-bg-color);
             font-size: 20px;
             padding: 12px;
           }
@@ -98,9 +98,10 @@
     left: -250px;
     top: 50%;
     transform: translateY(-50%);
-    background: #FFFFFF;
+    background: var(--dark-bg-color);
+    color: var(--text-color);
     width: 250px;
-    border: 1px solid #CCCCCC;
+    border: 1px solid #3f3f3f;
     border-radius: 0 8px 8px 0;
     padding: 10px;
     z-index: 3;
@@ -122,9 +123,9 @@
       justify-content: center;
       align-items: center;
       font-size: 28px;
-      background: #FFFFFF;
-      color: var(--primary-color);
-      border: 1px solid #CCCCCC;
+      background: var(--dark-bg-color);
+      color: var(--text-color);
+      border: 1px solid #3f3f3f;
       border-left: 0;
     }
 
@@ -149,12 +150,14 @@
 
         button {
           width: 100%;
-          background: var(--primary-color);
-          color: var(--text-icon-color)
         }
       }
     }
   }
+}
+
+.modal{
+  background-color: var(--dark-bg-color);
 }
 
 .modalHeader {
@@ -164,8 +167,8 @@
   margin-bottom: 32px;
 
   button {
-    background: var(--danger-light-color);
-    color: var(--danger-color);
+    background-color: var(--dark-bg-color);
+    color: var(--primary-color);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -173,11 +176,19 @@
     width: 40px;
     height: 40px;
     padding: 0;
+
+    &:hover{
+      background-color: var(--primary-color);
+      color: var(--dark-bg-color);
+    }
   }
 }
 
 .modalBody {
   .row {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
     &:not(:last-child) {
       margin-bottom: 24px;
     }

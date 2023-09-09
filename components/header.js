@@ -2,7 +2,7 @@ import * as React from 'react';
 import styles from "/styles/components/header.module.scss";
 import Link from "next/link";
 import Image from "next/future/image";
-import logo from "../public/logo.png";
+import logo from "../public/logo-white.png";
 import { deleteCookie } from "cookies-next";
 import { useRouter } from "next/router";
 import { MdLogout, MdStar } from "react-icons/md";

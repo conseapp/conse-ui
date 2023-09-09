@@ -103,25 +103,17 @@ const Create = props => {
     const roleSelectStyles = {
         option: (provided, state) => {
             let { side_id } = JSON.parse(state.value)
-            let color = {}
-            if (side_id.$oid === '630a35978c198e0d655c8adf') color = { color: '#549088' }
-            if (side_id.$oid === '630a359e8c198e0d655c8ae0') color = { color: '#cb5240' }
-            if (side_id.$oid === '630a35a38c198e0d655c8ae1') color = { color: '#ffde43' }
-            if (side_id.$oid === '630a3773696bb14037bdec19') color = { color: '#333333' }
-            if (side_id.$oid === '630a383d696bb14037bdec1a') color = { color: '#83bb70' }
-            if (side_id.$oid === '630a389a696bb14037bdec1b') color = { color: '#1d1a21' }
-            if (side_id.$oid === '630a3926696bb14037bdec1d') color = { color: '#333333' }
             return {
                 ...provided,
-                ...color,
-                "&:hover": { ...CreateSideColor(side_id.$oid) },
+                backgroundColor:state.isFocused ? CreateSideColor(side_id.$oid).background  :  '#282828',
+                color:state.isFocused ? CreateSideColor(side_id.$oid).color  :  CreateSideColor(side_id.$oid).background,
                 cursor: 'pointer'
             }
         },
         control: (provided, state) => {
             return {
                 ...provided,
-                backgroundColor: '#E5E5E5',
+                backgroundColor: '#3f3f3f',
                 border: 'none',
                 borderRadius: '8px'
             }
@@ -129,8 +121,16 @@ const Create = props => {
         multiValue: (provided, state) => ({
             ...provided,
             paddingRight: '4px',
-            border: '1px solid #CCC'
-        })
+            backgroundColor:'#a688fa',
+            color:'#282828'
+            
+            
+        }),
+        menu: (provided, state) => ({
+            ...provided,
+            backgroundColor:'#282828'
+        }),
+
     }
 
     /**
@@ -190,13 +190,15 @@ const Create = props => {
         option: (provided, state) => {
             return {
                 ...provided,
-                cursor: 'pointer'
+                cursor: 'pointer',
+                backgroundColor: state.isFocused ?'#a688fa' :  '#282828',
+                color: state.isFocused ?'#121212' :  '#ffffffdd',
             }
         },
         control: (provided, state) => {
             return {
                 ...provided,
-                backgroundColor: '#E5E5E5',
+                backgroundColor: '#282828',
                 border: 'none',
                 borderRadius: '8px'
             }
@@ -204,8 +206,14 @@ const Create = props => {
         multiValue: (provided, state) => ({
             ...provided,
             paddingRight: '4px',
-            border: '1px solid #CCC'
-        })
+            backgroundColor:'#a688fa',
+            color:'#282828'
+
+        }),
+        menu: (provided, state) => ({
+            ...provided,
+            backgroundColor:'#282828'
+        }),
     }
 
     /**

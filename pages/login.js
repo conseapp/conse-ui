@@ -4,7 +4,7 @@ import Image from "next/future/image";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { toast, ToastContainer } from "react-toastify";
-import logo from "../public/logo.png";
+import logo from "../public/logo-white.png";
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from "next/router";
 import checkOtp from "/utils/checkOtp";
@@ -65,11 +65,11 @@ const Login = () => {
      */
     useEffect(() => {
         // if (hasCookie('token')) router.push(redirect).then()
-        if (globalUser && globalUser.isLoggedIn && globalUser.access_level === 1)
-            router.push('/profile')
+        if (globalUser && globalUser.isLoggedIn && globalUser.access_level === 2)
+            router.push('/home')
         else if (globalUser && globalUser.isLoggedIn)
-            router.push(redirect)
-    }, [redirect, router])
+            router.push('/profile')
+    }, [router])
 
     /**
      * Function to request the otp code.
@@ -166,10 +166,10 @@ const Login = () => {
                 localStorage.setItem("loginresp", JSON.stringify(response))
 
                 // Redirect to home page
-                response.data.access_level === 1 ?
-                    setTimeout(() => router.push('/profile'), 2000)
+                response.data.access_level === 2 ?
+                    setTimeout(() => router.push('/home'), 2000)
                     :
-                    setTimeout(() => router.push(redirect), 2000)
+                    setTimeout(() => router.push('/profile'), 2000)
             } else {
                 // Show message
                 if (response.status === 404)

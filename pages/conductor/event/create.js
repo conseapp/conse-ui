@@ -80,17 +80,28 @@ const Create = props => {
      * @type {{control: (function(*, *): *&{border: string, backgroundColor: string, borderRadius: string}), multiValue: (function(*, *): *&{border: string, paddingRight: string}), option: (function(*, *): *&{cursor: string, "&:hover": {}})}}
      */
     const SelectStyles = {
+        option: (provided, state) => ({
+            ...provided,
+            backgroundColor: state.isFocused ? '#a688fa' : '#282828',
+            color: (state.isFocused) ? '#121212' : '#ffffffdd',
+            cursor: 'pointer'
+        }),
         control: (provided) => ({
             ...provided,
-            backgroundColor: '#E5E5E5',
+            backgroundColor: '#282828',
             border: 'none',
             borderRadius: '8px'
         }),
-        multiValue: (provided) => ({
+        singleValue: (provided, state) => ({
             ...provided,
-            paddingRight: '4px',
-            border: '1px solid #CCC'
-        })
+            color: '#ffffffdd',
+
+        }),
+        menu: (provided, state) => ({
+            ...provided,
+            backgroundColor: '#282828'
+        }),
+
     }
 
     /**
@@ -214,8 +225,8 @@ const Create = props => {
                             <div className="row">
                                 <label htmlFor="deck">انتخاب دک بازی</label>
                                 <Select menuPlacement="auto" minMenuHeight={300} placeholder={'انتخاب کنید'} styles={SelectStyles} options={DeckOptions} id={"deck"} isRtl={true} onChange={e => {
-                                        SetDeckValue(e.value)
-                                    }} />
+                                    SetDeckValue(e.value)
+                                }} />
                             </div>
 
                             <div className="row">

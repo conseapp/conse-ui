@@ -456,7 +456,7 @@ const Players = props => {
             </>}
             <div id={"ModalContainer"} />
 
-            <Modal isOpen={ModalIsOpen} style={ModalStyles} onRequestClose={CloseModal} contentLabel="Example Modal">
+            <Modal className={styles.modal} isOpen={ModalIsOpen} style={ModalStyles} onRequestClose={CloseModal} contentLabel="Example Modal">
                 <div className={styles.modalHeader}>
                     <h3>تغییر وضعیت {ModalUser.username}</h3>
                     <button type={"button"} onClick={CloseModal}>
