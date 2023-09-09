@@ -14,6 +14,7 @@ import createEvent from "../../../../utils/createEvent";
 import { useSelector } from "react-redux";
 import Circular from "../../../../components/Circular";
 import DateInput from "../../../../components/DateInput";
+import{ DateObject } from "react-multi-date-picker"
 
 const Create = props => {
     /**
@@ -77,7 +78,7 @@ const Create = props => {
     //set deck info from the event
     useEffect(() => {
         if (groups && event && decks) {
-            setStartDate(event.started_at * 1000)
+            setStartDate(new DateObject(event.started_at * 1000))
             for (var t = 0; t < decks.length; t++) {
                 if (decks[t]._id.$oid == event.deck_id) {
                     SetDeckValue(JSON.stringify(decks[t]))
