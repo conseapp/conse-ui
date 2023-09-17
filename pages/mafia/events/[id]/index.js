@@ -257,22 +257,18 @@ const SingleEvent = props => {
                                 </Link> :
                                 single.group_info.god_id === globalUser.user_id ? // god id === global user id
                                     <>
+                                        <Link href={`${query.id}/players`}>
+                                            <a>
+                                                مشاهده لیست بازیکنان
+                                            </a>
+                                        </Link>
                                         {
-                                            TodayIsEventDay &&
-                                            <>
-                                                <Link href={`${query.id}/players`}>
-                                                    <a>
-                                                        مشاهده لیست بازیکنان
-                                                    </a>
-                                                </Link>
-                                                {
-                                                    single.is_locked === false &&
-                                                    <button type={"button"} onClick={LockEvent}>
-                                                        بستن رزرو ایونت
-                                                    </button>
-                                                }
-                                            </>
+                                            single.is_locked === false &&
+                                            <button type={"button"} onClick={LockEvent}>
+                                                بستن رزرو ایونت
+                                            </button>
                                         }
+
                                     </> :
                                     <>
                                         {
