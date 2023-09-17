@@ -38,7 +38,7 @@ const Decks = props => {
         let eventData = await events.json()
         console.log(eventData)
         if (eventData.status == 200)
-            setEvents(eventData.data)
+            setEvents(eventData.data.reverse())
         else if (eventData.status == 403)
             toast.error("سطح دسترسی ندارید")
         else if (eventData.status == 404)
