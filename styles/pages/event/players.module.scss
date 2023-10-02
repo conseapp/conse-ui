@@ -209,6 +209,8 @@
 }
 
 .modalBody {
+  max-height: 60vh;
+  overflow: auto;
   .row {
     display: flex;
     flex-direction: column;
