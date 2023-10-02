@@ -13,6 +13,19 @@ const initialState = {
     first_name: '',
     last_name: '',
 }
+const initialPhaseState = {
+    email: '',
+    image_url: '',
+    phone_number: '',
+    access_level: '',
+    user_id: undefined,
+    user_points: undefined,
+    username: '',
+    accessToken: '',
+    isLoggedIn: false,
+    first_name: '',
+    last_name: '',
+}
 
 function userReducer(state = initialState, action) {
     switch (action.type) {
@@ -43,5 +56,35 @@ function userReducer(state = initialState, action) {
             return state;
     }
 }
+
+// function phaseReducer(state = initialPhaseState, action) {
+//     switch (action.type) {
+//         case SET_DAY:
+//             return {
+
+//             };
+//         case SET_MID_DAY:
+//             return {
+
+//             };
+//         case SET_NIGHT:
+//             return {
+
+//             };
+//         case CLEAN_PHASES:
+//             return {
+//                 ...state,
+//                 // userDetails: action.payload,
+//                 user_id: action.payload.user_id,
+//                 username: action.payload.username,
+//                 access_level: action.payload.access_level,
+//                 phone_number: action.payload.phone_number,
+//                 isLoggedIn: false,
+//                 globalUser:action.payload
+//             };
+//         default:
+//             return state;
+//     }
+// }
 
 export default userReducer;

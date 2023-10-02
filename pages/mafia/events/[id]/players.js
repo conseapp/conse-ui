@@ -134,7 +134,42 @@ const Players = props => {
     const [ModalIsOpen, SetModalIsOpen] = useState(false)
     const [ModalUser, SetModalUser] = useState({})
     const [ModalUserID, SetModalUserID] = useState(null)
-    const OpenModal = user => {
+    const [modalUserRoleAbility, SetModalUserRoleAbility] = useState(0)
+    const [modalUserChainInfo, SetModalUserChainInfo] = useState('none')
+
+    const OpenModal = async user => {
+
+        const roleAbilityRequest = await fetch(`${process.env.GAME_URL}/game/player/get/role-ability`, {
+            method: 'POST',
+            headers: { "Authorization": `Bearer ${token}` },
+            body: JSON.stringify({
+                "user_id": user._id.$oid,
+                "event_id": query.id,
+            })
+        })
+
+        let roleAbilityResponse = await roleAbilityRequest.json()
+
+        if (roleAbilityResponse.status === 200) {
+            SetModalUserRoleAbility(roleAbilityResponse.data.current_ability)
+        }
+
+
+        const chainInfoRequest = await fetch(`${process.env.GAME_URL}/game/player/get/chain-infos`, {
+            method: 'POST',
+            headers: { "Authorization": `Bearer ${token}` },
+            body: JSON.stringify({
+                "user_id": user._id.$oid,
+                "event_id": query.id,
+            })
+        })
+
+        let chainInfoResponse = await chainInfoRequest.json()
+
+        if (chainInfoResponse.status === 200) {
+            SetModalUserChainInfo(chainInfoResponse.data.chain_infos[chainInfoResponse.data.chain_infos.length - 1])
+        }
+
         if (sides && token && event && deck) {
             SetModalUser(user)
             SetModalIsOpen(true)
@@ -574,21 +609,21 @@ const Players = props => {
                                 value={JSON.stringify({
                                     'current_ability': 0,
                                 })}
-                                selected={true}>
+                                selected={modalUserRoleAbility === 0}>
                                 0
                             </option>
                             <option
                                 value={JSON.stringify({
                                     'current_ability': 1,
                                 })}
-                                selected={false}>
+                                selected={modalUserRoleAbility === 1}>
                                 1
                             </option>
                             <option
                                 value={JSON.stringify({
                                     'current_ability': 100,
                                 })}
-                                selected={false}>
+                                selected={modalUserRoleAbility === 100}>
                                 100
                             </option>
                         </select>
@@ -608,12 +643,13 @@ const Players = props => {
                                                 value={JSON.stringify({
                                                     'to_id': player._id.$oid,
                                                 })}
+                                                selected={(modalUserChainInfo.to_id == player._id.$oid)}
                                             >
                                                 {player.username}
                                             </option>
                                     )
                                 })}
-                                <option selected={true} value={'none'}>{'هیچکدام'}</option>
+                                <option selected={(modalUserChainInfo == undefined) || (modalUserChainInfo == 'none')} value={'none'}>{'هیچکدام'}</option>
                             </> : undefined}
                         </select>
                     </div>
