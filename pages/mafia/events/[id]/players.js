@@ -220,7 +220,7 @@ const Players = props => {
         }
     }
     const chainPlayer = async e => {
-        if (token) {
+        if (token && e.target.value !== "none") {
             const request = await fetch(`${process.env.GAME_URL}/game/player/chain`, {
                 method: 'POST',
                 headers: { "Authorization": `Bearer ${token}` },
