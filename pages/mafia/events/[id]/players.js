@@ -133,10 +133,12 @@ const Players = props => {
      */
     const [ModalIsOpen, SetModalIsOpen] = useState(false)
     const [ModalUser, SetModalUser] = useState({})
+    const [ModalUserID, SetModalUserID] = useState(null)
     const OpenModal = user => {
         if (sides && token && event && deck) {
             SetModalUser(user)
             SetModalIsOpen(true)
+            SetModalUserID(user._id.$oid)
         }
     }
     const CloseModal = () => SetModalIsOpen(false)
@@ -212,6 +214,20 @@ const Players = props => {
                     "role_id": ModalUser.role_id.$oid,
                     "event_id": query.id,
                     "current_ability": JSON.parse(e.target.value).current_ability
+                })
+            })
+            const response = await request.json()
+        }
+    }
+    const chainPlayer = async e => {
+        if (token) {
+            const request = await fetch(`${process.env.GAME_URL}/game/player/chain`, {
+                method: 'POST',
+                headers: { "Authorization": `Bearer ${token}` },
+                body: JSON.stringify({
+                    "from_id": ModalUser._id.$oid,
+                    "to_id": JSON.parse(e.target.value).to_id,
+                    "event_id": query.id,
                 })
             })
             const response = await request.json()
@@ -575,6 +591,30 @@ const Players = props => {
                                 selected={false}>
                                 100
                             </option>
+                        </select>
+                    </div>
+
+                    <div className={styles.row}>
+                        <label htmlFor={"chain"}>چین کردن به پلیر دیگر</label>
+                        <select id={"chain"} onChange={chainPlayer}>
+                            {(Players) ? <>
+                                {Players.map(player => {
+                                    return (
+                                        (player._id.$oid == ModalUserID) ?
+                                            undefined
+                                            :
+                                            <option
+                                                key={player._id.$oid}
+                                                value={JSON.stringify({
+                                                    'to_id': player._id.$oid,
+                                                })}
+                                            >
+                                                {player.username}
+                                            </option>
+                                    )
+                                })}
+                                <option selected={true} value={'none'}>{'هیچکدام'}</option>
+                            </> : undefined}
                         </select>
                     </div>
 
