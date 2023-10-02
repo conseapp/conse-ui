@@ -15,6 +15,7 @@ import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 import { useSelector } from 'react-redux';
 import Circular from '../../../../components/Circular';
+import Link from "next/link";
 
 const Players = props => {
     const router = useRouter()
@@ -201,6 +202,22 @@ const Players = props => {
         }
     }
 
+    const ChangePlayerRoleAbility = async e => {
+        if (token) {
+            const request = await fetch(`${process.env.GAME_URL}/game/player/update/role-ability`, {
+                method: 'POST',
+                headers: { "Authorization": `Bearer ${token}` },
+                body: JSON.stringify({
+                    "user_id": ModalUser._id.$oid,
+                    "role_id": ModalUser.role_id.$oid,
+                    "event_id": query.id,
+                    "current_ability": JSON.parse(e.target.value).current_ability
+                })
+            })
+            const response = await request.json()
+        }
+    }
+
     const [AvailableCards, SetAvailableCards] = useState(undefined)
 
     const ShowLastMoveCard = async e => {
@@ -294,7 +311,7 @@ const Players = props => {
                     })
                 })
                 let response = await request.json()
-                console.log('check here!',response);
+                console.log('check here!', response);
 
                 if (response.data.is_expired) {
                     toast.success('ایونت با موفقیت بسته شد')
@@ -322,7 +339,7 @@ const Players = props => {
             'role_id': role.id,
             'role_name': role.name,
             'status': parseInt(status),
-            'side_id': side
+            'side_id': side,
         }
 
         allPlayers.map((player, index) => {
@@ -414,6 +431,11 @@ const Players = props => {
                                     })
                                 }
                             </ul>
+                            <div className={styles.footer}>
+                                <Link href={`/mafia/events/${router.query.id}/night/0`}>
+                                    <a>تاریخچه بازی</a>
+                                </Link>
+                            </div>
                         </div>
 
                     </div>
@@ -530,29 +552,29 @@ const Players = props => {
                     </div>
 
                     <div className={styles.row}>
-                        <label htmlFor={"role"}>تغییر قابلیت نقش پلیر</label>
-                        <select id={"role"} onChange={ChangePlayerRole}>
-                            {deck ? <>
-                                {deck.roles.map(role => {
-                                    let isSelected = false
-                                    if (Object.keys(ModalUser).length !== 0) {
-                                        if (ModalUser.role_id !== null) {
-                                            if (ModalUser.role_id.$oid === role._id) {
-                                                isSelected = true
-                                            }
-                                        }
-                                    }
-                                    return (
-                                        <option key={role._id}
-                                            value={JSON.stringify({
-                                                'id': role._id,
-                                                'name': role.name
-                                            })}
-                                            selected={isSelected}>
-                                            {role.name}
-                                        </option>
-                                    )
-                                })}</> : undefined}
+                        <label htmlFor={"role_Ability"}>تغییر قابلیت نقش پلیر</label>
+                        <select id={"role_Ability"} onChange={ChangePlayerRoleAbility}>
+                            <option
+                                value={JSON.stringify({
+                                    'current_ability': 0,
+                                })}
+                                selected={true}>
+                                0
+                            </option>
+                            <option
+                                value={JSON.stringify({
+                                    'current_ability': 1,
+                                })}
+                                selected={false}>
+                                1
+                            </option>
+                            <option
+                                value={JSON.stringify({
+                                    'current_ability': 100,
+                                })}
+                                selected={false}>
+                                100
+                            </option>
                         </select>
                     </div>
 
