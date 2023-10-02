@@ -1,9 +1,52 @@
 .page {
+
+  .container{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
   .header {
     background: #333333;
-    padding: 20px;
+    padding: 16px;
     border-radius: 8px;
     color: #FFFFFF;
+    text-align: center;
+  }
+
+  .history{
+    padding: 20px;
+    border: 1px solid var(--text-color-secondary);
+    border-radius: 20px;
+
+    .user{
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+
+      .userInfo{
+        display: flex;
+        flex-direction: column;
+
+        span{
+          display: flex;
+          gap: 5px;
+          p{
+            white-space-collapse: preserve;
+            text-wrap: nowrap;
+          }
+        }
+      }
+    }
+    .tables{
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    hr{
+      margin: 16px 10px;
+    }
   }
 
   .footer {
@@ -23,4 +66,32 @@
       padding: 16px;
     }
   }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #3f3f3f;
+
+    thead {
+      tr {
+        th {
+          padding: 10px;
+        }
+      }
+    }
+
+    tbody {
+      tr {
+        &:nth-child(odd) {
+          background: #282828;
+        }
+
+        td {
+          padding: 10px;
+          text-align: center;
+        }
+      }
+    }
+  }
 }
+

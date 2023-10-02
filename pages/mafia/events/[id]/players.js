@@ -530,6 +530,33 @@ const Players = props => {
                     </div>
 
                     <div className={styles.row}>
+                        <label htmlFor={"role"}>تغییر قابلیت نقش پلیر</label>
+                        <select id={"role"} onChange={ChangePlayerRole}>
+                            {deck ? <>
+                                {deck.roles.map(role => {
+                                    let isSelected = false
+                                    if (Object.keys(ModalUser).length !== 0) {
+                                        if (ModalUser.role_id !== null) {
+                                            if (ModalUser.role_id.$oid === role._id) {
+                                                isSelected = true
+                                            }
+                                        }
+                                    }
+                                    return (
+                                        <option key={role._id}
+                                            value={JSON.stringify({
+                                                'id': role._id,
+                                                'name': role.name
+                                            })}
+                                            selected={isSelected}>
+                                            {role.name}
+                                        </option>
+                                    )
+                                })}</> : undefined}
+                        </select>
+                    </div>
+
+                    <div className={styles.row}>
                         <button type={"button"} onClick={UpdateEvent}>ذخیره</button>
                     </div>
 
