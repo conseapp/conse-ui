@@ -13,7 +13,8 @@ import Nav from "../../../../components/nav";
 import statuses from "../../../../utils/allPossibleStatus";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { updatePhaseState } from '../../../../redux/actions';
 import Circular from '../../../../components/Circular';
 import Link from "next/link";
 
@@ -30,6 +31,8 @@ const Players = props => {
     const [deck, setDeck] = useState(undefined)
     const [loading, setLoading] = useState(true)
     const { globalUser } = useSelector(state => state.userReducer)
+    const { selectedTime } = useSelector(state => state.timeReducer);
+    const dispatch = useDispatch();
 
     const ToggleConductorMenu = async () => {
         let menu = document.querySelector(`.${styles.conductorMenu}`)
@@ -65,10 +68,14 @@ const Players = props => {
         if (sideData.status == 200)
             setSides(sideData.data.sides)
     }
+
+
     useEffect(() => {
         if (event)
             loadDeck()
     }, [event])
+
+
     const loadDeck = async () => {
         let deck = await fetch(`${process.env.GAME_URL}/game/deck/get/single`, {
             method: 'POST',
@@ -85,12 +92,15 @@ const Players = props => {
             SetAvailableCards(deckData.data.last_move_cards)
         }
     }
+
+
     useEffect(() => {
         if (globalUser && globalUser.accessToken && query.id) {
             loadStuff()
             loadEvents()
         }
     }, [globalUser, query.id])
+
     useEffect(() => {
         console.log(event, sides, deck, Players, AvailableCards)
         if (event && sides && deck && Players && AvailableCards) {
@@ -98,6 +108,8 @@ const Players = props => {
             setLoading(false)
         }
     }, [event, sides, deck, Players, AvailableCards])
+
+
 
     const RevealRoles = async () => {
         if (globalUser.accessToken) {
@@ -139,6 +151,7 @@ const Players = props => {
 
     const OpenModal = async user => {
 
+        // get user role ability
         const roleAbilityRequest = await fetch(`${process.env.GAME_URL}/game/player/get/role-ability`, {
             method: 'POST',
             headers: { "Authorization": `Bearer ${token}` },
@@ -154,7 +167,7 @@ const Players = props => {
             SetModalUserRoleAbility(roleAbilityResponse.data.current_ability)
         }
 
-
+        // get user chain history
         const chainInfoRequest = await fetch(`${process.env.GAME_URL}/game/player/get/chain-infos`, {
             method: 'POST',
             headers: { "Authorization": `Bearer ${token}` },
@@ -176,6 +189,8 @@ const Players = props => {
             SetModalUserID(user._id.$oid)
         }
     }
+
+
     const CloseModal = () => SetModalIsOpen(false)
     const ModalStyles = {
         overlay: {
@@ -241,6 +256,14 @@ const Players = props => {
 
     const ChangePlayerRoleAbility = async e => {
         if (token) {
+            const selectedUser = {
+                user_id: ModalUser._id.$oid,
+                username: ModalUser.username,
+                status: ModalUser.status,
+                role_name: ModalUser.role_name,
+                role_id: ModalUser.role_id.$oid,
+                side_id: ModalUser.side_id.$oid,
+            }
             const request = await fetch(`${process.env.GAME_URL}/game/player/update/role-ability`, {
                 method: 'POST',
                 headers: { "Authorization": `Bearer ${token}` },
@@ -252,10 +275,30 @@ const Players = props => {
                 })
             })
             const response = await request.json()
+
+            if (response.status === 200 || response.status === 201) {
+                const newData = {
+                    role_id: response.data.role_id,
+                    current_ability: response.data.current_ability,
+                    updated_at: response.data.updated_at
+                }
+                dispatch(updatePhaseState(selectedTime, selectedUser, newData, 'ability'));
+
+            }
         }
     }
     const chainPlayer = async e => {
         if (token && e.target.value !== "none") {
+
+            const selectedUser = {
+                user_id: ModalUser._id.$oid,
+                username: ModalUser.username,
+                status: ModalUser.status,
+                role_name: ModalUser.role_name,
+                role_id: ModalUser.role_id.$oid,
+                side_id: ModalUser.side_id.$oid,
+            }
+
             const request = await fetch(`${process.env.GAME_URL}/game/player/chain`, {
                 method: 'POST',
                 headers: { "Authorization": `Bearer ${token}` },
@@ -266,6 +309,15 @@ const Players = props => {
                 })
             })
             const response = await request.json()
+
+            if (response.status === 200 || response.status === 201) {
+                const newData = {
+                    to_id: JSON.parse(e.target.value).to_id,
+                    chained_at: Math.floor(Date.now() / 1000),
+                }
+                dispatch(updatePhaseState(selectedTime, selectedUser, newData, 'chain'));
+
+            }
         }
     }
 

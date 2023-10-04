@@ -108,6 +108,11 @@ const Phase = props => {
                         {PhaseCalculation()}
                     </h2>
                 </header>
+                    <Link href={`/mafia/events/${router.query.id}/players`}>
+                        <a>
+                            بازگشت
+                        </a>
+                    </Link>
 
                 <div className={styles.history}>
                     {

@@ -2,6 +2,9 @@ import axios from 'axios';
 export const GET_USER = 'GET_USER';
 export const LOGOUT_USER = 'LOGOUT_USER';
 export const TIMER = 'TIMER'
+export const UPDATE_PHASE_STATE = 'UPDATE_PHASE_STATE'
+export const UPDATE_ABILITY_HISTORY = 'UPDATE_ABILITY_HISTORY'
+export const SET_TIME = 'SET_TIME'
 
 
 const emptyUser = {
@@ -78,3 +81,18 @@ export const timer = (time) => {
         });
     }
 }
+
+
+export const updatePhaseState = (time, user, newData, dataType) => {
+    return async dispatch => {
+        dispatch({
+            type: UPDATE_PHASE_STATE,
+            payload: { time, user, dataType, newData }
+        });
+    }
+};
+
+export const setTime = time => ({
+    type: SET_TIME,
+    payload: time
+});
