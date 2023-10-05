@@ -535,7 +535,7 @@ const Players = props => {
                                 }
                             </ul>
                             <div className={styles.footer}>
-                                <Link href={`/mafia/events/${router.query.id}/night/0`}>
+                                <Link href={`/mafia/events/${router.query.id}/game-history`}>
                                     <a>تاریخچه بازی</a>
                                 </Link>
                             </div>

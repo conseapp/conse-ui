@@ -1,6 +1,6 @@
 import { GET_USER } from './actions';
 import { LOGOUT_USER } from './actions';
-import { UPDATE_PHASE_STATE, SET_TIME } from './actions';
+import { UPDATE_PHASE_STATE, RESET_PHASE_STATE, UPDATE_TIME } from './actions';
 
 const initialState = {
     email: '',
@@ -85,6 +85,9 @@ const phaseReducer = (state = initialPhaseState, action) => {
                 updatedTime.push(newUser);
             }
             return { ...state, [time]: updatedTime };
+
+        case RESET_PHASE_STATE:
+            return { ...action.payload }
         default:
             return state;
     }
@@ -92,7 +95,7 @@ const phaseReducer = (state = initialPhaseState, action) => {
 
 const timeReducer = (state = initialTimeState, action) => {
     switch (action.type) {
-        case SET_TIME:
+        case UPDATE_TIME:
             return { ...state, selectedTime: action.payload };
         default:
             return state;

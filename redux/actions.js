@@ -3,8 +3,8 @@ export const GET_USER = 'GET_USER';
 export const LOGOUT_USER = 'LOGOUT_USER';
 export const TIMER = 'TIMER'
 export const UPDATE_PHASE_STATE = 'UPDATE_PHASE_STATE'
-export const UPDATE_ABILITY_HISTORY = 'UPDATE_ABILITY_HISTORY'
-export const SET_TIME = 'SET_TIME'
+export const RESET_PHASE_STATE = 'RESET_PHASE_STATE'
+export const UPDATE_TIME = 'UPDATE_TIME'
 
 
 const emptyUser = {
@@ -20,6 +20,14 @@ const emptyUser = {
     first_name: '',
     last_name: '',
 }
+
+const emptyPhaseState = {
+    day: [],
+    mid_day: [],
+    night: []
+};
+
+
 export const getuser = () => {
     let response;
     let _response;
@@ -91,8 +99,16 @@ export const updatePhaseState = (time, user, newData, dataType) => {
         });
     }
 };
+export const resetPhaseState = () => {
+    return async dispatch => {
+        dispatch({
+            type: RESET_PHASE_STATE,
+            payload: emptyPhaseState
+        });
+    }
+};
 
-export const setTime = time => ({
-    type: SET_TIME,
+export const updateTime = time => ({
+    type: UPDATE_TIME,
     payload: time
 });
