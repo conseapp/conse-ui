@@ -1,1 +1,25 @@
-{"theme_color":"#8936FF","background_color":"#222020","icons":[{"purpose":"maskable","sizes":"512x512","src":"icon512_maskable.png","type":"image/png"},{"purpose":"any","sizes":"512x512","src":"icon512_rounded.png","type":"image/png"}],"orientation":"any","display":"standalone","dir":"auto","lang":"en-US","name":"Conse","short_name":"Conse","start_url":"/","scope":"/"}
+{
+    "theme_color": "#8936FF",
+    "background_color": "#242728",
+    "icons": [
+        {
+            "purpose": "maskable",
+            "sizes": "512x512",
+            "src": "icon512_maskable.png",
+            "type": "image/png"
+        },
+        {
+            "purpose": "any",
+            "sizes": "512x512",
+            "src": "icon512_rounded.png",
+            "type": "image/png"
+        }
+    ],
+    "orientation": "any",
+    "display": "standalone",
+    "dir": "auto",
+    "lang": "fa-IR",
+    "name": "Conse",
+    "short_name": "Conse",
+    "description": "تورنمنت بزرگ شب مافیا"
+}
