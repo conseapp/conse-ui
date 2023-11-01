@@ -161,7 +161,7 @@ const Index = props => {
                                                             </div> : <></>
                                                     }
                                                     {
-                                                        player ?
+                                                        (player && todayEvent.is_locked) ?
                                                             <span className={styles.role} style={player.side_id !== null ? CreateSideColor(player.side_id.$oid) : {}}>
                                                                 {player.role_name}
                                                             </span>

@@ -149,19 +149,30 @@ const Info = props => {
                                         <div className={styles.info}>
                                             <Image src={'/avatar.png'} alt={player.username} width={100} height={100} />
                                             <h2>{player.username}</h2>
-                                            <span style={newUser.side_id !== null ? CreateSideColor(newUser.side_id.$oid) : {}}>
-                                                {newUser.role_name}
-                                            </span>
+                                            {
+                                                event.data.is_locked &&
+                                                < span style={newUser.side_id !== null ? CreateSideColor(newUser.side_id.$oid) : {}}>
+                                                    {newUser.role_name}
+                                                </span>
+                                            }
                                         </div>
 
                                         <div className={styles.boxes}>
                                             <div className={styles.status}>
-                                                <div>
-                                                    وضعیت شما در بازی
-                                                    <p>
-                                                        {status}
-                                                    </p>
-                                                </div>
+                                                {
+                                                    event.data.is_locked ?
+                                                        <div>
+                                                            وضعیت شما در بازی
+                                                            <p>
+                                                                {status}
+                                                            </p>
+                                                        </div> :
+                                                        <div>
+                                                            <p>
+                                                                ایونت هنوز شروع نشده است
+                                                            </p>
+                                                        </div>
+                                                }
                                             </div>
                                             <div className={styles.role}></div>
                                         </div>
@@ -200,7 +211,7 @@ const Info = props => {
                 </>
                 :
                 <><div className="container">لطفا وارد حساب کاربری خود شوید</div></>}
-        </div>
+        </div >
     )
 }
 

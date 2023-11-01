@@ -358,14 +358,14 @@ const Players = props => {
         let button = e.target
 
         await withReactContent(Swal).fire({
-            background: '#F6F6F6',
-            color: '#333',
-            title: <h3 style={{ color: 'var(--danger-color)' }}>آیا مطمئن هستید ؟</h3>,
-            html: 'پس از بستن ایونت نمیتوانید تغییری در آن ایجاد کنید و یا دوباره آن را باز کنید',
-            confirmButtonColor: 'var(--danger-color)',
+            background: '#333',
+            color: '#fff',
+            title: <h3 style={{ color: 'var(--primary-color)' }}>آیا مطمئن هستید ؟</h3>,
+            html: 'پس از شروع ایونت نمیتوانید دوباره نقش ها را پخش کنید',
+            confirmButtonColor: 'var(--primary-color)',
             confirmButtonText: 'بله میخوام ببندم',
             showCancelButton: true,
-            cancelButtonColor: 'var(--text-color)',
+            cancelButtonColor: '#aaa',
             cancelButtonText: 'خیر، میخوام تغییرات ایجاد کنم'
         }).then(async e => {
             if (e.isConfirmed && token) {
@@ -551,22 +551,25 @@ const Players = props => {
                             </button>
                             <header>پنل گرداننده</header>
                             <ul>
-                                <li>
-                                    <button type={"button"} onClick={RevealRoles}>پخش کردن نقش ها</button>
-                                </li>
+                                {
+                                    !event.is_locked &&
+                                    <li>
+                                        <button type={"button"} onClick={RevealRoles}>پخش کردن نقش ها</button>
+                                    </li>
+                                }
                                 <li>
                                     <button type={"button"} onClick={ShowLastMoveCard}>نمایش کارت حرکت آخر</button>
                                 </li>
                                 {
                                     !event.is_locked &&
                                     <li>
-                                        <button type={"button"} onClick={LockEvent}>بستن ایونت</button>
+                                        <button type={"button"} onClick={LockEvent}>شروع ایونت</button>
                                     </li>
                                 }
                                 {
-                                    !event.is_expired &&
-                                    <li>
-                                        <button type={"button"} onClick={expireEvent}>پایان بازی</button>
+                                    (!event.is_expired && event.is_locked) &&
+                                    < li >
+                                        <button type={"button"} onClick={expireEvent}>پایان ایونت</button>
                                     </li>
                                 }
                                 {/* comment start game for now to uncomment after phases done */}
@@ -715,7 +718,7 @@ const Players = props => {
 
             <ToastContainer ariaHideApp={false} position="bottom-center" autoClose={3000} hideProgressBar newestOnTop={false} closeOnClick rtl pauseOnFocusLoss draggable pauseOnHover />
 
-        </div>
+        </div >
     )
 }
 
