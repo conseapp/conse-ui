@@ -105,8 +105,8 @@ const Create = props => {
             let { side_id } = JSON.parse(state.value)
             return {
                 ...provided,
-                backgroundColor:state.isFocused ? CreateSideColor(side_id.$oid).background  :  '#282828',
-                color:state.isFocused ? CreateSideColor(side_id.$oid).color  :  CreateSideColor(side_id.$oid).background,
+                backgroundColor: state.isFocused ? CreateSideColor(side_id.$oid).background : '#282828',
+                color: state.isFocused ? CreateSideColor(side_id.$oid).color : CreateSideColor(side_id.$oid).background,
                 cursor: 'pointer'
             }
         },
@@ -121,14 +121,14 @@ const Create = props => {
         multiValue: (provided, state) => ({
             ...provided,
             paddingRight: '4px',
-            backgroundColor:'#a688fa',
-            color:'#282828'
-            
-            
+            backgroundColor: '#a688fa',
+            color: '#282828'
+
+
         }),
         menu: (provided, state) => ({
             ...provided,
-            backgroundColor:'#282828'
+            backgroundColor: '#282828'
         }),
 
     }
@@ -191,8 +191,8 @@ const Create = props => {
             return {
                 ...provided,
                 cursor: 'pointer',
-                backgroundColor: state.isFocused ?'#a688fa' :  '#282828',
-                color: state.isFocused ?'#121212' :  '#ffffffdd',
+                backgroundColor: state.isFocused ? '#a688fa' : '#282828',
+                color: state.isFocused ? '#121212' : '#ffffffdd',
             }
         },
         control: (provided, state) => {
@@ -206,13 +206,13 @@ const Create = props => {
         multiValue: (provided, state) => ({
             ...provided,
             paddingRight: '4px',
-            backgroundColor:'#a688fa',
-            color:'#282828'
+            backgroundColor: '#a688fa',
+            color: '#282828'
 
         }),
         menu: (provided, state) => ({
             ...provided,
-            backgroundColor:'#282828'
+            backgroundColor: '#282828'
         }),
     }
 
@@ -359,6 +359,16 @@ const Create = props => {
         }
     }
 
+    const getTotalRoles = () => {
+        let totalRoles = 0;
+
+        for (let key in selectedRoles) {
+            totalRoles += selectedRoles[key].length;
+        }
+
+        return totalRoles;
+    }
+
     return (
         <div className={styles.page}>
 
@@ -403,7 +413,14 @@ const Create = props => {
                                         </div>
 
                                         <fieldset className={styles.roles}>
-                                            <legend>انتخاب نقش ها</legend>
+                                            <legend> انتخاب نقش ها
+                                                {
+                                                    (getTotalRoles() !== 0) &&
+                                                    <span className={styles.totalRoles}>
+                                                        {getTotalRoles()}
+                                                    </span>
+                                                }
+                                            </legend>
                                             <div className={styles.selectors_container}>
                                                 {
                                                     sides.map((side) => {

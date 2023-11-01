@@ -12,6 +12,13 @@
         font-size: 17px;
         margin-bottom: 16px;
         position: relative;
+
+        .totalRoles {
+          background-color: var(--primary-color);
+          padding: 3px 10px;
+          border-radius: 5px;
+          margin-right: 10px;
+        }
       }
       .selectors_container {
         border-radius: 10px;
@@ -19,8 +26,8 @@
         border: solid rgb(0, 0, 0, 0.16) 1px;
         background-color: #282828;
 
-        input{
-        background-color: #282828;
+        input {
+          background-color: #282828;
         }
       }
       label {
