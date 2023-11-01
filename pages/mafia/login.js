@@ -110,7 +110,7 @@ const Login = () => {
             })
             let response = await request.json()
 
-            if (response.status === 200) {
+            if (response.status === 200 || response.status === 201) {
                 const time = new Date();
                 // Show message
                 toast.success('رمز یکبار مصرف برای شما ارسال شد')
