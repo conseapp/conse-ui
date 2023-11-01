@@ -24,13 +24,13 @@ const Index = props => {
         }
     }, [globalUser])
 
-    // useEffect(() => {
-    //     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    useEffect(() => {
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 
-    //     if (isIOS && !window.navigator.standalone) {
-    //         setShowModal(true);
-    //     }
-    // }, [])
+        if (isIOS && !window.navigator.standalone) {
+            setShowModal(true);
+        }
+    }, [])
 
     const handleInstallClick = () => {
         setShowModal(false)
