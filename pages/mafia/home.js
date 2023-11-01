@@ -186,6 +186,12 @@ const Index = props => {
                             </Alert>
                     }
                 </div>
+                {
+                    (globalUser.username == null || globalUser.username == globalUser.phone_number) &&
+                    <Alert type={"info"}>
+                        لطفا نام کاربری خود را ثبت کنید
+                    </Alert>
+                }
             </div>
 
             <Nav user={globalUser} />

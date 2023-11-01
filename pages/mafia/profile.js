@@ -226,7 +226,7 @@ const Profile = props => {
 
         if (name.value === '') {
             submit.removeAttribute('disabled')
-            toast.warning('نام گروه نمیتواند خالی باشد', {containerId: 'group'})
+            toast.warning('نام گروه نمیتواند خالی باشد', { containerId: 'group' })
             return
         }
 
@@ -242,10 +242,10 @@ const Profile = props => {
         let { status } = await response.json()
 
         if (status === 201) {
-            toast.success('گروه با موفقیت ثبت شد', {containerId: 'group'})
+            toast.success('گروه با موفقیت ثبت شد', { containerId: 'group' })
             submit.remove()
         } else {
-            toast.error('خطایی در هنگام ثبت گروه بوجود آمده، لطفا دوباره تلاش کنید', {containerId: 'group'})
+            toast.error('خطایی در هنگام ثبت گروه بوجود آمده، لطفا دوباره تلاش کنید', { containerId: 'group' })
             submit.removeAttribute('disabled')
         }
     }
@@ -259,10 +259,10 @@ const Profile = props => {
         let errors = 0
         if (username === '') {
             errors++
-            toast.error('نام و نام خانوادگی نمیتواند خالی باشد',{containerId: 'username'})
+            toast.error('نام و نام خانوادگی نمیتواند خالی باشد', { containerId: 'username' })
         } else if (username.match(/^[a-zA-Z]|[\u0600-\u06FF\s]+$/) === null) {
             errors++
-            toast.error('برای نام و نام خانوادگی تنها حروف مجاز است',{containerId: 'username'})
+            toast.error('برای نام و نام خانوادگی تنها حروف مجاز است', { containerId: 'username' })
         }
         // Send request to server if there is no errors
         if (errors === 0) {
@@ -282,10 +282,10 @@ const Profile = props => {
                 const prev = JSON.parse(localStorage.getItem("loginresp"))
                 const newData = { ...prev, data: { ...prev.data, username: username.toLocaleLowerCase() } }
                 localStorage.setItem('loginresp', JSON.stringify(newData))
-                toast.success('نام و نام خوانوادگی شما با موفقیت ثبت شد',{containerId: 'username'})
+                toast.success('نام و نام خوانوادگی شما با موفقیت ثبت شد', { containerId: 'username' })
                 router.reload();
             } else {
-                toast.error('خطایی در هنگام ثبت نام کاربری شما بوجود آمده، لطفا دوباره تلاش کنید',{containerId: 'username'})
+                toast.error('خطایی در هنگام ثبت نام کاربری شما بوجود آمده، لطفا دوباره تلاش کنید', { containerId: 'username' })
                 submit.removeAttribute('disabled')
             }
         }
@@ -318,10 +318,10 @@ const Profile = props => {
                 let response = await request.json()
                 console.log(response);
                 if (response.status == 200) {
-                    toast.success('گاد با موفقیت ثبت شد',{containerId: 'new-god'})
+                    toast.success('گاد با موفقیت ثبت شد', { containerId: 'new-god' })
                     router.reload()
                 } else {
-                    toast.warning('خطایی در هنگام ثبت گاد پیش آمده',{containerId: 'new-god'})
+                    toast.warning('خطایی در هنگام ثبت گاد پیش آمده', { containerId: 'new-god' })
                 }
             }
 
@@ -381,6 +381,19 @@ const Profile = props => {
 
                                         </ul>
                                     </div>
+
+                                    {
+                                        (globalUser.username == null || globalUser.username == globalUser.phone_number) &&
+                                        <Alert type={"info"}>
+                                            لطفا نام کاربری خود را ثبت کنید
+                                        </Alert>
+                                    }
+                                    {
+                                        ((globalUser.access_level == 1 || globalUser.access_level == 0) && CanCreateGroup) &&
+                                        <Alert type={"info"}>
+                                            لطفا یک گروه بسازید
+                                        </Alert>
+                                    }
 
                                     <div className={styles.tabs}>
 
