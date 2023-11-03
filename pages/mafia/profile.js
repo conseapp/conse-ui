@@ -423,7 +423,7 @@ const Profile = props => {
                                                                                     </div>
                                                                                     <div className={styles.row}>
                                                                                         <div>
-                                                                                            <span className={styles.time}>{startTime.format("d MMMM")}</span>
+                                                                                            <span className={styles.time}>{startTime.format("D MMMM")}</span>
                                                                                             <span>{`سناریو: ${event.content}`}</span>
                                                                                         </div>
                                                                                         <div>
@@ -553,7 +553,7 @@ const Profile = props => {
                                                                                     </div>
                                                                                     <div className={styles.row}>
                                                                                         <div>
-                                                                                            <span className={styles.time}>{startTime.format("d MMMM")}</span>
+                                                                                            <span className={styles.time}>{startTime.format("D MMMM")}</span>
                                                                                             <span>{`سناریو: ${event.content}`}</span>
                                                                                         </div>
                                                                                         <div>

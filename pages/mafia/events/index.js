@@ -84,7 +84,7 @@ const Index = props => {
                                                             </div>
                                                             <div className={styles.row}>
                                                                 <div>
-                                                                    <span className={styles.time}>{startTime.format("d MMMM")}</span>
+                                                                    <span className={styles.time}>{startTime.format("D MMMM")}</span>
                                                                     <span>{`سناریو: ${event.content}`}</span>
                                                                 </div>
                                                                 <div>
@@ -116,7 +116,7 @@ const Index = props => {
                                                                     {event.title}
                                                                 </h3>
                                                             </div>
-                                                            <span className={styles.time}>{startTime.format("d MMMM")}</span>
+                                                            <span className={styles.time}>{startTime.format("D MMMM")}</span>
                                                             <span>{`سناریو: ${event.content}`}</span>
                                                             <span>{`ظرفیت: ${event.max_players}`}</span>
                                                             <span>{`گرداننده: ${event.group_info.owner}`}</span>
