@@ -384,7 +384,7 @@ const Profile = props => {
 
                                     {
                                         (globalUser.username == null || globalUser.username == globalUser.phone_number) &&
-                                        <Alert type={"info"}>
+                                        <Alert type={"warning"}>
                                             لطفا نام کاربری خود را ثبت کنید
                                         </Alert>
                                     }

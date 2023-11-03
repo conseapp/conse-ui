@@ -9,7 +9,8 @@ import Circular from "./Circular";
 import { useRouter } from "next/router";
 
 const Nav = props => {
-    const { pathname } = useRouter()
+    const router = useRouter()
+    const { pathname } = router
     const [loading, setLoading] = useState(true)
     // const dispatch = useDispatch();
     // const fetchUser = () => dispatch(getuser());
@@ -30,9 +31,13 @@ const Nav = props => {
 
 
     useEffect(() => {
-        console.log("im here",pathname );
+        console.log("im here", pathname);
         if (globalUser)
             setLoading(false)
+    }, [globalUser])
+    useEffect(() => {
+        if ((globalUser.username == null || globalUser.username == globalUser.phone_number))
+            router.push('/mafia/profile')
     }, [globalUser])
     return (
         <nav className={styles.component}>
@@ -84,16 +89,16 @@ const Nav = props => {
                         </Link>
                     </li>
                     {
-                    ((globalUser.access_level !== 1 && globalUser.access_level !== 0 )) ?
-                    <li className={pathname === '/mafia/home' ? styles.active : ''}>
-                        <Link href={'/mafia/home'}>
-                            <a>
-                                <MdOutlineHome />
-                            </a>
-                        </Link>
-                    </li>
-                    :
-                    <></>
+                        ((globalUser.access_level !== 1 && globalUser.access_level !== 0)) ?
+                            <li className={pathname === '/mafia/home' ? styles.active : ''}>
+                                <Link href={'/mafia/home'}>
+                                    <a>
+                                        <MdOutlineHome />
+                                    </a>
+                                </Link>
+                            </li>
+                            :
+                            <></>
                     }
                 </ul>
             }
