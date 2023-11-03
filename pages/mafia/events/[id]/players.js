@@ -383,6 +383,8 @@ const Players = props => {
                 if (response.data.is_locked) {
                     toast.success('ایونت با موفقیت بسته شد')
                     button.remove()
+                    router.reload();
+
                 } else {
                     toast.warning('خطایی در هنگام بستن ایونت پیش آمده')
                 }
