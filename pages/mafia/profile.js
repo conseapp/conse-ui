@@ -377,7 +377,7 @@ const Profile = props => {
                                                     <li data-target={"#new-god"} onClick={tabSelect}>گاد جدید</li>
                                                 </>
                                             }
-                                            <li data-target={"#username"} onClick={tabSelect}>نام کاربری</li>
+                                            <li data-target={"#username"} onClick={tabSelect}>اطلاعات من</li>
 
                                         </ul>
                                     </div>
@@ -620,6 +620,11 @@ const Profile = props => {
                                                 <div className="row">
                                                     <label htmlFor="username">نام و نام خانوادگی</label>
                                                     <input value={username} onChange={e => setUsername(e.target.value)} type="text" id={"username"} />
+                                                </div>
+
+                                                <div className="row">
+                                                    <label htmlFor="phone-number">شماره تلفن</label>
+                                                    <input value={globalUser.phone_number} disabled onChange={e => setUsername(e.target.value)} type="text" id={"phone-number"} />
                                                 </div>
 
                                                 <div className="row">
