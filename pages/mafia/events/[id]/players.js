@@ -179,7 +179,7 @@ const Players = props => {
 
         let chainInfoResponse = await chainInfoRequest.json()
 
-        if (chainInfoResponse.status === 200) {
+        if (chainInfoResponse.status === 200 && chainInfoResponse.data.chain_infos.length) {
             SetModalUserChainInfo(chainInfoResponse.data.chain_infos[chainInfoResponse.data.chain_infos.length - 1])
         }
 
