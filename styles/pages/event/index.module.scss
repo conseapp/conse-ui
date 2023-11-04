@@ -146,4 +146,8 @@
     background-color: #5c5c6a;
     z-index: 0;
   }
+
+  .danger {
+    background-color: var(--danger-color);
+  }
 }

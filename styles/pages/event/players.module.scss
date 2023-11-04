@@ -216,23 +216,22 @@
   &::-webkit-scrollbar {
     width: 10px;
   }
-  
+
   /* Track */
   &::-webkit-scrollbar-track {
     border-radius: 10px;
-    background: #3f3f3f; 
-
+    background: #3f3f3f;
   }
-   
+
   /* Handle */
   &::-webkit-scrollbar-thumb {
-    background: #463eb6; 
+    background: #463eb6;
     border-radius: 10px;
   }
-  
+
   /* Handle on hover */
   &::-webkit-scrollbar-thumb:hover {
-    background: #463eb6; 
+    background: #463eb6;
   }
   .row {
     display: flex;
@@ -241,6 +240,9 @@
     &:not(:last-child) {
       margin-bottom: 24px;
     }
-  }
 
+    .danger {
+      background-color: var(--danger-color);
+    }
+  }
 }

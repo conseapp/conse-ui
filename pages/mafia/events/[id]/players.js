@@ -481,6 +481,45 @@ const Players = props => {
             toast.success('اطلاعات جدید با موفقیت ذخیره شد')
         }
     }
+    const deletePlayer = async e => {
+        e.preventDefault()
+
+        let body = {
+            event_id: event._id.$oid,
+            user_id: ModalUser._id.$oid
+        }
+
+        await withReactContent(Swal).fire({
+            background: '#333',
+            color: '#fff',
+            title: <h3 style={{ color: 'var(--danger-color)' }}>آیا مطمئن هستید ؟</h3>,
+            html: 'پس از حذف بازیکن از ایونت امکان بازگرداندن آن وجود ندارد',
+            confirmButtonColor: 'var(--danger-color)',
+            confirmButtonText: 'تایید',
+            showCancelButton: true,
+            cancelButtonColor: '#aaa',
+            cancelButtonText: 'انصراف'
+        }).then(async e => {
+            if (e.isConfirmed && token) {
+                let request = await fetch(`${process.env.EVENT_URL}/event/cancel`, {
+                    method: 'POST',
+                    headers: {
+                        "Authorization": `Bearer ${token}`
+                    },
+                    body: JSON.stringify(body)
+                })
+                let response = await request.json()
+
+                if (response.status == 200) {
+                    toast.success('کاربر با موفقیت از ایونت حذف شد')
+                    router.reload();
+
+                } else {
+                    toast.warning('خطایی در هنگام حذف بازیکن از ایونت پیش آمده')
+                }
+            }
+        })
+    }
 
     const StartEvent = async e => {
         let href = `/mafia/events/${query.id}/night/0`
@@ -714,6 +753,13 @@ const Players = props => {
                     <div className={styles.row}>
                         <button type={"button"} onClick={UpdateEvent}>ذخیره</button>
                     </div>
+
+                    {
+                        (event && !event.is_locked) &&
+                        <div className={styles.row}>
+                            <button type={"button"} className={styles.danger} onClick={deletePlayer}>حذف بازیکن</button>
+                        </div>
+                    }
 
                 </div>
             </Modal>

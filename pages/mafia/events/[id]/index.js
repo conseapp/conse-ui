@@ -12,6 +12,8 @@ import Nav from "../../../../components/nav";
 import { useSelector } from 'react-redux';
 import { store } from '../../../../redux/store';
 import Circular from '../../../../components/Circular';
+import withReactContent from "sweetalert2-react-content";
+import Swal from "sweetalert2";
 
 const SingleEvent = props => {
     /**
@@ -199,6 +201,46 @@ const SingleEvent = props => {
             }
         }
     }
+
+    const cancelReserveEvent = async e => {
+        e.preventDefault()
+
+        let body = {
+            event_id: query.id,
+            user_id: globalUser.user_id
+        }
+
+        await withReactContent(Swal).fire({
+            background: '#333',
+            color: '#fff',
+            title: <h3 style={{ color: 'var(--danger-color)' }}>آیا مطمئن هستید ؟</h3>,
+            html: 'پس از لغو رزور از ایونت حذف میشوید',
+            confirmButtonColor: 'var(--danger-color)',
+            confirmButtonText: 'تایید',
+            showCancelButton: true,
+            cancelButtonColor: '#aaa',
+            cancelButtonText: 'انصراف'
+        }).then(async e => {
+            if (e.isConfirmed && token) {
+                let request = await fetch(`${process.env.EVENT_URL}/event/cancel`, {
+                    method: 'POST',
+                    headers: {
+                        "Authorization": `Bearer ${token}`
+                    },
+                    body: JSON.stringify(body)
+                })
+                let response = await request.json()
+
+                if (response.status == 200) {
+                    toast.success('کاربر با موفقیت از ایونت حذف شد')
+                    Router.push('/mafia/events');
+
+                } else {
+                    toast.warning('خطایی در هنگام حذف بازیکن از ایونت پیش آمده')
+                }
+            }
+        })
+    }
     console.log(preloadedState)
     return (
         <div className={styles.page}>
@@ -275,11 +317,18 @@ const SingleEvent = props => {
                                             !isEventExpired ?
                                                 IsUserRegistered ?
                                                     TodayIsEventDay ?
-                                                        <Link href={`${query.id}/info/${globalUser.user_id}`}>
-                                                            <a>
-                                                                مشاهده جزئیات بازی
-                                                            </a>
-                                                        </Link> :
+                                                        <>
+                                                            <Link href={`${query.id}/info/${globalUser.user_id}`}>
+                                                                <a>
+                                                                    مشاهده جزئیات بازی
+                                                                </a>
+                                                            </Link>
+                                                            {
+                                                                !isEventLocked &&
+                                                                <button type={"button"} className={styles.danger} onClick={cancelReserveEvent}>لغو رزرو</button>
+                                                            }
+                                                        </>
+                                                        :
                                                         <></> :
                                                     !isEventLocked ?
                                                         <button type={"button"} disabled={isEventLocked} onClick={ReserveEvent}>رزرو ایونت</button> :
