@@ -395,15 +395,15 @@ const Players = props => {
         let button = e.target
 
         await withReactContent(Swal).fire({
-            background: '#F6F6F6',
-            color: '#333',
+            background: '#333',
+            color: '#fff',
             title: <h3 style={{ color: 'var(--danger-color)' }}>آیا مطمئن هستید ؟</h3>,
             html: 'پس از پایان بازی نمیتوانید تغییری در آن ایجاد کنید و یا دوباره آن را باز کنید',
             confirmButtonColor: 'var(--danger-color)',
-            confirmButtonText: 'بله میخوام به بازی رو تموم کنم',
+            confirmButtonText: 'پایان بازی',
             showCancelButton: true,
-            cancelButtonColor: 'var(--text-color)',
-            cancelButtonText: 'خیر، میخوام تغییرات ایجاد کنم'
+            cancelButtonColor: 'aaa',
+            cancelButtonText: 'انصراف'
         }).then(async e => {
             if (e.isConfirmed && token) {
                 let request = await fetch(`${process.env.EVENT_URL}/event/set-expire`, {

@@ -59,7 +59,7 @@ const Index = props => {
                     Events.length > 0 ?
                         <ul className={styles.list}>
                             {
-                                Events.map((event, index) => {
+                                Events.filter(event => !event.is_expired).map((event, index) => {
                                     const startTime = new DateObject({
                                         date: event.started_at * 1000,
                                         calendar: persian,
@@ -121,7 +121,7 @@ const Index = props => {
                                                             <span>{`ظرفیت: ${event.max_players}`}</span>
                                                             <span>{`گرداننده: ${event.group_info.owner}`}</span>
                                                             <span>{`نام گروه: ${event.group_info.name}`}</span>
-                                                            
+
                                                         </div>
                                                         {
                                                             !event.is_expired && <button className={styles.btn}>بیشتر</button>
