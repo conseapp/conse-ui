@@ -157,7 +157,7 @@ const Index = props => {
                                                         startTime ?
                                                             <div>
                                                                 <span className={styles.time}>{startTime.format("D MMMM")}</span>
-                                                                <span>سناریو: {toDayEvent.content}</span>
+                                                                <span>سناریو: {todayEvent.content}</span>
                                                             </div> : <></>
                                                     }
                                                     {
