@@ -304,12 +304,12 @@ const SingleEvent = props => {
                                                 مشاهده لیست بازیکنان
                                             </a>
                                         </Link>
-                                        {
+                                        {/* {
                                             single.is_locked === false &&
                                             <button type={"button"} onClick={LockEvent}>
                                                 بستن رزرو ایونت
                                             </button>
-                                        }
+                                        } */}
 
                                     </> :
                                     <>

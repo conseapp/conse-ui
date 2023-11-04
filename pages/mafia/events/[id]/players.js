@@ -30,6 +30,8 @@ const Players = props => {
     const [sides, setSides] = useState(undefined)
     const [deck, setDeck] = useState(undefined)
     const [loading, setLoading] = useState(true)
+    const [godEvents, setGodEvents] = useState(undefined)
+    const [isEventActive, setIsEventActive] = useState(true)
     const { globalUser } = useSelector(state => state.userReducer)
     const { selectedTime } = useSelector(state => state.timeReducer);
     const dispatch = useDispatch();
@@ -68,6 +70,18 @@ const Players = props => {
         if (sideData.status == 200)
             setSides(sideData.data.sides)
     }
+    const loadGodEvents = async () => {
+        let res = await fetch(`${process.env.GAME_URL}/event/get/all/god`, {
+            method: 'GET',
+            headers: { "Authorization": `Bearer ${globalUser.accessToken}` },
+        })
+        let data = await res.json()
+        if (data.status == 200)
+            setGodEvents(data.data)
+        if (data.status == 404)
+            setGodEvents([])
+
+    }
 
 
     useEffect(() => {
@@ -98,6 +112,7 @@ const Players = props => {
         if (globalUser && globalUser.accessToken && query.id) {
             loadStuff()
             loadEvents()
+            loadGodEvents()
         }
     }, [globalUser, query.id])
 
@@ -108,6 +123,15 @@ const Players = props => {
             setLoading(false)
         }
     }, [event, sides, deck, Players, AvailableCards])
+
+    useEffect(() => {
+        if (event && godEvents) {
+            godEvents.filter(e => (!e.is_expired && !e.is_locked)).map(single => {
+                if (event.started_at > single.started_at)
+                    setIsEventActive(false)
+            })
+        }
+    }, [event, godEvents])
 
 
 
@@ -585,7 +609,7 @@ const Players = props => {
                     </div>
 
                     {
-                        TodayIsEventDay &&
+                        (TodayIsEventDay && isEventActive && !event.is_expired) &&
                         <div className={styles.conductorMenu}>
                             <button type={"button"} onClick={ToggleConductorMenu}>
                                 <MdSettings />
