@@ -215,7 +215,7 @@ const Create = props => {
         const fd = new FormData();
         fd.append('img', selectedImg)
 
-        const response = await fetch(`${process.env.ADMIN_URL}/admin/mafia/event/${query.id}/upload/img`, {
+        const response = await fetch(`${process.env.ADMIN_URL}/admin/event/${query.id}/upload/img`, {
             method: 'POST',
             headers: { "Authorization": `Bearer ${globalUser.accessToken}` },
             body: fd,
