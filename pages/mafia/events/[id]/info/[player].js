@@ -209,7 +209,7 @@ const Info = props => {
                                 </div></>}
                         </>
                         :
-                        <><div className="container">شما مجاز به ورود به این بخش نمیباشید</div></>}
+                        <><Circular /></>}
                 </>
                 :
                 <><div className="container">لطفا وارد حساب کاربری خود شوید</div></>}
