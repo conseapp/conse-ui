@@ -6,6 +6,17 @@
     position: relative;
     margin-bottom: 12px;
 
+    .playerID {
+      font-size: 18px;
+
+      b {
+        background-color: var(--dark-bg-color);
+        color: #fff;
+        border-radius: 5px;
+        padding: 5px 10px;
+      }
+    }
+
     > button {
       position: absolute;
       left: 16px;
@@ -37,8 +48,10 @@
       }
 
       span {
-        padding: 0 12px;
+        padding: 4px 12px;
+        margin-top: 4px;
         border-radius: 4px;
+        font-size: 18px;
       }
     }
 

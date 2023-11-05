@@ -146,9 +146,11 @@ const Info = props => {
                                             <MdRefresh />
                                         </button>
 
+                                        <strong className={styles.playerID}>شماره شما : <b>{player.username.split('::')[1]}</b></strong>
+
                                         <div className={styles.info}>
                                             <Image src={'/avatar.png'} alt={player.username} width={100} height={100} />
-                                            <h2>{player.username}</h2>
+                                            <h2>{player.username.split('::')[0]}</h2>
                                             {
                                                 event.data.is_locked &&
                                                 < span style={newUser.side_id !== null ? CreateSideColor(newUser.side_id.$oid) : {}}>

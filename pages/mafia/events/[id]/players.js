@@ -581,7 +581,13 @@ const Players = props => {
                                             <li key={player._id.$oid}
                                                 style={player.side_id !== null ? CreateSideColor(player.side_id.$oid) : {}}>
                                                 <div className={styles.info}>
-                                                    <strong>{player.username}</strong>
+                                                    <strong>
+                                                        <b className={styles.playerID}>
+                                                            {player.username.split('::')[1]}
+                                                        </b>
+                                                        &nbsp;&nbsp;
+                                                        {player.username.split('::')[0]}
+                                                    </strong>
                                                     {player.role_id &&
                                                         <span>
                                                             {deck.roles.map(role => {
