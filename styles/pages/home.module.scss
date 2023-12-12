@@ -1,0 +1,193 @@
+@import "styles/functions";
+
+// Small tablets and large smartphones (landscape view)
+$screen-sm-min: 576px;
+
+// Small tablets (portrait view)
+$screen-md-min: 768px;
+
+// Tablets and small desktops
+$screen-lg-min: 992px;
+
+// Large tablets and desktops
+$screen-xl-min: 1200px;
+
+.page {
+  .lastEvents {
+    // .swiper {
+    //   width: 90%;
+    //   padding-top: 50px;
+    //   padding-bottom: 50px;
+
+    //   @media (min-width: $screen-sm-min) {
+    //     width: 400px;
+    //   }
+    //   @media (min-width: $screen-md-min) {
+    //     width: 500px;
+    //   }
+    //   @media (min-width: $screen-lg-min) {
+    //     width: 600px;
+    //   }
+    //   @media (min-width: $screen-xl-min) {
+    //     width: 700px;
+    //   }
+
+    //   .swiper_slide {
+    //     aspect-ratio: 7/5;
+    //   }
+    //   a {
+    //     width: 100%;
+    //     height: 100%;
+    //     background-size: cover;
+    //     border-radius: 8px;
+    //     position: relative;
+    //     overflow: hidden;
+    //     display: flex;
+
+    //     &:before {
+    //       content: "";
+    //       position: absolute;
+    //       width: 100%;
+    //       height: 100%;
+    //       background: rgb(0, 0, 0);
+    //       background: -webkit-linear-gradient(
+    //         0deg,
+    //         rgba(0, 0, 0, 0.9) 0%,
+    //         rgba(0, 0, 0, 0) 100%
+    //       );
+    //       background: -moz-linear-gradient(
+    //         0deg,
+    //         rgba(0, 0, 0, 0.9) 0%,
+    //         rgba(0, 0, 0, 0) 100%
+    //       );
+    //       background: linear-gradient(
+    //         0deg,
+    //         rgba(0, 0, 0, 0.9) 0%,
+    //         rgba(0, 0, 0, 0) 100%
+    //       );
+    //     }
+
+    //     h3 {
+    //       position: absolute;
+    //       color: var(--text-icon-color);
+    //       bottom: 12px;
+    //       right: 12px;
+    //       padding-left: 24px;
+    //       max-height: 60px;
+    //       overflow: hidden;
+    //     }
+    //   }
+    // }
+
+    .event {
+      width: 100%;
+      margin: auto;
+      display: flex;
+      overflow: hidden;
+      aspect-ratio: 97/32;
+
+      .item {
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        border-radius: 12px;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: flex-end;
+        flex-direction: column-reverse;
+        justify-content: end;
+
+        &::before {
+          content: "";
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          background: rgb(0, 0, 0, 0.5);
+        }
+
+        img {
+          position: absolute;
+          display: block;
+          width: 100%;
+          height: 100%;
+          z-index: -1;
+        }
+
+        .data {
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          padding: 12px 6px;
+          width: 100%;
+          gap: 5px;
+          .row {
+            display: flex;
+            flex-direction: row;
+            width: 90%;
+            margin: auto;
+            justify-content: space-between;
+            div {
+              display: flex;
+              flex-direction: column;
+            }
+          }
+          .event_title {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            svg {
+              fill: #cd0000;
+            }
+          }
+          h3 {
+            direction: rtl;
+            color: #eee;
+            font-size: 14px;
+            font-weight: normal;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+          span {
+            width: 100px;
+            padding-right: 15px;
+            color: #bbb;
+            font-size: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+
+            &.role {
+              display: inline-block;
+              font-size: 12px;
+              border-radius: 5px;
+              padding-right: 0;
+              height: 80%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              align-self: center;
+            }
+          }
+        }
+        .btn {
+          position: relative;
+          background-color: transparent;
+          border: solid 2px;
+          color: #ddd;
+          font-size: 12px;
+          display: flex;
+          align-items: center;
+          padding: 0px 14px;
+          border-radius: 40px;
+          left: 12px;
+          top: 20px;
+          @media (max-width: 345px) {
+            top: 40px;
+          }
+        }
+      }
+    }
+  }
+}

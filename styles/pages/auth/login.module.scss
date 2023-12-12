@@ -6,10 +6,21 @@
   align-items: center;
   justify-content: center;
   padding: 40px;
+
+  .logo {
+    display: flex;
+    padding: 16px 24px;
+    width: 100%;
+    justify-content: center;
+
+    a{
+      display: flex;
+    }
+  }
 }
 
 .card {
-  background: #ffffff;
+  background: var(--dark-bg-color);
   width: calc(100vw - 40px);
   min-height: calc(100vh - 40px);
   border-radius: 18px;
@@ -18,7 +29,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 10px 0;
     flex-direction: column;
   }
 

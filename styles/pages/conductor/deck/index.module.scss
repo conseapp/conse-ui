@@ -21,7 +21,7 @@
   table {
     width: 100%;
     border-collapse: collapse;
-    border: 1px solid #E5E5E5;
+    border: 1px solid #3f3f3f;
 
     thead {
       tr {
@@ -39,7 +39,7 @@
     tbody {
       tr {
         &:nth-child(odd) {
-          background: #E5E5E5;
+          background: #282828;
         }
 
         td {
@@ -62,7 +62,7 @@
 
           a {
             background: var(--primary-color);
-            color:var(--text-icon-color);
+            color:var(--primary-light-color);
             padding: 5px;
             border-radius: 5px;
             display: flex;

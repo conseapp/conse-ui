@@ -1,14 +1,15 @@
 .component {
   background: #ffffff;
-  font-family: 'IranSans', sans-serif;
+  font-family: "IranSans", sans-serif;
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
+  background-color: var(--dark-bg-color);
 
   .toggleMenu {
     background: transparent;
-    color: #333333;
+    color: white;
     padding: 0;
     display: flex;
     font-size: 32px;
@@ -17,18 +18,18 @@
   .logo {
     display: flex;
     padding: 16px 24px;
-    border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid #575757;
     width: 100%;
     justify-content: center;
 
     a {
-      display: flex
+      display: flex;
     }
   }
 
   .profile {
     padding: 16px 24px;
-    border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid #575757;
     width: 100%;
     display: flex;
     align-items: center;
@@ -40,8 +41,15 @@
       align-items: center;
       padding: 10px;
       background: var(--primary-color);
-      color: var(--text-icon-color);
+      color: var(--primary-light-color);
       border-radius: 8px;
+      transition: 0.3s;
+      &:hover {
+        background: #7a5af5;
+      }
+      &:active {
+        background: #463eb6;
+      }
     }
 
     img {
@@ -54,12 +62,14 @@
 
       h4 {
         font-size: 16px;
+        color: var(--text-color);
       }
 
       .score {
         display: flex;
         align-items: center;
         font-size: 14px;
+        color: var(--text-color-secondary);
 
         svg {
           margin-left: 8px;
@@ -73,17 +83,15 @@
   button.logout {
     display: flex;
     white-space: nowrap;
+    color: var(--danger-color);
     background: var(--danger-light-color);
-    color: #FE5052;
+    border: solid var(--danger-color) 1px;
     align-items: center;
     padding: 6px 12px;
     border-radius: 4px;
 
     svg {
-      margin-left: 4px
+      margin-left: 4px;
     }
   }
 }
-
-
-

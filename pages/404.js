@@ -1,4 +1,4 @@
-import styles from '/styles/pages/learn.module.scss'
+import styles from '/styles/pages/learn/index.module.scss'
 import Nav from "../components/nav";
 import React from "react";
 import Header from "../components/header";

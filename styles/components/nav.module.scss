@@ -3,10 +3,10 @@
   bottom: 0;
   right: 0;
   width: 100%;
-  border-top: 1px solid #e5e5e5;
-  background: #FFFFFF;
+  border-top: 1px solid #3f3f3f;
+  background-color: #282828;
   padding: 20px;
-  z-index: 2;
+  z-index: 10;
 
   ul {
     display: flex;
@@ -14,10 +14,44 @@
     list-style: none;
 
     li {
+      &::after {
+        content: "";
+        width: 0%;
+        height: 3px;
+        border-radius: 10px;
+        background-color: var(--primary-color);
+        display: block;
+        position: relative;
+        top: 5px;
+        margin: auto;
+        transition: 0.5s;
+      }
+
+      &.active {
+        a svg {
+          fill: var(--primary-color);
+        }
+        &::after {
+          width: 100%;
+        }
+      }
+
+      &:hover {
+        a svg {
+          fill: var(--primary-color);
+        }
+        &::after {
+          width: 100%;
+        }
+      }
+
       a {
         font-size: 32px;
         display: flex;
         color: var(--text-color);
+        svg {
+          transition: 0.3s;
+        }
       }
     }
   }

@@ -2,6 +2,7 @@ import * as React from 'react';
 import styles from "/styles/components/header.module.scss";
 import Link from "next/link";
 import Image from "next/future/image";
+import logo from "../public/logo-white.png";
 import { deleteCookie } from "cookies-next";
 import { useRouter } from "next/router";
 import { MdLogout, MdStar } from "react-icons/md";
@@ -60,15 +61,15 @@ const Header = props => {
         <header className={styles.component}>
             {loading ?
                 <>
-                <Circular />
+                    <Circular />
                 </>
                 :
                 <>
 
                     <div className={styles.logo}>
-                        <Link href={"/"}>
+                        <Link href={`${(globalUser.access_level === 1 || globalUser.access_level === 0) ? '/mafia/profile' : '/mafia/home'}`}>
                             <a>
-                                <Image src='/logo.png' alt={"Conse"} width={66} height={32} />
+                                <Image src={logo} alt={"Conse"} width={50} height={50} quality={100} />
                             </a>
                         </Link>
                     </div>
@@ -79,7 +80,7 @@ const Header = props => {
                             {
                                 globalUser && !globalUser.isLoggedIn ?
 
-                                    <a href={'/login'} className={styles.loginButton}>ورود به حساب کاربری</a>
+                                    <a href={'/mafia/login'} className={styles.loginButton}>ورود به حساب کاربری</a>
                                     :
 
                                     <>

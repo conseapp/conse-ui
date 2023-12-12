@@ -19,7 +19,7 @@
       span {
         position: absolute;
         bottom: 0;
-        background: #FFF;
+        background: var(--dark-bg-color);
         padding: 4px 12px;
         border-radius: 8px 8px 0 0;
         color: var(--primary-color);
@@ -27,7 +27,7 @@
       }
 
       &:before {
-        content: '';
+        content: "";
         position: absolute;
         background: rgba(0, 0, 0, 0.5);
         width: 100%;
@@ -51,7 +51,7 @@
           display: flex;
           align-items: center;
           width: 100%;
-          background: #E5E5E5;
+          background: #323232;
           padding: 16px;
           border-radius: 8px;
 
@@ -61,13 +61,22 @@
 
           .info {
             width: 100%;
+            font-size: 18px;
 
             strong {
               margin-left: 8px;
+
+              .playerID {
+                background-color: var(--dark-bg-color);
+                color: #fff;
+                border-radius: 5px;
+                padding: 5px 10px;
+              }
             }
 
             span {
-              opacity: .8;
+              opacity: 0.8;
+              font-weight: bold;
 
               &:before {
                 content: "( ";
@@ -84,9 +93,33 @@
             align-items: center;
             justify-content: center;
             color: var(--text-color);
-            background: #FFFFFF;
+            background: var(--dark-bg-color);
             font-size: 20px;
             padding: 12px;
+          }
+        }
+      }
+      .footer {
+        display: flex;
+        justify-content: center;
+        margin: 32px 0px 16px 0px;
+        a {
+          width: 80%;
+          display: flex;
+          background: var(--primary-color);
+          color: var(--text-icon-color);
+          border-radius: 8px;
+          align-items: center;
+          justify-content: center;
+          padding: 16px;
+
+          @include Transition(300ms);
+
+          &:hover {
+            background: #7a5af5;
+          }
+          &:active {
+            background: #463eb6;
           }
         }
       }
@@ -98,11 +131,13 @@
     left: -250px;
     top: 50%;
     transform: translateY(-50%);
-    background: #FFFFFF;
+    background: var(--dark-bg-color);
+    color: var(--text-color);
     width: 250px;
-    border: 1px solid #CCCCCC;
+    border: 1px solid #3f3f3f;
     border-radius: 0 8px 8px 0;
     padding: 10px;
+    z-index: 3;
     @include Transition(200ms);
 
     &.open {
@@ -121,9 +156,9 @@
       justify-content: center;
       align-items: center;
       font-size: 28px;
-      background: #FFFFFF;
-      color: var(--primary-color);
-      border: 1px solid #CCCCCC;
+      background: var(--dark-bg-color);
+      color: var(--text-color);
+      border: 1px solid #3f3f3f;
       border-left: 0;
     }
 
@@ -148,12 +183,14 @@
 
         button {
           width: 100%;
-          background: var(--primary-color);
-          color: var(--text-icon-color)
         }
       }
     }
   }
+}
+
+.modal {
+  background-color: var(--dark-bg-color);
 }
 
 .modalHeader {
@@ -163,8 +200,8 @@
   margin-bottom: 32px;
 
   button {
-    background: var(--danger-light-color);
-    color: var(--danger-color);
+    background-color: var(--dark-bg-color);
+    color: var(--primary-color);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -172,13 +209,49 @@
     width: 40px;
     height: 40px;
     padding: 0;
+
+    &:hover {
+      background-color: var(--primary-color);
+      color: var(--dark-bg-color);
+    }
   }
 }
 
 .modalBody {
+  max-height: 60vh;
+  overflow: auto;
+  padding-left: 16px;
+
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background: #3f3f3f;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: #463eb6;
+    border-radius: 10px;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: #463eb6;
+  }
   .row {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
     &:not(:last-child) {
       margin-bottom: 24px;
+    }
+
+    .danger {
+      background-color: var(--danger-color);
     }
   }
 }

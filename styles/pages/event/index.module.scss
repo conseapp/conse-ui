@@ -8,15 +8,35 @@
     position: relative;
 
     &:before {
-      content: '';
+      content: "";
       width: 100%;
       height: 100%;
       position: absolute;
       z-index: 1;
       background: rgb(0, 0, 0);
-      background: -webkit-linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
-      background: -moz-linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
-      background: linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
+      background: -webkit-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 1) 0%,
+        rgba(0, 0, 0, 0) 100%
+      );
+      background: -moz-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 1) 0%,
+        rgba(0, 0, 0, 0) 100%
+      );
+      background: linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 1) 0%,
+        rgba(0, 0, 0, 0) 100%
+      );
+    }
+
+    img {
+      position: absolute;
+      display: block;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
     }
 
     h2 {
@@ -54,7 +74,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        background: #FFFFFF;
+        background: #ffffff;
         font-size: 28px;
         padding: 0;
         border: 1px solid #e5e5e5;
@@ -85,12 +105,49 @@
     flex-direction: column;
 
     a {
-      background: #E5E5E5;
-      color: var(--text-color);
+      background: #121212;
+      color: var(--primary-color);
+      border: solid 2px var(--primary-color);
       margin-bottom: 16px;
       padding: 10px 16px;
       border-radius: 8px;
       text-align: center;
+      transition: 0.3s;
+      &:hover {
+        color: #121212;
+        background: var(--primary-color);
+      }
     }
+  }
+  .locked {
+    position: relative;
+    display: flex;
+    justify-content: center;
+  }
+  .locked_text {
+    font-size: 24px;
+    font-weight: bold;
+    color: #5c5c6a;
+    z-index: 1;
+    background-color: white;
+    padding: 0 10px;
+    position: relative;
+  }
+
+  .locked::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    left: 0;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    background-color: #5c5c6a;
+    z-index: 0;
+  }
+
+  .danger {
+    background-color: var(--danger-color);
   }
 }
