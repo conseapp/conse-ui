@@ -1,15 +1,14 @@
-import { useState } from 'react'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 
 
 //Routes
 import MainLayout from './layouts/MainLayout.jsx';
+import AuthLayout from './layouts/AuthLayout.jsx';
 import NotFound from './pages/NotFound.jsx';
 import Landing from './pages/Landing.jsx';
-import Profile from './pages/Profile/Profile.jsx';
+import Profile from './pages/profile/Profile.jsx'
 import UserAccountInfo from './pages/profile/UserAccountInfo.jsx';
 import Promotions from './pages/profile/Promotions.jsx';
-import ProfileLayout from './layouts/ProfileLayout.jsx';
 import GodEvents from './pages/profile/GodEvents.jsx';
 import Learning from './pages/Learning.jsx';
 import Login from './pages/Login.jsx';
@@ -17,6 +16,9 @@ import OldLogin from './pages/OldLogin.jsx';
 import Signup from './pages/Signup.jsx';
 import Manage from './pages/manage/Manage.jsx';
 import Events from './pages/events/Events.jsx';
+import RequireAuth from './layouts/RequireAuth.jsx';
+import Unauthorized from './pages/Unauthorized.jsx';
+
 
 const router = createBrowserRouter([
   {
@@ -26,67 +28,89 @@ const router = createBrowserRouter([
   },
   {
     path: "/mafia",
-    element: <MainLayout />,
     children: [
       {
         index: true,
-        element: <Profile />,
+        element: <Navigate to="/mafia/profile" replace />,
       },
+
       {
-        path: "learning",
-        element: <Learning />,
-      },
-      {
-        path: "events",
-        element: <Events />,
-      },
-      {
-        path: "manage",
-        element: <Manage />,
-      },
-      {
-        path: "login",
-        element: <Login />,
-      },
-      {
-        path: "old-login",
-        element: <OldLogin />,
-      },
-      {
-        path: "signup",
-        element: <Signup />,
-      },
-      {
-        path: 'profile',
-        element: <ProfileLayout />,
+        element: <AuthLayout />,
         children: [
           {
-            index: true,
-            element: <Profile />
+            path: "login",
+            element: <Login />,
           },
           {
-            path: 'user-acount-info',
-            element: <UserAccountInfo />
+            path: "old-login",
+            element: <OldLogin />,
           },
           {
-            path: 'promotions',
-            element: <Promotions />
+            path: "signup",
+            element: <Signup />,
           },
           {
-            path: 'god-events',
-            element: <GodEvents />
+            path: "unauthorized",
+            element: <Unauthorized />,
+          },
+        ]
+      },
+
+      // Routes that require user authentication to access
+
+      {
+        element: <MainLayout />,
+        children: [
+          {
+            path: "learning",
+            element: <Learning />,
+          },
+          {
+            path: "events",
+            element: <Events />,
+          },
+          {
+            path: "manage",
+            element: <Manage />,
+          },
+          {
+            path: 'profile',
+            children: [
+              {
+                index: true,
+                element: <Profile />
+              },
+              {
+                path: 'user-acount-info',
+                element: <UserAccountInfo />
+              },
+              {
+                path: 'promotions',
+                element: <Promotions />
+              },
+            ]
+          },
+          {
+            element: <RequireAuth allowedRoles={[0, 1]} />,
+            children: [
+              {
+                path: 'god-events',
+                element: <GodEvents />
+              },
+            ]
           },
         ]
       },
     ]
   },
+
 ]);
 
 
 function App() {
 
   return (
-    <div>
+    <div className='font-sans min-h-screen bg-gradient-main'>
       <RouterProvider router={router} />
     </div>
   )

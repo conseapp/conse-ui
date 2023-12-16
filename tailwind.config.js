@@ -14,14 +14,38 @@ export default {
         },
         secondary: '#3EAEFF',
         dark: '#061624',
+        navy: '#0D0D1F',
         gray: {
           light: '#949494',
           DEFAULT: '#323232',
           dark: '#232323',
         },
       },
-      dropShadow:{
-        'neon':'-2px -2px 8px rgba(235, 50, 150, 0.25)'
+      screens: {
+        'xs': '576px',
+        // => @media (min-width: 576px) { ... }
+
+        'sm': '640px',
+        // => @media (min-width: 640px) { ... }
+
+        'md': '768px',
+        // => @media (min-width: 768px) { ... }
+
+        'lg': '1024px',
+        // => @media (min-width: 1024px) { ... }
+
+        'xl': '1280px',
+        // => @media (min-width: 1280px) { ... }
+
+        '2xl': '1536px',
+        // => @media (min-width: 1536px) { ... }
+      },
+      dropShadow: {
+        'neon': '-2px -2px 8px rgba(235, 50, 150, 0.25)',
+        'neon-blue': '-2px -2px 8px #3EAEFF',
+      },
+      boxShadow: {
+        'neon': '-2px -4px 8px 0px rgba(200, 35, 124, 0.32)'
       },
       fontFamily: {
         sans: '"IranSans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"'

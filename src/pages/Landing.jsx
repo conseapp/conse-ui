@@ -1,8 +1,11 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const Landing = () => {
     return (
-        <div className='text-black text-3xl'>Landing</div>
+        <div className='text-3xl'>
+            <Link to={'/mafia/profile'}>ورود به اپلیکیشن</Link>
+        </div>
     )
 }
 
