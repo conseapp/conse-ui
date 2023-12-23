@@ -8,17 +8,19 @@ import EventsActiveIcon from '../assets/icons/eventsActiveIcon.svg'
 import LearningActiveIcon from '../assets/icons/learningActiveIcon.svg'
 import ManageActiveIcon from '../assets/icons/manageActiveIcon.svg'
 import ProfileActiveIcon from '../assets/icons/profileActiveIcon.svg'
+import { useSelector } from 'react-redux'
 const Navbar = () => {
-    const TodoStyle = 'flex flex-col items-center justify-center gap-1 w-full text-xs text-gray-light mt-2.5 transition-all'
-    const activeTodoStyle = 'flex flex-col items-center justify-center gap-1 w-full  text-xs pb-2.5 text-secondary transition-all'
+    const navStyle = 'flex flex-col items-center justify-center gap-1 w-full text-xs text-gray-light mt-2.5 transition-all'
+    const activeNavStyle = 'flex flex-col items-center justify-center gap-1 w-full  text-xs pb-2.5 text-secondary transition-all'
+    const globalUser = useSelector(state => state.userReducer)
 
     return (
-        <nav className='fixed w-full bottom-0 left-0 py-4'>
+        <nav className='fixed w-full bottom-0 left-0 py-4 z-20'>
             <ul className='w-full flex justify-evenly'>
                 <li>
                     <NavLink
                         to="/mafia/profile"
-                        className={({ isActive }) => isActive ? activeTodoStyle : TodoStyle}
+                        className={({ isActive }) => isActive ? activeNavStyle : navStyle}
                     >
                         {({ isActive }) => (
                             <>
@@ -31,7 +33,7 @@ const Navbar = () => {
                 <li>
                     <NavLink
                         to="/mafia/learning"
-                        className={({ isActive }) => isActive ? activeTodoStyle : TodoStyle}
+                        className={({ isActive }) => isActive ? activeNavStyle : navStyle}
                     >
                         {({ isActive }) => (
                             <>
@@ -41,23 +43,44 @@ const Navbar = () => {
                         )}
                     </NavLink>
                 </li>
-                <li>
-                    <NavLink
-                        to="/mafia/manage"
-                        className={({ isActive }) => isActive ? activeTodoStyle : TodoStyle}
-                    >
-                        {({ isActive }) => (
-                            <>
-                                <img className='w-6' src={isActive ? ManageActiveIcon : ManageIcon} />
-                                <span>مدیریت بازی</span>
-                            </>
-                        )}
-                    </NavLink>
-                </li>
+                {
+                    (globalUser.accessLevel == 0 || globalUser.accessLevel == 1)
+                    &&
+                    <li>
+                        <NavLink
+                            to="/mafia/manage"
+                            className={({ isActive }) => isActive ? activeNavStyle : navStyle}
+                        >
+                            {({ isActive }) => (
+                                <>
+                                    <img className='w-6' src={isActive ? ManageActiveIcon : ManageIcon} />
+                                    <span>مدیریت بازی</span>
+                                </>
+                            )}
+                        </NavLink>
+                    </li>
+                }
+                {
+                    (globalUser.accessLevel == 2)
+                    &&
+                    <li>
+                        <NavLink
+                            to="/mafia/player-events"
+                            className={({ isActive }) => isActive ? activeNavStyle : navStyle}
+                        >
+                            {({ isActive }) => (
+                                <>
+                                    <img className='w-6' src={isActive ? ManageActiveIcon : ManageIcon} />
+                                    <span>ایونت‌های من</span>
+                                </>
+                            )}
+                        </NavLink>
+                    </li>
+                }
                 <li>
                     <NavLink
                         to="/mafia/events"
-                        className={({ isActive }) => isActive ? activeTodoStyle : TodoStyle}
+                        className={({ isActive }) => isActive ? activeNavStyle : navStyle}
                     >
                         {({ isActive }) => (
                             <>

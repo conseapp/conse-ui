@@ -1,5 +1,6 @@
 import { useLocation, Navigate, Outlet } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import { ToastContainer } from 'react-toastify'
 
 
 const AuthLayout = () => {
@@ -8,7 +9,10 @@ const AuthLayout = () => {
 
     return (
         !globalUser.isLoggedIn ?
-            <Outlet />
+            <>
+                <Outlet />
+                <ToastContainer position="bottom-center" autoClose={3000} hideProgressBar newestOnTop={false} closeOnClick rtl pauseOnFocusLoss draggable pauseOnHover theme="dark" />
+            </>
             : <Navigate to='/mafia/profile' state={{ from: locaion }} replace />
     )
 }

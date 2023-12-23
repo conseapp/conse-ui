@@ -45,13 +45,22 @@ export default {
         'neon-blue': '-2px -2px 8px #3EAEFF',
       },
       boxShadow: {
-        'neon': '-2px -4px 8px 0px rgba(200, 35, 124, 0.32)'
+        'neon': '-2px -4px 8px 0px rgba(200, 35, 124, 0.32)',
+        'neon-blue-sm': '-1px -2px 8px 0px rgba(62, 174, 255, 0.25)',
       },
       fontFamily: {
         sans: '"IranSans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"'
       },
       backgroundImage: {
         'gradient-main': 'linear-gradient(168deg, #601B69 -24.53%, #061624 119.47%)',
+      },
+      aspectRatio: {
+        'custom': '46 / 65',
+        '2/1': '2 / 1',
+        '4/3': '4 / 3',
+      },
+      height: {
+        'custom-screen': 'calc(100vh - 180px)'
       }
     },
   },

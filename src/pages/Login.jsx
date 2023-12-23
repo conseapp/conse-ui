@@ -5,7 +5,7 @@ import { PhoneInput } from '../components/ui/inputs';
 import { SubmitButton, RegularButton } from '../components/ui/buttons';
 import OTPInput from 'react-otp-input';
 import Timer from '../components/ui/Timer';
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { requestOTP, checkOTP } from '../api/authApi'
 import { useDispatch } from 'react-redux';
@@ -172,8 +172,6 @@ const Login = () => {
             <SubmitButton text="ارسال کد" id={"submit-ph"} disabled={isPhDisabled} />
           </form>
       }
-      <ToastContainer position="bottom-center" autoClose={3000} hideProgressBar newestOnTop={false} closeOnClick rtl pauseOnFocusLoss draggable pauseOnHover theme="dark" />
-
     </div>
   )
 }

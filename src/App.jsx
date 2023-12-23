@@ -18,6 +18,12 @@ import Manage from './pages/manage/Manage.jsx';
 import Events from './pages/events/Events.jsx';
 import RequireAuth from './layouts/RequireAuth.jsx';
 import Unauthorized from './pages/Unauthorized.jsx';
+import ManageEvents from './pages/manage/ManageEvents.jsx';
+import CreateEvent from './pages/manage/createEvent.jsx';
+import EditEvent from './pages/manage/EditEvent.jsx';
+import SingleEvent from './pages/events/SingleEvent.jsx';
+import Players from './pages/events/Players.jsx';
+import PlayerEvents from './pages/PlayerEvents.jsx';
 
 
 const router = createBrowserRouter([
@@ -66,12 +72,73 @@ const router = createBrowserRouter([
             element: <Learning />,
           },
           {
-            path: "events",
-            element: <Events />,
+            element: <RequireAuth allowedRoles={[2]} />,
+            children: [
+              {
+                path: "player-events",
+                children: [
+                  {
+                    index: true,
+                    element: <PlayerEvents />,
+                  },
+                ]
+
+              },
+            ]
           },
           {
-            path: "manage",
-            element: <Manage />,
+            path: "events",
+            children: [
+              {
+                index: true,
+                element: <Events />,
+              },
+              {
+                path: ':eventId',
+                children: [
+                  {
+                    index: true,
+                    element: <SingleEvent />,
+                  },
+                  {
+                    path: ':eventId',
+                    element: <Players />,
+                  },
+                ]
+              },
+            ]
+          },
+          {
+            element: <RequireAuth allowedRoles={[0, 1]} />,
+            children: [
+              {
+                path: "manage",
+                children: [
+                  {
+                    index: true,
+                    element: <Manage />,
+                  },
+                  {
+                    path: "events",
+                    children: [
+                      {
+                        index: true,
+                        element: <ManageEvents />
+                      },
+                      {
+                        path: "create",
+                        element: <CreateEvent />
+                      },
+                      {
+                        path: ":eventId",
+                        element: <EditEvent />,
+                      },
+                    ]
+                  }
+                ]
+
+              },
+            ]
           },
           {
             path: 'profile',
@@ -88,14 +155,14 @@ const router = createBrowserRouter([
                 path: 'promotions',
                 element: <Promotions />
               },
-            ]
-          },
-          {
-            element: <RequireAuth allowedRoles={[0, 1]} />,
-            children: [
               {
-                path: 'god-events',
-                element: <GodEvents />
+                element: <RequireAuth allowedRoles={[0, 1]} />,
+                children: [
+                  {
+                    path: 'god-events',
+                    element: <GodEvents />
+                  },
+                ]
               },
             ]
           },
@@ -110,7 +177,7 @@ const router = createBrowserRouter([
 function App() {
 
   return (
-    <div className='font-sans min-h-screen bg-gradient-main'>
+    <div className='font-sans min-h-screen'>
       <RouterProvider router={router} />
     </div>
   )
