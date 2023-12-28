@@ -60,8 +60,13 @@ export default {
         '4/3': '4 / 3',
       },
       height: {
-        'custom-screen': 'calc(100vh - 180px)'
-      }
+        'screen': '100dvh',
+        'custom-screen': 'calc(100dvh - 180px)'
+      }, 
+      minHeight: {
+        'screen': '100dvh',
+        'custom-screen': 'calc(100dvh - 180px)'
+      },
     },
   },
   plugins: [],

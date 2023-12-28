@@ -59,6 +59,7 @@ html,
 body {
     direction: rtl;
     color: #fff;
+    overflow: hidden;
 }
 
 input::-webkit-outer-spin-button,

@@ -67,59 +67,61 @@ const UserAccountInfo = () => {
   }
 
   return (
-    <div className='flex flex-col items-center gap-6'>
+    <div className='h-custom-screen flex flex-col items-center gap-6'>
       <h2 className='text-xl w-full'>اطلاعات حساب</h2>
-      <div className='relative inline-block rounded-full p-[1px] bg-gradient-to-br from-primary-light from-30% to-gray to-95% drop-shadow-neon'>
-        <div className='w-28 h-28 rounded-full bg-gray'></div>
-        <div className='bg-navy flex justify-center items-center w-10 h-10 absolute left-10 bottom-[-16px] rounded-full'>
-          <MdEdit className='text-primary-light' size={24} />
+      <div className='flex flex-col items-center gap-6  overflow-auto w-full'>
+        <div className='relative inline-block rounded-full p-[1px] bg-gradient-to-br from-primary-light from-30% to-gray to-95% drop-shadow-neon'>
+          <div className='w-28 h-28 rounded-full bg-gray'></div>
+          <div className='bg-navy flex justify-center items-center w-10 h-10 absolute left-10 bottom-[-16px] rounded-full'>
+            <MdEdit className='text-primary-light' size={24} />
+          </div>
         </div>
-      </div>
-      <div className='w-full'>
-        <label
-          htmlFor="username"
-          className=" text-[12px] px-1 relative top-2 right-4 bg-[#341847]"
-        >
-          نام و نام خانوادگی
-        </label>
-        <InputOutline id={'username'} disabled={globalUser.username} value={globalUser.username} />
-      </div>
-      {
-        (globalUser.accessLevel == 0 || globalUser.accessLevel == 1) &&
-          groupIsLoading ? <Circular />
-          :
-          <form onSubmit={handleCreateGroup} className='flex flex-col w-full gap-6'>
-            <div>
-              <label
-                htmlFor="group"
-                className=" text-[12px] px-4 text-[#727272]"
-              >
-                نام گروه
-              </label>
+        <div className='w-full'>
+          <label
+            htmlFor="username"
+            className=" text-[12px] px-1 relative top-2 right-4 bg-[#341847]"
+          >
+            نام و نام خانوادگی
+          </label>
+          <InputOutline id={'username'} disabled={globalUser.username} value={globalUser.username} />
+        </div>
+        {
+          (globalUser.accessLevel == 0 || globalUser.accessLevel == 1) &&
+            groupIsLoading ? <Circular />
+            :
+            <form onSubmit={handleCreateGroup} className='flex flex-col w-full gap-6'>
+              <div>
+                <label
+                  htmlFor="group"
+                  className=" text-[12px] px-4 text-[#727272]"
+                >
+                  نام گروه
+                </label>
+                {
+                  canCreateGroup ?
+                    <InputTransparent id='group' placeholder={'نام گروه را وارد کنید'}
+                      value={groupName}
+                      onChange={(e) => { setGroupName(e.target.value) }}
+                    />
+                    :
+                    <InputTransparent id='group' placeholder={'عنوان نام گروه'}
+                      value={groupName}
+                      disabled={true}
+                    />
+                }
+              </div>
               {
                 canCreateGroup ?
-                  <InputTransparent id='group' placeholder={'نام گروه را وارد کنید'}
-                    value={groupName}
-                    onChange={(e) => { setGroupName(e.target.value) }}
-                  />
+                  <SubmitButton text={'ساخت گروه'} />
                   :
-                  <InputTransparent id='group' placeholder={'عنوان نام گروه'}
-                    value={groupName}
-                    disabled={true}
-                  />
+                  <p className='text-sm flex gap-2 items-center px-4'>
+                    <IoWarningOutline size={24} color='#FF6B00' />
+                    برای تغییر نام گروه نیاز به تماس با پشتیبانی دارید.
+                  </p>
               }
-            </div>
-            {
-              canCreateGroup ?
-                <SubmitButton text={'ساخت گروه'} />
-                :
-                <p className='text-sm flex gap-2 items-center px-4'>
-                  <IoWarningOutline size={24} color='#FF6B00' />
-                  برای تغییر نام گروه نیاز به تماس با پشتیبانی دارید.
-                </p>
-            }
-          </form>
-      }
+            </form>
+        }
+      </div>
     </div>
   )
 }
