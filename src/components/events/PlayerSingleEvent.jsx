@@ -41,7 +41,8 @@ const PlayerSingleEvent = ({ singleEvent, startTime }) => {
                 return getPlayerExpiredEvents(globalUser.accessToken)
             else return getPlayerIngoingEvents(globalUser.accessToken)
         }, {
-            refetchOnWindowFocus: false
+            refetchOnWindowFocus: true,
+            refetchInterval: 5000
         })
 
     const { data: singlePlayer, isLoading: singlePlayerIsLoading, isFetching: singlePlayerIsFetching } = useQuery([`single-player-${globalUser.id}`], () => {
@@ -146,7 +147,7 @@ const PlayerSingleEvent = ({ singleEvent, startTime }) => {
                                 <h2 className='text-xl w-full px-4 text-center'>نقش شما</h2>
                                 {
                                     // console.log(singlePlayer.data?.role_id.$oid)
-                                    (singlePlayer && singlePlayer.data.role_name && singleEvent?.is_locked) ?
+                                    (singlePlayer && singlePlayer.data.role_name && playerEvents.data.filter(event => event._id.$oid === singleEvent._id.$oid)[0]?.is_locked) ?
                                         <div className='w-full flex bg-navy p-2 pl-3.5 rounded-3xl items-center'>
                                             <Avatar color='blue' />
                                             <div className="h-full flex-1 flex flex-col justify-center px-4">

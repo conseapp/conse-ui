@@ -143,13 +143,16 @@ const Players = () => {
                         navigate('event-roles', { state: { from: location.pathname, backButton: true } })
                       }
                     />
-                    <OutlineButton
-                      fontSize={"sm"}
-                      text='پخش کردن نقش‌ها'
-                      onClick={() =>
-                        handleRevealRoles()
-                      }
-                    />
+                    {(godEvent?.data.deck_id) ?
+                      <OutlineButton
+                        fontSize={"sm"}
+                        text='پخش کردن نقش‌ها'
+                        onClick={() =>
+                          handleRevealRoles()
+                        }
+                      /> :
+                      <></>
+                    }
                     <RegularButton fontSize={"sm"} onClick={handleLockEvent} text='شروع بازی' />
                   </> :
                   (!godEvent?.data.is_expired) ?
