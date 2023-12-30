@@ -19,7 +19,7 @@ import Events from './pages/events/Events.jsx';
 import RequireAuth from './layouts/RequireAuth.jsx';
 import Unauthorized from './pages/Unauthorized.jsx';
 import ManageEvents from './pages/manage/ManageEvents.jsx';
-import CreateEvent from './pages/manage/createEvent.jsx';
+import CreateEvent from './pages/manage/CreateEvent.jsx';
 import EditEvent from './pages/manage/EditEvent.jsx';
 import SingleEvent from './pages/events/SingleEvent.jsx';
 import Players from './pages/events/Players.jsx';

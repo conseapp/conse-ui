@@ -2,7 +2,7 @@ import { useQuery } from "react-query"
 import { getGodEvents } from '../../api/eventApi'
 import { useSelector } from "react-redux"
 import BgPic from '../../assets/james-bond-cover.jpg'
-import EventCard from "../../components/events/eventCard"
+import EventCard from "../../components/events/EventCard"
 import Circular from "../../components/ui/Circular"
 import { IoWarningOutline } from "react-icons/io5"
 

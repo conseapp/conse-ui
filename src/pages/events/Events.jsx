@@ -3,7 +3,7 @@ import { getEvents, getGodEvents } from '../../api/eventApi'
 import { useQuery } from 'react-query';
 import Circular from '../../components/ui/Circular';
 import { IoWarningOutline } from 'react-icons/io5';
-import EventCard from '../../components/events/eventCard';
+import EventCard from '../../components/events/EventCard';
 import BgPic from '../../assets/james-bond-cover.jpg'
 
 
