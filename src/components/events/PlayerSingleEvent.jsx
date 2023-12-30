@@ -7,7 +7,8 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import BgPic from '../../assets/james-bond-cover.jpg'
-
+import { getRoles, getSides, getSinglePlayer } from '../../api/gameApi';
+import Avatar from '../ui/Avatar';
 
 
 
@@ -18,7 +19,23 @@ const PlayerSingleEvent = ({ singleEvent, startTime }) => {
     const location = useLocation()
     const client = useQueryClient()
 
-    const { data: playerEvents, isLoading: playerEventsIsLoading , isRefetching} =
+    const StatusText = number => {
+        if (number === 0) return ('شما در حال بازی هستید')
+        if (number === 1) return ('شما از بازی اخراج شدید')
+        if (number === 2) return ('شما از بازی خارج شدید')
+        if (number === 3) return ('تمام توانایی های شما برای 3 شب گرفته شده')
+        if (number === 4) return ('تمام توانایی های شما برای همیشه گرفته شده')
+        if (number === 5) return ('به مدت 2 شب سایلنت هستید')
+        if (number === 6) return ('به مدت 6 شب سایلنت هستید')
+        if (number === 7) return ('به یک بازیکن متصل شدید')
+        if (number === 8) return ('نقش شما تغییر کرده')
+        if (number === 9) return ('ساید شما تغییر کرده')
+        if (number === 10) return ('از بازی خارج شده اید')
+        if (number === 11) return ('شما خدا رو فدا کرده اید')
+        if (number === 12) return ('قاتل حرفه ای به دنبال شماست')
+    }
+
+    const { data: playerEvents, isLoading: playerEventsIsLoading, isRefetching } =
         useQuery('player-events', () => {
             if (singleEvent.is_expired)
                 return getPlayerExpiredEvents(globalUser.accessToken)
@@ -26,6 +43,28 @@ const PlayerSingleEvent = ({ singleEvent, startTime }) => {
         }, {
             refetchOnWindowFocus: false
         })
+
+    const { data: singlePlayer, isLoading: singlePlayerIsLoading, isFetching: singlePlayerIsFetching } = useQuery([`single-player-${globalUser.id}`], () => {
+        const reqInfo = {
+            token: globalUser.accessToken, body: {
+                event_id: singleEvent._id.$oid,
+                user_id: globalUser.id
+            }
+        }
+
+        return getSinglePlayer(reqInfo)
+    }, {
+        refetchOnWindowFocus: true,
+        refetchInterval: 5000
+    })
+
+    const { data: sides, isFetching: sidesIsFetching } = useQuery([`sides`], () => getSides(globalUser.accessToken), {
+        refetchOnWindowFocus: false,
+    })
+
+    const { data: roles, isFetching: rolesIsFetching } = useQuery([`roles`], () => getRoles(globalUser.accessToken), {
+        refetchOnWindowFocus: false
+    })
 
 
     const { mutate: reserveEventMutation } = useMutation(reserveEvent,
@@ -106,29 +145,38 @@ const PlayerSingleEvent = ({ singleEvent, startTime }) => {
                             <div className='w-full flex flex-col gap-6'>
                                 <h2 className='text-xl w-full px-4 text-center'>نقش شما</h2>
                                 {
-                                    (true) &&
-                                    <p className='border border-secondary text-sm shadow-neon-blue-sm rounded-2xl px-4 py-3'>هنوز نقشی به شما تعلق نگرفته است.</p>
+                                    // console.log(singlePlayer.data?.role_id.$oid)
+                                    (singlePlayer && singlePlayer.data.role_name && singleEvent?.is_locked) ?
+                                        <div className='w-full flex bg-navy p-2 pl-3.5 rounded-3xl items-center'>
+                                            <Avatar color='blue' />
+                                            <div className="h-full flex-1 flex flex-col justify-center px-4">
+                                                <span>{singlePlayer.data.role_name}</span>
+                                                <span className="text-sm">وضعیت: {StatusText(singlePlayer.data.status)}</span>
+                                            </div>
+                                        </div>
+                                        :
+                                        <p className='border border-secondary text-sm shadow-neon-blue-sm rounded-2xl px-4 py-3'>هنوز نقشی به شما تعلق نگرفته است.</p>
                                 }
                             </div>
                             <div className='w-full flex flex-col gap-6 pt-6'>
                                 <h2 className='text-xl w-full px-4 text-center'>نقش های موجود در ایونت</h2>
-                                <div className='flex flex-col gap-4'>
-                                    <h3>نقش های شهروند</h3>
-                                    <div className='grid grid-cols-2 gap-4'>
-                                        <div className='col-span-1 flex flex-col justify-end p-3 aspect-square bg-gray-dark rounded-2xl'>
-                                            <span className='text-sm'>نام کارت بازی</span>
-                                        </div>
-                                        <div className='col-span-1 flex flex-col justify-end p-3 aspect-square bg-gray-dark rounded-2xl'>
-                                            <span className='text-sm'>نام کارت بازی</span>
-                                        </div>
-                                        <div className='col-span-1 flex flex-col justify-end p-3 aspect-square bg-gray-dark rounded-2xl'>
-                                            <span className='text-sm'>نام کارت بازی</span>
-                                        </div>
-                                        <div className='col-span-1 flex flex-col justify-end p-3 aspect-square bg-gray-dark rounded-2xl'>
-                                            <span className='text-sm'>نام کارت بازی</span>
+                                {sides?.data.sides.map(side => (
+                                    <div className='flex flex-col gap-4'>
+                                        <h3>نقش های {side.name}</h3>
+                                        <div className='grid grid-cols-2 gap-4'>
+                                            {
+                                                roles?.data.roles.filter(role => role.side_id.$oid === side._id.$oid).map(role => (
+                                                    < div className='col-span-1 flex flex-col justify-end p-3 aspect-square bg-gray-dark rounded-2xl' >
+                                                        <span className='text-sm'>{role.name}</span>
+                                                    </div>
+                                                ))
+
+                                            }
                                         </div>
                                     </div>
-                                </div>
+                                ))
+
+                                }
                             </div>
                         </div>
                     </div>
@@ -183,7 +231,7 @@ const PlayerSingleEvent = ({ singleEvent, startTime }) => {
                         </div>
                     </div>
             }
-        </div>
+        </div >
     )
 }
 

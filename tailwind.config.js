@@ -43,6 +43,7 @@ export default {
       dropShadow: {
         'neon': '-2px -2px 8px rgba(235, 50, 150, 0.25)',
         'neon-blue': '-2px -2px 8px #3EAEFF',
+        'neon-blue-sm':'-2px -2px 8px rgba(62, 174, 255, 0.25)'
       },
       boxShadow: {
         'neon': '-2px -4px 8px 0px rgba(200, 35, 124, 0.32)',

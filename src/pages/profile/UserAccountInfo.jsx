@@ -67,9 +67,9 @@ const UserAccountInfo = () => {
   }
 
   return (
-    <div className='h-custom-screen flex flex-col items-center gap-6'>
+    <div className='h-custom-screen flex flex-col items-center gap-6 overflow-auto'>
       <h2 className='text-xl w-full'>اطلاعات حساب</h2>
-      <div className='flex flex-col items-center gap-6  overflow-auto w-full'>
+      <div className='flex flex-col items-center gap-6 h-full  w-full'>
         <div className='relative inline-block rounded-full p-[1px] bg-gradient-to-br from-primary-light from-30% to-gray to-95% drop-shadow-neon'>
           <div className='w-28 h-28 rounded-full bg-gray'></div>
           <div className='bg-navy flex justify-center items-center w-10 h-10 absolute left-10 bottom-[-16px] rounded-full'>

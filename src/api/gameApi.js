@@ -38,3 +38,87 @@ export const createGroup = async ({ token, name, owner, god_id }) => {
 
     return response.data
 }
+
+export const getSides = async (token) => {
+    const response = await authApi.get("/side/get/availables", {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        }
+    })
+    if (response.data.status == 200)
+        return (response.data)
+    if (response.data.status == 404)
+        return ([])
+}
+
+export const getRoles = async (token) => {
+    const response = await authApi.get("/role/get/availables", {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        }
+    })
+    if (response.data.status == 200)
+        return (response.data)
+    if (response.data.status == 404)
+        return ([])
+}
+
+export const getCards = async (token) => {
+    const response = await authApi.get("/last-move/get/availables", {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        }
+    })
+    if (response.data.status == 200)
+        return (response.data)
+    if (response.data.status == 404)
+        return ([])
+}
+
+export const getSingleDeck = async (reqInfo) => {
+    const { token, body } = reqInfo
+    const response = await authApi.post(`/deck/get/single`, body, {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+        }
+    })
+
+    if (response.data.status !== 200)
+        throw new Error(`${response.data.message} ${response.data.status}`)
+
+    return response.data
+
+}
+
+export const upsertDeck = async (reqInfo) => {
+    const { token, body } = reqInfo
+    const response = await authApi.post(`/deck/add`, body, {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+        }
+    })
+
+    if (response.data.status !== 201 && response.data.status !== 302)
+        throw new Error(`${response.data.message} ${response.data.status}`)
+
+    return response.data
+
+}
+
+export const getSinglePlayer = async (reqInfo) => {
+    const { token, body } = reqInfo
+    const response = await authApi.post(`/player/get/single`, body, {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+        }
+    })
+
+    if (response.data.status !== 200)
+        throw new Error(`${response.data.message} ${response.data.status}`)
+
+    return response.data
+
+}

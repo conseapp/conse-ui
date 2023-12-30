@@ -24,6 +24,7 @@ import EditEvent from './pages/manage/EditEvent.jsx';
 import SingleEvent from './pages/events/SingleEvent.jsx';
 import Players from './pages/events/Players.jsx';
 import PlayerEvents from './pages/PlayerEvents.jsx';
+import EventRoles from './pages/events/EventRoles.jsx';
 
 
 const router = createBrowserRouter([
@@ -101,8 +102,17 @@ const router = createBrowserRouter([
                     element: <SingleEvent />,
                   },
                   {
-                    path: ':eventId',
-                    element: <Players />,
+                    path: 'players',
+                    children: [
+                      {
+                        index: true,
+                        element: <Players />,
+                      },
+                      {
+                        path: 'event-roles',
+                        element: <EventRoles />,
+                      },
+                    ]
                   },
                 ]
               },

@@ -4,6 +4,7 @@ import { useQuery } from "react-query"
 import { getGodEvents } from "../../api/eventApi"
 import { useLocation } from "react-router-dom"
 import Circular from "../../components/ui/Circular"
+import { IoWarningOutline } from "react-icons/io5"
 
 const ManageEvents = () => {
 
@@ -24,7 +25,7 @@ const ManageEvents = () => {
                 {
                     godEventsIsLoading ?
                         <Circular /> :
-                        godEvents.data.length ?
+                        godEvents.data?.length ?
                             godEvents.data.map((event, index) => (
                                 <li key={`event_${index}`}>
                                     <NavListButtonEdit

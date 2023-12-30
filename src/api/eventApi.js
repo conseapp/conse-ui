@@ -143,5 +143,52 @@ export const reserveEvent = async (reqInfo) => {
     return response.data
 }
 
+export const revealRoles = async (reqInfo) => {
+    const { token, body } = reqInfo
+    const response = await authApi.post("/reveal/roles", body, {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+        }
+    })
+
+    if (response.data.status !== 200)
+        throw new Error(`${response.data.message} ${response.data.status}`)
+
+    return response.data
+}
+
+export const lockEvent = async (reqInfo) => {
+    const { token, body } = reqInfo
+    const response = await authApi.post("/set-lock", body, {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+        }
+    })
+
+    if (response.data.status !== 200)
+        throw new Error(`${response.data.message} ${response.data.status}`)
+
+    return response.data
+}
+
+
+export const expireEvent = async (reqInfo) => {
+    const { token, body } = reqInfo
+    const response = await authApi.post("/set-expire", body, {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+        }
+    })
+
+    if (response.data.status !== 200)
+        throw new Error(`${response.data.message} ${response.data.status}`)
+
+    return response.data
+}
+
+
 
 

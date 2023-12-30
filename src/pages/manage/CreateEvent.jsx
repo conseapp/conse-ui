@@ -83,7 +83,7 @@ const CreateEvent = () => {
       downvotes: 0,
       voters: [],
       phases: [],
-      max_players: 0,
+      max_players: 255,
       players: [],
       started_at: started_at.add(5, "minute").unix
     }
