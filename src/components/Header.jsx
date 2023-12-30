@@ -3,6 +3,7 @@ import { IoStar } from "react-icons/io5";
 import { useLocation, useNavigate } from 'react-router-dom';
 import { GoBackButton } from './ui/buttons';
 import { useSelector } from 'react-redux';
+import Avatar from './ui/Avatar';
 
 const Header = () => {
   const globalUser = useSelector(state => state.userReducer)
@@ -20,6 +21,9 @@ const Header = () => {
     }
     if (from == '/mafia/manage/events') {
       return 'مدیریت ایونت‌ها'
+    }
+    if (from?.includes('/players')) {
+      return 'لیست بازیکنان'
     }
     return previousPageName
   }
@@ -43,9 +47,7 @@ const Header = () => {
             </>
         }
       </div>
-      <div className='inline-block rounded-full p-[1px] bg-gradient-to-br from-primary-light from-30% to-gray to-95% drop-shadow-neon'>
-        <div className='w-14 h-14 rounded-full bg-gray'></div>
-      </div>
+      <Avatar color={'pink'} />
       {/* <div>{JSON.stringify(location)}</div> */}
     </header>
   )

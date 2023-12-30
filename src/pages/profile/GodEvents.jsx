@@ -24,7 +24,7 @@ const GodEvents = () => {
         {
           godEventsIsLoading ?
             <Circular /> :
-            godEvents.data.length ?
+            godEvents.data?.length ?
               godEvents.data.map(event => (
                 <EventCard
                   name={event.title}

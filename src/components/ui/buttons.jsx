@@ -15,10 +15,15 @@ export const SubmitButton = ({ text, disabled, id }) => {
     )
 }
 
-export const RegularButton = ({ text, disabled, id, onClick }) => {
+export const RegularButton = ({ text, disabled, id, onClick, fontSize }) => {
+    let className = 'bg-primary-light rounded-lg shadow-neon w-full px-2 py-2.5 text-center active:bg-primary active:shadow-none transition disabled:bg-gray disabled:text-gray-light disabled:shadow-none'
+
+    if (fontSize == 'sm') {
+        className = className + ' text-sm'
+    }
     return (
         <button
-            className='bg-primary-light rounded-lg shadow-neon w-full px-2 py-2.5 text-center active:bg-primary active:shadow-none transition disabled:bg-gray disabled:text-gray-light disabled:shadow-none'
+            className={className}
             type={"button"}
             id={id}
             disabled={disabled}
@@ -31,7 +36,7 @@ export const RegularButton = ({ text, disabled, id, onClick }) => {
 export const OutlineButton = ({ text, disabled, id, onClick }) => {
     return (
         <button
-            className='border border-white bg-transparent rounded-lg w-full px-2 py-2.5 text-center disabled:text-gray-light'
+            className='border text-sm border-white bg-transparent rounded-lg w-full px-2 py-2.5 text-center disabled:text-gray-light'
             type={"button"}
             id={id}
             disabled={disabled}
@@ -51,6 +56,24 @@ export const CancelButton = ({ text, disabled, id, onClick }) => {
             onClick={onClick}
         >
             <IoMdClose size={20} />
+            {text}
+        </button>
+    )
+}
+export const TransparentButton = ({ text, disabled, id, onClick, fontSize }) => {
+    let className = 'border-none bg-transparent text-primary-light rounded-lg w-full px-2 py-2.5 text-center disabled:text-gray-light'
+
+    if (fontSize == 'sm') {
+        className = className + ' text-sm'
+    }
+    return (
+        <button
+            className={className}
+            type={"button"}
+            id={id}
+            disabled={disabled}
+            onClick={onClick}
+        >
             {text}
         </button>
     )
