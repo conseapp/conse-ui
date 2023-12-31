@@ -1,4 +1,5 @@
-import { useRef } from "react"
+import { IoSearch } from "react-icons/io5";
+
 
 export const PhoneInput = ({ value, onChange, disabled, id }) => {
     return (
@@ -65,6 +66,24 @@ export const InputTransparent = ({ value, onChange, disabled, id, placeholder, t
             disabled={disabled}
             type={type}
         ></input>
+    )
+}
+export const SearchInput = ({ value, onChange, disabled, id, placeholder, type, readOnly }) => {
+    return (
+        <div className="relative">
+            <input
+                id={id}
+                value={value}
+                className="bg-navy placeholder-white text-white read-only:focus:border-none read-only:focus-visible:border-none focus:border focus:ring-secondary focus:border-secondary focus-visible:border focus-visible:ring-secondary focus-visible:border-secondary focus-visible:outline-none text-sm rounded-2xl block w-full px-4 pl-10 py-3.5"
+                placeholder={placeholder}
+                onChange={onChange}
+                disabled={disabled}
+                type={type}
+                readOnly={readOnly}
+            >
+            </input>
+            <IoSearch size={24} color="white" className="absolute left-3 top-3 pointer-events-none" />
+        </div>
     )
 }
 export const ImageInput = ({ text, onChange, photoURL }) => {

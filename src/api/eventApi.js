@@ -5,6 +5,15 @@ const authApi = axios.create({
 })
 
 
+export const search = async (value) => {
+    const response = await authApi.get(`/explore/${value}`)
+
+    if (response.data.status == 200)
+        return (response.data)
+    if (response.data.status == 404)
+        return ([])
+}
+
 export const getEvents = async () => {
     const response = await authApi.get("/get/all")
 

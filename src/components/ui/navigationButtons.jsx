@@ -23,7 +23,7 @@ export const NavListButtonEdit = ({ text, path, from }) => {
 
 export const OutlineLinkButton = ({ text, path, from }) => {
     return (
-        <Link state={{ from: from, backButton: true }} className='border border-white text-xs bg-transparent rounded-lg w-24 px-2.5 py-1.5 text-center disabled:bg-gray'
+        <Link state={{ from: from, backButton: true }} className='w-full border border-white text-xs bg-transparent rounded-lg px-2.5 py-1.5 text-center disabled:bg-gray'
             to={path} >
             {text}
         </Link>

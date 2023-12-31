@@ -68,6 +68,9 @@ export default {
         'screen': '100dvh',
         'custom-screen': 'calc(100dvh - 180px)'
       },
+      transitionProperty: {
+        'width': 'width'
+    },
     },
   },
   plugins: [],

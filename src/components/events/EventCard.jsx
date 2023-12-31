@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react'
 import { OutlineLinkButton } from '../ui/navigationButtons'
 import { DateObject } from "react-multi-date-picker"
 import persian from "react-date-object/calendars/persian";
@@ -12,14 +11,16 @@ const EventCard = ({ name, date, god, capacity, BgPic, path, key }) => {
     })
 
     return (
-        <div key={key} className="flex w-full aspect-2/1 flex-shrink-0 shadow-lg max-w-xl bg-gray-dark rounded-2xl overflow-hidden">
+        <div key={key} className="flex w-full aspect-2/1 flex-shrink-0 shadow-lg bg-gray-dark rounded-2xl overflow-hidden">
             <div className="w-7/12 flex flex-col p-4 justify-evenly">
                 <div className="flex flex-col gap-2">
                     <h3 className="text-sm">{name}</h3>
                     <span className="text-sm">{`${startTime.format("D MMMM")} - ساعت ${startTime.format("HH:mm")}`}</span>
                 </div>
                 <span className="text-sm">{`گرداننده: ${god}`}</span>
-                <OutlineLinkButton path={path} text={'بیشتر'} />
+                <div className='w-24 flex'>
+                    <OutlineLinkButton path={path} text={'بیشتر'} />
+                </div>
             </div>
             <div className="relative w-5/12 bg-gradient-main">
                 <img className="aspect-custom" src={BgPic} alt="" />
