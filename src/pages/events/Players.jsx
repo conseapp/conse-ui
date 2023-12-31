@@ -12,6 +12,7 @@ import { OutlineButton, RegularButton, TransparentButton } from "../../component
 import PlayerModal from "../../components/events/PlayerModal";
 import { revealRoles } from "../../api/eventApi";
 import { toast } from "react-toastify";
+import { getRoles, getSides, getSingleDeck } from "../../api/gameApi";
 
 
 
@@ -35,6 +36,21 @@ const Players = () => {
     },
     refetchOnWindowFocus: false
   })
+
+  const { data: sides, isFetching: sidesIsFetching } = useQuery([`sides`], () => getSides(globalUser.accessToken), {
+    refetchOnWindowFocus: false,
+  })
+
+  const { data: singleDeck, isLoading: singleDeckIsLoading, isFetching: singleDeckIsFetching } =
+    useQuery([`single-deck-${godEvent?.data.deck_id}`], () => {
+      if (godEvent?.data.deck_id !== null) {
+        const reqInfo = { token: globalUser.accessToken, body: { _id: godEvent?.data.deck_id } }
+
+        return getSingleDeck(reqInfo)
+      }
+    }, {
+      refetchOnWindowFocus: false
+    })
 
   const { mutate: revealRolesMutation } = useMutation(revealRoles,
     {
@@ -115,7 +131,7 @@ const Players = () => {
             <div className='flex flex-col gap-2 h-custom-screen overflow-y-auto'>
               {
                 players?.map(player => (
-                  <div className='w-full flex bg-navy p-2 pl-3.5 rounded-3xl items-center'>
+                  <div key={player._id.$oid} className='w-full flex bg-navy p-2 pl-3.5 rounded-3xl items-center'>
                     <Avatar color='blue' />
                     <div className="h-full flex-1 flex flex-col justify-center px-4">
                       <span>{player.username}</span>
@@ -164,7 +180,7 @@ const Players = () => {
             </div>
           </>
       }
-      <PlayerModal activePlayer={activePlayer} openModal={openModal} handleCloseModal={handleCloseModal} />
+      <PlayerModal globalUser={globalUser} singleEvent={godEvent?.data} roles={singleDeck?.data.roles} sides={sides?.data.sides} activePlayer={activePlayer} openModal={openModal} handleCloseModal={handleCloseModal} />
     </div >
   )
 }

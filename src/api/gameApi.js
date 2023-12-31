@@ -122,3 +122,76 @@ export const getSinglePlayer = async (reqInfo) => {
     return response.data
 
 }
+
+export const getRoleAbility = async (reqInfo) => {
+    const { token, body } = reqInfo
+
+    const response = await authApi.post("/player/get/role-ability", body, {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+        }
+    })
+    if (response.data.status !== 200)
+        throw new Error(`${response.data.message} ${response.data.status}`)
+
+    return response.data
+
+
+}
+
+export const getChainInfo = async (reqInfo) => {
+    const { token, body } = reqInfo
+
+    const response = await authApi.post("/player/get/chain-infos", body, {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+        }
+    })
+    if (response.data.status !== 200)
+        throw new Error(`${response.data.message} ${response.data.status}`)
+
+    return response.data
+
+
+}
+
+export const updatePlayerStatus = async (reqInfo) => {
+    const { token, body } = reqInfo
+
+    const response = await authApi.post("/player/update/status", body, {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+        }
+    })
+    return response.data
+
+}
+
+export const updatePlayerSide = async (reqInfo) => {
+    const { token, body } = reqInfo
+
+    const response = await authApi.post("/player/update/side", body, {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+        }
+    })
+    return response.data
+
+}
+
+export const updatePlayerRole= async (reqInfo) => {
+    const { token, body } = reqInfo
+
+    const response = await authApi.post("/player/update/role", body, {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+        }
+    })
+    return response.data
+
+}
