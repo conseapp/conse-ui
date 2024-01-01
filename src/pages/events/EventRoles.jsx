@@ -156,8 +156,13 @@ const EventRoles = () => {
 
             upsertDeckMutation(reqInfo)
         }
+        else if (roles.length > 0)
+            toast.warning('حداقل یک کارت حرکت آخر باید انتخاب شود')
+        else if (cards.length > 0)
+            toast.warning('حداقل یک نقش باید انتخاب شود')
         else
-            toast.warning('نقشی انتخاب نشده')
+            toast.warning('حداقل یک نقش و یک کارت حرکت آخر باید انتخاب شود')
+
     }
 
     const handleUpsertEvent = async deckID => {
@@ -219,7 +224,7 @@ const EventRoles = () => {
         })
         setSelectedRoles(prevRoles)
     }
-    
+
     const setPrevCards = (cards) => {
         let prevCards = []
         cards.forEach(card => {

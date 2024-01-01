@@ -1,13 +1,13 @@
 import { MdEdit } from "react-icons/md";
 import Avatar from '../../components/ui/Avatar'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoWarningOutline } from "react-icons/io5"
 import { expireEvent, getSingleGodEvent, lockEvent } from "../../api/eventApi";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import Circular from "../../components/ui/Circular";
 import { useSelector } from "react-redux";
-import { Modal } from "@mui/material"
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Modal } from "@mui/material"
 import { OutlineButton, RegularButton, TransparentButton } from "../../components/ui/buttons";
 import PlayerModal from "../../components/events/PlayerModal";
 import { revealRoles } from "../../api/eventApi";
@@ -19,9 +19,12 @@ import { getRoles, getSides, getSingleDeck } from "../../api/gameApi";
 const Players = () => {
   const [players, setPlayers] = useState(false)
   const [openModal, setOpenModal] = useState(false)
+  const [openDialog, setOpenDialog] = useState(false)
   const [activePlayer, setActivePlayer] = useState({})
   const client = useQueryClient()
   const { eventId } = useParams()
+  const [AvailableCards, SetAvailableCards] = useState(undefined)
+  const [selectedCard, setSelectedCard] = useState(undefined)
   const globalUser = useSelector(state => state.userReducer)
   const navigate = useNavigate()
 
@@ -85,6 +88,11 @@ const Players = () => {
       },
     })
 
+  useEffect(() => {
+    if (singleDeck?.data.last_move_cards.length > 0)
+      SetAvailableCards(singleDeck?.data.last_move_cards)
+  }, [singleDeck])
+
   const handleOpenModal = async user => {
     setOpenModal(true)
     setActivePlayer(user)
@@ -102,6 +110,30 @@ const Players = () => {
     const reqInfo = { token: globalUser.accessToken, body }
     revealRolesMutation(reqInfo)
 
+  }
+  const handleShowLastMoveCard = async e => {
+    let cards = AvailableCards
+    let newCards = []
+
+    let random = Math.floor(Math.random() * cards.length)
+    let card = cards[random]
+
+    delete cards[random]
+
+    cards.filter(c => {
+      if (typeof c !== 'undefined') {
+        newCards.push(c)
+      }
+    })
+
+    SetAvailableCards(newCards)
+
+    if (typeof card !== 'undefined') {
+      setSelectedCard(card);
+      setOpenDialog(true);
+    } else {
+      toast.warning('کارت حرکت آخر دیگری وجود ندارد! در صورت نیاز صفحه را رفرش کنید')
+    }
   }
   const handleLockEvent = () => {
     const body = {
@@ -130,23 +162,26 @@ const Players = () => {
           <>
             <div className='flex flex-col gap-2 h-custom-screen overflow-y-auto'>
               {
-                players?.map(player => (
-                  <div key={player._id.$oid} className='w-full flex bg-navy p-2 pl-3.5 rounded-3xl items-center'>
-                    <Avatar color='blue' />
-                    <div className="h-full flex-1 flex flex-col justify-center px-4">
-                      <span>{player.username}</span>
-                      {
-                        player.role_name ?
-                          <span className="text-sm">نقش: {player.role_name}</span>
-                          :
-                          <span className="text-sm text-gray-light">نقشی تعلق نگرفته است.</span>
-                      }
+                players.length ?
+                  players?.map(player => (
+                    <div key={player._id.$oid} className='w-full flex bg-navy p-2 pl-3.5 rounded-3xl items-center'>
+                      <Avatar color='blue' />
+                      <div className="h-full flex-1 flex flex-col justify-center px-4">
+                        <span>{player.username}</span>
+                        {
+                          player.role_name ?
+                            <span className="text-sm">نقش: {player.role_name}</span>
+                            :
+                            <span className="text-sm text-gray-light">نقشی تعلق نگرفته است.</span>
+                        }
+                      </div>
+                      <MdEdit onClick={() => handleOpenModal(player)} size={32} className='pl-2 text-primary-light cursor-pointer' />
                     </div>
-                    <MdEdit onClick={() => handleOpenModal(player)} size={32} className='pl-2 text-primary-light cursor-pointer' />
-                  </div>
-                ))
-              }
+                  ))
+                  :
+                  <p className='border border-secondary text-sm shadow-neon-blue-sm rounded-2xl px-4 py-3 text-center'>هنوز هیچ بازیکنی شرکت نکرده.</p>
 
+              }
             </div>
             <div className="flex flex-col gap-2">
               {
@@ -159,17 +194,35 @@ const Players = () => {
                         navigate('event-roles', { state: { from: location.pathname, backButton: true } })
                       }
                     />
-                    {(godEvent?.data.deck_id) ?
-                      <OutlineButton
+                    {
+                      (godEvent?.data.deck_id && players.length) ?
+                        <>
+                          <OutlineButton
+                            fontSize={"sm"}
+                            text='پخش کردن نقش‌ها'
+                            onClick={() =>
+                              handleRevealRoles()
+                            }
+                          />
+                          <OutlineButton
+                            fontSize={"sm"}
+                            text='نمایش کارت حرکت آخر'
+                            onClick={() =>
+                              handleShowLastMoveCard()
+                            }
+                          />
+                        </> :
+                        <></>
+                    }
+                    {(players.length) ?
+                      <RegularButton
                         fontSize={"sm"}
-                        text='پخش کردن نقش‌ها'
-                        onClick={() =>
-                          handleRevealRoles()
-                        }
-                      /> :
+                        onClick={handleLockEvent}
+                        text='شروع بازی'
+                      />
+                      :
                       <></>
                     }
-                    <RegularButton fontSize={"sm"} onClick={handleLockEvent} text='شروع بازی' />
                   </> :
                   (!godEvent?.data.is_expired) ?
                     <RegularButton fontSize={"sm"} onClick={handleExpireEvent} text='پایان بازی' />
@@ -180,7 +233,22 @@ const Players = () => {
             </div>
           </>
       }
+      {
+        openDialog ?
+          <div className="fixed top-0 left-0 flex flex-col items-center justify-center w-screen h-screen bg-black bg-opacity-50">
+            <div className="min-w-[312px] gap-4 max-w-[400px] p-6 shadow-lg w-[80%] rounded-2xl bg-navy flex flex-col justify-between items-center">
+              <h3 className="text-xl">
+                {selectedCard?.name}
+              </h3>
+              <p className="text-justify" dangerouslySetInnerHTML={{ __html: selectedCard?.desc }}></p>
+              <div>
+                <TransparentButton text='بستن' onClick={() => setOpenDialog(false)} />
+              </div>
+            </div>
+          </div> : <></>
+      }
       <PlayerModal globalUser={globalUser} singleEvent={godEvent?.data} roles={singleDeck?.data.roles} sides={sides?.data.sides} activePlayer={activePlayer} openModal={openModal} handleCloseModal={handleCloseModal} />
+
     </div >
   )
 }

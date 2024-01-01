@@ -16,8 +16,14 @@ const PlayerSingleEvent = ({ singleEvent, startTime }) => {
     const [IsUserRegistered, SetUserRegistered] = useState(false)
     const [TodayIsEventDay, SetTodayIsEventDay] = useState(false)
     const globalUser = useSelector(state => state.userReducer)
-    const location = useLocation()
+    const [bgImage, setBgImage] = useState('')
     const client = useQueryClient()
+
+    useEffect(() => {
+        !!singleEvent.image_path ? setBgImage(`https://panel.api.conse.app/${singleEvent.image_path}`) : setBgImage(BgPic)
+
+
+    }, [singleEvent.image_path])
 
     const StatusText = number => {
         if (number === 0) return ('شما در حال بازی هستید')
@@ -116,7 +122,7 @@ const PlayerSingleEvent = ({ singleEvent, startTime }) => {
                 (IsUserRegistered && TodayIsEventDay && !singleEvent.is_expired) ?
                     <div className="w-full h-full overflow-auto flex flex-col items-center gap-6">
                         <h2 className='text-xl w-full px-4'>در حال انجام</h2>
-                        <div style={{ backgroundImage: `url(${BgPic})` }} className=' shrink-0 relative w-full h-[200px] bg-cover bg-no-repeat bg-center'>
+                        <div style={{ backgroundImage: `url(${bgImage})` }} className=' shrink-0 relative w-full h-[200px] bg-cover bg-no-repeat bg-center'>
                             <div className="absolute w-full h-full left-0 top-0 bg-gradient-to-b from-transparent from-40% to-[#361849] to-100%"></div>
                         </div>
                         <div className='w-full p-4 relative bottom-6 flex flex-col gap-10'>
@@ -183,7 +189,7 @@ const PlayerSingleEvent = ({ singleEvent, startTime }) => {
                     </div>
                     :
                     <div className='pb-[280px]'>
-                        <div style={{ backgroundImage: `url(${BgPic})` }} className='w-full aspect-4/3 bg-cover absolute top-0 left-0 -z-10 bg-no-repeat bg-center'>
+                        <div style={{ backgroundImage: `url(${bgImage})` }} className='w-full aspect-4/3 bg-cover absolute top-0 left-0 -z-10 bg-no-repeat bg-center'>
                             <div className="absolute w-full h-full left-0 top-0 bg-gradient-to-b from-transparent from-40% to-[#361849] to-100%"></div>
                         </div>
                         <div className='flex flex-col items-center gap-2 justify-end h-full' >

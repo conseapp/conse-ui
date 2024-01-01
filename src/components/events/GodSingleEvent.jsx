@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useSwipeable } from 'react-swipeable'
 import { RegularButton, OutlineButton, CancelButton } from "../../components/ui/buttons";
 import { useNavigate } from 'react-router-dom';
@@ -6,11 +6,11 @@ import BgPic from '../../assets/james-bond-cover.jpg'
 
 
 
-
 const GodSingleEvent = ({ singleEvent, startTime }) => {
 
     const [open, setIsOpen] = useState(false);
-    const [height, setHeight] = useState(360)
+    const [height, setHeight] = useState(360);
+    const [bgImage, setBgImage] = useState('')
     const navigate = useNavigate()
 
 
@@ -30,10 +30,17 @@ const GodSingleEvent = ({ singleEvent, startTime }) => {
         trackMouse: true
     });
 
+    useEffect(() => {
+        !!singleEvent.image_path ? setBgImage(`https://panel.api.conse.app/${singleEvent.image_path}`) : setBgImage(BgPic)
+
+
+    }, [singleEvent.image_path])
+
+
 
     return (
         <div className='pb-[280px] flex flex-col items-center gap-2 justify-end h-full'>
-            <div style={{ backgroundImage: `url(${BgPic})` }} className='w-full aspect-4/3 bg-cover absolute top-0 left-0 -z-10 bg-no-repeat bg-center'>
+            <div style={{ backgroundImage: `url(${bgImage})` }} className='w-full aspect-4/3 bg-cover absolute top-0 left-0 -z-10 bg-no-repeat bg-center'>
                 <div className="absolute w-full h-full left-0 top-0 bg-gradient-to-b from-transparent from-40% to-[#361849] to-100%"></div>
             </div>
             <div className='flex flex-col items-center gap-2 justify-end h-full'>

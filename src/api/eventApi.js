@@ -117,23 +117,6 @@ export const createEvent = async (reqInfo) => {
 }
 
 
-export const uploadEventImg = async (reqInfo) => {
-
-    const { token, eventId, fd } = reqInfo
-
-    const response = await authApi.post(`/update/${eventId}/image`, fd, {
-        headers: {
-            'Authorization': `Bearer ${token}`,
-        }
-    })
-
-
-    if (response.data.status !== 200 && response.data.status !== 201 && response.data.status !== 302)
-        throw new Error(`${response.data.message} ${response.data.status}`)
-
-    return response.data
-}
-
 export const reserveEvent = async (reqInfo) => {
 
     const { token, body } = reqInfo

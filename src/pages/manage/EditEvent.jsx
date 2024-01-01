@@ -12,7 +12,7 @@ import { IoWarningOutline } from "react-icons/io5";
 import { useNavigate, useParams } from "react-router-dom";
 import Circular from "../../components/ui/Circular";
 import CropModal from "../../components/crop/CropModal";
-import { uploadEventImg } from "../../api/eventApi";
+import { uploadEventImg } from "../../api/adminApi";
 
 
 const EditEvent = () => {

@@ -14,7 +14,7 @@ const EventCardCol = ({ name, date, god, capacity, BgPic, path, key }) => {
         <div key={key} className="flex flex-col w-[calc(50%-6px)] aspect-[4/5] shadow-lg max-w-xl bg-gray-dark rounded-2xl overflow-hidden">
             <div className="relative w-full h-1/2">
                 <div className='w-full h-full overflow-hidden'>
-                    <img className="w-full relative bottom-1/2" src={BgPic} alt="" />
+                    <img className="w-full relativeس" src={BgPic} alt="" />
                 </div>
                 <div className="absolute z-10 w-full h-full left-0 top-0 bg-gradient-to-b from-transparent from-40% to-gray-dark to-100%"></div>
             </div>

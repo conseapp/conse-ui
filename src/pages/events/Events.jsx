@@ -25,9 +25,9 @@ const Events = () => {
     if (Boolean(query)) {
       let response = await search(query)
       setEvents(response.data.reverse())
-    } else {
+    } else if (!!fetchedEvents?.data)
       setEvents(fetchedEvents?.data)
-    }
+
   }
 
   useEffect(() => {
