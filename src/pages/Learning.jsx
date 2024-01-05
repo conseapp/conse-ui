@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { SearchInput } from '../components/ui/inputs'
 import { useQuery } from 'react-query'
 import { getCards, getRoles, getSides } from '../api/gameApi'
@@ -10,13 +10,15 @@ import 'swiper/css/pagination';
 import 'swiper/css/free-mode';
 import { TransparentButton } from '../components/ui/buttons'
 import { Modal } from '@mui/material'
+import LearningCard from '../components/learning/learningCard'
+import LearningModal from '../components/learning/LearningModal'
 
 
 const Learning = () => {
   const [query, setQuery] = useState('')
   const globalUser = useSelector(state => state.userReducer)
   const [openModal, setOpenModal] = useState(false)
-  const [selectedCard, setSelectedCard] = useState(false)
+  const [selectedCard, setSelectedCard] = useState(null)
 
   const { data: sides, isFetching: sidesIsFetching } = useQuery([`sides`], () => getSides(globalUser.accessToken), {
     refetchOnWindowFocus: false,
@@ -34,9 +36,14 @@ const Learning = () => {
     return data?.filter(item => item.name.toLowerCase().includes(query));
   }
 
-  const handleOpen = (role) => {
+  const handleOpen = (card, type) => {
     setOpenModal(true)
-    setSelectedCard(role)
+    setSelectedCard({ card: card, type: type })
+  }
+
+  const handleClose = () => {
+    setOpenModal(false)
+    setSelectedCard(null)
   }
 
   return (
@@ -63,11 +70,11 @@ const Learning = () => {
                   {
                     Search(roles?.data.roles.filter(role => role.side_id.$oid === side._id.$oid))?.map(role => (
                       <SwiperSlide
-                        className='w-[calc(50%-8px)] flex flex-col justify-end p-3 aspect-square bg-gray-dark rounded-2xl'
+                        className='w-[calc(50%-8px)] aspect-square bg-gray-dark rounded-2xl overflow-hidden'
                         key={role._id.$oid}
-                        onClick={() => handleOpen(role)}
+                        onClick={() => handleOpen(role, 'modern-role')}
                       >
-                        <span className='text-sm'>{role.name}</span>
+                        <LearningCard card={role} type={'modern-role'} />
                       </SwiperSlide>
                     ))
                   }
@@ -96,7 +103,7 @@ const Learning = () => {
                     <SwiperSlide
                       className='w-[calc(50%-8px)] flex flex-col justify-end p-3 aspect-square bg-gray-dark rounded-2xl'
                       key={card._id.$oid}
-                      onClick={() => handleOpen(card)}
+                      onClick={() => handleOpen(card, 'last-move-card')}
                     >
                       <span className='text-sm'>{card.name}</span>
                     </SwiperSlide>
@@ -107,20 +114,7 @@ const Learning = () => {
             : <></>
         }
       </div>
-      <Modal
-        open={openModal}
-        onClose={() => setOpenModal(false)}
-        sx={{ backdropFilter: "blur(8px)", display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-      >
-        <div className="min-w-[312px] gap-4 max-w-[400px] p-4 shadow-lg w-[80%] rounded-2xl bg-navy flex flex-col justify-between items-center outline-none">
-          <div className='w-full bg-gray-dark aspect-4/3 rounded-lg'></div>
-          <h2 className='text-lg w-full'>{selectedCard.name}</h2>
-          <p dangerouslySetInnerHTML={{ __html: selectedCard.desc }} className='text-justify'></p>
-          <div className="w-full flex-1 flex flex-col justify-end">
-            <TransparentButton onClick={() => setOpenModal(false)} text='بستن' />
-          </div>
-        </div>
-      </Modal>
+      <LearningModal openModal={openModal} handleClose={handleClose} selectedCard={selectedCard} />
     </div>
   )
 }

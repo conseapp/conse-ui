@@ -51,9 +51,10 @@ const EventRoles = () => {
             }
         }, {
             onSuccess: (result) => {
-                if (result !== undefined)
+                if (result !== undefined) {
                     setPrevRoles(result.data.roles)
-                setPrevCards(result.data.last_move_cards)
+                    setPrevCards(result.data.last_move_cards)
+                }
             },
             refetchOnWindowFocus: false
         })
@@ -243,6 +244,7 @@ const EventRoles = () => {
                         <div className='flex flex-col gap-4'>
                             <h2 className='w-full'>انتخاب کارت‌های حرکت آخر</h2>
                             <RoleSelector
+                                type={'last-move-card'}
                                 label='کارت‌های حرکت آخر'
                                 roles={cards?.data}
                                 selectedRoles={selectedCards}
@@ -256,6 +258,7 @@ const EventRoles = () => {
                                     return (
                                         <Fragment key={`side_${side._id.$oid}`}>
                                             <RoleSelector
+                                                type={'modern-role'}
                                                 label={`نقش‌های ${side.name}`}
                                                 roles={roles?.data.roles.filter(role => role.side_id.$oid === side._id.$oid)}
                                                 selectedRoles={selectedRoles[side.name]}

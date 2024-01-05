@@ -247,7 +247,7 @@ const Players = () => {
             </div>
           </div> : <></>
       }
-      <PlayerModal globalUser={globalUser} singleEvent={godEvent?.data} roles={singleDeck?.data.roles} sides={sides?.data.sides} activePlayer={activePlayer} openModal={openModal} handleCloseModal={handleCloseModal} />
+      <PlayerModal globalUser={globalUser} singleEvent={godEvent?.data} roles={singleDeck?.data.roles.map(role => ({ ...role, _id: { $oid: role._id } }))} sides={sides?.data.sides} activePlayer={activePlayer} openModal={openModal} handleCloseModal={handleCloseModal} />
 
     </div >
   )

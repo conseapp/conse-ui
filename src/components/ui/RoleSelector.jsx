@@ -1,9 +1,11 @@
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { FaAngleDown, FaSquareCheck } from 'react-icons/fa6'
 import { RegularButton, TransparentButton } from '../ui/buttons'
 import { IoMdClose } from 'react-icons/io'
+import RoleCard from './RoleCard'
 
-const RoleSelector = ({ roles, label, selectedRoles, setSelectedRoles }) => {
+
+const RoleSelector = ({ roles, label, selectedRoles, setSelectedRoles, type }) => {
     const [open, setOpen] = useState(false)
     const [tempArray, setTempArray] = useState([])
 
@@ -102,21 +104,20 @@ const RoleSelector = ({ roles, label, selectedRoles, setSelectedRoles }) => {
                             {
                                 roles?.map((role) => {
                                     let selected = !(tempArray?.indexOf(role) < 0 || tempArray?.indexOf(role) == undefined)
-                                    let className;
-                                    selected ? className = 'border border-secondary shadow-neon-blue-sm bg-gray-dark w-full max-w-[312px] p-3 aspect-square rounded-2xl flex flex-col justify-between'
-                                        : className = 'bg-gray-dark w-full max-w-[312px] p-3 aspect-square rounded-2xl flex items-end'
-
                                     return (
-                                        <div key={`role_${role._id.$oid}`} className='col-span-1 aspect-square flex items-center justify-center'>
-                                            <div onClick={() => toggleSelect(role)} className={className}>
-                                                {selected &&
-                                                    <FaSquareCheck size={24} className="text-secondary" />
-                                                }
-                                                <span>
-                                                    {role.name}
-                                                </span>
-                                            </div>
-                                        </div>
+                                        // <div key={`role_${role._id.$oid}`} className='col-span-1 aspect-square flex items-center justify-center'>
+                                        //     <div onClick={() => toggleSelect(role)} className={className}>
+                                        //         {selected &&
+                                        //             <FaSquareCheck size={24} className="text-secondary" />
+                                        //         }
+                                        //         <span>
+                                        //             {role.name}
+                                        //         </span>
+                                        //     </div>
+                                        // </div>
+                                        <Fragment key={`role_${role._id.$oid}`}>
+                                            <RoleCard card={role} type={type} selected={selected} toggleSelect={toggleSelect} />
+                                        </Fragment>
                                     )
                                 })
                             }

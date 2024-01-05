@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import BgPic from '../../assets/james-bond-cover.jpg'
 import { getRoles, getSides, getSinglePlayer } from '../../api/gameApi';
 import Avatar from '../ui/Avatar';
+import LearningCard from '../learning/learningCard';
 
 
 
@@ -173,11 +174,10 @@ const PlayerSingleEvent = ({ singleEvent, startTime }) => {
                                         <div className='grid grid-cols-2 gap-4'>
                                             {
                                                 roles?.data.roles.filter(role => role.side_id.$oid === side._id.$oid).map(role => (
-                                                    < div className='col-span-1 flex flex-col justify-end p-3 aspect-square bg-gray-dark rounded-2xl' >
-                                                        <span className='text-sm'>{role.name}</span>
+                                                    < div className='col-span-1 flex flex-col aspect-square overflow-hidden bg-gray-dark rounded-2xl' >
+                                                        <LearningCard card={role} type={'modern-role'} />
                                                     </div>
                                                 ))
-
                                             }
                                         </div>
                                     </div>

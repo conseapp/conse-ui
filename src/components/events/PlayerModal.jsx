@@ -103,7 +103,7 @@ const PlayerModal = ({ singleEvent, openModal, handleCloseModal, activePlayer, s
             event_id,
         }
         const roleReqBody = {
-            role_id: selectedRole._id,
+            role_id: selectedRole._id.$oid,
             user_id,
             event_id,
         }
@@ -112,7 +112,7 @@ const PlayerModal = ({ singleEvent, openModal, handleCloseModal, activePlayer, s
 
         let updateCurrentUser = {
             ...activePlayer,
-            'role_id': selectedRole._id,
+            'role_id': selectedRole._id.$oid,
             'role_name': selectedRole.name,
             'status': parseInt(selectedStatus),
             'side_id': selectedSide,
@@ -206,6 +206,7 @@ const PlayerModal = ({ singleEvent, openModal, handleCloseModal, activePlayer, s
                         roles={roles}
                         selectedRole={selectedRole}
                         setSelectedRole={(role) => setSelectedRole(role)}
+                        type={'modern-role'}
                     />
                 </div>
                 <div className="w-full flex">
