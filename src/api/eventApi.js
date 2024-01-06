@@ -181,6 +181,20 @@ export const expireEvent = async (reqInfo) => {
     return response.data
 }
 
+export const addPhase = async (reqInfo) => {
+    const { token, body } = reqInfo
+    const response = await authApi.post("/update/phases/add", body, {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+        }
+    })
+
+    if (response.data.status !== 200)
+        throw new Error(`${response.data.message} ${response.data.status}`)
+
+    return response.data
+}
 
 
 

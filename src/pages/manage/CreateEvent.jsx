@@ -10,11 +10,13 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { IoWarningOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
+import { FaAngleDown } from "react-icons/fa6";
 
 const CreateEvent = () => {
   const globalUser = useSelector(state => state.userReducer)
   const navigate = useNavigate()
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false)
+  const [eventMode, setEventMode] = useState('modern')
   const [eventForm, setEventForm] = useState({
     title: '',
     content: '',
@@ -73,7 +75,7 @@ const CreateEvent = () => {
       group_info._id = group_info._id.$oid
 
     let body = {
-      title: title,
+      title: eventMode == 'classic' ? `cp/${title}` : title,
       content: content,
       deck_id: '',
       entry_price: '0',
@@ -109,6 +111,20 @@ const CreateEvent = () => {
                 <TextInput id='title' value={eventForm.title} placeholder={'نام ایونت'} onChange={handleFormChange} />
                 <TextareaInput id='content' value={eventForm.content} placeholder={'توضیحات'} onChange={handleFormChange} />
                 <DateInput id='started_at' placeholder={"زمان شروع بازی"} onChange={handleDateChange} value={eventForm.started_at} />
+                <div className="relative w-full">
+                  <div className='flex flex-col w-full relative'>
+                    <FaAngleDown size={20} className="absolute left-4 top-4 pointer-events-none" />
+                    <select
+                      value={eventMode}
+                      className='appearance-none bg-navy placeholder-white text-white read-only:focus:border-none read-only:focus-visible:border-none focus:border focus:ring-secondary focus:border-secondary focus-visible:border focus-visible:ring-secondary focus-visible:border-secondary focus-visible:outline-none text-sm rounded-2xl block w-full px-4 py-3.5'
+                      id={"status"}
+                      onChange={(e) => setEventMode(e.target.value)}
+                    >
+                      <option className='text-sm' value='modern'>شب مافیا</option>
+                      <option className='text-sm' value='classic'>کلاسیک پیشرفته</option>
+                    </select>
+                  </div>
+                </div>
               </div>
               <SubmitButton text={'افزودن ایونت'} disabled={submitButtonDisabled || !Object.values(eventForm).every(value => value !== null && value !== "")} id='create-event-button' />
             </form>

@@ -8,7 +8,7 @@ const RequireAuth = ({ allowedRoles }) => {
     return (
         allowedRoles?.includes(globalUser.accessLevel)
             ? <Outlet />
-            : <Navigate to='unauthorized' state={{ from: locaion }} replace />
+            : <Navigate to='/mafia/unauthorized' state={{ from: locaion }} replace />
     )
 }
 

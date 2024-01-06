@@ -23,7 +23,7 @@ const EventCard = ({ name, date, god, capacity, BgPic, path, key }) => {
                 </div>
             </div>
             <div className="relative w-5/12 bg-gradient-main">
-                <img className="aspect-custom" src={BgPic} alt="" />
+                <img className="aspect-custom w-full" src={BgPic} alt="" />
                 <div className="absolute z-10 w-full h-full left-0 top-0 bg-gradient-to-r from-transparent from-40% to-gray-dark to-100%"></div>
             </div>
         </div>

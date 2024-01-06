@@ -183,7 +183,7 @@ export const updatePlayerSide = async (reqInfo) => {
 
 }
 
-export const updatePlayerRole= async (reqInfo) => {
+export const updatePlayerRole = async (reqInfo) => {
     const { token, body } = reqInfo
 
     const response = await authApi.post("/player/update/role", body, {
@@ -195,3 +195,16 @@ export const updatePlayerRole= async (reqInfo) => {
     return response.data
 
 }
+export const chainPlayer = async (reqInfo) => {
+    const { token, body } = reqInfo
+
+    const response = await authApi.post("/player/chain", body, {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+        }
+    })
+    return response.data
+
+}
+

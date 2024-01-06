@@ -25,6 +25,7 @@ import SingleEvent from './pages/events/SingleEvent.jsx';
 import Players from './pages/events/Players.jsx';
 import PlayerEvents from './pages/PlayerEvents.jsx';
 import EventRoles from './pages/events/EventRoles.jsx';
+import History from './pages/events/History.jsx';
 
 
 const router = createBrowserRouter([
@@ -55,10 +56,6 @@ const router = createBrowserRouter([
           {
             path: "signup",
             element: <Signup />,
-          },
-          {
-            path: "unauthorized",
-            element: <Unauthorized />,
           },
         ]
       },
@@ -112,6 +109,16 @@ const router = createBrowserRouter([
                         path: 'event-roles',
                         element: <EventRoles />,
                       },
+                    ]
+                  },
+                  {
+                    path: "history",
+                    element: <RequireAuth allowedRoles={[0, 1]} />,
+                    children: [
+                      {
+                        index: true,
+                        element: <History />
+                      }
                     ]
                   },
                 ]
@@ -175,6 +182,10 @@ const router = createBrowserRouter([
                 ]
               },
             ]
+          },
+          {
+            path: "unauthorized",
+            element: <Unauthorized />,
           },
         ]
       },

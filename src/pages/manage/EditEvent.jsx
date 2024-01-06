@@ -12,7 +12,7 @@ import { IoWarningOutline } from "react-icons/io5";
 import { useNavigate, useParams } from "react-router-dom";
 import Circular from "../../components/ui/Circular";
 import CropModal from "../../components/crop/CropModal";
-import { uploadEventImg } from "../../api/adminApi";
+import { uploadEventImg } from "../../api/panelApi";
 
 
 const EditEvent = () => {
@@ -57,8 +57,8 @@ const EditEvent = () => {
                 content: result.data.content,
                 started_at: new DateObject(result.data.started_at * 1000),
             })
-            if (result.data.image_path)
-                setPhotoURL(result.data.image_path)
+            // if (result.data.image_path)
+            //     setPhotoURL(result.data.image_path)
         },
         onError: (error) => {
             toast.error('خطایی در هنگام دریافت ایونت پیش آمده')
@@ -187,7 +187,7 @@ const EditEvent = () => {
                                     <TextInput readOnly id='title' value={eventForm.title} placeholder={'نام ایونت'} onChange={handleFormChange} />
                                     <TextareaInput id='content' value={eventForm.content} placeholder={'توضیحات'} onChange={handleFormChange} />
                                     <DateInput id='started_at' value={eventForm.started_at} placeholder={"زمان شروع بازی"} onChange={handleDateChange} />
-                                    <ImageInput photoURL={photoURL} onChange={handleImageChange} text={'انتخاب تصویر'} />
+                                    <ImageInput photoURL={imageFile ? photoURL : `https://panel.api.conse.app/${singleGodEvent?.data.image_path}`} onChange={handleImageChange} text={'انتخاب تصویر'} />
                                     {
                                         imageFile &&
                                         <div className="w-3/4">

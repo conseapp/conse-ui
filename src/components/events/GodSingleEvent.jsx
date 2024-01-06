@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useSwipeable } from 'react-swipeable'
 import { RegularButton, OutlineButton, CancelButton } from "../../components/ui/buttons";
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import BgPic from '../../assets/james-bond-cover.jpg'
 
 
@@ -12,6 +12,7 @@ const GodSingleEvent = ({ singleEvent, startTime }) => {
     const [height, setHeight] = useState(360);
     const [bgImage, setBgImage] = useState('')
     const navigate = useNavigate()
+    const location = useLocation()
 
 
     const handlers = useSwipeable({
@@ -86,7 +87,12 @@ const GodSingleEvent = ({ singleEvent, startTime }) => {
                                         navigate('players', { state: { from: location.pathname, backButton: true } })
                                     } text='مشاهده لیست بازیکنان' />
 
-                                <OutlineButton text='تاریخچه بازی' />
+                                <OutlineButton
+                                    onClick={() =>
+                                        navigate('history', { state: { from: location.pathname, backButton: true } })
+                                    }
+                                    text='تاریخچه بازی'
+                                />
                             </div>
                         }
                     </div>

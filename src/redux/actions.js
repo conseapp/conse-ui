@@ -13,6 +13,7 @@ const emptyUser = {
     phone: "",
     accessLevel: undefined,
     accessToken: '',
+    avatarPath: '',
 }
 
 const emptyPhaseState = {
@@ -37,7 +38,9 @@ export const getuser = (token) => {
                     phone: response.data.phone,
                     accessLevel: response.data.access_level,
                     accessToken: token,
+                    avatarPath: response.data.avatar_path,
                 }
+                console.log(response.data.avatar_path);
 
                 dispatch({
                     type: GET_USER,

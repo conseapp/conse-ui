@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../../redux/actions';
+import { logout, resetPhaseState } from '../../redux/actions';
 import { IoLogOutOutline } from "react-icons/io5";
 import { useLocation } from 'react-router-dom';
 import { NavListButton } from '../../components/ui/navigationButtons';
@@ -10,6 +10,10 @@ const Profile = () => {
   const dispatch = useDispatch();
   const globalUser = useSelector(state => state.userReducer)
 
+  const handleLogout = () => { 
+    dispatch(logout())
+    dispatch(resetPhaseState())
+   }
   return (
     <div className='flex flex-col py-10 gap-10'>
       <ul className='flex flex-col gap-2'>
@@ -28,7 +32,7 @@ const Profile = () => {
       </ul>
       <div>
       </div>
-      <button className='flex gap-2' onClick={() => dispatch(logout())}>
+      <button className='flex gap-2' onClick={handleLogout}>
         <IoLogOutOutline color='#E74A4A' size={24} />
         خروج از حساب کاربری
       </button>

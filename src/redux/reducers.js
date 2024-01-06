@@ -9,6 +9,7 @@ const initialState = {
     phone: "",
     accessLevel: undefined,
     accessToken: '',
+    avatarPath: '',
 }
 
 function userReducer(state = initialState, action) {
@@ -21,6 +22,7 @@ function userReducer(state = initialState, action) {
                 phone: action.payload.phone,
                 accessLevel: action.payload.accessLevel,
                 accessToken: action.payload.accessToken,
+                avatarPath: action.payload.avatarPath
             };
         case LOGOUT_USER:
             return {
@@ -30,6 +32,7 @@ function userReducer(state = initialState, action) {
                 phone: action.payload.phone,
                 accessLevel: action.payload.accessLevel,
                 accessToken: action.payload.accessToken,
+                avatarPath: action.payload.avatarPath,
             };
         default:
             return state;

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 
-const Avatar = ({ color }) => {
+const Avatar = ({ color, imgPath }) => {
     const [style, setStyle] = useState('')
 
 
@@ -15,8 +15,13 @@ const Avatar = ({ color }) => {
 
 
     return (
-        <div className={style}>
-            <div className='w-14 h-14 rounded-full bg-gray'></div>
+        <div
+            className={style}
+        >
+            <div
+                className='w-14 h-14 rounded-full bg-gray'
+                style={{ backgroundImage: `url(${imgPath})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}
+            ></div>
         </div>
     )
 }
