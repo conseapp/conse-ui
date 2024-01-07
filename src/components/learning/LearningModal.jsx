@@ -31,10 +31,13 @@ const LearningModal = ({ openModal, handleClose, selectedCard }) => {
             <div className="min-w-[312px] gap-4 max-w-[400px] p-4 shadow-lg w-[80%] rounded-2xl bg-navy flex flex-col justify-between items-center outline-none">
                 <div className='relative overflow-hidden w-full bg-gray-dark aspect-4/3 rounded-lg'>
                     {
+                        selectedCard?.card.name.substring(0, 3) == 'cp/' ?
+                            <img className='absolute w-full top-0 left-0' src={`/roles/classic/${selectedCard?.card._id.$oid}.jpg`} />
+                            :
                             <img className='absolute w-full top-0 left-0' src={`/roles/modern/${selectedCard?.card._id.$oid}.jpg`} />
                     }
                 </div>
-                <h2 className='text-lg w-full'>{selectedCard?.card.name}</h2>
+                <h2 className='text-lg w-full'>{selectedCard?.card.name.replace('cp/', '')}</h2>
                 <p dangerouslySetInnerHTML={{ __html: selectedCard?.card.desc }} className='text-justify'></p>
                 <div className="w-full flex-1 flex flex-col justify-end">
                     <TransparentButton onClick={closeModal} text='بستن' />

@@ -74,7 +74,13 @@ const Learning = () => {
                         key={role._id.$oid}
                         onClick={() => handleOpen(role, 'modern-role')}
                       >
-                        <LearningCard card={role} type={'modern-role'} />
+
+                        {
+                          role.name.includes('cp/') ?
+                            <LearningCard card={role} type={'classic-pishrafte'} />
+                            :
+                            <LearningCard card={role} type={'modern-role'} />
+                        }
                       </SwiperSlide>
                     ))
                   }
