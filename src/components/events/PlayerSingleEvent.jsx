@@ -9,7 +9,7 @@ import { toast } from 'react-toastify';
 import BgPic from '../../assets/james-bond-cover.jpg'
 import { getRoles, getSides, getSinglePlayer } from '../../api/gameApi';
 import Avatar from '../ui/Avatar';
-import LearningCard from '../learning/learningCard';
+import LearningCard from '../learning/LearningCard';
 
 
 

@@ -10,7 +10,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/free-mode';
 import { TransparentButton } from '../components/ui/buttons'
 import { Modal } from '@mui/material'
-import LearningCard from '../components/learning/learningCard'
+import LearningCard from '../components/learning/LearningCard'
 import LearningModal from '../components/learning/LearningModal'
 
 
