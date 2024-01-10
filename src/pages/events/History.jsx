@@ -63,7 +63,7 @@ const History = () => {
 
 
     useEffect(() => {
-        !!godEvent?.data.image_path ? setBgImage(`https://panel.api.conse.app/${godEvent?.data.image_path}`) : setBgImage(BgPic)
+        !!godEvent?.data.image_path ? setBgImage(`https://panel.api.jamshid.app/${godEvent?.data.image_path}`) : setBgImage(BgPic)
 
 
     }, [godEvent?.data.image_path])

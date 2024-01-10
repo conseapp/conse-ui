@@ -131,7 +131,7 @@ const UserAccountInfo = () => {
               photoURL ?
                 { backgroundImage: `url(${photoURL})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }
                 :
-                globalUser.avatarPath ? { backgroundImage: `url(https://panel.api.conse.app/${globalUser.avatarPath})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }
+                globalUser.avatarPath ? { backgroundImage: `url(https://panel.api.jamshid.app/${globalUser.avatarPath})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }
                   : {}
             }
           >

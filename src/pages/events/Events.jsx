@@ -60,7 +60,7 @@ const Events = () => {
                         date={event.started_at}
                         god={event.group_info.owner}
                         capacity={event.max_players}
-                        BgPic={event.image_path ? `https://panel.api.conse.app/${event.image_path}` : BgPic}
+                        BgPic={event.image_path ? `https://panel.api.jamshid.app/${event.image_path}` : BgPic}
                         path={`/mafia/events/${event._id.$oid}`}
                       /> :
                       <EventCardCol
@@ -68,7 +68,7 @@ const Events = () => {
                         date={event.started_at}
                         god={event.group_info.owner}
                         capacity={event.max_players}
-                        BgPic={event.image_path ? `https://panel.api.conse.app/${event.image_path}` : BgPic}
+                        BgPic={event.image_path ? `https://panel.api.jamshid.app/${event.image_path}` : BgPic}
                         path={`/mafia/events/${event._id.$oid}`}
                       />
                   }

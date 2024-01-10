@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const authApi = axios.create({
-    baseURL: 'https://api.mafia.conse.app/auth'
+    baseURL: 'https://api.mafia.jamshid.app/auth'
 })
 
 export const requestOTP = async (body) => {

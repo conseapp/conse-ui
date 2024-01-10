@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const adminApi = axios.create({
-    baseURL: 'https://panel.api.conse.app'
+    baseURL: 'https://panel.api.jamshid.app'
 })
 
 

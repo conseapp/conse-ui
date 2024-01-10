@@ -166,7 +166,7 @@ const Players = () => {
                   players?.map(player => (
                     <div key={player._id.$oid} className='w-full flex bg-navy p-2 pl-3.5 rounded-3xl items-center'>
                       <Avatar
-                        imgPath={player.avatar_path ? `https://panel.api.conse.app/${player.avatar_path}` : null} color='blue' />
+                        imgPath={player.avatar_path ? `https://panel.api.jamshid.app/${player.avatar_path}` : null} color='blue' />
                       <div className="h-full flex-1 flex flex-col justify-center px-4">
                         <span>{player.username}</span>
                         {

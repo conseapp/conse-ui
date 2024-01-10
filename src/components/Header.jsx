@@ -49,7 +49,7 @@ const Header = () => {
       </div>
       <Avatar
         color={'pink'}
-        imgPath={globalUser.avatarPath ? `https://panel.api.conse.app/${globalUser.avatarPath}` : null}
+        imgPath={globalUser.avatarPath ? `https://panel.api.jamshid.app/${globalUser.avatarPath}` : null}
       />
       {/* <div>{JSON.stringify(location)}</div> */}
     </header>

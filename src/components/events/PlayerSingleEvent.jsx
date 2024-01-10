@@ -21,7 +21,7 @@ const PlayerSingleEvent = ({ singleEvent, startTime }) => {
     const client = useQueryClient()
 
     useEffect(() => {
-        !!singleEvent.image_path ? setBgImage(`https://panel.api.conse.app/${singleEvent.image_path}`) : setBgImage(BgPic)
+        !!singleEvent.image_path ? setBgImage(`https://panel.api.jamshid.app/${singleEvent.image_path}`) : setBgImage(BgPic)
 
 
     }, [singleEvent.image_path])

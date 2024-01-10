@@ -187,7 +187,7 @@ const EditEvent = () => {
                                     <TextInput readOnly id='title' value={eventForm.title} placeholder={'نام ایونت'} onChange={handleFormChange} />
                                     <TextareaInput id='content' value={eventForm.content} placeholder={'توضیحات'} onChange={handleFormChange} />
                                     <DateInput id='started_at' value={eventForm.started_at} placeholder={"زمان شروع بازی"} onChange={handleDateChange} />
-                                    <ImageInput photoURL={imageFile ? photoURL : `https://panel.api.conse.app/${singleGodEvent?.data.image_path}`} onChange={handleImageChange} text={'انتخاب تصویر'} />
+                                    <ImageInput photoURL={imageFile ? photoURL : `https://panel.api.jamshid.app/${singleGodEvent?.data.image_path}`} onChange={handleImageChange} text={'انتخاب تصویر'} />
                                     {
                                         imageFile &&
                                         <div className="w-3/4">
