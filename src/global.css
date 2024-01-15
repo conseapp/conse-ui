@@ -20,7 +20,8 @@
 @tailwind utilities;
 
 :root {
-    background: linear-gradient(168deg, #601b69 -24.53%, #061624 119.47%);
+    /* background: linear-gradient(168deg, #601b69 -24.53%, #061624 119.47%); */
+    background: black linear-gradient(160deg, rgba(160, 3, 150, 0.4), rgba(109, 6, 193, 0.4));
 
     --toastify-color-light: #fff;
     --toastify-color-dark: #0d0d1f;
@@ -74,19 +75,18 @@ input[type="number"] {
 }
 
 .rmdp-mobile.rmdp-wrapper,
-.rmdp-container .rmdp-wrapper.ep-arrow::after{
+.rmdp-container .rmdp-wrapper.ep-arrow::after {
     background-color: #061624 !important;
     border: none;
     border-radius: 16px;
     box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.12);
 }
 
-.rmdp-time-picker input{
+.rmdp-time-picker input {
     background-color: #061624 !important;
 }
 
-.rmdp-mobile.rmdp-wrapper .rmdp-border-top, 
+.rmdp-mobile.rmdp-wrapper .rmdp-border-top,
 .rmdp-mobile.rmdp-wrapper .rmdp-border-bottom {
-    border-color: #3EAEFF;
+    border-color: #3eaeff;
 }
-

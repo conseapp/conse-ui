@@ -5,7 +5,7 @@ import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import MainLayout from './layouts/MainLayout.jsx';
 import AuthLayout from './layouts/AuthLayout.jsx';
 import NotFound from './pages/NotFound.jsx';
-import Landing from './pages/Landing.jsx';
+import Landing from './pages/landing/Landing.jsx';
 import Profile from './pages/profile/Profile.jsx'
 import UserAccountInfo from './pages/profile/UserAccountInfo.jsx';
 import Promotions from './pages/profile/Promotions.jsx';

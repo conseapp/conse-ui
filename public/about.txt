@@ -1,0 +1,6 @@
+This favicon was generated using the following font:
+
+- Font Title: Vazirmatn
+- Font Author: Copyright 2015 The Vazirmatn Project Authors (https://github.com/rastikerdar/vazirmatn)
+- Font Source: http://fonts.gstatic.com/s/vazirmatn/v13/Dxx78j6PP2D_kU2muijPEe1n2vVbfJRkleg0OReZ72DF_QY.ttf
+- Font License: SIL Open Font License, 1.1 (http://scripts.sil.org/OFL))
