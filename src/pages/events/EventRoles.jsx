@@ -18,6 +18,7 @@ const EventRoles = () => {
     const [selectedRoles, setSelectedRoles] = useState({})
     const [selectedCards, setselectedCards] = useState({})
     const [deckID, setDeckID] = useState(null)
+    const [isClassic, setIsClassic] = useState(false)
     const [deckSides, setDeckSides] = useState([])
 
 
@@ -38,8 +39,10 @@ const EventRoles = () => {
             return getSingleGodEvent(reqInfo)
         }, {
             onSuccess: (result) => {
-                if (result.data.deck_id)
+                if (result.data.deck_id) {
                     setDeckID(result.data.deck_id)
+                    setIsClassic(result.data.title.includes('cp/'))
+                }
             },
             refetchOnWindowFocus: false
         })
@@ -269,7 +272,7 @@ const EventRoles = () => {
                                         return (
                                             <Fragment key={`side_${side._id.$oid}`}>
                                                 <RoleSelector
-                                                    type={'modern-role'}
+                                                    type={isClassic ? 'classic-role' : 'modern-role'}
                                                     label={`نقش‌های ${side.name}`}
                                                     roles={roles?.data.roles.filter(role => role.side_id.$oid === side._id.$oid)}
                                                     selectedRoles={selectedRoles[side.name]}
