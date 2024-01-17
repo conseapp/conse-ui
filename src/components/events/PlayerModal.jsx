@@ -273,7 +273,7 @@ const PlayerModal = ({ singleEvent, openModal, handleCloseModal, activePlayer, s
                         roles={roles}
                         selectedRole={selectedRole}
                         setSelectedRole={(role) => setSelectedRole(role)}
-                        type={'modern-role'}
+                        type={singleEvent?.title.includes('cp/') ? 'classic-role' : 'modern-role'}
                     />
                 </div>
                 <div className="w-full flex">

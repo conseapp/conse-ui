@@ -7,7 +7,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import BgPic from '../../assets/james-bond-cover.jpg'
-import { getRoles, getSides, getSinglePlayer } from '../../api/gameApi';
+import { getRoles, getSides, getSingleDeck, getSinglePlayer } from '../../api/gameApi';
 import Avatar from '../ui/Avatar';
 import LearningCard from '../learning/LearningCard';
 
@@ -66,13 +66,17 @@ const PlayerSingleEvent = ({ singleEvent, startTime }) => {
         refetchInterval: 5000
     })
 
-    const { data: sides, isFetching: sidesIsFetching } = useQuery([`sides`], () => getSides(globalUser.accessToken), {
-        refetchOnWindowFocus: false,
-    })
+    const { data: singleDeck, isLoading: singleDeckIsLoading, isFetching: singleDeckIsFetching } =
+        useQuery([`single-deck-${singleEvent?.deck_id}`], () => {
+            if (singleEvent?.deck_id !== null) {
+                const reqInfo = { token: globalUser.accessToken, body: { _id: singleEvent?.deck_id } }
 
-    const { data: roles, isFetching: rolesIsFetching } = useQuery([`roles`], () => getRoles(globalUser.accessToken), {
-        refetchOnWindowFocus: false
-    })
+                return getSingleDeck(reqInfo)
+            }
+        }, {
+            refetchOnWindowFocus: true,
+            refetchInterval: 10000
+        })
 
 
     const { mutate: reserveEventMutation } = useMutation(reserveEvent,
@@ -166,25 +170,26 @@ const PlayerSingleEvent = ({ singleEvent, startTime }) => {
                                         <p className='border border-secondary text-sm shadow-neon-blue-sm rounded-2xl px-4 py-3'>هنوز نقشی به شما تعلق نگرفته است.</p>
                                 }
                             </div>
-                            <div className='w-full flex flex-col gap-6 pt-6'>
-                                <h2 className='text-xl w-full px-4 text-center'>نقش های موجود در ایونت</h2>
-                                {sides?.data.sides.map(side => (
-                                    <div className='flex flex-col gap-4'>
-                                        <h3>نقش های {side.name}</h3>
-                                        <div className='grid grid-cols-2 gap-4'>
-                                            {
-                                                roles?.data.roles.filter(role => role.side_id.$oid === side._id.$oid).map(role => (
-                                                    < div className='col-span-1 flex flex-col aspect-square overflow-hidden bg-gray-dark rounded-2xl' >
-                                                        <LearningCard card={role} type={'modern-role'} />
-                                                    </div>
-                                                ))
-                                            }
-                                        </div>
-                                    </div>
-                                ))
-
-                                }
-                            </div>
+                            {
+                                singleDeck?.data.roles.length ?
+                                    <div className='w-full flex flex-col gap-6 pt-6'>
+                                        <h2 className='text-xl w-full px-4 text-center'>نقش های موجود در ایونت</h2>
+                                        {
+                                            <div className='grid grid-cols-2 gap-4'>
+                                                {
+                                                    singleDeck?.data.roles.map(role => {
+                                                        role = { ...role, _id: { $oid: role._id } }
+                                                        return (
+                                                            <div className='col-span-1 flex flex-col aspect-square overflow-hidden bg-gray-dark rounded-2xl' >
+                                                                <LearningCard card={role} type={singleEvent?.title.includes('cp/') ? 'classic-role' : 'modern-role'} />
+                                                            </div>
+                                                        )
+                                                    })
+                                                }
+                                            </div>
+                                        }
+                                    </div> : <></>
+                            }
                         </div>
                     </div>
                     :
