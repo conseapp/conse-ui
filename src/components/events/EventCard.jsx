@@ -14,7 +14,7 @@ const EventCard = ({ name, date, god, capacity, BgPic, path, key }) => {
         <div key={key} className="flex w-full aspect-2/1 flex-shrink-0 shadow-lg bg-gray-dark rounded-2xl overflow-hidden">
             <div className="w-7/12 flex flex-col p-4 justify-evenly">
                 <div className="flex flex-col gap-2">
-                    <h3 className="text-sm">{name}</h3>
+                    <h3 className="text-sm">{name.replace('cp/', '')}</h3>
                     <span className="text-sm">{`${startTime.format("D MMMM")} - ساعت ${startTime.format("HH:mm")}`}</span>
                 </div>
                 <span className="text-sm">{`گرداننده: ${god}`}</span>

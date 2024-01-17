@@ -168,7 +168,7 @@ const Players = () => {
                       <Avatar
                         imgPath={player.avatar_path ? `https://panel.api.jamshid.app/${player.avatar_path}` : null} color='blue' />
                       <div className="h-full flex-1 flex flex-col justify-center px-4">
-                        <span>{player.username}</span>
+                        <span>{player.username.split('::')[0]}</span>
                         {
                           player.role_name ?
                             <span className="text-sm">نقش: {player.role_name}</span>

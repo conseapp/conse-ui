@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { IoStar } from "react-icons/io5";
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { GoBackButton } from './ui/buttons';
 import { useSelector } from 'react-redux';
 import Avatar from './ui/Avatar';
@@ -47,10 +47,12 @@ const Header = () => {
             </>
         }
       </div>
-      <Avatar
-        color={'pink'}
-        imgPath={globalUser.avatarPath ? `https://panel.api.jamshid.app/${globalUser.avatarPath}` : null}
-      />
+      <Link to="/mafia/profile">
+        <Avatar
+          color={'pink'}
+          imgPath={globalUser.avatarPath ? `https://panel.api.jamshid.app/${globalUser.avatarPath}` : null}
+        />
+      </Link>
       {/* <div>{JSON.stringify(location)}</div> */}
     </header>
   )
