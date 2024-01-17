@@ -105,16 +105,6 @@ const RoleSelector = ({ roles, label, selectedRoles, setSelectedRoles, type }) =
                                 roles?.map((role) => {
                                     let selected = !(tempArray?.indexOf(role) < 0 || tempArray?.indexOf(role) == undefined)
                                     return (
-                                        // <div key={`role_${role._id.$oid}`} className='col-span-1 aspect-square flex items-center justify-center'>
-                                        //     <div onClick={() => toggleSelect(role)} className={className}>
-                                        //         {selected &&
-                                        //             <FaSquareCheck size={24} className="text-secondary" />
-                                        //         }
-                                        //         <span>
-                                        //             {role.name}
-                                        //         </span>
-                                        //     </div>
-                                        // </div>
                                         <Fragment key={`role_${role._id.$oid}`}>
                                             <RoleCard card={role} type={type} selected={selected} toggleSelect={toggleSelect} />
                                         </Fragment>

@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { FaAngleDown } from 'react-icons/fa6'
 import { RegularButton, TransparentButton } from '../../components/ui/buttons'
 import RoleSelector from '../../components/ui/RoleSelector'
@@ -18,6 +18,8 @@ const EventRoles = () => {
     const [selectedRoles, setSelectedRoles] = useState({})
     const [selectedCards, setselectedCards] = useState({})
     const [deckID, setDeckID] = useState(null)
+    const [deckSides, setDeckSides] = useState([])
+
 
 
     const { data: sides, isFetching: sidesIsFetching } = useQuery([`sides`], () => getSides(globalUser.accessToken), {
@@ -58,6 +60,15 @@ const EventRoles = () => {
             },
             refetchOnWindowFocus: false
         })
+
+    useEffect(() => {
+        if (godEvent && sides) {
+            godEvent.data.title.includes('cp/') ?
+                setDeckSides(sides?.data.sides.filter(side => (side._id.$oid === '659ac40a2f4ab34ceee5740e' || side._id.$oid === '659ac4ed2f4ab34ceee57414')))
+                :
+                setDeckSides(sides?.data.sides.filter(side => (side._id.$oid !== '659ac40a2f4ab34ceee5740e' && side._id.$oid !== '659ac4ed2f4ab34ceee57414')))
+        }
+    }, [godEvent?.data.title])
 
     const { mutate: upsertDeckMutation } = useMutation(upsertDeck,
         {
@@ -170,7 +181,6 @@ const EventRoles = () => {
         const {
             title,
             content,
-            deck_id,
             entry_price,
             group_info,
             creator_wallet_address,
@@ -253,21 +263,23 @@ const EventRoles = () => {
                         </div>
                         <div className='flex flex-col gap-4'>
                             <h2 className='w-full'>انتخاب نقش‌ها</h2>
-                            {sides?.data.sides.map(side => {
-                                if (roles?.data.roles.filter(role => role.side_id.$oid === side._id.$oid).length) {
-                                    return (
-                                        <Fragment key={`side_${side._id.$oid}`}>
-                                            <RoleSelector
-                                                type={'modern-role'}
-                                                label={`نقش‌های ${side.name}`}
-                                                roles={roles?.data.roles.filter(role => role.side_id.$oid === side._id.$oid)}
-                                                selectedRoles={selectedRoles[side.name]}
-                                                setSelectedRoles={(arr) => setSelectedRoles(prev => ({ ...prev, [side.name]: arr }))}
-                                            />
-                                        </Fragment>
-                                    )
-                                }
-                            })}
+                            {
+                                deckSides.map(side => {
+                                    if (roles?.data.roles.filter(role => role.side_id.$oid === side._id.$oid).length) {
+                                        return (
+                                            <Fragment key={`side_${side._id.$oid}`}>
+                                                <RoleSelector
+                                                    type={'modern-role'}
+                                                    label={`نقش‌های ${side.name}`}
+                                                    roles={roles?.data.roles.filter(role => role.side_id.$oid === side._id.$oid)}
+                                                    selectedRoles={selectedRoles[side.name]}
+                                                    setSelectedRoles={(arr) => setSelectedRoles(prev => ({ ...prev, [side.name]: arr }))}
+                                                />
+                                            </Fragment>
+                                        )
+                                    }
+                                })
+                            }
                         </div>
                     </div>
                 </>}
