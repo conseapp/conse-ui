@@ -12,6 +12,7 @@ import { TransparentButton } from '../components/ui/buttons'
 import { Modal } from '@mui/material'
 import LearningCard from '../components/learning/LearningCard'
 import LearningModal from '../components/learning/LearningModal'
+import Circular from '../components/ui/Circular'
 
 
 const Learning = () => {
@@ -49,77 +50,81 @@ const Learning = () => {
   return (
     <div className='h-custom-screen flex flex-col gap-4 pt-2'>
       <SearchInput id='title' value={query} placeholder={'جستجو'} onChange={(e) => setQuery(e.target.value)} />
-      <div className='w-full h-full overflow-auto flex flex-col gap-6 pt-6'>
-        {
-          sides?.data.sides.map(side => (
-            roles?.data.roles.filter(role => role.side_id.$oid === side._id.$oid &&
-              role.name.toLowerCase().includes(query)).length ?
-              <div key={side._id.$oid} className='flex flex-col gap-4'>
-                <h3>نقش‌های {side.name}</h3>
-                <Swiper
-                  className='w-full max-w-2xl pb-8'
-                  grabCursor={true}
-                  slidesPerView={'auto'}
-                  pagination={{
-                    dynamicBullets: true,
-                  }}
-                  freeMode={true}
-                  modules={[FreeMode, Pagination]}
-                  spaceBetween={8}
-                >
-                  {
-                    Search(roles?.data.roles.filter(role => role.side_id.$oid === side._id.$oid))?.map(role => (
-                      <SwiperSlide
-                        className='w-[calc(50%-8px)] aspect-square bg-gray-dark rounded-2xl overflow-hidden'
-                        key={role._id.$oid}
-                        onClick={() => handleOpen(role, 'modern-role')}
-                      >
+      {
+        (sides && cards && roles) ?
 
-                        {
-                          role.name.includes('cp/') ?
-                            <LearningCard card={role} type={'classic-pishrafte'} />
-                            :
-                            <LearningCard card={role} type={'modern-role'} />
-                        }
-                      </SwiperSlide>
-                    ))
-                  }
-                </Swiper>
-              </div>
-              : <></>
-          ))
-        }
-        {
-          Search(cards?.data)?.length > 0 ?
-            <div className='flex flex-col gap-4'>
-              <h3>کارت‌های حرکت آخر</h3>
-              <Swiper
-                className='w-full max-w-2xl pb-8'
-                grabCursor={true}
-                slidesPerView={'auto'}
-                pagination={{
-                  dynamicBullets: true,
-                }}
-                freeMode={true}
-                modules={[FreeMode, Pagination]}
-                spaceBetween={8}
-              >
-                {
-                  Search(cards?.data)?.map(card => (
-                    <SwiperSlide
-                      className='w-[calc(50%-8px)] flex flex-col justify-end p-3 aspect-square bg-gray-dark rounded-2xl'
-                      key={card._id.$oid}
-                      onClick={() => handleOpen(card, 'last-move-card')}
+          <div className='w-full h-full overflow-auto flex flex-col gap-6 pt-6'>
+            {
+              sides.data.sides.map(side => (
+                roles?.data.roles.filter(role => role.side_id.$oid === side._id.$oid &&
+                  role.name.toLowerCase().includes(query)).length ?
+                  <div key={side._id.$oid} className='flex flex-col gap-4'>
+                    <h3>نقش‌های {side.name}</h3>
+                    <Swiper
+                      className='w-full max-w-2xl pb-8'
+                      grabCursor={true}
+                      slidesPerView={'auto'}
+                      pagination={{
+                        dynamicBullets: true,
+                      }}
+                      freeMode={true}
+                      modules={[FreeMode, Pagination]}
+                      spaceBetween={8}
                     >
-                      <span className='text-sm'>{card.name}</span>
-                    </SwiperSlide>
-                  ))
-                }
-              </Swiper>
-            </div>
-            : <></>
-        }
-      </div>
+                      {
+                        Search(roles?.data.roles.filter(role => role.side_id.$oid === side._id.$oid))?.map(role => (
+                          <SwiperSlide
+                            className='w-[calc(50%-8px)] aspect-square bg-gray-dark rounded-2xl overflow-hidden'
+                            key={role._id.$oid}
+                            onClick={() => handleOpen(role, 'modern-role')}
+                          >
+
+                            {
+                              role.name.includes('cp/') ?
+                                <LearningCard card={role} type={'classic-pishrafte'} />
+                                :
+                                <LearningCard card={role} type={'modern-role'} />
+                            }
+                          </SwiperSlide>
+                        ))
+                      }
+                    </Swiper>
+                  </div>
+                  : <></>
+              ))
+            }
+            {
+              Search(cards?.data)?.length > 0 ?
+                <div className='flex flex-col gap-4'>
+                  <h3>کارت‌های حرکت آخر</h3>
+                  <Swiper
+                    className='w-full max-w-2xl pb-8'
+                    grabCursor={true}
+                    slidesPerView={'auto'}
+                    pagination={{
+                      dynamicBullets: true,
+                    }}
+                    freeMode={true}
+                    modules={[FreeMode, Pagination]}
+                    spaceBetween={8}
+                  >
+                    {
+                      Search(cards?.data)?.map(card => (
+                        <SwiperSlide
+                          className='w-[calc(50%-8px)] flex flex-col justify-end p-3 aspect-square bg-gray-dark rounded-2xl'
+                          key={card._id.$oid}
+                          onClick={() => handleOpen(card, 'last-move-card')}
+                        >
+                          <span className='text-sm'>{card.name}</span>
+                        </SwiperSlide>
+                      ))
+                    }
+                  </Swiper>
+                </div>
+                : <></>
+            }
+          </div> : <Circular />
+      }
       <LearningModal openModal={openModal} handleClose={handleClose} selectedCard={selectedCard} />
     </div>
   )
