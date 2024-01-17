@@ -81,7 +81,7 @@ const Learning = () => {
 
                             {
                               role.name.includes('cp/') ?
-                                <LearningCard card={role} type={'classic-pishrafte'} />
+                                <LearningCard card={role} type={'classic-role'} />
                                 :
                                 <LearningCard card={role} type={'modern-role'} />
                             }
@@ -111,11 +111,11 @@ const Learning = () => {
                     {
                       Search(cards?.data)?.map(card => (
                         <SwiperSlide
-                          className='w-[calc(50%-8px)] flex flex-col justify-end p-3 aspect-square bg-gray-dark rounded-2xl'
+                          className='w-[calc(50%-8px)] bg-gray-dark rounded-2xl overflow-hidden'
                           key={card._id.$oid}
                           onClick={() => handleOpen(card, 'last-move-card')}
                         >
-                          <span className='text-sm'>{card.name}</span>
+                          <LearningCard card={card} type={'last-move-card'} />
                         </SwiperSlide>
                       ))
                     }

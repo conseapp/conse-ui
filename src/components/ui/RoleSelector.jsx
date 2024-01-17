@@ -30,7 +30,7 @@ const RoleSelector = ({ roles, label, selectedRoles, setSelectedRoles, type }) =
     const toggleSelect = (role) => {
         let newArr;
 
-        if (tempArray?.indexOf(role) < 0 || tempArray?.indexOf(role) == undefined) {
+        if (tempArray?.map(item => item._id.$oid).indexOf(role._id.$oid) < 0 || tempArray?.indexOf(role) == undefined) {
             if (tempArray?.length > 0) {
                 newArr = [...tempArray, role]
             }
@@ -38,7 +38,7 @@ const RoleSelector = ({ roles, label, selectedRoles, setSelectedRoles, type }) =
         }
         else {
             newArr = [...tempArray]
-            newArr.splice(tempArray.indexOf(role), 1)
+            newArr.splice(tempArray?.map(item => item._id.$oid).indexOf(role._id.$oid), 1)
         }
 
 
@@ -103,7 +103,8 @@ const RoleSelector = ({ roles, label, selectedRoles, setSelectedRoles, type }) =
                         <div className='overflow-auto w-full grid grid-cols-2 gap-4 justify-center'>
                             {
                                 roles?.map((role) => {
-                                    let selected = !(tempArray?.indexOf(role) < 0 || tempArray?.indexOf(role) == undefined)
+                                    let selected = !(tempArray?.map(item => item._id.$oid).indexOf(role._id.$oid) < 0 || tempArray?.indexOf(role) == undefined)
+                                    // let selected = !(selectedRoles?.indexOf(role) < 0 || selectedRoles?.indexOf(role) == undefined)
                                     return (
                                         <Fragment key={`role_${role._id.$oid}`}>
                                             <RoleCard card={role} type={type} selected={selected} toggleSelect={toggleSelect} />

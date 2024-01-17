@@ -22,3 +22,19 @@ export const getRoleImg = async (reqInfo) => {
         return (null)
 }
 
+export const getCardImg = async (reqInfo) => {
+    const { token, cardId} = reqInfo
+
+    const response = await roleApi.get(`/cards/${cardId}`, {
+        headers: {
+            'token': `Bearer ${token}`,
+        },
+        responseType: 'blob'
+    })
+
+    if (response.status == 200)
+        return (response.data)
+    if (response.status == 404)
+        return (null)
+}
+

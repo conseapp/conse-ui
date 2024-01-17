@@ -39,9 +39,10 @@ const EventRoles = () => {
             return getSingleGodEvent(reqInfo)
         }, {
             onSuccess: (result) => {
+                setIsClassic(result.data.title.includes('cp/'))
+
                 if (result.data.deck_id) {
                     setDeckID(result.data.deck_id)
-                    setIsClassic(result.data.title.includes('cp/'))
                 }
             },
             refetchOnWindowFocus: false

@@ -29,7 +29,7 @@ const ManageEvents = () => {
                             godEvents.data.map((event, index) => (
                                 <li key={`event_${index}`}>
                                     <NavListButtonEdit
-                                        text={event.title}
+                                        text={event.title.replace('cp/','')}
                                         path={event._id.$oid}
                                         from={location.pathname} />
                                 </li>

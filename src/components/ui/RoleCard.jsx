@@ -3,7 +3,7 @@ import { rolePicsID } from '../../utils/picsID'
 import { FaSquareCheck } from 'react-icons/fa6';
 import { useInView } from 'react-intersection-observer';
 import { useSelector } from 'react-redux';
-import { getRoleImg } from '../../api/rolesApi';
+import { getCardImg, getRoleImg } from '../../api/rolesApi';
 
 
 
@@ -23,20 +23,30 @@ const RoleCard = ({ card, type, selected, toggleSelect }) => {
         setRoleImg(URL.createObjectURL(response))
     }
 
+    const handleGetCardImg = async () => {
+        const response = await getCardImg({ token: globalUser.accessToken, cardId: card?._id.$oid })
+        setRoleImg(URL.createObjectURL(response))
+    }
+
     useEffect(() => {
-        console.log(inView);
-        if (inView) {
+        if (inView && (type == 'modern-role' || type == 'classic-role')) {
             handleGetRoleImg()
+        }
+        if (inView && (type == 'last-move-card')) {
+            handleGetCardImg()
         }
 
     }, [inView])
+
+    const selectedClassName = `relative border border-secondary shadow-neon-blue-sm bg-gray-dark w-full max-w-[312px] overflow-hidden ${type == 'last-move-card' ? 'aspect-4/3' : 'aspect-square'} rounded-2xl flex flex-col justify-end`
+    const normalClassName = `bg-gray-dark w-full max-w-[312px] overflow-hidden ${type == 'last-move-card' ? 'aspect-4/3' : 'aspect-square'} rounded-2xl flex flex-col justify-end`
 
     return (
         <div key={`role_${card._id.$oid}`} className='col-span-1 aspect-square flex items-center justify-center'>
             <div ref={ref} onClick={() => toggleSelect(card)}
                 className={selected ?
-                    'relative border border-secondary shadow-neon-blue-sm bg-gray-dark w-full max-w-[312px] overflow-hidden aspect-square rounded-2xl flex flex-col justify-end'
-                    : 'bg-gray-dark w-full max-w-[312px] overflow-hidden aspect-square rounded-2xl flex flex-col justify-end'
+                    selectedClassName
+                    : normalClassName
                 }>
 
                 {
@@ -45,7 +55,11 @@ const RoleCard = ({ card, type, selected, toggleSelect }) => {
                             <img className='w-full' src={roleImg} />
                             <div className="absolute z-10 w-full h-full left-0 bottom-0 bg-gradient-to-b from-transparent from-40% to-gray-dark to-90%"></div>
                         </div>
-                        : <></>
+                        :
+                        <div className='flex-1 overflow-hidden relative'>
+                            <img className='w-full' src={roleImg} />
+                            <div className="absolute z-10 w-full h-full left-0 bottom-0 bg-gradient-to-b from-transparent from-40% to-gray-dark to-90%"></div>
+                        </div>
                 }
                 <span className='pb-3 pr-3'>
                     {

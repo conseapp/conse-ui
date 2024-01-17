@@ -184,10 +184,10 @@ const EditEvent = () => {
                         singleGodEvent ?
                             <form className="flex flex-col justify-between items-center h-full w-full gap-6" onSubmit={SubmitEvent}>
                                 <div className="flex flex-col gap-6 w-full items-center">
-                                    <TextInput readOnly id='title' value={eventForm.title} placeholder={'نام ایونت'} onChange={handleFormChange} />
+                                    <TextInput readOnly id='title' value={eventForm.title.replace('cp/', '')} placeholder={'نام ایونت'} />
                                     <TextareaInput id='content' value={eventForm.content} placeholder={'توضیحات'} onChange={handleFormChange} />
                                     <DateInput id='started_at' value={eventForm.started_at} placeholder={"زمان شروع بازی"} onChange={handleDateChange} />
-                                    <ImageInput photoURL={imageFile ? photoURL : `https://panel.api.jamshid.app/${singleGodEvent?.data.image_path}`} onChange={handleImageChange} text={'انتخاب تصویر'} />
+                                    <ImageInput photoURL={imageFile ? photoURL : singleGodEvent?.data.image_path ? `https://panel.api.jamshid.app/${singleGodEvent?.data.image_path}` : null} onChange={handleImageChange} text={'انتخاب تصویر'} />
                                     {
                                         imageFile &&
                                         <div className="w-3/4">
