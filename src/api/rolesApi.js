@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const roleApi = axios.create({
-    baseURL: 'https://roles.api.jamshid.app'
+    baseURL: 'http://5.34.196.146:3455'
 })
 
 
