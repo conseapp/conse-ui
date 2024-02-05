@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const authApi = axios.create({
-    baseURL: 'http://5.34.196.146:7438/event'
+    baseURL: 'https://api.mafia.jamshid.app/event'
 })
 
 

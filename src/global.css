@@ -90,3 +90,8 @@ input[type="number"] {
 .rmdp-mobile.rmdp-wrapper .rmdp-border-bottom {
     border-color: #3eaeff;
 }
+
+.ck-editor {
+    color: black;
+    background-color: #061624;
+}
