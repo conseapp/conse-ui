@@ -26,6 +26,8 @@ import Players from './pages/events/Players.jsx';
 import PlayerEvents from './pages/PlayerEvents.jsx';
 import EventRoles from './pages/events/EventRoles.jsx';
 import History from './pages/events/History.jsx';
+import JamNet from './pages/jamnet/JamNet.jsx';
+import SinglePost from './pages/jamnet/singlePost.jsx';
 
 
 const router = createBrowserRouter([
@@ -68,21 +70,6 @@ const router = createBrowserRouter([
           {
             path: "learning",
             element: <Learning />,
-          },
-          {
-            element: <RequireAuth allowedRoles={[2]} />,
-            children: [
-              {
-                path: "player-events",
-                children: [
-                  {
-                    index: true,
-                    element: <PlayerEvents />,
-                  },
-                ]
-
-              },
-            ]
           },
           {
             path: "events",
@@ -180,6 +167,34 @@ const router = createBrowserRouter([
                     element: <GodEvents />
                   },
                 ]
+              },
+              {
+                element: <RequireAuth allowedRoles={[2]} />,
+                children: [
+                  {
+                    path: "player-events",
+                    children: [
+                      {
+                        index: true,
+                        element: <PlayerEvents />,
+                      },
+                    ]
+
+                  },
+                ]
+              },
+            ]
+          },
+          {
+            path: 'jamnet',
+            children: [
+              {
+                index: true,
+                element: <JamNet />
+              },
+              {
+                path: ":postSlug",
+                element: <SinglePost />,
               },
             ]
           },

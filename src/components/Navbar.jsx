@@ -43,40 +43,19 @@ const Navbar = () => {
                         )}
                     </NavLink>
                 </li>
-                {
-                    (globalUser.accessLevel == 0 || globalUser.accessLevel == 1)
-                    &&
-                    <li>
-                        <NavLink
-                            to="/mafia/manage"
-                            className={({ isActive }) => isActive ? activeNavStyle : navStyle}
-                        >
-                            {({ isActive }) => (
-                                <>
-                                    <img className='w-6' src={isActive ? ManageActiveIcon : ManageIcon} />
-                                    <span>مدیریت بازی</span>
-                                </>
-                            )}
-                        </NavLink>
-                    </li>
-                }
-                {
-                    (globalUser.accessLevel == 2)
-                    &&
-                    <li>
-                        <NavLink
-                            to="/mafia/player-events"
-                            className={({ isActive }) => isActive ? activeNavStyle : navStyle}
-                        >
-                            {({ isActive }) => (
-                                <>
-                                    <img className='w-6' src={isActive ? ManageActiveIcon : ManageIcon} />
-                                    <span>ایونت‌های من</span>
-                                </>
-                            )}
-                        </NavLink>
-                    </li>
-                }
+                <li>
+                    <NavLink
+                        to="/mafia/jamnet"
+                        className={({ isActive }) => isActive ? activeNavStyle : navStyle}
+                    >
+                        {({ isActive }) => (
+                            <>
+                                <img className='w-6' src={isActive ? ManageActiveIcon : ManageIcon} />
+                                <span>جم نت</span>
+                            </>
+                        )}
+                    </NavLink>
+                </li>
                 <li>
                     <NavLink
                         to="/mafia/events"

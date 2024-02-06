@@ -16,8 +16,8 @@ const Profile = () => {
     dispatch(resetPhaseState())
   }
   return (
-    <div className='flex flex-col py-10 gap-10'>
-      <ul className='flex flex-col gap-2'>
+    <div className='flex flex-col py-10 gap-10 h-custom-screen'>
+      <ul className='flex flex-col gap-2 h-full overflow-auto'>
         <li>
           <NavListButton from={location.pathname} text={'اطلاعات حساب کاربری'} path={'user-acount-info'} />
         </li>
@@ -25,6 +25,18 @@ const Profile = () => {
           (globalUser.accessLevel == 0 || globalUser.accessLevel == 1) &&
           <li>
             <NavListButton from={location.pathname} text={'ایونت های من'} path={'god-events'} />
+          </li>
+        }
+        {
+          (globalUser.accessLevel == 2) &&
+          <li>
+            <NavListButton from={location.pathname} text={'ایونت های من'} path={'player-events'} />
+          </li>
+        }
+        {
+          (globalUser.accessLevel == 0 || globalUser.accessLevel == 1) &&
+          <li>
+            <NavListButton from={location.pathname} text={'مدریت ایونت‌ها'} path={'/mafia/manage/events'} />
           </li>
         }
         <li>
