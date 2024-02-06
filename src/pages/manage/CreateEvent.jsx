@@ -11,6 +11,8 @@ import { toast } from "react-toastify";
 import { IoWarningOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { FaAngleDown } from "react-icons/fa6";
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import Editor from 'ckeditor5-custom-build/build/ckeditor';
 
 const CreateEvent = () => {
   const globalUser = useSelector(state => state.userReducer)
@@ -55,6 +57,13 @@ const CreateEvent = () => {
     setEventForm(prev => ({
       ...prev,
       [e.target.id]: e.target.value
+    }))
+  }
+
+  const handleEditorChange = (event, editor) => {
+    setEventForm(prev => ({
+      ...prev,
+      content: editor.getData()
     }))
   }
 
@@ -109,7 +118,15 @@ const CreateEvent = () => {
             <form className="flex flex-col justify-between h-full w-full" onSubmit={SubmitEvent}>
               <div className="flex flex-col gap-6 w-full">
                 <TextInput id='title' value={eventForm.title} placeholder={'نام ایونت'} onChange={handleFormChange} />
-                <TextareaInput id='content' value={eventForm.content} placeholder={'توضیحات'} onChange={handleFormChange} />
+                <div className="relative w-full bg-navy placeholder-white text-white rounded-2xl py-3 px-4 flex flex-col gap-3">
+                  <p>توضیحات</p>
+                  <CKEditor
+                    id={'content'}
+                    editor={Editor}
+                    data={eventForm.content}
+                    onChange={handleEditorChange}
+                  />
+                </div>
                 <DateInput id='started_at' placeholder={"زمان شروع بازی"} onChange={handleDateChange} value={eventForm.started_at} />
                 <div className="relative w-full">
                   <div className='flex flex-col w-full relative'>

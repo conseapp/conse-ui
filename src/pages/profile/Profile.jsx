@@ -3,8 +3,7 @@ import { logout, resetPhaseState } from '../../redux/actions';
 import { IoLogOutOutline } from "react-icons/io5";
 import { useLocation } from 'react-router-dom';
 import { NavListButton } from '../../components/ui/navigationButtons';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import Editor from 'ckeditor5-custom-build/build/ckeditor';
+
 
 
 const Profile = () => {
@@ -31,13 +30,6 @@ const Profile = () => {
         <li>
           <NavListButton from={location.pathname} text={'promotions'} path={'promotions'} />
         </li>
-        <CKEditor
-          editor={Editor}
-          data="<p>Hello from CKEditor&nbsp;5!</p>"
-          onChange={(event) => {
-            console.log(event);
-          }}
-        />
       </ul>
       <div>
       </div>

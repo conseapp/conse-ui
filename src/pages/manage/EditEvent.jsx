@@ -13,6 +13,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import Circular from "../../components/ui/Circular";
 import CropModal from "../../components/crop/CropModal";
 import { uploadEventImg } from "../../api/panelApi";
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import Editor from 'ckeditor5-custom-build/build/ckeditor';
 
 
 const EditEvent = () => {
@@ -105,6 +107,13 @@ const EditEvent = () => {
         }))
     }
 
+    const handleEditorChange = (event, editor) => {
+        setEventForm(prev => ({
+            ...prev,
+            content: editor.getData()
+        }))
+    }
+
     const handleDateChange = value => {
         setEventForm(prev => ({
             ...prev,
@@ -185,8 +194,15 @@ const EditEvent = () => {
                             <form className="flex flex-col justify-between items-center h-full w-full gap-6" onSubmit={SubmitEvent}>
                                 <div className="flex flex-col gap-6 w-full items-center">
                                     <TextInput readOnly id='title' value={eventForm.title.replace('cp/', '')} placeholder={'نام ایونت'} />
-                                    <TextareaInput id='content' value={eventForm.content} placeholder={'توضیحات'} onChange={handleFormChange} />
-                                    <DateInput id='started_at' value={eventForm.started_at} placeholder={"زمان شروع بازی"} onChange={handleDateChange} />
+                                    <div className="relative w-full bg-navy placeholder-white text-white rounded-2xl py-3 px-4 flex flex-col gap-3">
+                                        <p>توضیحات</p>
+                                        <CKEditor
+                                            id={'content'}
+                                            editor={Editor}
+                                            data={eventForm.content}
+                                            onChange={handleEditorChange}
+                                        />
+                                    </div>                                    <DateInput id='started_at' value={eventForm.started_at} placeholder={"زمان شروع بازی"} onChange={handleDateChange} />
                                     <ImageInput photoURL={imageFile ? photoURL : singleGodEvent?.data.image_path ? `https://panel.api.jamshid.app/${singleGodEvent?.data.image_path}` : null} onChange={handleImageChange} text={'انتخاب تصویر'} />
                                     {
                                         imageFile &&

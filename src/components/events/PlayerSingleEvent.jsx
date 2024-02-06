@@ -149,7 +149,7 @@ const PlayerSingleEvent = ({ singleEvent, startTime }) => {
                                         </div>
                                         <div className='flex flex-col w-full gap-1'>
                                             <span className='text-gray-light text-sm'>سناریو</span>
-                                            <span>{singleEvent.content}</span>
+                                            <div dangerouslySetInnerHTML={{ __html: singleEvent.content }}></div>
                                         </div>
                                     </div>
                                 </div>
