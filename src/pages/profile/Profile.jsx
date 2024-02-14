@@ -3,6 +3,8 @@ import { logout, resetPhaseState } from '../../redux/actions';
 import { IoLogOutOutline } from "react-icons/io5";
 import { useLocation } from 'react-router-dom';
 import { NavListButton } from '../../components/ui/navigationButtons';
+import { logoutUser } from '../../api/logoutApi';
+import { toast } from 'react-toastify';
 
 
 
@@ -11,10 +13,24 @@ const Profile = () => {
   const dispatch = useDispatch();
   const globalUser = useSelector(state => state.userReducer)
 
-  const handleLogout = () => {
-    dispatch(logout())
-    dispatch(resetPhaseState())
+  const handleLogout = async () => {
+    try {
+      const response = await logoutUser({ token: globalUser.accessToken, userID: globalUser.id })
+
+      if (response.status === 200) {
+        dispatch(logout())
+        dispatch(resetPhaseState())
+      }
+    } catch (error) {
+      console.log(error)
+      toast.error('خطایی در هنگام خروج از حساب پیش آمده')
+      setTimeout(() => {
+        dispatch(logout())
+        dispatch(resetPhaseState())
+      }, 2000);
+    }
   }
+
   return (
     <div className='flex flex-col py-10 gap-10 h-custom-screen'>
       <ul className='flex flex-col gap-2 h-full overflow-auto'>
