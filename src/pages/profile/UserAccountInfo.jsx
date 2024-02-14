@@ -11,6 +11,7 @@ import Circular from "../../components/ui/Circular"
 import CropModal from '../../components/crop/CropModal';
 import { uploadAvatarImg } from '../../api/panelApi';
 import { getuser } from '../../redux/actions';
+import { editProfile } from '../../api/authApi';
 
 
 const UserAccountInfo = () => {
@@ -18,10 +19,12 @@ const UserAccountInfo = () => {
   const dispatch = useDispatch();
   const fetchUser = (token) => dispatch(getuser(token));
   const [canCreateGroup, setcanCreateGroup] = useState(false)
+  const [username, setUsername] = useState('')
   const [groupName, setGroupName] = useState('')
   const client = useQueryClient()
   const imageInput = useRef()
   const [uploadButtonDisabled, setUploadButtonDisabled] = useState(false)
+  const [userNameButtonDisabled, setUserNameButtonDisabled] = useState(false)
   const [openCrop, setOpenCrop] = useState(false)
   const [photoURL, setPhotoURL] = useState(null)
   const [imageFile, setImageFile] = useState(null)
@@ -51,6 +54,20 @@ const UserAccountInfo = () => {
         },
       })
 
+  const { mutate: editProfileMutation } =
+    useMutation(editProfile,
+      {
+        onSuccess: (result) => {
+          toast.success('نام کاربری شما با موفقیت ثبت شد')
+          fetchUser(globalUser.accessToken)
+          setUserNameButtonDisabled(false)
+        },
+        onError: (error) => {
+          toast.error('خطایی در هنگام ثبت نام کاربری شما پیش آمده')
+          setUserNameButtonDisabled(false)
+        },
+      })
+
   const { mutate: UploadAvatarImgMutation } = useMutation(uploadAvatarImg,
     {
       onSuccess: (result) => {
@@ -77,6 +94,12 @@ const UserAccountInfo = () => {
       }
   }, [groups])
 
+  useEffect(() => {
+    if (globalUser.username && globalUser.username !== globalUser.phone) {
+      setUsername(globalUser.username)
+    }
+  }, [globalUser.username])
+
 
   const handleCreateGroup = (e) => {
     e.preventDefault()
@@ -90,6 +113,22 @@ const UserAccountInfo = () => {
       createGroupMutation(reqInfo)
     } else
       toast.warning('لطفا نام گروه را وارد کنید')
+  }
+
+  const HandleSetUsername = async e => {
+    setUserNameButtonDisabled(true)
+
+    if (username.match(/^[a-zA-Z]|[\u0600-\u06FF\s]+$/) === null) {
+      toast.error('برای نام و نام خانوادگی تنها حروف مجاز است', { containerId: 'username' })
+    }
+    else {
+      const reqInfo = {
+        username: username,
+        phone: globalUser.phone,
+        token: globalUser.accessToken
+      }
+      editProfileMutation(reqInfo)
+    }
   }
 
   const handleImageChange = (e) => {
@@ -169,8 +208,28 @@ const UserAccountInfo = () => {
           >
             نام و نام خانوادگی
           </label>
-          <InputOutline id={'username'} disabled={globalUser.username} value={globalUser.username} />
+          <InputOutline id={'username'} value={username} onChange={(e) => setUsername(e.target.value)} />
         </div>
+        {
+          (username !== globalUser.username && username !== '')
+            ?
+            <div className="w-40">
+              <RegularButton
+                onClick={HandleSetUsername}
+                text={'ثبت'}
+                id='upload-image-button'
+                disabled={userNameButtonDisabled}
+              />
+            </div>
+            : null
+        }
+        {
+          (globalUser.username == null || globalUser.username == globalUser.phone) &&
+          <p className='w-full text-sm flex gap-2 items-center px-4'>
+            <IoWarningOutline size={24} color='#FF6B00' />
+            لطفا نام کاربری خود را ثبت کنید
+          </p>
+        }
         {
           (globalUser.accessLevel == 0 || globalUser.accessLevel == 1) &&
             groupIsLoading ? <Circular />
