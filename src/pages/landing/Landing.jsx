@@ -60,21 +60,6 @@ const Landing = () => {
                                 alt="site-logo"
                             />
                         </li>
-                        <li className="hidden lg:block">
-                            <a className="nav-button" href="#">
-                                <span>صفحه اول</span>
-                            </a>
-                        </li>
-                        <li className="hidden lg:block">
-                            <a className="nav-button" href="#">
-                                <span>صفحه دوم</span>
-                            </a>
-                        </li>
-                        <li className="hidden lg:block">
-                            <a className="nav-button" href="#">
-                                <span>صفحه سوم</span>
-                            </a>
-                        </li>
                     </ul>
                     <div>
                         <ul className="flex gap-3 md:gap-5">
@@ -99,10 +84,10 @@ const Landing = () => {
             </nav>
             <div className="absolute w-[100vw] h-[100vh] flex flex-col justify-center items-center z-40 gap-8">
                 <div className="flex flex-col items-center text-white justify-center">
-                    <p className="text-[25vw] sm:text-[10rem] mb-[-18px] sm:mb-[-26px]">
-                        Jamshid
+                    <p className="text-[6rem] md:text-[10rem] mb-[-18px] sm:mb-[-26px]">
+                        جمشید
                     </p>
-                    <p className="text-[6vw] sm:text-[2.5rem]">پلتفرم بازی های دورهمی</p>
+                    <p className="text-[1.5rem] md:text-[2.5rem]">پلتفرم بازی های دورهمی</p>
                 </div>
                 <div className="border-[3px] border-[#FFFFFF90] rounded-2xl flex pt-1 mt-5 text-white backdrop-blur">
                     <div className="text-2xl px-10 pb-3 hover:font-bold hover:translate-y-[-2px] transition-all">
