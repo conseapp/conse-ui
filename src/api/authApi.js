@@ -33,6 +33,17 @@ export const loginUser = async (body) => {
     return response.data
 }
 
+export const getAllUsers = async (token) => {
+    const response = await authApi.post("/user/get/all", null, {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+        }
+    })
+
+    return response.data
+}
+
 export const editProfile = async (reqInfo) => {
     const { token, username, phone } = reqInfo
 
@@ -42,6 +53,26 @@ export const editProfile = async (reqInfo) => {
     }
 
     const response = await authApi.post("/edit-profile", body, {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+        }
+    })
+
+    if (response.data.status !== 200)
+        throw new Error(`${response.data.message} ${response.data.status}`)
+
+    return (response.data)
+}
+
+export const RegisterNewGod = async (reqInfo) => {
+    const { token, id } = reqInfo
+
+    const body = {
+        _id: id,
+    }
+
+    const response = await authApi.post("/signup/new-god", body, {
         headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',

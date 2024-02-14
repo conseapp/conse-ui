@@ -28,6 +28,7 @@ import EventRoles from './pages/events/EventRoles.jsx';
 import History from './pages/events/History.jsx';
 import JamNet from './pages/jamnet/JamNet.jsx';
 import SinglePost from './pages/jamnet/singlePost.jsx';
+import SetNewGod from './pages/profile/SetNewGod.jsx';
 
 
 const router = createBrowserRouter([
@@ -154,6 +155,16 @@ const router = createBrowserRouter([
               {
                 path: 'user-acount-info',
                 element: <UserAccountInfo />
+              },
+              {
+                path: 'new-god',
+                element: <RequireAuth allowedRoles={[0, 1]} />,
+                children: [
+                  {
+                    index: true,
+                    element: <SetNewGod />,
+                  }
+                ]
               },
               {
                 path: 'promotions',

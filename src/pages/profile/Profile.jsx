@@ -38,7 +38,7 @@ const Profile = () => {
           <NavListButton from={location.pathname} text={'اطلاعات حساب کاربری'} path={'user-acount-info'} />
         </li>
         {
-          (globalUser.accessLevel == 0 || globalUser.accessLevel == 1) &&
+          (globalUser.accessLevel == 1) &&
           <li>
             <NavListButton from={location.pathname} text={'ایونت های من'} path={'god-events'} />
           </li>
@@ -53,6 +53,12 @@ const Profile = () => {
           (globalUser.accessLevel == 0 || globalUser.accessLevel == 1) &&
           <li>
             <NavListButton from={location.pathname} text={'مدریت ایونت‌ها'} path={'/mafia/manage/events'} />
+          </li>
+        }
+        {
+          (globalUser.accessLevel == 0) &&
+          <li>
+            <NavListButton from={location.pathname} text={'انتخاب گرداننده'} path={'new-god'} />
           </li>
         }
         <li>
