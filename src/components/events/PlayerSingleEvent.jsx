@@ -222,7 +222,7 @@ const PlayerSingleEvent = ({ singleEvent, startTime }) => {
                                     <div className='w-full flex flex-col items-center py-4 px-2 gap-4'>
                                         {
                                             (!singleEvent.is_expired && !singleEvent.is_locked && !IsUserRegistered && globalUser.accessLevel == 2) &&
-                                            <RegularButton onClick={reserveEventHandle} text='شزکت در ایونت' />
+                                            <RegularButton onClick={reserveEventHandle} text='شرکت در ایونت' />
                                         }
                                         {
                                             (IsUserRegistered && !TodayIsEventDay && !singleEvent.is_expired && !singleEvent.is_locked) &&
@@ -234,7 +234,7 @@ const PlayerSingleEvent = ({ singleEvent, startTime }) => {
                                         }
                                         {
                                             (singleEvent.is_expired) &&
-                                            // <RegularButton onClick={() => { }} text='شزکت در ایونت' />
+                                            // <RegularButton onClick={() => { }} text='شرکت در ایونت' />
                                             <p className='border border-secondary text-sm shadow-neon-blue-sm rounded-2xl px-4 py-3'>این ایونت به پایان رسیده است.</p>
                                         }
                                     </div>
