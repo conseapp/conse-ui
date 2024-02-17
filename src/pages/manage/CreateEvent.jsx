@@ -23,6 +23,7 @@ const CreateEvent = () => {
     title: '',
     content: '',
     started_at: '',
+    amount: '',
   })
 
   const { data: groups, isLoading: groupIsLoading } = useQuery('groups', () => {
@@ -60,6 +61,14 @@ const CreateEvent = () => {
     }))
   }
 
+  const handlePriceChange = (e) => {
+    if (!isNaN(Number(e.target.value.replace(/,/g, ''))))
+    setEventForm(prev => ({
+      ...prev,
+      [e.target.id]: Number(e.target.value.replace(/,/g, ''))
+    }))
+  }
+
   const handleEditorChange = (event, editor) => {
     setEventForm(prev => ({
       ...prev,
@@ -77,7 +86,7 @@ const CreateEvent = () => {
   const SubmitEvent = async e => {
     e.preventDefault()
 
-    const { title, content, started_at } = eventForm
+    const { title, content, started_at, amount } = eventForm
 
     let group_info = groups.data.groups.at(-1)
     if (group_info)
@@ -87,7 +96,7 @@ const CreateEvent = () => {
       title: eventMode == 'classic' ? `cp/${title}` : title,
       content: content,
       deck_id: '',
-      entry_price: '0',
+      entry_price: amount.toString(),
       group_info: group_info,
       creator_wallet_address: "0x0000000000000000000000000000000000000000",
       upvotes: 0,
@@ -115,7 +124,7 @@ const CreateEvent = () => {
         groupIsLoading ?
           <></> :
           groups.data.groups.length ?
-            <form className="flex flex-col justify-between h-full w-full" onSubmit={SubmitEvent}>
+            <form className="flex flex-col justify-between h-full w-full gap-6" onSubmit={SubmitEvent}>
               <div className="flex flex-col gap-6 w-full">
                 <TextInput id='title' value={eventForm.title} placeholder={'نام ایونت'} onChange={handleFormChange} />
                 <div className="relative w-full bg-navy placeholder-white text-white rounded-2xl py-3 px-4 flex flex-col gap-3">
@@ -128,6 +137,14 @@ const CreateEvent = () => {
                   />
                 </div>
                 <DateInput id='started_at' placeholder={"زمان شروع بازی"} onChange={handleDateChange} value={eventForm.started_at} />
+                <TextInput
+                  id='amount'
+                  value={eventForm.amount.toLocaleString()}
+                  placeholder={'مبلغ ورودی (به تومان)'}
+                  // onChange={handleFormChange}
+                  onChange={handlePriceChange}
+                  onFocus={e => e.target.select()}
+                />
                 <div className="relative w-full">
                   <div className='flex flex-col w-full relative'>
                     <FaAngleDown size={20} className="absolute left-4 top-4 pointer-events-none" />

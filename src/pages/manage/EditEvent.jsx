@@ -31,6 +31,7 @@ const EditEvent = () => {
         title: '',
         content: '',
         started_at: '',
+        amount: ''
     })
 
 
@@ -58,6 +59,7 @@ const EditEvent = () => {
                 title: result.data.title,
                 content: result.data.content,
                 started_at: new DateObject(result.data.started_at * 1000),
+                amount: result.data.entry_price
             })
             // if (result.data.image_path)
             //     setPhotoURL(result.data.image_path)
@@ -107,6 +109,14 @@ const EditEvent = () => {
         }))
     }
 
+    const handlePriceChange = (e) => {
+        if (!isNaN(Number(e.target.value.replace(/,/g, ''))))
+            setEventForm(prev => ({
+                ...prev,
+                [e.target.id]: Number(e.target.value.replace(/,/g, ''))
+            }))
+    }
+
     const handleEditorChange = (event, editor) => {
         setEventForm(prev => ({
             ...prev,
@@ -133,7 +143,7 @@ const EditEvent = () => {
     const SubmitEvent = async e => {
         e.preventDefault()
 
-        const { title, content, started_at } = eventForm
+        const { title, content, started_at, amount } = eventForm
 
         let group_info = groups.data.groups.at(-1)
         if (group_info)
@@ -143,7 +153,7 @@ const EditEvent = () => {
             title: title,
             content: content,
             deck_id: singleGodEvent.data.deck_id,
-            entry_price: singleGodEvent.data.entry_price,
+            entry_price: amount.toString(),
             group_info: group_info,
             creator_wallet_address: singleGodEvent.data.creator_wallet_address,
             upvotes: singleGodEvent.dataupvotes,
@@ -202,7 +212,15 @@ const EditEvent = () => {
                                             data={eventForm.content}
                                             onChange={handleEditorChange}
                                         />
-                                    </div>                                    <DateInput id='started_at' value={eventForm.started_at} placeholder={"زمان شروع بازی"} onChange={handleDateChange} />
+                                    </div>
+                                    <DateInput id='started_at' value={eventForm.started_at} placeholder={"زمان شروع بازی"} onChange={handleDateChange} />
+                                    <TextInput
+                                        id='amount'
+                                        value={eventForm.amount.toLocaleString()}
+                                        placeholder={'مبلغ ورودی (به تومان)'}
+                                        onChange={handlePriceChange}
+                                        onFocus={e => e.target.select()}
+                                    />
                                     <ImageInput photoURL={imageFile ? photoURL : singleGodEvent?.data.image_path ? `https://panel.api.jamshid.app/${singleGodEvent?.data.image_path}` : null} onChange={handleImageChange} text={'انتخاب تصویر'} />
                                     {
                                         imageFile &&
