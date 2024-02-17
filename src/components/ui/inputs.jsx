@@ -15,7 +15,7 @@ export const PhoneInput = ({ value, onChange, disabled, id }) => {
         ></input>
     )
 }
-export const TextInput = ({ value, onChange, disabled, id, placeholder, type, readOnly }) => {
+export const TextInput = ({ value, onChange, onFocus, disabled, id, placeholder, type, readOnly }) => {
     return (
         <input
             id={id}
@@ -26,6 +26,7 @@ export const TextInput = ({ value, onChange, disabled, id, placeholder, type, re
             disabled={disabled}
             type={type}
             readOnly={readOnly}
+            onFocus={onFocus}
         ></input>
     )
 }
