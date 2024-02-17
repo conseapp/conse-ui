@@ -56,6 +56,7 @@ const Header = () => {
         },
         onError: (error) => {
           toast.error('خطایی در هنگام افزایش موجودی پیش آمده')
+          setButtonDisabled(false)
         },
       })
 
