@@ -43,7 +43,7 @@ export const TextareaInput = ({ value, onChange, disabled, id, placeholder, type
         ></textarea>
     )
 }
-export const InputOutline = ({ value, onChange, disabled, id, placeholder, type }) => {
+export const InputOutline = ({ value, onChange, onFocus, disabled, id, placeholder, type }) => {
     return (
         <input
             id={id}
@@ -53,6 +53,7 @@ export const InputOutline = ({ value, onChange, disabled, id, placeholder, type 
             onChange={onChange}
             disabled={disabled}
             type={type}
+            onFocus={onFocus}
         ></input>
     )
 }
