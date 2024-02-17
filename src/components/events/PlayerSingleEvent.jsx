@@ -10,6 +10,7 @@ import BgPic from '../../assets/james-bond-cover.jpg'
 import { getRoles, getSides, getSingleDeck, getSinglePlayer } from '../../api/gameApi';
 import Avatar from '../ui/Avatar';
 import LearningCard from '../learning/LearningCard';
+import { purchaseEvent } from '../../api/walletApi';
 
 
 
@@ -19,6 +20,7 @@ const PlayerSingleEvent = ({ singleEvent, startTime }) => {
     const globalUser = useSelector(state => state.userReducer)
     const [bgImage, setBgImage] = useState('')
     const client = useQueryClient()
+    const [buttonDisabled, setButtonDisabled] = useState(false)
 
     useEffect(() => {
         !!singleEvent.image_path ? setBgImage(`https://panel.api.jamshid.app/${singleEvent.image_path}`) : setBgImage(BgPic)
@@ -83,8 +85,8 @@ const PlayerSingleEvent = ({ singleEvent, startTime }) => {
         {
             onSuccess: (result) => {
                 toast.success('شما با موفقیت در ایونت ثبت نام کردید')
-                // navigate('details', { state: { from: location.pathname, backButton: true, } })
                 client.invalidateQueries(['player-events'])
+                setButtonDisabled(false)
             },
             onError: (error) => {
                 toast.error('خطایی در هنگام شرکت در ایونت پیش آمده')
@@ -119,6 +121,31 @@ const PlayerSingleEvent = ({ singleEvent, startTime }) => {
         }
         const reqInfo = { token: globalUser.accessToken, body }
         reserveEventMutation(reqInfo)
+    }
+
+    const { mutate: purchaseMutation } =
+        useMutation(purchaseEvent,
+            {
+                onSuccess: (result) => {
+                    console.log(result)
+                    reserveEventHandle()
+                    client.invalidateQueries('user-balance')
+                },
+                onError: (error) => {
+                    toast.error('خطایی در هنگام شرکت در ایونت پیش آمده')
+                    setButtonDisabled(false)
+                },
+            })
+
+    const handlePurchase = () => {
+        setButtonDisabled(true)
+        const reqInfo = {
+            token: globalUser.accessToken,
+            userID: globalUser.id,
+            amount: singleEvent.entry_price,
+            eventID: singleEvent._id.$oid
+        }
+        purchaseMutation(reqInfo)
     }
 
     return (
@@ -206,9 +233,15 @@ const PlayerSingleEvent = ({ singleEvent, startTime }) => {
                                 <div className='relative bg-gray w-10 h-1 rounded-lg shrink-0'></div>
                                 <div className='flex flex-col justify-between w-full h-full'>
                                     <div className='w-full flex flex-col items-center py-4 px-2  gap-2'>
-                                        <div className='flex flex-col w-full gap-1'>
-                                            <span className='text-gray-light text-sm'>گرداننده</span>
-                                            <span>{singleEvent.group_info.owner}</span>
+                                        <div className='flex justify-between w-full'>
+                                            <div className='flex flex-col gap-1'>
+                                                <span className='text-gray-light text-sm'>گرداننده</span>
+                                                <span>{singleEvent.group_info.owner}</span>
+                                            </div>
+                                            <div className='flex flex-col gap-1'>
+                                                <span className='text-gray-light text-sm'>قیمت</span>
+                                                <span>{Number(singleEvent.entry_price).toLocaleString()} تومان</span>
+                                            </div>
                                         </div>
                                         <div className='flex flex-col w-full gap-1'>
                                             <span className='text-gray-light text-sm'>نام گروه</span>
@@ -222,7 +255,7 @@ const PlayerSingleEvent = ({ singleEvent, startTime }) => {
                                     <div className='w-full flex flex-col items-center py-4 px-2 gap-4'>
                                         {
                                             (!singleEvent.is_expired && !singleEvent.is_locked && !IsUserRegistered && globalUser.accessLevel == 2) &&
-                                            <RegularButton onClick={reserveEventHandle} text='شرکت در ایونت' />
+                                            <RegularButton onClick={handlePurchase} text='شرکت در ایونت' disabled={buttonDisabled}/>
                                         }
                                         {
                                             (IsUserRegistered && !TodayIsEventDay && !singleEvent.is_expired && !singleEvent.is_locked) &&
