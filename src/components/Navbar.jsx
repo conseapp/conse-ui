@@ -64,7 +64,7 @@ const Navbar = () => {
                         {({ isActive }) => (
                             <>
                                 <img className='w-6' src={isActive ? EventsActiveIcon : EventsIcon} />
-                                <span>ایونت ها</span>
+                                <span>اکسپلور</span>
                             </>
                         )}
                     </NavLink>
