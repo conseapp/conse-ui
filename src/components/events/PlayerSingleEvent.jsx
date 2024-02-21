@@ -255,7 +255,7 @@ const PlayerSingleEvent = ({ singleEvent, startTime }) => {
                                     <div className='w-full flex flex-col items-center py-4 px-2 gap-4'>
                                         {
                                             (!singleEvent.is_expired && !singleEvent.is_locked && !IsUserRegistered && globalUser.accessLevel == 2) &&
-                                            <RegularButton onClick={handlePurchase} text='شرکت در ایونت' disabled={buttonDisabled}/>
+                                            <RegularButton onClick={reserveEventHandle} text='شرکت در ایونت' disabled={buttonDisabled}/>
                                         }
                                         {
                                             (IsUserRegistered && !TodayIsEventDay && !singleEvent.is_expired && !singleEvent.is_locked) &&
