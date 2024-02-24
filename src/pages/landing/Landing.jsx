@@ -51,7 +51,7 @@ const Landing = () => {
         <div className='bg-black w-full h-screen'>
             <nav className="absolute bg-transparent z-50 w-full mt-[3vw]">
                 <div className="w-[90vw] lg:w-[80vw] 2xl:w-[70vw] mx-auto flex py-4 justify-between">
-                    <ul className="flex items-center justify-center text-white gap-10 box-border">
+                    {/* <ul className="flex items-center justify-center text-white gap-10 box-border">
                         <li className="">
                             <img
                                 className="m-auto"
@@ -60,8 +60,8 @@ const Landing = () => {
                                 alt="site-logo"
                             />
                         </li>
-                    </ul>
-                    <div>
+                    </ul> */}
+                    {/* <div>
                         <ul className="flex gap-3 md:gap-5">
                             <li className="nav-button2">
                                 <a href="">
@@ -79,22 +79,31 @@ const Landing = () => {
                                 </a>
                             </li>
                         </ul>
-                    </div>
+                    </div> */}
                 </div>
             </nav>
-            <div className="absolute w-[100vw] h-[100vh] flex flex-col justify-center items-center z-40 gap-8">
+            <div className="absolute w-[100vw] h-[100vh] flex flex-col justify-center items-center z-40 gap-16">
                 <div className="flex flex-col items-center text-white justify-center">
                     <p className="text-[6rem] md:text-[10rem] mb-[-18px] sm:mb-[-26px]">
                         جمشید
                     </p>
                     <p className="text-[1.5rem] md:text-[2.5rem]">پلتفرم بازی های دورهمی</p>
                 </div>
-                <div className="border-[3px] border-[#FFFFFF90] rounded-2xl flex pt-1 mt-5 text-white backdrop-blur">
+                {/* <div className="border-[3px] border-[#FFFFFF90] rounded-2xl flex pt-1 mt-5 text-white backdrop-blur">
                     <div className="text-2xl px-10 pb-3 hover:font-bold hover:translate-y-[-2px] transition-all">
                         <Link to={'/mafia/profile'}>ورود</Link>
                     </div>
                     <div className="width:3px h-[60%] border-2 my-auto rounded border-[#FFFFFF90]" />
                     <div className="text-2xl px-10 pb-3 hover:font-bold hover:translate-y-[-2px] transition-all">
+                        <Link to={'/mafia/profile'}>ثبت نام</Link>
+                    </div>
+                </div> */}
+                <div className='flex flex-col text-2xl items-center gap-3'>
+                    <div className='hover:font-bold hover:translate-y-[-2px] transition-all'>
+                        <Link to={'/mafia/profile'}>ورود</Link>
+                    </div>
+                    <div className="w-full h-[60%] border-2 my-auto rounded border-[#FFFFFF90]" />
+                    <div className='hover:font-bold hover:translate-y-[-2px] transition-all'>
                         <Link to={'/mafia/profile'}>ثبت نام</Link>
                     </div>
                 </div>
