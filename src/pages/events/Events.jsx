@@ -42,18 +42,33 @@ const Events = () => {
     }
   }, [query])
 
+  // useEffect(() => {
+  //   if (navigator.geolocation) {
+  //     navigator.geolocation.getCurrentPosition((position) => {
+  //       setLocation({
+  //         latitude: position.coords.latitude,
+  //         longitude: position.coords.longitude,
+  //       });
+  //     });
+  //   } else {
+  //     console.log("Geolocation is not supported by this browser.");
+  //   }
+  // }, []);
+
   useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        setLocation({
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
+    async function getMatris() {
+      const response = await fetch("https://api.neshan.org/v1/distance-matrix/no-traffic?type=car&origins=36.3177579,59.5323219|36.337115,59.530621&destinations=36.35067,59.5451965|36.337005,59.530021",
+        {
+          headers: {
+            'Api-Key': 'service.c4328a82022f4d9ba1d8836fb7ca0ea2'
+          }
         });
-      });
-    } else {
-      console.log("Geolocation is not supported by this browser.");
+      const result = await response.json();
+      console.log(result);
     }
-  }, []);
+    getMatris()
+  }, [])
+
 
 
 

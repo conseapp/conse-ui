@@ -1,29 +1,15 @@
 import axios from 'axios'
 
+const walletApi = axios.create({
+    baseURL: 'https://wallet.jamshid.app'
+})
 
 export const getUserBalance = async (reqInfo) => {
     const { token, userID } = reqInfo
 
-    const response = await axios.post(`http://5.34.196.146:3622/api/getbalance/`, null, {
+    const response = await walletApi.post(`/api/getbalance/`, null, {
         params: {
             user_id: userID
-        },
-
-        headers: {
-            'token': `Bearer ${token}`,
-        },
-    })
-
-    return (response)
-}
-
-export const Deposit = async (reqInfo) => {
-    const { token, userID, amount } = reqInfo
-
-    const response = await axios.post(`http://5.34.196.146:3622/api/deposit/`, null, {
-        params: {
-            user_id: userID,
-            amount: amount
         },
 
         headers: {
@@ -37,7 +23,7 @@ export const Deposit = async (reqInfo) => {
 export const purchaseEvent = async (reqInfo) => {
     const { token, userID, amount, eventID } = reqInfo
 
-    const response = await axios.post(`http://5.34.196.146:3622/api/purchase/`, null, {
+    const response = await walletApi.post(`/api/purchase/`, null, {
         params: {
             user_id: userID,
             amount: amount,
@@ -52,6 +38,27 @@ export const purchaseEvent = async (reqInfo) => {
     return (response)
 }
 
+export const paymentRequest = async (reqInfo) => {
+    const { token, userID, eventID, amount, phone, type } = reqInfo
 
-// PURCHASE EVENT
-// http://5.34.196.146:3622/api/purchase/?user_id=<user_id>&amount=<amount>&event_id=<event_id>
+    const body = {
+        amount: amount,
+        description: 'Jamshid Payment Request',
+        phone: phone,
+        type: type,
+        user_id: userID,
+        event_id: eventID
+    }
+
+    const response = await walletApi.post(`/zarinpal/request/`, body, {
+        headers: {
+            'token': `Bearer ${token}`,
+        },
+    })
+
+    if (response.status !== 200)
+        throw new Error(`${response.status} ${response.data}`)
+
+    return response.data
+}
+

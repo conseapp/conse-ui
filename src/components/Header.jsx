@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { GoBackButton, RegularButton } from './ui/buttons';
 import { useSelector } from 'react-redux';
 import Avatar from './ui/Avatar';
-import { Deposit, getUserBalance } from '../api/walletApi';
+import { getUserBalance, paymentRequest } from '../api/walletApi';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useState } from "react";
 import { Modal } from "@mui/material";
@@ -44,15 +44,10 @@ const Header = () => {
     })
 
   const { mutate: depositMutation } =
-    useMutation(Deposit,
+    useMutation(paymentRequest,
       {
         onSuccess: (result) => {
-          console.log(result)
-          client.invalidateQueries('user-balance')
-          setOpenModal(false)
-          setButtonDisabled(false)
-          setAmount(0)
-          toast.success('موجودی شما با موفقیت افزایش یافت')
+          window.location.replace(result.url)
         },
         onError: (error) => {
           toast.error('خطایی در هنگام افزایش موجودی پیش آمده')
@@ -62,7 +57,13 @@ const Header = () => {
 
   const handleDeposit = () => {
     setButtonDisabled(true)
-    const reqInfo = { token: globalUser.accessToken, userID: globalUser.id, amount: amount.toString() }
+    const reqInfo = {
+      token: globalUser.accessToken,
+      userID: globalUser.id,
+      amount: amount.toString(),
+      phone: globalUser.phone,
+      type: 'deposit',
+    }
     depositMutation(reqInfo)
   }
 
@@ -73,7 +74,7 @@ const Header = () => {
         <div className='flex flex-col gap-2 justify-center'>
           {
             location.state?.backButton ?
-              <GoBackButton onClick={() => location.state?.goToFrom ? navigate(from) : navigate(-1)} text={backPageName()} />
+              <GoBackButton onClick={() => location.state?.goToFrom ? (result.url)(from) : navigate(-1)} text={backPageName()} />
               :
               <>
                 <span>{globalUser.username}</span>

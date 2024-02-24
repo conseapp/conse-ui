@@ -10,7 +10,8 @@ import BgPic from '../../assets/james-bond-cover.jpg'
 import { getRoles, getSides, getSingleDeck, getSinglePlayer } from '../../api/gameApi';
 import Avatar from '../ui/Avatar';
 import LearningCard from '../learning/LearningCard';
-import { purchaseEvent } from '../../api/walletApi';
+import { getUserBalance, paymentRequest, purchaseEvent } from '../../api/walletApi';
+import { Modal } from '@mui/material';
 
 
 
@@ -21,6 +22,9 @@ const PlayerSingleEvent = ({ singleEvent, startTime }) => {
     const [bgImage, setBgImage] = useState('')
     const client = useQueryClient()
     const [buttonDisabled, setButtonDisabled] = useState(false)
+    const [paymentbuttonDisabled, setPaymentButtonDisabled] = useState(false)
+    const [openModal, setOpenModal] = useState(false)
+    const [paymentOption, setPaymentOption] = useState('wallet')
 
     useEffect(() => {
         !!singleEvent.image_path ? setBgImage(`https://panel.api.jamshid.app/${singleEvent.image_path}`) : setBgImage(BgPic)
@@ -80,6 +84,11 @@ const PlayerSingleEvent = ({ singleEvent, startTime }) => {
             refetchInterval: 10000
         })
 
+    const { data: userBalance, isLoading: userBalanceLoading } =
+        useQuery('user-balance', () => getUserBalance({ token: globalUser.accessToken, userID: globalUser.id }), {
+            refetchOnWindowFocus: false
+        })
+
 
     const { mutate: reserveEventMutation } = useMutation(reserveEvent,
         {
@@ -130,23 +139,52 @@ const PlayerSingleEvent = ({ singleEvent, startTime }) => {
                     console.log(result)
                     reserveEventHandle()
                     client.invalidateQueries('user-balance')
+                    setOpenModal(false)
+                    setPaymentButtonDisabled(false)
                 },
                 onError: (error) => {
                     toast.error('خطایی در هنگام شرکت در ایونت پیش آمده')
-                    setButtonDisabled(false)
+                    setPaymentButtonDisabled(false)
+                },
+            })
+
+    const { mutate: depositMutation } =
+        useMutation(paymentRequest,
+            {
+                onSuccess: (result) => {
+                    window.location.replace(result.url)
+                },
+                onError: (error) => {
+                    toast.error('خطایی در هنگام شرکت در ایونت پیش آمده')
+                    setPaymentButtonDisabled(false)
                 },
             })
 
     const handlePurchase = () => {
-        setButtonDisabled(true)
-        const reqInfo = {
-            token: globalUser.accessToken,
-            userID: globalUser.id,
-            amount: singleEvent.entry_price,
-            eventID: singleEvent._id.$oid
+        setPaymentButtonDisabled(true)
+
+        if (paymentOption === 'wallet') {
+            const reqInfo = {
+                token: globalUser.accessToken,
+                userID: globalUser.id,
+                amount: singleEvent.entry_price,
+                eventID: singleEvent._id.$oid
+            }
+            purchaseMutation(reqInfo)
         }
-        purchaseMutation(reqInfo)
+        if (paymentOption === 'online') {
+            const reqInfo = {
+                token: globalUser.accessToken,
+                userID: globalUser.id,
+                eventID: singleEvent._id.$oid,
+                amount: singleEvent.entry_price,
+                phone: globalUser.phone,
+                type: 'purchase',
+            }
+            depositMutation(reqInfo)
+        }
     }
+
 
     return (
         <div className='flex flex-col items-center gap-2 justify-end h-full'>
@@ -255,7 +293,7 @@ const PlayerSingleEvent = ({ singleEvent, startTime }) => {
                                     <div className='w-full flex flex-col items-center py-4 px-2 gap-4'>
                                         {
                                             (!singleEvent.is_expired && !singleEvent.is_locked && !IsUserRegistered && globalUser.accessLevel == 2) &&
-                                            <RegularButton onClick={reserveEventHandle} text='شرکت در ایونت' disabled={buttonDisabled}/>
+                                            <RegularButton onClick={() => setOpenModal(true)} text='شرکت در ایونت' disabled={buttonDisabled} />
                                         }
                                         {
                                             (IsUserRegistered && !TodayIsEventDay && !singleEvent.is_expired && !singleEvent.is_locked) &&
@@ -274,6 +312,63 @@ const PlayerSingleEvent = ({ singleEvent, startTime }) => {
                                 </div>
                             </div>
                         </div>
+                        <Modal
+                            open={openModal}
+                            onClose={() => setOpenModal(false)}
+                            sx={{ backdropFilter: "blur(8px)", display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                        >
+                            <form className="min-w-[312px] max-w-[600px] p-6 shadow-lg w-[90%] h-[460px] rounded-2xl bg-navy flex flex-col justify-between items-center outline-none">
+                                <div className='w-full flex flex-col gap-6'>
+                                    <p className='text-center text-lg'>لطفا روش پرداخت را انخاب کنید</p>
+                                    <div className='flex flex-col gap-3'>
+                                        <div className='w-full flex gap-2 items-center'>
+                                            <span>مبلغ ورودی ایونت:</span>
+                                            <span className='text-lg font-bold'>{Number(singleEvent.entry_price).toLocaleString()}</span>
+                                            <span className='text-sm'>تومان</span>
+                                        </div>
+                                        <div className='w-full flex gap-2 items-center'>
+                                            <span>موجودی کیف پول:</span>
+                                            <span className='text-lg font-bold'>{Number(userBalance?.data).toLocaleString()}</span>
+                                            <span className='text-sm'>تومان</span>
+                                        </div>
+                                    </div>
+                                    <div className='flex flex-col gap-3 w-full'>
+                                        <div className='flex gap-2'>
+                                            <label for="wallet">پرداخت از کیف پول</label>
+                                            <input
+                                                type="radio"
+                                                id="wallet"
+                                                name="payment"
+                                                value="wallet"
+                                                checked={paymentOption === "wallet"}
+                                                onChange={(e) => setPaymentOption(e.target.value)}
+                                            />
+                                        </div>
+                                        <div className='flex gap-2'>
+                                            <label for="online">پرداخت آنلاین</label>
+                                            <input
+                                                type="radio"
+                                                id="online"
+                                                name="payment"
+                                                value="online"
+                                                checked={paymentOption === "online"}
+                                                onChange={(e) => setPaymentOption(e.target.value)}
+                                            />
+                                        </div>
+                                    </div>
+                                    {
+                                        (paymentOption === 'wallet' && userBalance?.data <= singleEvent.entry_price) ?
+                                            <p className='border border-secondary text-sm shadow-neon-blue-sm rounded-2xl px-4 py-3'>موجودی کیف پول شما برای شرکت در این ایونت کافی نیست. لطفا موجودی خود را افزایش دهید یا از پرداخت آنلاین استفاده کنید.</p>
+                                            : <></>
+                                    }
+                                </div>
+                                <RegularButton
+                                    onClick={handlePurchase}
+                                    disabled={(paymentOption === 'wallet' && userBalance?.data <= singleEvent.entry_price) || paymentbuttonDisabled}
+                                    text={'پرداخت'}
+                                />
+                            </form>
+                        </Modal>
                     </div>
             }
         </div >
