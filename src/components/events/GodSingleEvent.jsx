@@ -55,9 +55,9 @@ const GodSingleEvent = ({ singleEvent, startTime }) => {
                     className='pb-20 transition-all flex flex-col items-center rounded-t-xl p-4 absolute bg-navy w-full bottom-0 left-0 z-10'
                 >
                     <div className='relative bg-gray w-10 h-1 rounded-lg shrink-0'></div>
-                    <div className='absolute left-6 top-8'>
+                    {/* <div className='absolute left-6 top-8'>
                         <CancelButton text='لغو ایونت' />
-                    </div>
+                    </div> */}
                     <div className='flex flex-col justify-between w-full h-full'>
                         <div className='w-full flex flex-col items-center py-4 px-2  gap-2'>
                             <div className='flex flex-col w-full gap-1'>
