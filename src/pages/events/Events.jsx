@@ -81,30 +81,33 @@ const Events = () => {
           {
             eventsIsLoading ?
               <Circular /> :
-              events?.length ? events?.map((event, index) => (
-                <Fragment key={`event-${index}`}>
-                  {
-                    (index % 3 === 0) ?
-                      <EventCard
-                        name={event.title}
-                        date={event.started_at}
-                        god={event.group_info.owner}
-                        capacity={event.max_players}
-                        BgPic={event.image_path ? `https://panel.api.jamshid.app/${event.image_path}` : BgPic}
-                        path={`/mafia/events/${event._id.$oid}`}
-                      /> :
-                      <EventCardCol
-                        name={event.title}
-                        date={event.started_at}
-                        god={event.group_info.owner}
-                        capacity={event.max_players}
-                        BgPic={event.image_path ? `https://panel.api.jamshid.app/${event.image_path}` : BgPic}
-                        path={`/mafia/events/${event._id.$oid}`}
-                      />
-                  }
-
-                </Fragment>
-              )) :
+              events?.length ?
+                events?.map((event, index) => (
+                  !event.is_expired ?
+                    <Fragment key={`event-${index}`}>
+                      {
+                        (index % 3 === 0) ?
+                          <EventCard
+                            name={event.title}
+                            date={event.started_at}
+                            god={event.group_info.owner}
+                            capacity={event.max_players}
+                            BgPic={event.image_path ? `https://panel.api.jamshid.app/${event.image_path}` : BgPic}
+                            path={`/mafia/events/${event._id.$oid}`}
+                          /> :
+                          <EventCardCol
+                            name={event.title}
+                            date={event.started_at}
+                            god={event.group_info.owner}
+                            capacity={event.max_players}
+                            BgPic={event.image_path ? `https://panel.api.jamshid.app/${event.image_path}` : BgPic}
+                            path={`/mafia/events/${event._id.$oid}`}
+                          />
+                      }
+                    </Fragment>
+                    : null
+                ))
+                :
                 <p className='text-sm flex gap-2 items-center w-full text-center'>
                   <IoWarningOutline size={24} color='#FF6B00' />
                   ایونتی وجود ندارد
