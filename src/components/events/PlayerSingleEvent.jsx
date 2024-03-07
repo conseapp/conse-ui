@@ -287,7 +287,7 @@ const PlayerSingleEvent = ({ singleEvent, startTime }) => {
                                         </div>
                                         <div className='flex flex-col w-full gap-1'>
                                             <span className='text-gray-light text-sm'>سناریو</span>
-                                            <span>{singleEvent.content}</span>
+                                            <div dangerouslySetInnerHTML={{ __html: singleEvent.content }}></div>
                                         </div>
                                     </div>
                                     <div className='w-full flex flex-col items-center py-4 px-2 gap-4'>

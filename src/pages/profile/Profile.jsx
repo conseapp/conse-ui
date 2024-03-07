@@ -61,9 +61,9 @@ const Profile = () => {
             <NavListButton from={location.pathname} text={'انتخاب گرداننده'} path={'new-god'} />
           </li>
         }
-        <li>
+        {/* <li>
           <NavListButton from={location.pathname} text={'promotions'} path={'promotions'} />
-        </li>
+        </li> */}
       </ul>
       <div>
       </div>
