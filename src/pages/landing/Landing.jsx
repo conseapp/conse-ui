@@ -6,6 +6,7 @@ import personSVG from './assets/svg/person.svg'
 import styles from './style.module.scss';
 import { Link, Navigate, useLocation } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import jamshidLogo from '/favicon.png'
 
 const Landing = () => {
     const globalUser = useSelector(state => state.userReducer)
@@ -88,6 +89,7 @@ const Landing = () => {
                 </nav>
                 <div className="absolute w-[100vw] h-[100vh] flex flex-col justify-center items-center z-40 gap-16">
                     <div className="flex flex-col items-center text-white justify-center">
+                        <img className='w-32' src={jamshidLogo} alt="" />
                         <p className="text-[6rem] md:text-[10rem] mb-[-18px] sm:mb-[-26px]">
                             جمشید
                         </p>
