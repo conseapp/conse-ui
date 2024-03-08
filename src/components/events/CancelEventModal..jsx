@@ -6,6 +6,7 @@ import { FaAngleDown } from 'react-icons/fa6'
 import RoleSelectorOutline from '../ui/RoleSelectorOutline'
 import { useDispatch, useSelector } from 'react-redux'
 import { cancelEvent } from '../../api/walletApi'
+import { toast } from 'react-toastify'
 
 const CancelEventModal = ({ hoursToEvent, openModal, handleCloseModal, singleEvent }) => {
     const [Percentage, setPercentage] = useState(0)
@@ -15,7 +16,7 @@ const CancelEventModal = ({ hoursToEvent, openModal, handleCloseModal, singleEve
 
     useEffect(() => {
         if (hoursToEvent <= 1) { setPercentage(40) }
-        if (hoursToEvent <= 5) { setPercentage(80) }
+        if (hoursToEvent > 1 && hoursToEvent <= 5) { setPercentage(80) }
         if (hoursToEvent > 5) { setPercentage(95) }
     }, [hoursToEvent])
 
@@ -28,7 +29,11 @@ const CancelEventModal = ({ hoursToEvent, openModal, handleCloseModal, singleEve
         }
 
         const response = await cancelEvent(reqInfo)
-        console.log(response)
+        console.log(response,'lol')
+        if (response.status == 200) {
+            handleCloseModal()
+            toast.success(`ایونت با موفقیت لغو شد و ${Percentage} از مبلغ ایونت به حساب شما برگردانده شد.`)
+        }
     }
 
     return (
@@ -46,7 +51,7 @@ const CancelEventModal = ({ hoursToEvent, openModal, handleCloseModal, singleEve
                             (hoursToEvent <= 1) ? ' کمتر از 1 ساعت ' : <></>
                         }
                         {
-                            (hoursToEvent <= 5) ? ' کمتر از 5 ساعت ' : <></>
+                            (hoursToEvent > 1 && hoursToEvent <= 5) ? ' کمتر از 5 ساعت ' : <></>
                         }
                         {
                             (hoursToEvent > 5) ? ' بیشتر از 5 ساعت ' : <></>

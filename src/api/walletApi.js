@@ -76,5 +76,5 @@ export const cancelEvent = async (reqInfo) => {
         },
     })
 
-    return response.data
+    return response
 }
