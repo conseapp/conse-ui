@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { Modal } from '@mui/material'
-import { RegularButton, TransparentButton } from '../ui/buttons'
+import { Modal, OutlinedInput } from '@mui/material'
+import { OutlineButton, RegularButton, TransparentButton } from '../ui/buttons'
 import statuses from '../../utils/allPossibleStatus'
 import { FaAngleDown } from 'react-icons/fa6'
 import RoleSelectorOutline from '../ui/RoleSelectorOutline'
@@ -56,7 +56,10 @@ const CancelEventModal = ({ hoursToEvent, openModal, handleCloseModal, singleEve
                     <b className='text-lg text-secondary'> %{Percentage} </b>
                     درصد از مبلغ ایونت به کیف پول شما برمیگردد
                 </p>
-                <RegularButton text={'تایید'} onClick={handleCancelEvent} />
+                <div className='flex gap-2 w-full'>
+                    <RegularButton text={'تایید'} onClick={handleCancelEvent} />
+                    <OutlineButton text={'لغو'} onClick={handleCloseModal} />
+                </div>
             </div>
         </Modal>
     )
