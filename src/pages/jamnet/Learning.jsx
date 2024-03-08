@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import { SearchInput } from '../components/ui/inputs'
+import { SearchInput } from '../../components/ui/inputs'
 import { useQuery } from 'react-query'
-import { getCards, getRoles, getSides } from '../api/gameApi'
+import { getCards, getRoles, getSides } from '../../api/gameApi'
 import { useSelector } from 'react-redux'
 import { Pagination, FreeMode } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/free-mode';
-import { TransparentButton } from '../components/ui/buttons'
+import { TransparentButton } from '../../components/ui/buttons'
 import { Modal } from '@mui/material'
-import LearningCard from '../components/learning/LearningCard'
-import LearningModal from '../components/learning/LearningModal'
-import Circular from '../components/ui/Circular'
+import LearningCard from '../../components/learning/LearningCard'
+import LearningModal from '../../components/learning/LearningModal'
+import Circular from '../../components/ui/Circular'
 
 
 const Learning = () => {

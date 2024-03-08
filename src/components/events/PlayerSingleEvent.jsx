@@ -12,18 +12,21 @@ import Avatar from '../ui/Avatar';
 import LearningCard from '../learning/LearningCard';
 import { getUserBalance, paymentRequest, purchaseEvent } from '../../api/walletApi';
 import { Modal } from '@mui/material';
+import CancelEventModal from './CancelEventModal.';
 
 
 
 const PlayerSingleEvent = ({ singleEvent, startTime }) => {
     const [IsUserRegistered, SetUserRegistered] = useState(false)
     const [TodayIsEventDay, SetTodayIsEventDay] = useState(false)
+    const [hoursToEvent, SetHoursToEvent] = useState(0)
     const globalUser = useSelector(state => state.userReducer)
     const [bgImage, setBgImage] = useState('')
     const client = useQueryClient()
     const [buttonDisabled, setButtonDisabled] = useState(false)
     const [paymentbuttonDisabled, setPaymentButtonDisabled] = useState(false)
     const [openModal, setOpenModal] = useState(false)
+    const [openCancelEventModal, setOpenCancelEventModal] = useState(false)
     const [paymentOption, setPaymentOption] = useState('wallet')
 
     useEffect(() => {
@@ -122,6 +125,14 @@ const PlayerSingleEvent = ({ singleEvent, startTime }) => {
         SetTodayIsEventDay(e_date === c_date)
     }, [singleEvent.started_at])
 
+    useEffect(() => {
+        let current = Math.floor(new Date().getTime() / 1000)
+        let timeRemaining = (singleEvent.started_at - current) / 3600
+
+        SetHoursToEvent(timeRemaining)
+    }, [singleEvent.started_at])
+
+
 
     const reserveEventHandle = () => {
         const body = {
@@ -204,9 +215,18 @@ const PlayerSingleEvent = ({ singleEvent, startTime }) => {
                                         <span className="text-sm">{`${startTime.format("D MMMM")} - ساعت ${startTime.format("HH:mm")}`}</span>
                                     </div>
                                     <div className='w-full flex flex-col items-center px-2 gap-2'>
-                                        <div className='flex flex-col w-full gap-1'>
-                                            <span className='text-gray-light text-sm'>گرداننده</span>
-                                            <span>{singleEvent.group_info.owner}</span>
+                                        <div className='w-full flex justify-between'>
+                                            <div className='flex flex-col gap-1'>
+                                                <span className='text-gray-light text-sm'>گرداننده</span>
+                                                <span>{singleEvent.group_info.owner}</span>
+                                            </div>
+                                            {
+                                                hoursToEvent >= 0 ?
+                                                    <div>
+                                                        <CancelButton onClick={() => setOpenCancelEventModal(true)} text='لغو ایونت' />
+                                                    </div>
+                                                    : null
+                                            }
                                         </div>
                                         <div className='flex flex-col w-full gap-1'>
                                             <span className='text-gray-light text-sm'>نام گروه</span>
@@ -281,13 +301,24 @@ const PlayerSingleEvent = ({ singleEvent, startTime }) => {
                                                 <span>{Number(singleEvent.entry_price).toLocaleString()} تومان</span>
                                             </div>
                                         </div>
-                                        <div className='flex flex-col w-full gap-1'>
-                                            <span className='text-gray-light text-sm'>نام گروه</span>
-                                            <span>{singleEvent.group_info.name}</span>
-                                        </div>
-                                        <div className='flex flex-col w-full gap-1'>
-                                            <span className='text-gray-light text-sm'>سناریو</span>
-                                            <div dangerouslySetInnerHTML={{ __html: singleEvent.content }}></div>
+                                        <div className='w-full flex justify-between'>
+                                            <div className='flex-col'>
+                                                <div className='flex flex-col w-full gap-1'>
+                                                    <span className='text-gray-light text-sm'>نام گروه</span>
+                                                    <span>{singleEvent.group_info.name}</span>
+                                                </div>
+                                                <div className='flex flex-col w-full gap-1'>
+                                                    <span className='text-gray-light text-sm'>سناریو</span>
+                                                    <div dangerouslySetInnerHTML={{ __html: singleEvent.content }}></div>
+                                                </div>
+                                            </div>
+                                            {
+                                                (IsUserRegistered && !TodayIsEventDay && !singleEvent.is_expired && !singleEvent.is_locked) &&
+                                                <div className='pt-3'>
+                                                    <CancelButton onClick={() => setOpenCancelEventModal(true)} text='لغو ایونت' />
+                                                </div>
+                                            }
+
                                         </div>
                                     </div>
                                     <div className='w-full flex flex-col items-center py-4 px-2 gap-4'>
@@ -371,6 +402,7 @@ const PlayerSingleEvent = ({ singleEvent, startTime }) => {
                         </Modal>
                     </div>
             }
+            <CancelEventModal singleEvent={singleEvent} hoursToEvent={hoursToEvent} openModal={openCancelEventModal} handleCloseModal={() => setOpenCancelEventModal(false)} />
         </div >
     )
 }

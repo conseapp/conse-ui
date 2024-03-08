@@ -62,3 +62,19 @@ export const paymentRequest = async (reqInfo) => {
     return response.data
 }
 
+export const cancelEvent = async (reqInfo) => {
+    const { token, userID, eventID, eventStartTime } = reqInfo
+    console.log(reqInfo)
+    const response = await walletApi.post("/api/cancel/", null, {
+        params: {
+            user_id: userID,
+            event_id: eventID,
+            event_start_time: eventStartTime,
+        },
+        headers: {
+            'token': `Bearer ${token}`,
+        },
+    })
+
+    return response.data
+}

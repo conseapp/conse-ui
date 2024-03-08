@@ -8,7 +8,10 @@ import EventsActiveIcon from '../assets/icons/eventsActiveIcon.svg'
 import LearningActiveIcon from '../assets/icons/learningActiveIcon.svg'
 import ManageActiveIcon from '../assets/icons/manageActiveIcon.svg'
 import ProfileActiveIcon from '../assets/icons/profileActiveIcon.svg'
+import { CiShop } from "react-icons/ci";
 import { useSelector } from 'react-redux'
+
+
 const Navbar = () => {
     const navStyle = 'flex flex-col items-center justify-center gap-1 w-full text-xs text-gray-light mt-2.5 transition-all'
     const activeNavStyle = 'flex flex-col items-center justify-center gap-1 w-full  text-xs pb-2.5 text-secondary transition-all'
@@ -32,25 +35,12 @@ const Navbar = () => {
                 </li>
                 <li>
                     <NavLink
-                        to="/mafia/learning"
-                        className={({ isActive }) => isActive ? activeNavStyle : navStyle}
-                    >
-                        {({ isActive }) => (
-                            <>
-                                <img className='w-6' src={isActive ? LearningActiveIcon : LearningIcon} />
-                                <span>آموزش</span>
-                            </>
-                        )}
-                    </NavLink>
-                </li>
-                <li>
-                    <NavLink
                         to="/mafia/jamnet"
                         className={({ isActive }) => isActive ? activeNavStyle : navStyle}
                     >
                         {({ isActive }) => (
                             <>
-                                <img className='w-6' src={isActive ? ManageActiveIcon : ManageIcon} />
+                                <img className='w-6' src={isActive ? LearningActiveIcon : LearningIcon} />
                                 <span>جم نت</span>
                             </>
                         )}
@@ -65,6 +55,20 @@ const Navbar = () => {
                             <>
                                 <img className='w-6' src={isActive ? EventsActiveIcon : EventsIcon} />
                                 <span>اکسپلور</span>
+                            </>
+                        )}
+                    </NavLink>
+                </li>
+                <li>
+                    <NavLink
+                        to="/mafia/shop"
+                        className={({ isActive }) => isActive ? activeNavStyle : navStyle}
+                    >
+                        {({ isActive }) => (
+                            <>
+                                {/* <img className='w-6' src={isActive ? LearningActiveIcon : LearningIcon} /> */}
+                                <CiShop size={24} color={isActive?'#3EAEFF':'#949494'}/>
+                                <span>فروشگاه</span>
                             </>
                         )}
                     </NavLink>

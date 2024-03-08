@@ -10,7 +10,7 @@ import Profile from './pages/profile/Profile.jsx'
 import UserAccountInfo from './pages/profile/UserAccountInfo.jsx';
 import Promotions from './pages/profile/Promotions.jsx';
 import GodEvents from './pages/profile/GodEvents.jsx';
-import Learning from './pages/Learning.jsx';
+import Learning from './pages/jamnet/Learning.jsx';
 import Login from './pages/Login.jsx';
 import OldLogin from './pages/OldLogin.jsx';
 import Signup from './pages/Signup.jsx';
@@ -29,6 +29,8 @@ import History from './pages/events/History.jsx';
 import JamNet from './pages/jamnet/JamNet.jsx';
 import SinglePost from './pages/jamnet/SinglePost.jsx';
 import SetNewGod from './pages/profile/SetNewGod.jsx';
+import Blogs from './pages/jamnet/Blogs.jsx';
+import Shop from './pages/Shop.jsx';
 
 
 const router = createBrowserRouter([
@@ -69,8 +71,8 @@ const router = createBrowserRouter([
         element: <MainLayout />,
         children: [
           {
-            path: "learning",
-            element: <Learning />,
+            path: "shop",
+            element: <Shop />,
           },
           {
             path: "events",
@@ -204,8 +206,21 @@ const router = createBrowserRouter([
                 element: <JamNet />
               },
               {
-                path: ":postSlug",
-                element: <SinglePost />,
+                path: 'blogs',
+                children: [
+                  {
+                    index: true,
+                    element: <Blogs />
+                  },
+                  {
+                    path: ":postSlug",
+                    element: <SinglePost />,
+                  },
+                ]
+              },
+              {
+                path: "learning",
+                element: <Learning />,
               },
             ]
           },
