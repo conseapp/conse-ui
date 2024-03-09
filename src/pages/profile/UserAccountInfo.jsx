@@ -6,12 +6,13 @@ import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { createGroup, getGodGroups } from '../../api/gameApi';
 import { RegularButton, SubmitButton } from '../../components/ui/buttons';
 import { ToastContainer, toast } from 'react-toastify';
-import { IoWarningOutline } from "react-icons/io5";
+import { IoLogOutOutline, IoWarningOutline } from "react-icons/io5";
 import Circular from "../../components/ui/Circular"
 import CropModal from '../../components/crop/CropModal';
 import { uploadAvatarImg } from '../../api/panelApi';
-import { getuser } from '../../redux/actions';
+import { getuser, logout, resetPhaseState } from '../../redux/actions';
 import { editProfile } from '../../api/authApi';
+import { logoutUser } from '../../api/logoutApi';
 
 
 const UserAccountInfo = () => {
@@ -158,6 +159,27 @@ const UserAccountInfo = () => {
     UploadAvatarImgMutation(reqInfo)
 
   }
+
+
+  const handleLogout = async () => {
+    try {
+      const response = await logoutUser({ token: globalUser.accessToken, userID: globalUser.id })
+
+      if (response.status === 200) {
+        dispatch(logout())
+        dispatch(resetPhaseState())
+      }
+    } catch (error) {
+      console.log(error)
+      toast.error('خطایی در هنگام خروج از حساب پیش آمده')
+      setTimeout(() => {
+        dispatch(logout())
+        dispatch(resetPhaseState())
+      }, 2000);
+    }
+  }
+
+
   return (
     <div className='h-custom-screen flex flex-col items-center gap-6 overflow-auto'>
       <h2 className='text-xl w-full'>اطلاعات حساب</h2>
@@ -231,41 +253,48 @@ const UserAccountInfo = () => {
           </p>
         }
         {
-          (globalUser.accessLevel == 0 || globalUser.accessLevel == 1) &&
+          (globalUser.accessLevel == 0 || globalUser.accessLevel == 1) ?
             groupIsLoading ? <Circular />
-            :
-            <form onSubmit={handleCreateGroup} className='flex flex-col w-full gap-6'>
-              <div>
-                <label
-                  htmlFor="group"
-                  className=" text-[12px] px-4 text-[#727272]"
-                >
-                  نام گروه
-                </label>
+              :
+              <form onSubmit={handleCreateGroup} className='flex flex-col w-full gap-6'>
+                <div>
+                  <label
+                    htmlFor="group"
+                    className=" text-[12px] px-4 text-[#727272]"
+                  >
+                    نام گروه
+                  </label>
+                  {
+                    (canCreateGroup) ?
+                      <InputTransparent id='group' placeholder={'نام گروه را وارد کنید'}
+                        value={groupName}
+                        onChange={(e) => { setGroupName(e.target.value) }}
+                      />
+                      :
+                      <InputTransparent id='group' placeholder={'عنوان نام گروه'}
+                        value={groupName}
+                        disabled={true}
+                      />
+                  }
+                </div>
                 {
                   canCreateGroup ?
-                    <InputTransparent id='group' placeholder={'نام گروه را وارد کنید'}
-                      value={groupName}
-                      onChange={(e) => { setGroupName(e.target.value) }}
-                    />
+                    <SubmitButton text={'ساخت گروه'} />
                     :
-                    <InputTransparent id='group' placeholder={'عنوان نام گروه'}
-                      value={groupName}
-                      disabled={true}
-                    />
+                    <p className='text-sm flex gap-2 items-center px-4'>
+                      <IoWarningOutline size={24} color='#FF6B00' />
+                      برای تغییر نام گروه نیاز به تماس با پشتیبانی دارید.
+                    </p>
                 }
-              </div>
-              {
-                canCreateGroup ?
-                  <SubmitButton text={'ساخت گروه'} />
-                  :
-                  <p className='text-sm flex gap-2 items-center px-4'>
-                    <IoWarningOutline size={24} color='#FF6B00' />
-                    برای تغییر نام گروه نیاز به تماس با پشتیبانی دارید.
-                  </p>
-              }
-            </form>
+              </form>
+            : <></>
         }
+        <div className='w-full p-2'>
+        <button className='flex gap-2' onClick={handleLogout}>
+          <IoLogOutOutline color='#E74A4A' size={24} />
+          خروج از حساب کاربری
+        </button>
+        </div>
       </div>
       <CropModal
         openCrop={openCrop}
